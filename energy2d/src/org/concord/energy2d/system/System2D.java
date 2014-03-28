@@ -588,7 +588,9 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 		return prevSim;
 	}
 
-	/** Load a simulation by its file name. Currently only load from the same directory as the current file or model. */
+	/**
+	 * Load a simulation by its file name. Currently only load from the same directory as the current file or model.
+	 */
 	public void loadSim(String fileName) throws IOException {
 		if (currentFile != null) {
 			String parentDirectory = MiscUtil.getParentDirectory(currentFile.toString());
