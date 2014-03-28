@@ -280,6 +280,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		brand.setStroke(moderateStroke);
 	}
 
+	@SuppressWarnings("serial")
 	private void createActions() {
 
 		cutAction = new AbstractAction() {
