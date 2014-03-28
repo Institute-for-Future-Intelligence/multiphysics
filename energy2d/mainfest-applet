@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Permissions: sandbox
+Main-Class: org.concord.energy2d.system.System2D
+Caller-Allowable-Codebase: *
+Application-Name: Energy2D
+

@@ -1,0 +1,34 @@
+/*
+ *   Copyright (C) 2009  The Concord Consortium, Inc.,
+ *   25 Love Lane, Concord, MA 01742
+ */
+
+package org.concord.modeler;
+
+import java.awt.Component;
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.concurrent.ExecutorService;
+
+import javax.swing.JPopupMenu;
+
+public interface MwService {
+
+	public void setEditable(boolean b);
+
+	public Component getSnapshotComponent();
+
+	public JPopupMenu getPopupMenu();
+
+	public String runNativeScript(String script);
+
+	public void loadState(InputStream is) throws IOException;
+
+	public void saveState(OutputStream os) throws IOException;
+
+	public boolean needExecutorService();
+
+	public void setExecutorService(ExecutorService service);
+
+}

@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Permissions: all-permissions
+Main-Class: org.concord.energy2d.system.System2D
+Application-Name: Energy2D
+

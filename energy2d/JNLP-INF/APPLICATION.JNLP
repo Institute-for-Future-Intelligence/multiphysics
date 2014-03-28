@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0+" codebase="http://energy.concord.org/energy2d" href="http://energy.concord.org/energy2d/energy2d.jnlp">
+   <information>
+      <title>Energy2D</title>
+      <vendor>Concord Consortium, Inc.</vendor>
+      <homepage href="index.html"/>
+      <description>Energy2D: Interactive Heat Transfer Simulations for Everyone</description>
+      <icon href="icon.png"/>
+      <icon kind="splash" href="splash.png"/> 
+      <offline-allowed/>
+      <shortcut online="true">
+         <desktop/>
+         <menu/>
+      </shortcut>
+      <association extensions="e2d" mime-type="application/Energy2d"/>
+   </information>
+   <resources>
+      <j2se version="1.5+"/>
+      <jar href="energy2d.jar"/>
+      <property name="apple.awt.brushMetalLook" value="true"/>
+      <property name="apple.laf.useScreenMenuBar" value="true"/>
+   </resources>
+   <security>
+      <all-permissions/>
+   </security>
+   <application-desc main-class="org.concord.energy2d.system.System2D"/>
+</jnlp>

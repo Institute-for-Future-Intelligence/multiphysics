@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<model>
+<model_width>1.0</model_width>
+<model_height>1.0</model_height>
+<timestep>0.01</timestep>
+<viewupdate_interval>10</viewupdate_interval>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<background_conductivity>1.0E-9</background_conductivity>
+<background_specific_heat>100.0</background_specific_heat>
+<thermal_buoyancy>2.5E-4</thermal_buoyancy>
+<buoyancy_approximation>1</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part><rectangle x="0.39999998" y="0.13306901" width="0.5" height="0.2"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>5.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>40.0</temperature>
+<constant_temperature>false</constant_temperature>
+<uid>BlockA</uid>
+<filled>false</filled>
+<label>A</label>
+</part>
+<part><rectangle x="0.20000002" y="0.13999997" width="0.2" height="0.4"/><thermal_conductivity>5.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>10.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>-10.0</temperature>
+<constant_temperature>false</constant_temperature>
+<uid>BlockC</uid>
+<filled>false</filled>
+</part>
+<part><rectangle x="0.39999998" y="0.73968196" width="0.5" height="0.2"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>10.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>-20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<uid>BlockB</uid>
+<filled>false</filled>
+<label>B</label>
+</part>
+<part><rectangle x="0.563545" y="0.33306903" width="0.02" height="0.4"/><thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>-5.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+<part><rectangle x="0.74" y="0.33306882" width="0.02" height="0.4"/><thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>-10.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+<part><rectangle x="0.20000002" y="0.54" width="0.2" height="0.4"/><thermal_conductivity>5.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>10.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>10.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+<part><rectangle x="0.400132" y="0.52968264" width="0.5" height="0.02"/><thermal_conductivity>5.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>10.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>5.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+<part><rectangle x="0.402116" y="0.65269804" width="0.5" height="0.02"/><thermal_conductivity>5.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>10.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>15.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+<part><rectangle x="0.402116" y="0.41724902" width="0.5" height="0.02"/><thermal_conductivity>5.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>15.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer label="T2" x="0.5470902" y="0.84629613"/>
+<thermometer label="T1" x="0.5470902" y="0.25291008"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<grid_size>10</grid_size>
+<color_palette_type>0</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>-20.0</minimum_temperature>
+<maximum_temperature>40.0</maximum_temperature>
+<graph_xlabel>Time</graph_xlabel><text string="Total thermal energy = %thermal_energy J" face="SansSerif" size="16" style="1" color="ffffff" x="0.0205" y="0.9788"/>
+<text string="The degree of conservation of energy illustrates the degree of simulation precision." face="Arial" size="12" style="2" color="ffffff" x="0.0231" y="0.9332137"/>
+</view>
+</state>
