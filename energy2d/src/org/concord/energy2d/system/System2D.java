@@ -106,7 +106,7 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 
 	public System2D() {
 
-		// Locale.setDefault(Locale.US); for applets, this is a security violation
+		// Locale.setDefault(Locale.US); for the applet, this is a security violation
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
