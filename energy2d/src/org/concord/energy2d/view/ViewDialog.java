@@ -263,15 +263,14 @@ class ViewDialog extends JDialog {
 
 		p.add(new JLabel("Coloring property"));
 
-		JComboBox comboBox = new JComboBox();
+		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.addItem("None");
 		comboBox.addItem("Temperature");
 		comboBox.addItem("Thermal energy");
 		comboBox.setSelectedIndex(view.getHeatMapType() - View2D.HEATMAP_NONE);
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				JComboBox src = (JComboBox) e.getSource();
-				int i = src.getSelectedIndex();
+				int i = ((JComboBox) e.getSource()).getSelectedIndex();
 				nameLabel1.setEnabled(i > 0);
 				nameLabel2.setEnabled(i > 0);
 				unitLabel1.setEnabled(i > 0);
@@ -313,15 +312,14 @@ class ViewDialog extends JDialog {
 
 		p.add(new JLabel("Color palette"));
 
-		comboBox = new JComboBox();
+		comboBox = new JComboBox<String>();
 		comboBox.addItem("Rainbow");
 		comboBox.addItem("Iron");
 		comboBox.addItem("Gray");
 		comboBox.setSelectedIndex(view.getColorPaletteType() - View2D.RAINBOW);
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				JComboBox src = (JComboBox) e.getSource();
-				int i = src.getSelectedIndex();
+				int i = ((JComboBox) e.getSource()).getSelectedIndex();
 				view.setColorPaletteType((byte) (i - View2D.RAINBOW));
 				view.repaint();
 			}
@@ -353,7 +351,7 @@ class ViewDialog extends JDialog {
 
 		p.add(new JLabel("Mouse reading"));
 
-		comboBox = new JComboBox();
+		comboBox = new JComboBox<String>();
 		comboBox.addItem("Default");
 		comboBox.addItem("Temperature");
 		comboBox.addItem("Thermal energy");

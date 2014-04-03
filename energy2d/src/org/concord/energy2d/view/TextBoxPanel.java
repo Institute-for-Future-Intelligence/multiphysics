@@ -64,7 +64,8 @@ class TextBoxPanel extends JPanel {
 	private JCheckBox borderCheckBox;
 	private JCheckBox draggableCheckBox;
 	private JTextField xField, yField;
-	private JComboBox fontNameComboBox, fontSizeComboBox;
+	private JComboBox<String> fontNameComboBox;
+	private JComboBox<Integer> fontSizeComboBox;
 	private ColorComboBox fontColorComboBox;
 	private JToggleButton boldButton, italicButton;
 	private JTextArea textArea;
@@ -315,8 +316,8 @@ class TextBoxPanel extends JPanel {
 		return dialog;
 	}
 
-	private static JComboBox createFontNameComboBox() {
-		JComboBox c = new JComboBox(FONT_FAMILY_NAMES);
+	private static JComboBox<String> createFontNameComboBox() {
+		JComboBox<String> c = new JComboBox<String>(FONT_FAMILY_NAMES);
 		c.setRenderer(new ComboBoxRenderer.FontLabel());
 		c.setToolTipText("Font type");
 		FontMetrics fm = c.getFontMetrics(c.getFont());
@@ -334,8 +335,8 @@ class TextBoxPanel extends JPanel {
 		return c;
 	}
 
-	private static JComboBox createFontSizeComboBox() {
-		JComboBox c = new JComboBox(FONT_SIZE);
+	private static JComboBox<Integer> createFontSizeComboBox() {
+		JComboBox<Integer> c = new JComboBox<Integer>(FONT_SIZE);
 		c.setToolTipText("Font size");
 		FontMetrics fm = c.getFontMetrics(c.getFont());
 		int w = fm.stringWidth(FONT_SIZE[FONT_SIZE.length - 1].toString()) + 40;

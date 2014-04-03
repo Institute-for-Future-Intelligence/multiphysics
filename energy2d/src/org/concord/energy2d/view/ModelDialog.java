@@ -89,15 +89,15 @@ class ModelDialog extends JDialog {
 	private JTextField rayNumberField;
 	private JLabel emissionIntervalLabel;
 	private JTextField emissionIntervalField;
-	private JComboBox thermalBoundaryComboBox;
+	private JComboBox<String> thermalBoundaryComboBox;
 	private JLabel sunAngleLabel;
 	private JSlider sunAngleSlider;
 	private JCheckBox sunnyCheckBox;
 	private JCheckBox convectiveCheckBox;
 	private JLabel buoyancyApproximationLabel;
-	private JComboBox buoyancyApproximationComboBox;
+	private JComboBox<String> buoyancyApproximationComboBox;
 	private JLabel gravityTypeLabel;
-	private JComboBox gravityTypeComboBox;
+	private JComboBox<String> gravityTypeComboBox;
 	private JTextField zDiffusivityField;
 	private Window owner;
 	private ActionListener okListener;
@@ -456,7 +456,7 @@ class ModelDialog extends JDialog {
 		buoyancyApproximationLabel = new JLabel("Buoyancy approximation");
 		buoyancyApproximationLabel.setEnabled(model.isConvective());
 		p.add(buoyancyApproximationLabel);
-		buoyancyApproximationComboBox = new JComboBox(new String[] { "All-cell average", "Column average" });
+		buoyancyApproximationComboBox = new JComboBox<String>(new String[] { "All-cell average", "Column average" });
 		buoyancyApproximationComboBox.setEnabled(model.isConvective());
 		buoyancyApproximationComboBox.setSelectedIndex(model.getBuoyancyApproximation());
 		p.add(buoyancyApproximationComboBox);
@@ -467,7 +467,7 @@ class ModelDialog extends JDialog {
 		gravityTypeLabel = new JLabel("Gravity type");
 		gravityTypeLabel.setEnabled(model.isConvective());
 		p.add(gravityTypeLabel);
-		gravityTypeComboBox = new JComboBox(new String[] { "Uniform", "Centric" });
+		gravityTypeComboBox = new JComboBox<String>(new String[] { "Uniform", "Centric" });
 		gravityTypeComboBox.setEnabled(model.isConvective());
 		gravityTypeComboBox.setSelectedIndex(model.getGravityType());
 		p.add(gravityTypeComboBox);
@@ -566,7 +566,7 @@ class ModelDialog extends JDialog {
 
 		label = new JLabel("Thermal boundary condition");
 		p.add(label);
-		thermalBoundaryComboBox = new JComboBox(new String[] { "Dirichlet (constant temperature)", "Neumann (constant heat flux)", "Other" });
+		thermalBoundaryComboBox = new JComboBox<String>(new String[] { "Dirichlet (constant temperature)", "Neumann (constant heat flux)", "Other" });
 		if (model.getThermalBoundary() instanceof DirichletThermalBoundary) {
 			thermalBoundaryComboBox.setSelectedIndex(0);
 		} else if (model.getThermalBoundary() instanceof NeumannThermalBoundary) {

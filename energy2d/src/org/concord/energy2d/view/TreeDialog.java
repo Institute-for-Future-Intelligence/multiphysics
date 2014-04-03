@@ -35,7 +35,7 @@ class TreeDialog extends JDialog {
 	private JColorChooser colorChooser;
 	private JCheckBox draggableCheckBox;
 	private BackgroundComboBox bgComboBox;
-	private JComboBox typeComboBox;
+	private JComboBox<String> typeComboBox;
 	private ActionListener okListener;
 
 	TreeDialog(final View2D view, final Tree tree, boolean modal) {
@@ -96,7 +96,7 @@ class TreeDialog extends JDialog {
 		miscBox.add(p);
 
 		p.add(new JLabel("Type:"));
-		typeComboBox = new JComboBox(new String[] { "Regular", "Pine" });
+		typeComboBox = new JComboBox<String>(new String[] { "Regular", "Pine" });
 		switch (tree.getType()) {
 		case Tree.REGULAR:
 			typeComboBox.setSelectedIndex(0);
