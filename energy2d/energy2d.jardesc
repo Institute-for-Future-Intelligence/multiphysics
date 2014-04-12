@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
     <jar path="C:/Users/qxie/Desktop/web/energy/energy2d/energy2d.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/Energy2D/energy2d.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/energy2d/energy2d.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
-    <manifest generateManifest="false" mainClassHandleIdentifier="=Energy2D/src&lt;org.concord.energy2d.system{System2D.java[System2D" manifestLocation="/Energy2D/mainfest-app" manifestVersion="1.0" reuseManifest="false" saveManifest="true" usesManifest="true">
+    <manifest generateManifest="false" mainClassHandleIdentifier="=energy2d/src&lt;org.concord.energy2d.system{System2D.java[System2D" manifestLocation="/energy2d/mainfest-app" manifestVersion="1.0" reuseManifest="false" saveManifest="true" usesManifest="true">
         <sealing sealJar="false">
             <packagesToSeal/>
             <packagesToUnSeal/>
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <folder path="/Energy2D/JNLP-INF"/>
-        <javaElement handleIdentifier="=Energy2D/src"/>
+        <folder path="/energy2d/JNLP-INF"/>
+        <javaElement handleIdentifier="=energy2d/src"/>
     </selectedElements>
 </jardesc>
