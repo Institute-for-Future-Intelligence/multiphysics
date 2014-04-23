@@ -57,7 +57,7 @@ class AppletConverter {
 		s += "and <a href=\"http://energy.concord.org/energy2d/energy2d.js\">energy2d.js</a> ";
 		s += "to where this HTML file is located; ";
 		s += "<li>Make sure " + s2d.getCurrentFile() + " is copied or moved to where this HTML file is located; ";
-		s += "<li><b>Restart the browser</b> and reload this page.";
+		s += "<li>This applet may not work offline. You have to upload all the four files (energy2d-applet.jar, energy2d.js, " + s2d.getCurrentFile().getName() + ", and this HTML file) to a web server and load this page after it is online.";
 		s += "</ol><p>This line of message should be removed if the applet works.</font></p>";
 		s += LINE_SEPARATOR;
 
@@ -67,6 +67,10 @@ class AppletConverter {
 		s += "      <applet id=\"applet1\" code=\"org.concord.energy2d.system.System2D\" archive=\"energy2d-applet.jar\" width=\"500\" height=\"500\">";
 		s += LINE_SEPARATOR;
 		s += "        <param name=\"script\" value=\"load " + MiscUtil.getFileName(s2d.getCurrentFile().toString()) + "\"/>";
+		s += LINE_SEPARATOR;
+		s += "        <param name=\"permissions\" value=\"sandbox\"/>";
+		s += LINE_SEPARATOR;
+		s += "        <param name=\"MAYSCRIPT\" value=\"true\"/>";
 		s += LINE_SEPARATOR;
 		s += "      </applet>";
 		s += LINE_SEPARATOR;
@@ -89,7 +93,7 @@ class AppletConverter {
 		s += "      <br><br>";
 		s += LINE_SEPARATOR;
 
-		s += "      <p><b>System requirements:</b> You must have Java Version 5 or higher. <a href=\"http://java.com\">Download Java now</a>.";
+		s += "      <p><b>System requirements:</b> You must have Java Version 7 or higher. <a href=\"http://java.com\">Download Java now</a>.";
 		s += LINE_SEPARATOR;
 
 		s += "    </center>";
