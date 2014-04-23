@@ -39,8 +39,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
 
 import org.concord.energy2d.event.ManipulationEvent;
@@ -125,14 +125,9 @@ class MenuBar extends JMenuBar {
 		// file menu
 
 		final JMenu fileMenu = new JMenu("File");
-		fileMenu.getPopupMenu().addPopupMenuListener(new PopupMenuListener() {
-			public void popupMenuCanceled(PopupMenuEvent e) {
-			}
-
-			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-			}
-
-			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+		fileMenu.addMenuListener(new MenuListener() {
+			@Override
+			public void menuSelected(MenuEvent e) {
 				if (!recentFileMenuItems.isEmpty()) {
 					for (JComponent x : recentFileMenuItems)
 						fileMenu.remove(x);
@@ -162,6 +157,14 @@ class MenuBar extends JMenuBar {
 						recentFileMenuItems.add(s);
 					}
 				}
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent e) {
+			}
+
+			@Override
+			public void menuCanceled(MenuEvent e) {
 			}
 		});
 		add(fileMenu);
@@ -410,14 +413,9 @@ class MenuBar extends JMenuBar {
 		// edit menu
 
 		menu = new JMenu("Edit");
-		menu.getPopupMenu().addPopupMenuListener(new PopupMenuListener() {
-			public void popupMenuCanceled(PopupMenuEvent e) {
-			}
-
-			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-			}
-
-			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+		menu.addMenuListener(new MenuListener() {
+			@Override
+			public void menuSelected(MenuEvent e) {
 				Object src = e.getSource();
 				if (src instanceof JPopupMenu) {
 					JPopupMenu m = (JPopupMenu) src;
@@ -435,6 +433,14 @@ class MenuBar extends JMenuBar {
 						}
 					}
 				}
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent e) {
+			}
+
+			@Override
+			public void menuCanceled(MenuEvent e) {
 			}
 		});
 		add(menu);
@@ -539,14 +545,9 @@ class MenuBar extends JMenuBar {
 		final JCheckBoxMenuItem miControlPanel = new JCheckBoxMenuItem("Control Panel");
 
 		menu = new JMenu("View");
-		menu.getPopupMenu().addPopupMenuListener(new PopupMenuListener() {
-			public void popupMenuCanceled(PopupMenuEvent e) {
-			}
-
-			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-			}
-
-			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+		menu.addMenuListener(new MenuListener() {
+			@Override
+			public void menuSelected(MenuEvent e) {
 				MiscUtil.setSelectedSilently(miSeeThrough, box.view.getSeeThrough());
 				MiscUtil.setSelectedSilently(miIsotherm, box.view.isIsothermOn());
 				MiscUtil.setSelectedSilently(miVelocity, box.view.isVelocityOn());
@@ -559,6 +560,14 @@ class MenuBar extends JMenuBar {
 				miIncrGrid.setEnabled(box.view.isGridOn());
 				miDecrGrid.setEnabled(box.view.isGridOn());
 				MiscUtil.setSelectedSilently(miControlPanel, box.view.isControlPanelVisible());
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent e) {
+			}
+
+			@Override
+			public void menuCanceled(MenuEvent e) {
 			}
 		});
 		add(menu);
@@ -645,16 +654,19 @@ class MenuBar extends JMenuBar {
 
 		final JMenu mouseMenu = new JMenu("Mouse Reading");
 		mouseMenu.setToolTipText("Select a property the value of which at a mouse position will be shown when it moves");
-		mouseMenu.getPopupMenu().addPopupMenuListener(new PopupMenuListener() {
-			public void popupMenuCanceled(PopupMenuEvent e) {
-			}
-
-			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-			}
-
-			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+		mouseMenu.addMenuListener(new MenuListener() {
+			@Override
+			public void menuSelected(MenuEvent e) {
 				JRadioButtonMenuItem x = (JRadioButtonMenuItem) mouseMenu.getMenuComponent(box.view.getMouseReadType());
 				MiscUtil.setSelectedSilently(x, true);
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent e) {
+			}
+
+			@Override
+			public void menuCanceled(MenuEvent e) {
 			}
 		});
 		menu.add(mouseMenu);
