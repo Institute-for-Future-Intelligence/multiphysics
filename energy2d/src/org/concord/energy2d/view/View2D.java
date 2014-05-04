@@ -80,6 +80,7 @@ import org.concord.energy2d.util.FillPattern;
 import org.concord.energy2d.util.MiscUtil;
 import org.concord.energy2d.util.Texture;
 import org.concord.energy2d.util.TextureFactory;
+import org.concord.energy2d.util.XmlCharacterEncoder;
 
 /**
  * Visualizations and interactions
@@ -1878,21 +1879,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 							String partLabel = p.getLabel(label, model, fahrenheitUsed);
 							if (partLabel != null)
 								label = partLabel;
-							g.setFont(labelFont);
-							FontMetrics fm = g.getFontMetrics();
-							int labelWidth = fm.stringWidth(label);
-							float x0 = x + 0.5f * w;
-							float y0 = y + 0.5f * h;
-							float x1 = x0 - labelWidth / 2;
-							float y1 = y0 + fm.getHeight() / 4;
-							g.setColor(getContrastColor(Math.round(x1), Math.round(y1)));
-							if (w < h * 0.25f) {
-								g.rotate(Math.PI * 0.5, x0, y0);
-								g.drawString(label, x1, y1);
-								g.rotate(-Math.PI * 0.5, x0, y0);
-							} else {
-								g.drawString(label, x1, y1);
-							}
+							drawLabelWithLineBreaks(g, label, x + 0.5f * w, y + 0.5f * h, w < h * 0.25f);
 						}
 					} else if (s instanceof Rectangle2D.Float) {
 						Rectangle2D.Float r = (Rectangle2D.Float) s;
@@ -1929,21 +1916,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 							String partLabel = p.getLabel(label, model, fahrenheitUsed);
 							if (partLabel != null)
 								label = partLabel;
-							g.setFont(labelFont);
-							FontMetrics fm = g.getFontMetrics();
-							int labelWidth = fm.stringWidth(label);
-							float x0 = x + 0.5f * w;
-							float y0 = y + 0.5f * h;
-							float x1 = x0 - labelWidth / 2;
-							float y1 = y0 + fm.getHeight() / 4;
-							g.setColor(getContrastColor(Math.round(x1), Math.round(y1)));
-							if (w < h * 0.25f) {
-								g.rotate(Math.PI * 0.5, x0, y0);
-								g.drawString(label, x1, y1);
-								g.rotate(-Math.PI * 0.5, x0, y0);
-							} else {
-								g.drawString(label, x1, y1);
-							}
+							drawLabelWithLineBreaks(g, label, x + 0.5f * w, y + 0.5f * h, w < h * 0.25f);
 						}
 					} else if (s instanceof Area) {
 						if (scale == null)
@@ -2005,15 +1978,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 							String partLabel = p.getLabel(label, model, fahrenheitUsed);
 							if (partLabel != null)
 								label = partLabel;
-							g.setFont(labelFont);
-							FontMetrics fm = g.getFontMetrics();
-							int labelWidth = fm.stringWidth(label);
-							cx /= n;
-							cy /= n;
-							float x1 = cx - labelWidth / 2;
-							float y1 = cy + fm.getHeight() / 4;
-							g.setColor(getContrastColor(Math.round(x1), Math.round(y1)));
-							g.drawString(label, x1, y1);
+							drawLabelWithLineBreaks(g, label, cx / n, cy / n, false);
 						}
 					} else if (s instanceof Blob2D) {
 						Blob2D b = (Blob2D) s;
@@ -2053,15 +2018,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 							String partLabel = p.getLabel(label, model, fahrenheitUsed);
 							if (partLabel != null)
 								label = partLabel;
-							g.setFont(labelFont);
-							FontMetrics fm = g.getFontMetrics();
-							int labelWidth = fm.stringWidth(label);
-							cx /= n;
-							cy /= n;
-							float x1 = cx - labelWidth / 2;
-							float y1 = cy + fm.getHeight() / 4;
-							g.setColor(getContrastColor(Math.round(x1), Math.round(y1)));
-							g.drawString(label, x1, y1);
+							drawLabelWithLineBreaks(g, label, cx / n, cy / n, false);
 						}
 					}
 				}
@@ -2092,6 +2049,27 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			}
 		}
 		g.setStroke(oldStroke);
+	}
+
+	private void drawLabelWithLineBreaks(Graphics2D g, String label, float x0, float y0, boolean vertical) {
+		g.setFont(labelFont);
+		FontMetrics fm = g.getFontMetrics();
+		int stringHeight = fm.getHeight();
+		String[] lines = label.split("-linebreak-");
+		int h = 0;
+		float x1;
+		for (String line : lines) {
+			x1 = x0 - fm.stringWidth(line) / 2;
+			g.setColor(getContrastColor(Math.round(x1), Math.round(y0 + h)));
+			if (vertical) {
+				g.rotate(Math.PI * 0.5, x0, y0);
+				g.drawString(line, x1, y0 + h);
+				g.rotate(-Math.PI * 0.5, x0, y0);
+			} else {
+				g.drawString(line, x1, y0 + h);
+			}
+			h += stringHeight;
+		}
 	}
 
 	private void drawStatus(Graphics2D g, Part p, int x, int y) {
