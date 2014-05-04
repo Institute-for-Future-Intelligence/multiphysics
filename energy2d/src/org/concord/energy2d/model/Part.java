@@ -782,27 +782,19 @@ public class Part extends Manipulable {
 	}
 
 	private String getWidthString() {
-		String s = null;
-		if (getShape() instanceof Rectangle2D.Float) {
-			Rectangle2D.Float r = (Rectangle2D.Float) getShape();
-			s = LABEL_FORMAT.format(r.width) + " m";
-		} else if (getShape() instanceof Ellipse2D.Float) {
-			Ellipse2D.Float e = (Ellipse2D.Float) getShape();
-			s = LABEL_FORMAT.format(e.width) + " m";
-		}
-		return s;
+		if (getShape() instanceof Rectangle2D.Float)
+			return LABEL_FORMAT.format(((Rectangle2D.Float) getShape()).width) + " m";
+		if (getShape() instanceof Ellipse2D.Float)
+			return LABEL_FORMAT.format(((Ellipse2D.Float) getShape()).width) + " m";
+		return "Unknown";
 	}
 
 	private String getHeightString() {
-		String s = null;
-		if (getShape() instanceof Rectangle2D.Float) {
-			Rectangle2D.Float r = (Rectangle2D.Float) getShape();
-			s = LABEL_FORMAT.format(r.height) + " m";
-		} else if (getShape() instanceof Ellipse2D.Float) {
-			Ellipse2D.Float e = (Ellipse2D.Float) getShape();
-			s = LABEL_FORMAT.format(e.height) + " m";
-		}
-		return s;
+		if (getShape() instanceof Rectangle2D.Float)
+			return LABEL_FORMAT.format(((Rectangle2D.Float) getShape()).height) + " m";
+		if (getShape() instanceof Ellipse2D.Float)
+			return LABEL_FORMAT.format(((Ellipse2D.Float) getShape()).height) + " m";
+		return "Unknown";
 	}
 
 	@Override
