@@ -16,6 +16,7 @@ import java.text.DecimalFormat;
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Ring2D;
+import org.concord.energy2d.math.TransformableShape;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.FillPattern;
 import org.concord.energy2d.util.Texture;
@@ -79,6 +80,7 @@ public class Part extends Manipulable {
 	private final static float SIN60 = (float) Math.sin(Math.PI / 3);
 	private final static float COS60 = (float) Math.cos(Math.PI / 3);
 	private final static DecimalFormat LABEL_FORMAT = new DecimalFormat("####.######");
+	private final static DecimalFormat SHORT_LABEL_FORMAT = new DecimalFormat("###.##");
 
 	private FillPattern fillPattern;
 	private boolean filled = true;
@@ -731,6 +733,8 @@ public class Part extends Manipulable {
 			s = (int) density + " kg/m\u00b3";
 		else if (label.equalsIgnoreCase("%specific_heat"))
 			s = (int) specificHeat + " J/(kg\u00d7\u00b0C)";
+		else if (label.equalsIgnoreCase("%heat_capacity"))
+			s = SHORT_LABEL_FORMAT.format(specificHeat * density * getArea()) + " J/\u00b0C";
 		else if (label.equalsIgnoreCase("%thermal_conductivity"))
 			s = (float) thermalConductivity + " W/(m\u00d7\u00b0C)";
 		else if (label.equalsIgnoreCase("%power_density"))
@@ -746,6 +750,7 @@ public class Part extends Manipulable {
 			s = s.replace("%thermal_energy", Math.round(model.getThermalEnergy(this)) + " J");
 			s = s.replace("%density", (int) density + " kg/m\u00b3");
 			s = s.replace("%specific_heat", (int) specificHeat + " J/(kg\u00d7\u00b0C)");
+			s = s.replace("%heat_capacity", SHORT_LABEL_FORMAT.format(specificHeat * density * getArea()) + " J/\u00b0C");
 			s = s.replace("%thermal_conductivity", (float) thermalConductivity + " W/(m\u00d7\u00b0C)");
 			s = s.replace("%power_density", (int) power + " W/m\u00b3");
 			s = s.replace("%area", getAreaString());
@@ -755,17 +760,25 @@ public class Part extends Manipulable {
 		return s;
 	}
 
-	private String getAreaString() {
-		String s = null;
+	private float getArea() {
+		float area = -1;
 		if (getShape() instanceof Rectangle2D.Float) {
 			Rectangle2D.Float r = (Rectangle2D.Float) getShape();
-			s = LABEL_FORMAT.format(r.width * r.height) + " m\u00b2";
+			area = r.width * r.height;
 		} else if (getShape() instanceof Ellipse2D.Float) {
 			Ellipse2D.Float e = (Ellipse2D.Float) getShape();
-			s = LABEL_FORMAT.format(e.width * e.height * 0.25 * Math.PI) + " m\u00b2";
+			area = (float) (e.width * e.height * 0.25 * Math.PI);
+		} else if (getShape() instanceof TransformableShape) {
+			area = ((TransformableShape) getShape()).getArea();
+		} else if (getShape() instanceof Ring2D) {
+			area = ((Ring2D) getShape()).getArea();
 		}
-		return s;
+		return area;
+	}
 
+	private String getAreaString() {
+		float area = getArea();
+		return area < 0 ? "Unknown" : LABEL_FORMAT.format(area) + " m\u00b2";
 	}
 
 	private String getWidthString() {

@@ -254,6 +254,22 @@ public class Blob2D implements TransformableShape {
 		return new Point2D.Float(xc / points.length, yc / points.length);
 	}
 
+	// TODO: Should use the smooth path
+	public float getArea() {
+		float area = 0;
+		int n = points.length;
+		Point2D.Float v1, v2;
+		for (int i = 0; i < n - 1; i++) {
+			v1 = points[i];
+			v2 = points[i + 1];
+			area += v1.getX() * v2.getY() - v2.getX() * v1.getY();
+		}
+		v1 = points[n - 1];
+		v2 = points[0];
+		area += v1.getX() * v2.getY() - v2.getX() * v1.getY();
+		return area * 0.5f;
+	}
+
 	public Rectangle getBounds() {
 		return path.getBounds();
 	}

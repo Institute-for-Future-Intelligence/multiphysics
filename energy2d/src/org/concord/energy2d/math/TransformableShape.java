@@ -15,7 +15,9 @@ import java.awt.geom.Point2D;
 public interface TransformableShape extends Shape {
 
 	public Point2D.Float getCenter();
-
+	
+	public float getArea();
+	
 	public void translateBy(float dx, float dy);
 
 	public void rotateBy(float degree);

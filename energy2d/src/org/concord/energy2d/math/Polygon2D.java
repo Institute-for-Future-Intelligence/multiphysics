@@ -186,6 +186,21 @@ public class Polygon2D implements TransformableShape {
 		return new Point2D.Float(xc / vertex.length, yc / vertex.length);
 	}
 
+	public float getArea() {
+		float area = 0;
+		int n = vertex.length;
+		Point2D.Float v1, v2;
+		for (int i = 0; i < n - 1; i++) {
+			v1 = vertex[i];
+			v2 = vertex[i + 1];
+			area += v1.getX() * v2.getY() - v2.getX() * v1.getY();
+		}
+		v1 = vertex[n - 1];
+		v2 = vertex[0];
+		area += v1.getX() * v2.getY() - v2.getX() * v1.getY();
+		return area * 0.5f;
+	}
+
 	public Rectangle getBounds() {
 		int xmin = Integer.MAX_VALUE;
 		int ymin = xmin;

@@ -63,4 +63,8 @@ public class Ring2D extends Area {
 		return outerDiameter;
 	}
 
+	public float getArea() {
+		return (float) (0.25 * Math.PI * (outerDiameter * outerDiameter - innerDiameter * innerDiameter));
+	}
+
 }
