@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
  * @author Charles Xie
  */
 
-public class ColorComboBox extends JComboBox {
+public class ColorComboBox extends JComboBox<Integer> {
 
 	public final static int INDEX_MORE_COLOR = ColorRectangle.COLORS.length;
 	public final static int INDEX_COLOR_CHOOSER = 100;
@@ -48,14 +48,13 @@ public class ColorComboBox extends JComboBox {
 		addItem(INDEX_HEX_INPUTTER);
 		addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				final JComboBox cb = (JComboBox) e.getSource();
-				int id = ((Integer) cb.getSelectedItem()).intValue();
+				int id = ((Integer) getSelectedItem()).intValue();
 				if (id == INDEX_COLOR_CHOOSER) {
 					JColorChooser.createDialog(parent, "More Colors", true, colorChooser, new ActionListener() {
 						public void actionPerformed(ActionEvent ae) {
 							color6 = colorChooser.getColor();
-							cb.setSelectedIndex(INDEX_MORE_COLOR);
-							ColorRectangle cr = (ColorRectangle) cb.getRenderer();
+							setSelectedIndex(INDEX_MORE_COLOR);
+							ColorRectangle cr = (ColorRectangle) getRenderer();
 							cr.setMoreColor(color6);
 							if (runnable != null)
 								EventQueue.invokeLater(runnable);
@@ -75,11 +74,11 @@ public class ColorComboBox extends JComboBox {
 						color6 = MiscUtil.convertToColor(hex);
 					} catch (NumberFormatException ex) {
 						JOptionPane.showMessageDialog(parent, "Input color (hex) is not valid.");
-						cb.setSelectedIndex(INDEX_MORE_COLOR);
+						setSelectedIndex(INDEX_MORE_COLOR);
 						return;
 					}
-					cb.setSelectedIndex(INDEX_MORE_COLOR);
-					ColorRectangle cr = (ColorRectangle) cb.getRenderer();
+					setSelectedIndex(INDEX_MORE_COLOR);
+					ColorRectangle cr = (ColorRectangle) getRenderer();
 					cr.setMoreColor(color6);
 					if (runnable != null)
 						EventQueue.invokeLater(runnable);

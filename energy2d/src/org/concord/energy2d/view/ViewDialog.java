@@ -263,14 +263,14 @@ class ViewDialog extends JDialog {
 
 		p.add(new JLabel("Coloring property"));
 
-		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.addItem("None");
-		comboBox.addItem("Temperature");
-		comboBox.addItem("Thermal energy");
-		comboBox.setSelectedIndex(view.getHeatMapType() - View2D.HEATMAP_NONE);
-		comboBox.addItemListener(new ItemListener() {
+		final JComboBox<String> coloringComboBox = new JComboBox<String>();
+		coloringComboBox.addItem("None");
+		coloringComboBox.addItem("Temperature");
+		coloringComboBox.addItem("Thermal energy");
+		coloringComboBox.setSelectedIndex(view.getHeatMapType() - View2D.HEATMAP_NONE);
+		coloringComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				int i = ((JComboBox) e.getSource()).getSelectedIndex();
+				int i = coloringComboBox.getSelectedIndex();
 				nameLabel1.setEnabled(i > 0);
 				nameLabel2.setEnabled(i > 0);
 				unitLabel1.setEnabled(i > 0);
@@ -305,26 +305,26 @@ class ViewDialog extends JDialog {
 				view.repaint();
 			}
 		});
-		p.add(comboBox);
+		p.add(coloringComboBox);
 
 		p.add(new JPanel());
 		count++;
 
 		p.add(new JLabel("Color palette"));
 
-		comboBox = new JComboBox<String>();
-		comboBox.addItem("Rainbow");
-		comboBox.addItem("Iron");
-		comboBox.addItem("Gray");
-		comboBox.setSelectedIndex(view.getColorPaletteType() - View2D.RAINBOW);
-		comboBox.addItemListener(new ItemListener() {
+		final JComboBox<String> paletteComboBox = new JComboBox<String>();
+		paletteComboBox.addItem("Rainbow");
+		paletteComboBox.addItem("Iron");
+		paletteComboBox.addItem("Gray");
+		paletteComboBox.setSelectedIndex(view.getColorPaletteType() - View2D.RAINBOW);
+		paletteComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				int i = ((JComboBox) e.getSource()).getSelectedIndex();
+				int i = paletteComboBox.getSelectedIndex();
 				view.setColorPaletteType((byte) (i - View2D.RAINBOW));
 				view.repaint();
 			}
 		});
-		p.add(comboBox);
+		p.add(paletteComboBox);
 
 		p.add(new JPanel());
 		count++;
@@ -351,24 +351,22 @@ class ViewDialog extends JDialog {
 
 		p.add(new JLabel("Mouse reading"));
 
-		comboBox = new JComboBox<String>();
-		comboBox.addItem("Default");
-		comboBox.addItem("Temperature");
-		comboBox.addItem("Thermal energy");
-		comboBox.addItem("Velocity");
-		comboBox.addItem("Heat flux");
-		comboBox.addItem("Coordinates");
-		comboBox.setSelectedIndex(view.getMouseReadType());
-		comboBox.addItemListener(new ItemListener() {
+		final JComboBox<String> mouseReadingComboBox = new JComboBox<String>();
+		mouseReadingComboBox.addItem("Default");
+		mouseReadingComboBox.addItem("Temperature");
+		mouseReadingComboBox.addItem("Thermal energy");
+		mouseReadingComboBox.addItem("Velocity");
+		mouseReadingComboBox.addItem("Heat flux");
+		mouseReadingComboBox.addItem("Coordinates");
+		mouseReadingComboBox.setSelectedIndex(view.getMouseReadType());
+		mouseReadingComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				JComboBox src = (JComboBox) e.getSource();
-				int i = src.getSelectedIndex();
-				view.setMouseReadType((byte) i);
+				view.setMouseReadType((byte) mouseReadingComboBox.getSelectedIndex());
 				view.repaint();
 				view.notifyManipulationListeners(null, ManipulationEvent.MOUSE_READ_CHANGED);
 			}
 		});
-		p.add(comboBox);
+		p.add(mouseReadingComboBox);
 
 		p.add(new JPanel());
 		count++;

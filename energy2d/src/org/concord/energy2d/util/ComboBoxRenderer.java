@@ -25,9 +25,9 @@ import javax.swing.ListCellRenderer;
 
 public abstract class ComboBoxRenderer {
 
-	public static class IconRenderer extends JRadioButton implements ListCellRenderer {
+	public static class IconRenderer extends JRadioButton implements ListCellRenderer<Object> {
 
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			setBackground(isSelected ? SystemColor.textHighlight : Color.white);
 			setForeground(isSelected ? SystemColor.textHighlightText : Color.black);
 			setHorizontalAlignment(CENTER);
@@ -44,7 +44,7 @@ public abstract class ComboBoxRenderer {
 
 	}
 
-	public static class ColorCell extends ColorRectangle implements ListCellRenderer {
+	public static class ColorCell extends ColorRectangle implements ListCellRenderer<Object> {
 
 		public ColorCell() {
 			super();
@@ -56,7 +56,7 @@ public abstract class ComboBoxRenderer {
 				setMoreColor(moreColor);
 		}
 
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			setBackground(isSelected ? SystemColor.textHighlight : Color.white);
 			setForeground(isSelected ? SystemColor.textHighlightText : Color.black);
 			setColorID((Integer) value);
@@ -65,13 +65,13 @@ public abstract class ComboBoxRenderer {
 
 	}
 
-	public static class FontLabel extends JLabel implements ListCellRenderer {
+	public static class FontLabel extends JLabel implements ListCellRenderer<Object> {
 
 		public FontLabel() {
 			setOpaque(true);
 		}
 
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			if (isSelected) {
 				setBackground(list.getSelectionBackground());
 				setForeground(list.getSelectionForeground());
