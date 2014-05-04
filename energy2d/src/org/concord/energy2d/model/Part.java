@@ -735,6 +735,8 @@ public class Part extends Manipulable {
 			s = (int) specificHeat + " J/(kg\u00d7\u00b0C)";
 		else if (label.equalsIgnoreCase("%heat_capacity"))
 			s = SHORT_LABEL_FORMAT.format(specificHeat * density * getArea()) + " J/\u00b0C";
+		else if (label.equalsIgnoreCase("%thermal_diffusivity"))
+			s = LABEL_FORMAT.format(thermalConductivity / (specificHeat * density)) + " m\u00b2/s";
 		else if (label.equalsIgnoreCase("%thermal_conductivity"))
 			s = (float) thermalConductivity + " W/(m\u00d7\u00b0C)";
 		else if (label.equalsIgnoreCase("%power_density"))
@@ -751,6 +753,7 @@ public class Part extends Manipulable {
 			s = s.replace("%density", (int) density + " kg/m\u00b3");
 			s = s.replace("%specific_heat", (int) specificHeat + " J/(kg\u00d7\u00b0C)");
 			s = s.replace("%heat_capacity", SHORT_LABEL_FORMAT.format(specificHeat * density * getArea()) + " J/\u00b0C");
+			s = s.replace("%thermal_diffusivity", LABEL_FORMAT.format(thermalConductivity / (specificHeat * density)) + " m\u00b2/s");
 			s = s.replace("%thermal_conductivity", (float) thermalConductivity + " W/(m\u00d7\u00b0C)");
 			s = s.replace("%power_density", (int) power + " W/m\u00b3");
 			s = s.replace("%area", getAreaString());
