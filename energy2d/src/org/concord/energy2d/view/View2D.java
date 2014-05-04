@@ -80,7 +80,6 @@ import org.concord.energy2d.util.FillPattern;
 import org.concord.energy2d.util.MiscUtil;
 import org.concord.energy2d.util.Texture;
 import org.concord.energy2d.util.TextureFactory;
-import org.concord.energy2d.util.XmlCharacterEncoder;
 
 /**
  * Visualizations and interactions
@@ -2056,7 +2055,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		FontMetrics fm = g.getFontMetrics();
 		int stringHeight = fm.getHeight();
 		String[] lines = label.split("-linebreak-");
-		int h = 0;
+		int half = lines.length / 2;
+		int h = lines.length % 2 == 0 ? -(half - 1) * stringHeight : -half * stringHeight - (fm.getAscent() + fm.getDescent()) / 2 + fm.getAscent();
 		float x1;
 		for (String line : lines) {
 			x1 = x0 - fm.stringWidth(line) / 2;
