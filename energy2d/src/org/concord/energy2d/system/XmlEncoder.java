@@ -105,7 +105,7 @@ class XmlEncoder {
 		if (box.model.getGravityType() != Model2D.GRAVITY_UNIFORM) {
 			sb.append("<gravity_type>" + box.model.getGravityType() + "</gravity_type>\n");
 		}
-		sb.append("<thermal_buoyancy>" + box.model.getThermalBuoyancy() + "</thermal_buoyancy>\n");
+		sb.append("<thermal_expansion_coefficient>" + box.model.getThermalExpansionCoefficient() + "</thermal_expansion_coefficient>\n");
 		sb.append("<buoyancy_approximation>" + box.model.getBuoyancyApproximation() + "</buoyancy_approximation>\n");
 
 		sb.append("<boundary>\n");

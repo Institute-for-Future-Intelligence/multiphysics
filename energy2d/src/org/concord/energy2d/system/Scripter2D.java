@@ -624,15 +624,15 @@ class Scripter2D extends Scripter {
 					arrayUpdateRequested = true;
 				} else if (t[0].equalsIgnoreCase("convective")) {
 					s2d.model.setConvective("true".equalsIgnoreCase(t[1]));
-				} else if (t[0].equalsIgnoreCase("thermal_buoyancy")) {
-					float thermalBuoyancy = 0;
+				} else if (t[0].equalsIgnoreCase("thermal_buoyancy") || t[0].equalsIgnoreCase("thermal_expansion_coefficient")) {
+					float thermalExpansionCoefficient = 0;
 					try {
-						thermalBuoyancy = Float.parseFloat(t[1]);
+						thermalExpansionCoefficient = Float.parseFloat(t[1]);
 					} catch (NumberFormatException e) {
 						showException(ci, e);
 						return;
 					}
-					s2d.model.setThermalBuoyancy(thermalBuoyancy);
+					s2d.model.setThermalExpansionCoefficient(thermalExpansionCoefficient);
 				} else if (t[0].equalsIgnoreCase("buoyancy_approximation")) {
 					int buoyancyApproximation = 0;
 					try {

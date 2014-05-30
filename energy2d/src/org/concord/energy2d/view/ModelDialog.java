@@ -57,8 +57,8 @@ class ModelDialog extends JDialog {
 	private JTextField densityField;
 	private JLabel viscosityLabel;
 	private JTextField viscosityField;
-	private JLabel buoyancyLabel;
-	private JTextField buoyancyField;
+	private JLabel thermalExpansionCoefficientLabel;
+	private JTextField thermalExpansionCoefficientField;
 	private JTextField wField, hField;
 	private JTabbedPane boundaryTab;
 	private JLabel upperThermalBoundaryLabel;
@@ -126,8 +126,8 @@ class ModelDialog extends JDialog {
 				float viscosity = parse(viscosityField.getText());
 				if (Float.isNaN(viscosity))
 					return;
-				float buoyancy = parse(buoyancyField.getText());
-				if (Float.isNaN(buoyancy))
+				float thermalExpansionCoefficient = parse(thermalExpansionCoefficientField.getText());
+				if (Float.isNaN(thermalExpansionCoefficient))
 					return;
 				float steplength = parse(steplengthField.getText());
 				if (Float.isNaN(steplength))
@@ -177,7 +177,7 @@ class ModelDialog extends JDialog {
 				model.setBackgroundSpecificHeat(capacity);
 				model.setBackgroundDensity(density);
 				model.setBackgroundViscosity(viscosity);
-				model.setThermalBuoyancy(buoyancy);
+				model.setThermalExpansionCoefficient(thermalExpansionCoefficient);
 				float dx = width - model.getLx();
 				float dy = height - model.getLy();
 				if (dx != 0)
@@ -299,8 +299,8 @@ class ModelDialog extends JDialog {
 				boolean b = convectiveCheckBox.isSelected();
 				viscosityLabel.setEnabled(b);
 				viscosityField.setEnabled(b);
-				buoyancyLabel.setEnabled(b);
-				buoyancyField.setEnabled(b);
+				thermalExpansionCoefficientLabel.setEnabled(b);
+				thermalExpansionCoefficientField.setEnabled(b);
 				buoyancyApproximationLabel.setEnabled(b);
 				buoyancyApproximationComboBox.setEnabled(b);
 				gravityTypeLabel.setEnabled(b);
@@ -442,13 +442,13 @@ class ModelDialog extends JDialog {
 		p.add(label);
 		count++;
 
-		buoyancyLabel = new JLabel("Thermal buoyancy");
-		buoyancyLabel.setEnabled(model.isConvective());
-		p.add(buoyancyLabel);
-		buoyancyField = new JTextField(FORMAT.format(model.getThermalBuoyancy()), 16);
-		buoyancyField.setEnabled(model.isConvective());
-		buoyancyField.addActionListener(okListener);
-		p.add(buoyancyField);
+		thermalExpansionCoefficientLabel = new JLabel("Thermal expansion coefficient");
+		thermalExpansionCoefficientLabel.setEnabled(model.isConvective());
+		p.add(thermalExpansionCoefficientLabel);
+		thermalExpansionCoefficientField = new JTextField(FORMAT.format(model.getThermalExpansionCoefficient()), 16);
+		thermalExpansionCoefficientField.setEnabled(model.isConvective());
+		thermalExpansionCoefficientField.addActionListener(okListener);
+		p.add(thermalExpansionCoefficientField);
 		label = new JLabel("<html><i>m/(s<sup><font size=2>2</font></sup>\u00b7\u2103)</html>)");
 		p.add(label);
 		count++;

@@ -204,12 +204,12 @@ public class Model2D {
 		return fluidSolver.getGravityType();
 	}
 
-	public void setThermalBuoyancy(float thermalBuoyancy) {
-		fluidSolver.setThermalBuoyancy(thermalBuoyancy);
+	public void setThermalExpansionCoefficient(float thermalExpansionCoefficient) {
+		fluidSolver.setThermalExpansionCoefficient(thermalExpansionCoefficient);
 	}
 
-	public float getThermalBuoyancy() {
-		return fluidSolver.getThermalBuoyancy();
+	public float getThermalExpansionCoefficient() {
+		return fluidSolver.getThermalExpansionCoefficient();
 	}
 
 	public void setBuoyancyApproximation(byte buoyancyApproximation) {

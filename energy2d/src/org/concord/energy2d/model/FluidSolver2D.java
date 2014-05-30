@@ -20,7 +20,7 @@ abstract class FluidSolver2D {
 	// five relaxation steps are probably enough for most transient problems because there are numerous previous steps that can be considered as pre-relaxation steps, especially when changes are slow or small.
 	static byte relaxationSteps = 5;
 
-	private float thermalBuoyancy = 0.00025f;
+	private float thermalExpansionCoefficient = 0.00025f;
 	private float gravity = 0;
 	private byte buoyancyApproximation = Model2D.BUOYANCY_AVERAGE_ALL;
 	private byte gravityType = Model2D.GRAVITY_UNIFORM;
@@ -93,12 +93,12 @@ abstract class FluidSolver2D {
 		return buoyancyApproximation;
 	}
 
-	void setThermalBuoyancy(float thermalBuoyancy) {
-		this.thermalBuoyancy = thermalBuoyancy;
+	void setThermalExpansionCoefficient(float thermalExpansionCoefficient) {
+		this.thermalExpansionCoefficient = thermalExpansionCoefficient;
 	}
 
-	float getThermalBuoyancy() {
-		return thermalBuoyancy;
+	float getThermalExpansionCoefficient() {
+		return thermalExpansionCoefficient;
 	}
 
 	void setWindSpeed(float[][] uWind, float[][] vWind) {
@@ -221,7 +221,7 @@ abstract class FluidSolver2D {
 	// Boussinesq approximation: density differences are sufficiently small to be neglected, except where they appear in terms multiplied by g, the acceleration due to gravity.
 	private void applyBuoyancy(float[][] f) {
 		float g = gravity * timeStep;
-		float b = thermalBuoyancy * timeStep;
+		float b = thermalExpansionCoefficient * timeStep;
 		float t0;
 		switch (buoyancyApproximation) {
 		case Model2D.BUOYANCY_AVERAGE_ALL:
@@ -250,7 +250,7 @@ abstract class FluidSolver2D {
 	// for simulating mantle convection of planets
 	private void applySphericalBuoyancy(float[][] u, float[][] v) {
 		float g = gravity * timeStep;
-		float b = thermalBuoyancy * timeStep;
+		float b = thermalExpansionCoefficient * timeStep;
 		float t0 = MathUtil.getAverage(t);
 		float dx = 0, dy = 0, dr = 0;
 		float cx = nx / 2, cy = ny / 2;
@@ -276,7 +276,7 @@ abstract class FluidSolver2D {
 
 	// Copying a two-dimensional array is very fast. Considering this, I chose clarity instead of swapping the arrays.
 	void solve(float[][] u, float[][] v) {
-		if (thermalBuoyancy != 0) {
+		if (thermalExpansionCoefficient != 0) {
 			switch (gravityType) {
 			case Model2D.GRAVITY_UNIFORM:
 				applyBuoyancy(v);

@@ -59,7 +59,7 @@ class XmlDecoder extends DefaultHandler {
 	private float backgroundSpecificHeat = Constants.AIR_SPECIFIC_HEAT;
 	private float backgroundViscosity = Constants.AIR_VISCOSITY;
 	private float backgroundTemperature;
-	private float thermalBuoyancy = 0.00025f;
+	private float thermalExpansionCoefficient = 0.00025f;
 	private byte buoyancyApproximation = Model2D.BUOYANCY_AVERAGE_COLUMN;
 	private byte gravityType = Model2D.GRAVITY_UNIFORM;
 	private String nextSim, prevSim;
@@ -160,7 +160,7 @@ class XmlDecoder extends DefaultHandler {
 		box.model.setBackgroundSpecificHeat(backgroundSpecificHeat);
 		box.model.setBackgroundTemperature(backgroundTemperature);
 		box.model.setBackgroundViscosity(backgroundViscosity);
-		box.model.setThermalBuoyancy(thermalBuoyancy);
+		box.model.setThermalExpansionCoefficient(thermalExpansionCoefficient);
 		box.model.setBuoyancyApproximation(buoyancyApproximation);
 		box.model.setGravityType(gravityType);
 
@@ -746,8 +746,8 @@ class XmlDecoder extends DefaultHandler {
 			backgroundTemperature = Float.parseFloat(str);
 		} else if (qName == "background_viscosity") {
 			backgroundViscosity = Float.parseFloat(str);
-		} else if (qName == "thermal_buoyancy") {
-			thermalBuoyancy = Float.parseFloat(str);
+		} else if (qName == "thermal_buoyancy" || qName == "thermal_expansion_coefficient") {
+			thermalExpansionCoefficient = Float.parseFloat(str);
 		} else if (qName == "buoyancy_approximation") {
 			buoyancyApproximation = Byte.parseByte(str);
 		} else if (qName == "gravity_type") {
@@ -954,7 +954,7 @@ class XmlDecoder extends DefaultHandler {
 		backgroundSpecificHeat = Constants.AIR_SPECIFIC_HEAT;
 		backgroundViscosity = Constants.AIR_VISCOSITY;
 		backgroundTemperature = 0;
-		thermalBuoyancy = 0;
+		thermalExpansionCoefficient = 0;
 		buoyancyApproximation = Model2D.BUOYANCY_AVERAGE_COLUMN;
 		gravityType = Model2D.GRAVITY_UNIFORM;
 
