@@ -79,6 +79,7 @@ public class Model2D {
 	private List<Thermometer> thermometers;
 	private List<Thermostat> thermostats;
 	private List<Part> parts;
+	private List<Particle> particles;
 	private List<Photon> photons;
 	private List<Cloud> clouds;
 	private List<Tree> trees;
@@ -86,6 +87,7 @@ public class Model2D {
 	private RaySolver2D raySolver;
 	private FluidSolver2D fluidSolver;
 	private HeatSolver2D heatSolver;
+	private ParticleSolver2D particleSolver;
 
 	private boolean sunny;
 	private int photonEmissionInterval = 20;
@@ -131,6 +133,7 @@ public class Model2D {
 		fluidity = new boolean[nx][ny];
 
 		parts = Collections.synchronizedList(new ArrayList<Part>());
+		particles = Collections.synchronizedList(new ArrayList<Particle>());
 		heatFluxSensors = Collections.synchronizedList(new ArrayList<HeatFluxSensor>());
 		anemometers = Collections.synchronizedList(new ArrayList<Anemometer>());
 		thermometers = Collections.synchronizedList(new ArrayList<Thermometer>());
@@ -157,6 +160,8 @@ public class Model2D {
 
 		raySolver = new RaySolver2D(lx, ly);
 		raySolver.setPower(q);
+
+		particleSolver = new ParticleSolver2D(this);
 
 		setGridCellSize();
 
@@ -380,6 +385,8 @@ public class Model2D {
 			for (Tree t : trees)
 				t.translateBy(dx, dy);
 		for (Part p : parts)
+			p.translateBy(dx, dy);
+		for (Particle p : particles)
 			p.translateBy(dx, dy);
 	}
 
@@ -882,6 +889,10 @@ public class Model2D {
 		return null;
 	}
 
+	public List<Particle> getParticles() {
+		return particles;
+	}
+
 	/** Every manipulable has a UID. To avoid confusion, two objects of different types cannot have the same UID. */
 	public boolean isUidUsed(String uid) {
 		if (uid == null || uid.trim().equals(""))
@@ -1097,10 +1108,13 @@ public class Model2D {
 			Arrays.fill(density[i], backgroundDensity);
 		}
 		setInitialTemperature();
+		Particle p = new Particle(0.5f * lx, 0.5f * ly);
+		particles.add(p);
 	}
 
 	public void clear() {
 		parts.clear();
+		particles.clear();
 		photons.clear();
 		anemometers.clear();
 		thermometers.clear();
@@ -1265,6 +1279,9 @@ public class Model2D {
 				for (Cloud c : clouds)
 					c.move(heatSolver.getTimeStep(), lx);
 			}
+		}
+		if (!particles.isEmpty()) {
+			particleSolver.move();
 		}
 		indexOfStep++;
 	}

@@ -67,6 +67,7 @@ import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.Manipulable;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
+import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.Photon;
 import org.concord.energy2d.model.Sensor;
 import org.concord.energy2d.model.Thermometer;
@@ -1248,6 +1249,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		drawTrees(g);
 		drawTextBoxes(g);
 		drawPictures(g);
+		drawParticles(g);
 		if (showGrid && gridRenderer != null)
 			gridRenderer.render(this, g);
 		if (rulerRenderer != null)
@@ -1597,6 +1599,35 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				if (sun == null)
 					sun = Symbol.get("Sun");
 				sun.paintIcon(this, g, getWidth() - sun.getIconWidth() * 2, sun.getIconHeight() + 10);
+			}
+		}
+	}
+
+	private void drawParticles(Graphics2D g) {
+		if (model.getParticles().isEmpty())
+			return;
+		g.setStroke(thinStroke);
+		Ellipse2D.Float e = new Ellipse2D.Float();
+		synchronized (model.getParticles()) {
+			for (Particle p : model.getParticles()) {
+				e.x = convertPointToPixelX(p.getRx());
+				e.y = convertPointToPixelY(p.getRy());
+				e.width = convertLengthToPixelX(p.getRadius());
+				e.height = convertLengthToPixelY(p.getRadius());
+				g.setColor(Color.WHITE);
+				g.fill(e);
+				g.setColor(selectedManipulable == p ? Color.yellow : Color.gray);
+				g.draw(e);
+				if (model.isRunning() && p == selectedManipulable) {
+					HandleSetter.setRects(this, selectedManipulable, handle);
+				}
+				if (p.getLabel() != null) {
+					g.setFont(labelFont);
+					g.setColor(getContrastColor((int) e.getCenterX(), (int) e.getCenterY()));
+					String label = p.getLabel();
+					FontMetrics fm = g.getFontMetrics();
+					g.drawString(label, (int) e.getCenterX() - fm.stringWidth(label) / 2, (int) e.getCenterY() + fm.getHeight());
+				}
 			}
 		}
 	}
