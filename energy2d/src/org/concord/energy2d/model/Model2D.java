@@ -1110,6 +1110,14 @@ public class Model2D {
 		setInitialTemperature();
 		Particle p = new Particle(0.5f * lx, 0.5f * ly);
 		particles.add(p);
+		p = new Particle(0.45f * lx, 0.5f * ly);
+		particles.add(p);
+		p = new Particle(0.55f * lx, 0.5f * ly);
+		particles.add(p);
+		p = new Particle(0.6f * lx, 0.5f * ly);
+		particles.add(p);
+		p = new Particle(0.4f * lx, 0.5f * ly);
+		particles.add(p);
 	}
 
 	public void clear() {

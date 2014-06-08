@@ -2186,8 +2186,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		float r;
 		synchronized (model.getPhotons()) {
 			for (Photon p : model.getPhotons()) {
-				x = convertPointToPixelX(p.getX());
-				y = convertPointToPixelY(p.getY());
+				x = convertPointToPixelX(p.getRx());
+				y = convertPointToPixelY(p.getRy());
 				r = 1.0f / (float) Math.hypot(p.getVx(), p.getVy());
 				g.drawLine(Math.round(x - photonLength * p.getVx() * r), Math.round(y - photonLength * p.getVy() * r), x, y);
 			}

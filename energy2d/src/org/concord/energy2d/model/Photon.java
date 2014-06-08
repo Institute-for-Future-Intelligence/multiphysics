@@ -12,24 +12,24 @@ package org.concord.energy2d.model;
  * 
  * */
 
-public class Photon {
+public class Photon implements Discrete {
 
-	private float x;
-	private float y;
+	private float rx;
+	private float ry;
 	private float vx;
 	private float vy;
 	private float energy;
 	private float c;
 
-	Photon(float x, float y, float energy, float c) {
-		this.x = x;
-		this.y = y;
+	Photon(float rx, float ry, float energy, float c) {
+		this.rx = rx;
+		this.ry = ry;
 		this.energy = energy;
 		this.c = c;
 	}
 
-	public Photon(float x, float y, float energy, float angle, float c) {
-		this(x, y, energy, c);
+	public Photon(float rx, float ry, float energy, float angle, float c) {
+		this(rx, ry, energy, c);
 		setAngle(angle);
 	}
 
@@ -42,7 +42,7 @@ public class Photon {
 		return energy;
 	}
 
-	void setAngle(float angle) {
+	public void setAngle(float angle) {
 		vx = (float) (Math.cos(angle) * c);
 		vy = (float) (Math.sin(angle) * c);
 	}
@@ -64,28 +64,28 @@ public class Photon {
 	}
 
 	public boolean isContained(float xmin, float xmax, float ymin, float ymax) {
-		return x >= xmin && x <= xmax && y >= ymin && y <= ymax;
+		return rx >= xmin && rx <= xmax && ry >= ymin && ry <= ymax;
 	}
 
-	public void setX(float x) {
-		this.x = x;
+	public void setRx(float rx) {
+		this.rx = rx;
 	}
 
-	public float getX() {
-		return x;
+	public float getRx() {
+		return rx;
 	}
 
-	public void setY(float y) {
-		this.y = y;
+	public void setRy(float ry) {
+		this.ry = ry;
 	}
 
-	public float getY() {
-		return y;
+	public float getRy() {
+		return ry;
 	}
 
 	public void move(float dt) {
-		x += vx * dt;
-		y += vy * dt;
+		rx += vx * dt;
+		ry += vy * dt;
 	}
 
 }

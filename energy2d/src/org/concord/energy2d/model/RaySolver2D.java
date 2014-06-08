@@ -113,7 +113,7 @@ class RaySolver2D {
 									if (part.reflect(p, timeStep, true))
 										break;
 								} else { // assuming heating caused by scattering can be neglected, we can just remove the photon to make the scene less messy
-									if (part.contains(p.getX(), p.getY())) {
+									if (part.contains(p.getRx(), p.getRy())) {
 										remove = true;
 										break;
 									}
@@ -124,8 +124,8 @@ class RaySolver2D {
 										break;
 								} else if (Math.abs(part.getAbsorption() - 1) < 0.001f) { // in current implementation, absorption is either 1 or 0
 									if (part.contains(p)) {
-										i = Math.min(nx, Math.round(p.getX() * idx));
-										j = Math.min(ny, Math.round(p.getY() * idy));
+										i = Math.min(nx, Math.round(p.getRx() * idx));
+										j = Math.min(ny, Math.round(p.getRy() * idy));
 										if (i < 0)
 											i = 0;
 										if (j < 0)
@@ -142,7 +142,7 @@ class RaySolver2D {
 				if (!model.getClouds().isEmpty()) { // the rule is that clouds absorb light
 					synchronized (model.getClouds()) {
 						for (Cloud c : model.getClouds()) {
-							if (c.contains(p.getX(), p.getY())) {
+							if (c.contains(p.getRx(), p.getRy())) {
 								remove = true;
 								break;
 							}
@@ -152,7 +152,7 @@ class RaySolver2D {
 				if (!model.getTrees().isEmpty()) { // the rule is that trees absorb light
 					synchronized (model.getTrees()) {
 						for (Tree t : model.getTrees()) {
-							if (t.contains(p.getX(), p.getY())) {
+							if (t.contains(p.getRx(), p.getRy())) {
 								remove = true;
 								break;
 							}

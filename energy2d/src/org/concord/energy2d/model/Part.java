@@ -294,7 +294,7 @@ public class Part extends Manipulable {
 	}
 
 	boolean contains(Photon p) {
-		return getShape().contains(p.getX(), p.getY());
+		return getShape().contains(p.getRx(), p.getRy());
 	}
 
 	void radiate(Model2D model) {
@@ -451,7 +451,7 @@ public class Part extends Manipulable {
 		}
 	}
 
-	boolean reflect(Photon p, float timeStep, boolean scatter) {
+	boolean reflect(Discrete p, float timeStep, boolean scatter) {
 
 		Shape shape = getShape();
 
@@ -462,15 +462,15 @@ public class Part extends Manipulable {
 			float y0 = r.y;
 			float x1 = r.x + r.width;
 			float y1 = r.y + r.height;
-			if (p.getX() < x1 && p.getX() > x0 && p.getY() < y1 && p.getY() > y0) {
+			if (p.getRx() < x1 && p.getRx() > x0 && p.getRy() < y1 && p.getRy() > y0) {
 				float dx = p.getVx() * timeStep;
-				if (p.getX() - dx < x0) {
+				if (p.getRx() - dx < x0) {
 					if (scatter) {
 						p.setAngle((float) (Math.PI * (0.5 + Math.random())));
 					} else {
 						p.setVx(-Math.abs(p.getVx()));
 					}
-				} else if (p.getX() - dx > x1) {
+				} else if (p.getRx() - dx > x1) {
 					if (scatter) {
 						p.setAngle((float) (Math.PI * (0.5 - Math.random())));
 					} else {
@@ -478,13 +478,13 @@ public class Part extends Manipulable {
 					}
 				}
 				float dy = p.getVy() * timeStep;
-				if (p.getY() - dy < y0) {
+				if (p.getRy() - dy < y0) {
 					if (scatter) {
 						p.setAngle((float) (Math.PI * (1 + Math.random())));
 					} else {
 						p.setVy(-Math.abs(p.getVy()));
 					}
-				} else if (p.getY() - dy > y1) {
+				} else if (p.getRy() - dy > y1) {
 					if (scatter) {
 						p.setAngle((float) (Math.PI * Math.random()));
 					} else {
@@ -497,7 +497,7 @@ public class Part extends Manipulable {
 		} else if (shape instanceof Polygon2D) {
 
 			Polygon2D r = (Polygon2D) shape;
-			if (r.contains(p.getX(), p.getY())) {
+			if (r.contains(p.getRx(), p.getRy())) {
 				reflect(r, p, timeStep, scatter);
 				return true;
 			}
@@ -505,7 +505,7 @@ public class Part extends Manipulable {
 		} else if (shape instanceof Blob2D) {
 
 			Blob2D b = (Blob2D) shape;
-			if (b.contains(p.getX(), p.getY())) {
+			if (b.contains(p.getRx(), p.getRy())) {
 				reflect(b, p, timeStep, scatter);
 				return true;
 			}
@@ -513,7 +513,7 @@ public class Part extends Manipulable {
 		} else if (shape instanceof Ellipse2D.Float) {
 
 			Ellipse2D.Float e = (Ellipse2D.Float) shape;
-			if (e.contains(p.getX(), p.getY())) {
+			if (e.contains(p.getRx(), p.getRy())) {
 				reflect(e, p, timeStep, scatter);
 				return true;
 			}
@@ -524,7 +524,7 @@ public class Part extends Manipulable {
 
 	}
 
-	private static void reflect(Ellipse2D.Float e, Photon p, float timeStep, boolean scatter) {
+	private static void reflect(Ellipse2D.Float e, Discrete p, float timeStep, boolean scatter) {
 		float a = e.width * 0.5f;
 		float b = e.height * 0.5f;
 		float x = e.x + a;
@@ -548,7 +548,7 @@ public class Part extends Manipulable {
 		reflectFromLine(p, line, timeStep, scatter);
 	}
 
-	private static void reflect(Polygon2D r, Photon p, float timeStep, boolean scatter) {
+	private static void reflect(Polygon2D r, Discrete p, float timeStep, boolean scatter) {
 		int n = r.getVertexCount();
 		Point2D.Float v1, v2;
 		Line2D.Float line = new Line2D.Float();
@@ -565,7 +565,7 @@ public class Part extends Manipulable {
 		reflectFromLine(p, line, timeStep, scatter);
 	}
 
-	private static void reflect(Blob2D b, Photon p, float timeStep, boolean scatter) {
+	private static void reflect(Blob2D b, Discrete p, float timeStep, boolean scatter) {
 		int n = b.getPathPointCount();
 		Point2D.Float v1, v2;
 		Line2D.Float line = new Line2D.Float();
@@ -582,11 +582,11 @@ public class Part extends Manipulable {
 		reflectFromLine(p, line, timeStep, scatter);
 	}
 
-	private static boolean reflectFromLine(Photon p, Line2D.Float line, float timeStep, boolean scatter) {
-		float x1 = p.getX();
-		float y1 = p.getY();
-		float x2 = p.getX() - p.getVx() * timeStep;
-		float y2 = p.getY() - p.getVy() * timeStep;
+	private static boolean reflectFromLine(Discrete p, Line2D.Float line, float timeStep, boolean scatter) {
+		float x1 = p.getRx();
+		float y1 = p.getRy();
+		float x2 = p.getRx() - p.getVx() * timeStep;
+		float y2 = p.getRy() - p.getVy() * timeStep;
 		if (line.intersectsLine(x1, y1, x2, y2)) {
 			x1 = line.x1;
 			y1 = line.y1;

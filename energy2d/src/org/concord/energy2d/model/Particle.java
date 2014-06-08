@@ -8,7 +8,7 @@ import java.awt.geom.Ellipse2D;
  * @author Charles Xie
  * 
  */
-public class Particle extends Manipulable {
+public class Particle extends Manipulable implements Discrete {
 
 	float mass = 1.0f;
 	float radius = 0.1f;
@@ -64,6 +64,16 @@ public class Particle extends Manipulable {
 		ay = fy;
 		fx *= mass;
 		fy *= mass;
+	}
+
+	public float getSpeed() {
+		return (float) Math.hypot(vx, vy);
+	}
+
+	public void setAngle(float angle) {
+		float c = getSpeed();
+		vx = (float) (Math.cos(angle) * c);
+		vy = (float) (Math.sin(angle) * c);
 	}
 
 	public void setRx(float rx) {
