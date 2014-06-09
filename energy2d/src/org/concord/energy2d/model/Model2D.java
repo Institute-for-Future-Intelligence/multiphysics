@@ -958,6 +958,16 @@ public class Model2D {
 		checkPartRadiation();
 	}
 
+	public void addParticle(Particle p) {
+		if (!particles.contains(p)) {
+			particles.add(p);
+		}
+	}
+
+	public void removeParticle(Particle p) {
+		particles.remove(p);
+	}
+
 	public float getMaximumHeatCapacity() {
 		return maximumHeatCapacity;
 	}
@@ -1108,16 +1118,6 @@ public class Model2D {
 			Arrays.fill(density[i], backgroundDensity);
 		}
 		setInitialTemperature();
-		Particle p = new Particle(0.5f * lx, 0.5f * ly);
-		particles.add(p);
-		p = new Particle(0.45f * lx, 0.5f * ly);
-		particles.add(p);
-		p = new Particle(0.55f * lx, 0.5f * ly);
-		particles.add(p);
-		p = new Particle(0.6f * lx, 0.5f * ly);
-		particles.add(p);
-		p = new Particle(0.4f * lx, 0.5f * ly);
-		particles.add(p);
 	}
 
 	public void clear() {

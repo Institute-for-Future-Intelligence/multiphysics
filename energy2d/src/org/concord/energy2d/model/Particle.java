@@ -20,8 +20,12 @@ public class Particle extends Manipulable implements Discrete {
 	private float dx, dy;
 	private Color color = Color.WHITE;
 
-	public Particle(float rx, float ry) {
+	public Particle() {
 		super(new Ellipse2D.Float());
+	}
+
+	public Particle(float rx, float ry) {
+		this();
 		this.rx = rx;
 		this.ry = ry;
 		updateShape();

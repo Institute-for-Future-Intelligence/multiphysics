@@ -12,6 +12,7 @@ import org.concord.energy2d.model.Constants;
 import org.concord.energy2d.model.DirichletThermalBoundary;
 import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.MassBoundary;
+import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.SimpleMassBoundary;
 import org.concord.energy2d.model.ThermalBoundary;
 import org.concord.energy2d.model.Model2D;
@@ -47,7 +48,7 @@ class XmlDecoder extends DefaultHandler {
 	private int controlInterval = 100;
 	private int viewUpdateInterval = 20;
 	private boolean sunny;
-	private float sunAngle = (float) Math.PI * 0.5f;
+	private float sunAngle = (float) (Math.PI * 0.5);
 	private float solarPowerDensity = 2000;
 	private int solarRayCount = 24;
 	private float solarRaySpeed = 0.1f;
@@ -90,6 +91,10 @@ class XmlDecoder extends DefaultHandler {
 	private String graphXLabel, graphYLabel;
 	private float graphYmin = 0, graphYmax = 50;
 
+	// discrete properties
+	private String uid;
+	private String label;
+
 	// part properties
 	private float partThermalConductivity = Float.NaN;
 	private float partSpecificHeat = Float.NaN;
@@ -107,16 +112,23 @@ class XmlDecoder extends DefaultHandler {
 	private float partPower = Float.NaN;
 	private boolean partVisible = true;
 	private boolean partDraggable = true;
-	private Color partColor = Color.gray;
+	private Color partColor = Color.GRAY;
 	private byte partTextureStyle;
 	private int partTextureWidth = 10;
 	private int partTextureHeight = 10;
-	private Color partTextureForeground = Color.black;
-	private Color partTextureBackground = Color.white;
+	private Color partTextureForeground = Color.BLACK;
+	private Color partTextureBackground = Color.WHITE;
 	private boolean partFilled = true;
-	private String partUid;
-	private String partLabel;
 	private Part part;
+
+	// particle properties
+	private float particleRx = Float.NaN;
+	private float particleRy = Float.NaN;
+	private float particleVx = Float.NaN;
+	private float particleVy = Float.NaN;
+	private float particleRadius = Float.NaN;
+	private float particleMass = Float.NaN;
+	private Particle particle;
 
 	XmlDecoder(System2D box) {
 		this.box = box;
@@ -395,6 +407,9 @@ class XmlDecoder extends DefaultHandler {
 					part = box.model.addBlobPart(x, y);
 				}
 			}
+		} else if (qName == "particle") {
+			particle = new Particle();
+			box.model.addParticle(particle);
 		} else if (qName == "temperature_at_border") {
 			if (attrib != null) {
 				float left = Float.NaN, right = Float.NaN, upper = Float.NaN, lower = Float.NaN;
@@ -810,10 +825,6 @@ class XmlDecoder extends DefaultHandler {
 			graphYmin = Float.parseFloat(str);
 		} else if (qName == "graph_ymax") {
 			graphYmax = Float.parseFloat(str);
-		} else if (qName == "uid") {
-			partUid = str;
-		} else if (qName == "label") {
-			partLabel = str;
 		} else if (qName == "thermal_conductivity") {
 			partThermalConductivity = Float.parseFloat(str);
 		} else if (qName == "specific_heat") {
@@ -842,8 +853,6 @@ class XmlDecoder extends DefaultHandler {
 			partWindSpeed = Float.parseFloat(str);
 		} else if (qName == "wind_angle") {
 			partWindAngle = Float.parseFloat(str);
-		} else if (qName == "color") {
-			partColor = new Color(Integer.parseInt(str, 16));
 		} else if (qName == "texture_style") {
 			partTextureStyle = Byte.parseByte(str);
 		} else if (qName == "texture_width") {
@@ -860,6 +869,24 @@ class XmlDecoder extends DefaultHandler {
 			partVisible = Boolean.parseBoolean(str);
 		} else if (qName == "draggable") {
 			partDraggable = Boolean.parseBoolean(str);
+		} else if (qName == "color") {
+			partColor = new Color(Integer.parseInt(str, 16));
+		} else if (qName == "rx") {
+			particleRx = Float.parseFloat(str);
+		} else if (qName == "ry") {
+			particleRy = Float.parseFloat(str);
+		} else if (qName == "vx") {
+			particleVx = Float.parseFloat(str);
+		} else if (qName == "vy") {
+			particleVy = Float.parseFloat(str);
+		} else if (qName == "radius") {
+			particleRadius = Float.parseFloat(str);
+		} else if (qName == "mass") {
+			particleMass = Float.parseFloat(str);
+		} else if (qName == "uid") {
+			uid = str;
+		} else if (qName == "label") {
+			label = str;
 		} else if (qName == "boundary") {
 			// nothing to do at this point
 		} else if (qName == "part") {
@@ -894,9 +921,24 @@ class XmlDecoder extends DefaultHandler {
 				if (partTextureStyle != 0)
 					part.setFillPattern(new Texture(partTextureForeground.getRGB(), partTextureBackground.getRGB(), partTextureStyle, partTextureWidth, partTextureHeight));
 				part.setFilled(partFilled);
-				part.setUid(partUid);
-				part.setLabel(partLabel);
+				part.setUid(uid);
+				part.setLabel(label);
 				resetPartVariables();
+			}
+		} else if (qName == "particle") {
+			if (particle != null) {
+				if (!Float.isNaN(particleRx))
+					particle.setRx(particleRx);
+				if (!Float.isNaN(particleRy))
+					particle.setRy(particleRy);
+				if (!Float.isNaN(particleVx))
+					particle.setVx(particleVx);
+				if (!Float.isNaN(particleVy))
+					particle.setVy(particleVy);
+				if (!Float.isNaN(particleRadius))
+					particle.setRadius(particleRadius);
+				if (!Float.isNaN(particleMass))
+					particle.setMass(particleMass);
 			}
 		}
 
@@ -919,15 +961,21 @@ class XmlDecoder extends DefaultHandler {
 		partWindAngle = 0;
 		partVisible = true;
 		partDraggable = true;
-		partColor = Color.gray;
+		partColor = Color.GRAY;
 		partFilled = true;
 		partTextureStyle = 0;
 		partTextureWidth = 10;
 		partTextureHeight = 10;
-		partTextureForeground = Color.black;
-		partTextureBackground = Color.white;
-		partUid = null;
-		partLabel = null;
+		partTextureForeground = Color.BLACK;
+		partTextureBackground = Color.WHITE;
+		particleRx = Float.NaN;
+		particleRy = Float.NaN;
+		particleVx = Float.NaN;
+		particleVy = Float.NaN;
+		particleRadius = Float.NaN;
+		particleMass = Float.NaN;
+		uid = null;
+		label = null;
 	}
 
 	private void resetGlobalVariables() {
