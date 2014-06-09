@@ -617,7 +617,7 @@ public class Part extends Manipulable {
 	}
 
 	public String toXml() {
-		String xml = "<part>";
+		String xml = "<part>\n";
 		if (getShape() instanceof Rectangle2D.Float) {
 			Rectangle2D.Float r = (Rectangle2D.Float) getShape();
 			xml += "<rectangle";

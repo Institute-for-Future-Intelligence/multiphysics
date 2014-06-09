@@ -1614,7 +1614,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				e.y = convertPointToPixelY(p.getRy());
 				e.width = convertLengthToPixelX(p.getRadius());
 				e.height = convertLengthToPixelY(p.getRadius());
-				g.setColor(Color.WHITE);
+				g.setColor(p.getColor());
 				g.fill(e);
 				g.setColor(selectedManipulable == p ? Color.yellow : Color.gray);
 				g.draw(e);

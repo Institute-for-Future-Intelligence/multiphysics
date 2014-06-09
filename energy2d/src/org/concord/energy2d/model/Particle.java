@@ -1,5 +1,6 @@
 package org.concord.energy2d.model;
 
+import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 
 /**
@@ -17,6 +18,7 @@ public class Particle extends Manipulable implements Discrete {
 	float ax, ay;
 	float fx, fy;
 	private float dx, dy;
+	private Color color = Color.WHITE;
 
 	public Particle(float rx, float ry) {
 		super(new Ellipse2D.Float());
@@ -130,6 +132,36 @@ public class Particle extends Manipulable implements Discrete {
 
 	public float getMass() {
 		return mass;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public String toXml() {
+		String xml = "<particle>\n";
+		xml += "<rx>" + rx + "</rx>\n";
+		xml += "<ry>" + ry + "</ry>\n";
+		if (vx != 0)
+			xml += "<vx>" + vx + "</vx>\n";
+		if (vy != 0)
+			xml += "<vy>" + vy + "</vy>\n";
+		xml += "<radius>" + radius + "</radius>\n";
+		xml += "<mass>" + mass + "</mass>\n";
+		String uid = getUid();
+		if (uid != null && !uid.trim().equals(""))
+			xml += "<uid>" + uid + "</uid>\n";
+		String label = getLabel();
+		if (label != null && !label.trim().equals(""))
+			xml += "<label>" + label + "</label>\n";
+		if (!Color.WHITE.equals(color))
+			xml += "<color>" + Integer.toHexString(0x00ffffff & color.getRGB()) + "</color>\n";
+		xml += "</particle>\n";
+		return xml;
 	}
 
 }
