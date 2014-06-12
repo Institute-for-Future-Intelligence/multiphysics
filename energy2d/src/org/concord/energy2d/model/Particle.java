@@ -17,7 +17,6 @@ public class Particle extends Manipulable implements Discrete {
 	float vx, vy;
 	float ax, ay;
 	float fx, fy;
-	private float dx, dy;
 	private Color color = Color.WHITE;
 
 	public Particle() {
@@ -33,8 +32,8 @@ public class Particle extends Manipulable implements Discrete {
 
 	private void updateShape() {
 		Ellipse2D.Float e = (Ellipse2D.Float) getShape();
-		e.x = rx;
-		e.y = ry;
+		e.x = rx - radius;
+		e.y = ry - radius;
 		e.width = e.height = radius * 2;
 	}
 
@@ -51,10 +50,8 @@ public class Particle extends Manipulable implements Discrete {
 	// predict this particle's new position using second order Taylor expansion.
 	void predict(float dt) {
 		float dt2 = 0.5f * dt * dt;
-		dx = vx * dt + ax * dt2;
-		dy = vy * dt + ay * dt2;
-		rx += dx;
-		ry += dy;
+		rx += vx * dt + ax * dt2;
+		ry += vy * dt + ay * dt2;
 		vx += ax * dt;
 		vy += ay * dt;
 	}

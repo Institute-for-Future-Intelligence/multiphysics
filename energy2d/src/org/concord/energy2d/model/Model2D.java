@@ -1289,7 +1289,7 @@ public class Model2D {
 			}
 		}
 		if (!particles.isEmpty()) {
-			particleSolver.move();
+			particleSolver.move(this);
 		}
 		indexOfStep++;
 	}

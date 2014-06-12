@@ -457,20 +457,24 @@ public class Part extends Manipulable {
 
 		if (shape instanceof Rectangle2D.Float) { // simpler case, faster implementation
 
+			float radius = 0;
+			if (p instanceof Particle)
+				radius = ((Particle) p).radius;
+
 			Rectangle2D.Float r = (Rectangle2D.Float) shape;
 			float x0 = r.x;
 			float y0 = r.y;
 			float x1 = r.x + r.width;
 			float y1 = r.y + r.height;
-			if (p.getRx() < x1 && p.getRx() > x0 && p.getRy() < y1 && p.getRy() > y0) {
+			if (p.getRx() - radius < x1 && p.getRx() + radius > x0 && p.getRy() - radius < y1 && p.getRy() + radius > y0) { // overlap
 				float dx = p.getVx() * timeStep;
-				if (p.getRx() - dx < x0) {
+				if (p.getRx() + radius - dx < x0) {
 					if (scatter) {
 						p.setAngle((float) (Math.PI * (0.5 + Math.random())));
 					} else {
 						p.setVx(-Math.abs(p.getVx()));
 					}
-				} else if (p.getRx() - dx > x1) {
+				} else if (p.getRx() - radius - dx > x1) {
 					if (scatter) {
 						p.setAngle((float) (Math.PI * (0.5 - Math.random())));
 					} else {
@@ -478,13 +482,13 @@ public class Part extends Manipulable {
 					}
 				}
 				float dy = p.getVy() * timeStep;
-				if (p.getRy() - dy < y0) {
+				if (p.getRy() + radius - dy < y0) {
 					if (scatter) {
 						p.setAngle((float) (Math.PI * (1 + Math.random())));
 					} else {
 						p.setVy(-Math.abs(p.getVy()));
 					}
-				} else if (p.getRy() - dy > y1) {
+				} else if (p.getRy() - radius - dy > y1) {
 					if (scatter) {
 						p.setAngle((float) (Math.PI * Math.random()));
 					} else {

@@ -29,13 +29,14 @@ class ParticleSolver2D {
 		parts = model.getParts();
 		u = model.getXVelocity();
 		v = model.getYVelocity();
-		lx = model.getLx();
-		ly = model.getLy();
 		nx = model.getNx();
 		ny = model.getNy();
 	}
 
-	void move() {
+	void move(Model2D model) {
+		lx = model.getLx();
+		ly = model.getLy();
+		timeStep = model.getTimeStep();
 		synchronized (particles) {
 			Particle p;
 			for (Iterator<Particle> it = particles.iterator(); it.hasNext();) {
@@ -63,6 +64,8 @@ class ParticleSolver2D {
 			j = ny - 1;
 		p.fx = drag * (u[i][j] - p.vx);
 		p.fy = drag * (v[i][j] - p.vy) + 0.001f;
+		p.fx /= p.mass;
+		p.fy /= p.mass;
 	}
 
 	private void interact(Particle p) {

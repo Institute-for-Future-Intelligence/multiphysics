@@ -939,6 +939,9 @@ class XmlDecoder extends DefaultHandler {
 					particle.setRadius(particleRadius);
 				if (!Float.isNaN(particleMass))
 					particle.setMass(particleMass);
+				particle.setUid(uid);
+				particle.setLabel(label);
+				resetParticleVariables();
 			}
 		}
 
@@ -968,6 +971,11 @@ class XmlDecoder extends DefaultHandler {
 		partTextureHeight = 10;
 		partTextureForeground = Color.BLACK;
 		partTextureBackground = Color.WHITE;
+		uid = null;
+		label = null;
+	}
+
+	private void resetParticleVariables() {
 		particleRx = Float.NaN;
 		particleRy = Float.NaN;
 		particleVx = Float.NaN;
