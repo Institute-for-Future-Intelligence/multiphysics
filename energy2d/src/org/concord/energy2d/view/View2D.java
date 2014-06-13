@@ -397,6 +397,19 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 		a = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
+				float x = mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.025f;
+				float y = mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.05f;
+				setSelectedManipulable(addParticle(x, y));
+				notifyManipulationListeners(null, ManipulationEvent.OBJECT_ADDED);
+				repaint();
+			}
+		};
+		a.putValue(Action.NAME, "Particle");
+		a.putValue(Action.SHORT_DESCRIPTION, "Insert a particle where the mouse last clicked");
+		getActionMap().put("Insert Particle", a);
+
+		a = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(View2D.this, "Undo is not supported yet.");
 			}
 		};
@@ -613,6 +626,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public void removeTree(Tree t) {
 		model.removeTree(t);
 		repaint();
+	}
+
+	public Particle addParticle(float x, float y) {
+		Particle p = new Particle(x, y);
+		model.addParticle(p);
+		return p;
 	}
 
 	public void addManipulationListener(ManipulationListener l) {
@@ -1610,10 +1629,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		Ellipse2D.Float e = new Ellipse2D.Float();
 		synchronized (model.getParticles()) {
 			for (Particle p : model.getParticles()) {
-				e.x = convertPointToPixelX(p.getRx());
-				e.y = convertPointToPixelY(p.getRy());
-				e.width = convertLengthToPixelX(p.getRadius());
-				e.height = convertLengthToPixelY(p.getRadius());
+				e.width = convertLengthToPixelX(p.getRadius() * 2.0f);
+				e.height = convertLengthToPixelY(p.getRadius() * 2.0f);
+				e.x = convertPointToPixelX(p.getRx()) - e.width * 0.5f;
+				e.y = convertPointToPixelY(p.getRy()) - e.height * 0.5f;
 				g.setColor(p.getColor());
 				g.fill(e);
 				g.setColor(selectedManipulable == p ? Color.yellow : Color.gray);

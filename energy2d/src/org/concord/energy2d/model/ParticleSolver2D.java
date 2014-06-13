@@ -63,7 +63,7 @@ class ParticleSolver2D {
 		else if (j >= ny)
 			j = ny - 1;
 		p.fx = drag * (u[i][j] - p.vx);
-		p.fy = drag * (v[i][j] - p.vy) + 0.001f;
+		p.fy = drag * (v[i][j] - p.vy) + 0.00001f;
 		p.fx /= p.mass;
 		p.fy /= p.mass;
 	}
