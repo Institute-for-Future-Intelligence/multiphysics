@@ -466,7 +466,7 @@ public class Part extends Manipulable {
 			float y0 = r.y;
 			float x1 = r.x + r.width;
 			float y1 = r.y + r.height;
-			if (p.getRx() - radius < x1 && p.getRx() + radius > x0 && p.getRy() - radius < y1 && p.getRy() + radius > y0) { // overlap
+			if (p.getRx() - radius <= x1 && p.getRx() + radius >= x0 && p.getRy() - radius <= y1 && p.getRy() + radius >= y0) { // overlap
 				float dx = p.getVx() * timeStep;
 				if (p.getRx() + radius - dx < x0) {
 					if (scatter) {

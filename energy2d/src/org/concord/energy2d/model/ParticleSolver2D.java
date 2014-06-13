@@ -14,8 +14,9 @@ class ParticleSolver2D {
 	public final static byte REFLECTIVE = 0;
 	public final static byte OPEN = 1;
 
+	private float g = 0f;
 	private float timeStep = 0.1f;
-	private float drag = 0.1f;
+	private float drag = 0.01f;
 	private byte boundary = REFLECTIVE;
 
 	private List<Particle> particles;
@@ -63,7 +64,7 @@ class ParticleSolver2D {
 		else if (j >= ny)
 			j = ny - 1;
 		p.fx = drag * (u[i][j] - p.vx);
-		p.fy = drag * (v[i][j] - p.vy) + 0.00001f;
+		p.fy = drag * (v[i][j] - p.vy) + g;
 		p.fx /= p.mass;
 		p.fy /= p.mass;
 	}
