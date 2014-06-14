@@ -468,13 +468,13 @@ public class Part extends Manipulable {
 			float y1 = r.y + r.height;
 			if (p.getRx() - radius <= x1 && p.getRx() + radius >= x0 && p.getRy() - radius <= y1 && p.getRy() + radius >= y0) { // overlap
 				float dx = p.getVx() * timeStep;
-				if (p.getRx() + radius - dx < x0) {
+				if (p.getRx() + radius - dx <= x0) {
 					if (scatter) {
 						p.setAngle((float) (Math.PI * (0.5 + Math.random())));
 					} else {
 						p.setVx(-Math.abs(p.getVx()));
 					}
-				} else if (p.getRx() - radius - dx > x1) {
+				} else if (p.getRx() - radius - dx >= x1) {
 					if (scatter) {
 						p.setAngle((float) (Math.PI * (0.5 - Math.random())));
 					} else {
@@ -482,13 +482,13 @@ public class Part extends Manipulable {
 					}
 				}
 				float dy = p.getVy() * timeStep;
-				if (p.getRy() + radius - dy < y0) {
+				if (p.getRy() + radius - dy <= y0) {
 					if (scatter) {
 						p.setAngle((float) (Math.PI * (1 + Math.random())));
 					} else {
 						p.setVy(-Math.abs(p.getVy()));
 					}
-				} else if (p.getRy() - radius - dy > y1) {
+				} else if (p.getRy() - radius - dy >= y1) {
 					if (scatter) {
 						p.setAngle((float) (Math.PI * Math.random()));
 					} else {

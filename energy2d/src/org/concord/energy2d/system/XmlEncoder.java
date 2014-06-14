@@ -82,6 +82,7 @@ class XmlEncoder {
 		sb.append("<solar_ray_count>" + box.model.getSolarRayCount() + "</solar_ray_count>\n");
 		sb.append("<solar_ray_speed>" + box.model.getSolarRaySpeed() + "</solar_ray_speed>\n");
 		sb.append("<photon_emission_interval>" + box.model.getPhotonEmissionInterval() + "</photon_emission_interval>\n");
+		sb.append("<gravitational_acceleration>" + box.model.getGravitationalAcceleration() + "</gravitational_acceleration>\n");
 
 		sb.append("<z_heat_diffusivity>" + box.model.getZHeatDiffusivity() + "</z_heat_diffusivity>");
 

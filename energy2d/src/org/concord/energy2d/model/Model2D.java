@@ -201,6 +201,30 @@ public class Model2D {
 		return heatSolver.zHeatDiffusivity;
 	}
 
+	public void setGravitationalAcceleration(float g) {
+		particleSolver.g = g;
+	}
+
+	public float getGravitationalAcceleration() {
+		return particleSolver.g;
+	}
+
+	public void setParticleDrag(float drag) {
+		particleSolver.drag = drag;
+	}
+
+	public float getParticleDrag() {
+		return particleSolver.drag;
+	}
+
+	public void setParticleHardness(float epsilon) {
+		particleSolver.epsilon = epsilon;
+	}
+
+	public float getParticleHardness() {
+		return particleSolver.epsilon;
+	}
+
 	public void setGravityType(byte gravityType) {
 		fluidSolver.setGravityType(gravityType);
 	}

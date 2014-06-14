@@ -55,6 +55,7 @@ class XmlDecoder extends DefaultHandler {
 	private int photonEmissionInterval = 20;
 	private boolean convective = true;
 	private float zHeatDiffusivity;
+	private float gravitationalAcceleration = -1;
 	private float backgroundConductivity = Constants.AIR_THERMAL_CONDUCTIVITY;
 	private float backgroundDensity = Constants.AIR_DENSITY;
 	private float backgroundSpecificHeat = Constants.AIR_SPECIFIC_HEAT;
@@ -167,6 +168,8 @@ class XmlDecoder extends DefaultHandler {
 		box.model.setPhotonEmissionInterval(photonEmissionInterval);
 		box.model.setConvective(convective);
 		box.model.setZHeatDiffusivity(zHeatDiffusivity);
+		if (gravitationalAcceleration >= 0)
+			box.model.setGravitationalAcceleration(gravitationalAcceleration);
 		box.model.setBackgroundConductivity(backgroundConductivity);
 		box.model.setBackgroundDensity(backgroundDensity);
 		box.model.setBackgroundSpecificHeat(backgroundSpecificHeat);
@@ -749,6 +752,8 @@ class XmlDecoder extends DefaultHandler {
 			photonEmissionInterval = Integer.parseInt(str);
 		} else if (qName == "z_heat_diffusivity") {
 			zHeatDiffusivity = Float.parseFloat(str);
+		} else if (qName == "gravitational_acceleration") {
+			gravitationalAcceleration = Float.parseFloat(str);
 		} else if (qName == "convective") {
 			convective = Boolean.parseBoolean(str);
 		} else if (qName == "background_conductivity") {
@@ -1007,6 +1012,7 @@ class XmlDecoder extends DefaultHandler {
 		solarRaySpeed = 0.1f;
 		photonEmissionInterval = 20;
 		zHeatDiffusivity = 0;
+		gravitationalAcceleration = -1;
 		convective = true;
 		backgroundConductivity = Constants.AIR_THERMAL_CONDUCTIVITY;
 		backgroundDensity = Constants.AIR_DENSITY;

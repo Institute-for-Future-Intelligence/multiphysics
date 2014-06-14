@@ -99,6 +99,9 @@ class ModelDialog extends JDialog {
 	private JLabel gravityTypeLabel;
 	private JComboBox<String> gravityTypeComboBox;
 	private JTextField zDiffusivityField;
+	private JTextField gravitationalAccelerationField;
+	private JTextField particleDragField;
+	private JTextField particleHardnessField;
 	private Window owner;
 	private ActionListener okListener;
 
@@ -165,6 +168,15 @@ class ModelDialog extends JDialog {
 				float zHeatDiffusivity = parse(zDiffusivityField.getText());
 				if (Float.isNaN(zHeatDiffusivity))
 					return;
+				float gravitationalAcceleration = parse(gravitationalAccelerationField.getText());
+				if (Float.isNaN(gravitationalAcceleration))
+					return;
+				float particleDrag = parse(particleDragField.getText());
+				if (Float.isNaN(particleDrag))
+					return;
+				float particleHardness = parse(particleHardnessField.getText());
+				if (Float.isNaN(particleHardness))
+					return;
 
 				if (steplength <= 0) {
 					JOptionPane.showMessageDialog(ModelDialog.this, "Time step must be greater than zero!", "Time step error", JOptionPane.ERROR_MESSAGE);
@@ -193,6 +205,9 @@ class ModelDialog extends JDialog {
 				model.setPhotonEmissionInterval((int) emissionInterval);
 				model.setSunAngle((float) Math.toRadians(sunAngleSlider.getValue()));
 				model.setZHeatDiffusivity(zHeatDiffusivity);
+				model.setGravitationalAcceleration(gravitationalAcceleration);
+				model.setParticleDrag(particleDrag);
+				model.setParticleHardness(particleHardness);
 
 				switch (thermalBoundaryComboBox.getSelectedIndex()) {
 				case 0:
@@ -550,6 +565,38 @@ class ModelDialog extends JDialog {
 		sunAngleSlider.setLabelTable(ht);
 		p.add(sunAngleSlider);
 		label = new JLabel("Degree");
+		p.add(label);
+		count++;
+
+		MiscUtil.makeCompactGrid(p, count, 3, 5, 5, 10, 2);
+
+		p = new JPanel(new SpringLayout());
+		pp = new JPanel(new BorderLayout());
+		pp.add(p, BorderLayout.NORTH);
+		tabbedPane.add(pp, "Particle");
+		count = 0;
+
+		p.add(new JLabel("Gravitational Acceleration"));
+		gravitationalAccelerationField = new JTextField(FORMAT.format(model.getGravitationalAcceleration()), 16);
+		gravitationalAccelerationField.addActionListener(okListener);
+		p.add(gravitationalAccelerationField);
+		label = new JLabel("<html>m/s<sup>2</sup></html>");
+		p.add(label);
+		count++;
+
+		p.add(new JLabel("Drag Coefficient"));
+		particleDragField = new JTextField(FORMAT.format(model.getParticleDrag()), 16);
+		particleDragField.addActionListener(okListener);
+		p.add(particleDragField);
+		label = new JLabel("kg/s");
+		p.add(label);
+		count++;
+
+		p.add(new JLabel("Hardness"));
+		particleHardnessField = new JTextField(FORMAT.format(model.getParticleHardness()), 16);
+		particleHardnessField.addActionListener(okListener);
+		p.add(particleHardnessField);
+		label = new JLabel("J");
 		p.add(label);
 		count++;
 

@@ -11,28 +11,23 @@ import java.util.List;
  */
 class ParticleSolver2D {
 
-	public final static byte REFLECTIVE = 0;
-	public final static byte OPEN = 1;
+	float epsilon = 0.001f;
+	float rCutOffSquare = 1.0f;
+	float g = 0.001f;
+	float drag = 0.01f;
 
-	private float epsilon = 0.001f;
-	private float rCutOffSquare = 1.0f;
-	private float g = 0.001f;
 	private float timeStep = 0.1f;
-	private float drag = 0.01f;
-	private byte boundary = REFLECTIVE;
-
 	private List<Particle> particles;
 	private float[][] u, v;
 	private List<Part> parts;
 	private float lx, ly;
 	private int nx, ny;
 
-	private float sigmaij;
+	private float sigma, sigmasq;
 	private float fxi, fyi;
 	private float rxij, ryij, rijsq;
 	private float sr2, sr6, sr12, vij, wij, fij;
 	private float fxij, fyij;
-	private float sigab;
 
 	public ParticleSolver2D(Model2D model) {
 		particles = model.getParticles();
@@ -50,7 +45,7 @@ class ParticleSolver2D {
 		synchronized (particles) {
 			for (Iterator<Particle> it = particles.iterator(); it.hasNext();) {
 				Particle p = it.next();
-				if (interactWithBoundary(p))
+				if (interactWithBoundary(p, model.getMassBoundary()))
 					it.remove();
 			}
 			for (Particle p : particles) {
@@ -92,23 +87,35 @@ class ParticleSolver2D {
 		}
 	}
 
-	private boolean interactWithBoundary(Particle p) {
-		switch (boundary) {
-		case REFLECTIVE:
+	private boolean interactWithBoundary(Particle p, MassBoundary boundary) {
+		if (boundary instanceof SimpleMassBoundary) {
+			SimpleMassBoundary b = (SimpleMassBoundary) boundary;
 			if (p.rx + p.radius > lx) {
-				p.vx = -Math.abs(p.vx);
+				byte flowType = b.getFlowTypeAtBorder(Boundary.RIGHT);
+				if (flowType == MassBoundary.REFLECTIVE)
+					p.vx = -Math.abs(p.vx);
+				else if (flowType == MassBoundary.THROUGH)
+					return true;
 			} else if (p.rx - p.radius < 0) {
-				p.vx = Math.abs(p.vx);
+				byte flowType = b.getFlowTypeAtBorder(Boundary.LEFT);
+				if (flowType == MassBoundary.REFLECTIVE)
+					p.vx = Math.abs(p.vx);
+				else if (flowType == MassBoundary.THROUGH)
+					return true;
 			}
 			if (p.ry + p.radius > ly) {
-				p.vy = -Math.abs(p.vy);
+				byte flowType = b.getFlowTypeAtBorder(Boundary.LOWER);
+				if (flowType == MassBoundary.REFLECTIVE)
+					p.vy = -Math.abs(p.vy);
+				else if (flowType == MassBoundary.THROUGH)
+					return true;
 			} else if (p.ry - p.radius < 0) {
-				p.vy = Math.abs(p.vy);
+				byte flowType = b.getFlowTypeAtBorder(Boundary.UPPER);
+				if (flowType == MassBoundary.REFLECTIVE)
+					p.vy = Math.abs(p.vy);
+				else if (flowType == MassBoundary.THROUGH)
+					return true;
 			}
-			break;
-		case OPEN:
-			if (p.rx > lx || p.rx < 0 || p.ry > ly || p.ry < 0)
-				return true;
 		}
 		return false;
 	}
@@ -132,13 +139,12 @@ class ParticleSolver2D {
 				rxij = pi.rx - pj.rx;
 				ryij = pi.ry - pj.ry;
 				rijsq = rxij * rxij + ryij * ryij;
-				sigmaij = 4.0f * pi.radius * pj.radius;
+				sigmasq = 4.0f * pi.radius * pj.radius;
 
-				if (rijsq < rCutOffSquare * sigmaij) {
-
-					sigab = pi.radius + pj.radius;
-					sigab *= sigab;
-					sr2 = sigab / rijsq;
+				if (rijsq < rCutOffSquare * sigmasq) {
+					sigma = pi.radius + pj.radius;
+					sigma *= sigma;
+					sr2 = sigma / rijsq;
 					sr6 = sr2 * sr2 * sr2;
 					sr12 = sr6 * sr6;
 					vij = (sr12 - sr6) * epsilon;
@@ -150,7 +156,6 @@ class ParticleSolver2D {
 					fyi += fyij;
 					pj.fx -= fxij;
 					pj.fy -= fyij;
-
 				}
 
 			}

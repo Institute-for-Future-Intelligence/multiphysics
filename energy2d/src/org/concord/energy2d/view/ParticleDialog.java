@@ -14,8 +14,8 @@ import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -36,10 +36,10 @@ class ParticleDialog extends JDialog {
 
 	private Window owner;
 	private JColorChooser colorChooser;
-	private JCheckBox draggableCheckBox;
 	private BackgroundComboBox bgComboBox;
 	private JTextField rxField, ryField, vxField, vyField;
 	private JTextField massField, radiusField;
+	private JComboBox<Boolean> draggableComboBox, movableComboBox;
 	private ActionListener okListener;
 
 	ParticleDialog(final View2D view, final Particle particle, boolean modal) {
@@ -82,7 +82,8 @@ class ParticleDialog extends JDialog {
 				particle.setRy(ry);
 				particle.setVx(vx);
 				particle.setVy(vy);
-				particle.setDraggable(draggableCheckBox.isSelected());
+				particle.setDraggable(draggableComboBox.getSelectedItem() == Boolean.TRUE);
+				particle.setMovable(movableComboBox.getSelectedItem() == Boolean.TRUE);
 				view.notifyManipulationListeners(particle, ManipulationEvent.PROPERTY_CHANGE);
 				view.setSelectedManipulable(view.getSelectedManipulable());
 				view.repaint();
@@ -95,9 +96,6 @@ class ParticleDialog extends JDialog {
 
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		panel.add(buttonPanel, BorderLayout.SOUTH);
-
-		draggableCheckBox = new JCheckBox("Draggable by user", particle.isDraggable());
-		buttonPanel.add(draggableCheckBox);
 
 		JButton button = new JButton("OK");
 		button.addActionListener(okListener);
@@ -115,7 +113,7 @@ class ParticleDialog extends JDialog {
 		box.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.add(box, BorderLayout.CENTER);
 
-		JPanel p = new JPanel(new GridLayout(7, 2, 5, 5));
+		JPanel p = new JPanel(new GridLayout(9, 2, 5, 5));
 		box.add(p);
 
 		p.add(new JLabel("Mass (kg):"));
@@ -181,6 +179,20 @@ class ParticleDialog extends JDialog {
 			}
 		});
 		p.add(bgComboBox);
+
+		p.add(new JLabel("Movable:"));
+		movableComboBox = new JComboBox<Boolean>();
+		movableComboBox.addItem(Boolean.TRUE);
+		movableComboBox.addItem(Boolean.FALSE);
+		movableComboBox.setSelectedIndex(particle.isMovable() ? 0 : 1);
+		p.add(movableComboBox);
+
+		p.add(new JLabel("Draggable by User:"));
+		draggableComboBox = new JComboBox<Boolean>();
+		draggableComboBox.addItem(Boolean.TRUE);
+		draggableComboBox.addItem(Boolean.FALSE);
+		draggableComboBox.setSelectedIndex(particle.isDraggable() ? 0 : 1);
+		p.add(draggableComboBox);
 
 		pack();
 		setLocationRelativeTo(view);
