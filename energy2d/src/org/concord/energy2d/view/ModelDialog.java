@@ -577,7 +577,7 @@ class ModelDialog extends JDialog {
 		count = 0;
 
 		p.add(new JLabel("Gravitational Acceleration"));
-		gravitationalAccelerationField = new JTextField(FORMAT.format(model.getGravitationalAcceleration()), 16);
+		gravitationalAccelerationField = new JTextField("" + model.getGravitationalAcceleration(), 16);
 		gravitationalAccelerationField.addActionListener(okListener);
 		p.add(gravitationalAccelerationField);
 		label = new JLabel("<html>m/s<sup>2</sup></html>");

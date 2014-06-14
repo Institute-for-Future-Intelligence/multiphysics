@@ -11,9 +11,11 @@ import java.util.List;
  */
 class ParticleSolver2D {
 
+	private final static float INTERNAL_GRAVITY_UNIT = 0.00001f;
+
 	float epsilon = 0.001f;
 	float rCutOffSquare = 1.0f;
-	float g = 0.001f;
+	float g = 9.8f;
 	float drag = 0.01f;
 
 	private float timeStep = 0.1f;
@@ -42,6 +44,7 @@ class ParticleSolver2D {
 		lx = model.getLx();
 		ly = model.getLy();
 		timeStep = model.getTimeStep();
+		float fluidDensity = model.getBackgroundDensity();
 		synchronized (particles) {
 			for (Iterator<Particle> it = particles.iterator(); it.hasNext();) {
 				Particle p = it.next();
@@ -51,7 +54,7 @@ class ParticleSolver2D {
 			for (Particle p : particles) {
 				p.fx = p.fy = 0.0f;
 				p.predict(timeStep);
-				interactWithFluid(p);
+				interactWithFluid(p, fluidDensity);
 				interactWithParts(p);
 			}
 			computeParticleCollisions();
@@ -63,7 +66,7 @@ class ParticleSolver2D {
 		}
 	}
 
-	private void interactWithFluid(Particle p) {
+	private void interactWithFluid(Particle p, float fluidDensity) {
 		int i = (int) (p.rx / lx * nx);
 		int j = (int) (p.ry / ly * ny);
 		if (i < 0)
@@ -74,8 +77,9 @@ class ParticleSolver2D {
 			j = 0;
 		else if (j >= ny)
 			j = ny - 1;
+		float density = p.mass / ((float) Math.PI * p.radius * p.radius);
 		p.fx = drag * (u[i][j] - p.vx);
-		p.fy = drag * (v[i][j] - p.vy) + g;
+		p.fy = drag * (v[i][j] - p.vy) + INTERNAL_GRAVITY_UNIT * g * (density - fluidDensity);
 	}
 
 	private void interactWithParts(Particle p) {

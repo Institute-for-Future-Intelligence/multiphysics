@@ -11,7 +11,7 @@ import java.awt.geom.Ellipse2D;
  */
 public class Particle extends Manipulable implements Discrete {
 
-	float mass = 1.0f;
+	float mass = 0.1f;
 	float radius = 0.04f;
 	float rx, ry;
 	float vx, vy;
