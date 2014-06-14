@@ -17,6 +17,8 @@ public class Particle extends Manipulable implements Discrete {
 	float vx, vy;
 	float ax, ay;
 	float fx, fy;
+	boolean movable = true;
+
 	private Color color = Color.WHITE;
 
 	public Particle() {
@@ -149,6 +151,14 @@ public class Particle extends Manipulable implements Discrete {
 		return mass;
 	}
 
+	public void setMovable(boolean movable) {
+		this.movable = movable;
+	}
+
+	public boolean isMovable() {
+		return movable;
+	}
+
 	public void setColor(Color color) {
 		this.color = color;
 	}
@@ -175,6 +185,10 @@ public class Particle extends Manipulable implements Discrete {
 			xml += "<label>" + label + "</label>\n";
 		if (!Color.WHITE.equals(color))
 			xml += "<color>" + Integer.toHexString(0x00ffffff & color.getRGB()) + "</color>\n";
+		if (!isDraggable())
+			xml += "<draggable>false</draggable>\n";
+		if (!isMovable())
+			xml += "<movable>false</movable>\n";
 		xml += "</particle>\n";
 		return xml;
 	}

@@ -14,7 +14,9 @@ class ParticleSolver2D {
 	public final static byte REFLECTIVE = 0;
 	public final static byte OPEN = 1;
 
-	private float g = 0f;
+	private float epsilon = 0.001f;
+	private float rCutOffSquare = 1.0f;
+	private float g = 0.001f;
 	private float timeStep = 0.1f;
 	private float drag = 0.01f;
 	private byte boundary = REFLECTIVE;
@@ -24,6 +26,13 @@ class ParticleSolver2D {
 	private List<Part> parts;
 	private float lx, ly;
 	private int nx, ny;
+
+	private float sigmaij;
+	private float fxi, fyi;
+	private float rxij, ryij, rijsq;
+	private float sr2, sr6, sr12, vij, wij, fij;
+	private float fxij, fyij;
+	private float sigab;
 
 	public ParticleSolver2D(Model2D model) {
 		particles = model.getParticles();
@@ -39,20 +48,27 @@ class ParticleSolver2D {
 		ly = model.getLy();
 		timeStep = model.getTimeStep();
 		synchronized (particles) {
-			Particle p;
 			for (Iterator<Particle> it = particles.iterator(); it.hasNext();) {
-				p = it.next();
-				p.predict(timeStep);
-				calculate(p);
-				p.correct(timeStep);
-				interact(p);
-				if (applyBoundary(p))
+				Particle p = it.next();
+				if (interactWithBoundary(p))
 					it.remove();
+			}
+			for (Particle p : particles) {
+				p.fx = p.fy = 0.0f;
+				p.predict(timeStep);
+				interactWithFluid(p);
+				interactWithParts(p);
+			}
+			computeParticleCollisions();
+			for (Particle p : particles) {
+				p.correct(timeStep);
+				p.fx /= p.mass;
+				p.fy /= p.mass;
 			}
 		}
 	}
 
-	private void calculate(Particle p) {
+	private void interactWithFluid(Particle p) {
 		int i = (int) (p.rx / lx * nx);
 		int j = (int) (p.ry / ly * ny);
 		if (i < 0)
@@ -65,11 +81,9 @@ class ParticleSolver2D {
 			j = ny - 1;
 		p.fx = drag * (u[i][j] - p.vx);
 		p.fy = drag * (v[i][j] - p.vy) + g;
-		p.fx /= p.mass;
-		p.fy /= p.mass;
 	}
 
-	private void interact(Particle p) {
+	private void interactWithParts(Particle p) {
 		synchronized (parts) {
 			for (Part part : parts) {
 				if (part.reflect(p, timeStep, false))
@@ -78,7 +92,7 @@ class ParticleSolver2D {
 		}
 	}
 
-	private boolean applyBoundary(Particle p) {
+	private boolean interactWithBoundary(Particle p) {
 		switch (boundary) {
 		case REFLECTIVE:
 			if (p.rx + p.radius > lx) {
@@ -97,6 +111,55 @@ class ParticleSolver2D {
 				return true;
 		}
 		return false;
+	}
+
+	// use Lennard-Jones potential to implement interactions of round particles (by default, a short cutoff is used to turn off the attraction)
+	private void computeParticleCollisions() {
+
+		int n = particles.size();
+		if (n <= 0)
+			return;
+
+		for (int i = 0; i < n - 1; i++) {
+
+			Particle pi = particles.get(i);
+			fxi = pi.fx;
+			fyi = pi.fy;
+
+			for (int j = i + 1; j < n; j++) {
+
+				Particle pj = particles.get(j);
+				rxij = pi.rx - pj.rx;
+				ryij = pi.ry - pj.ry;
+				rijsq = rxij * rxij + ryij * ryij;
+				sigmaij = 4.0f * pi.radius * pj.radius;
+
+				if (rijsq < rCutOffSquare * sigmaij) {
+
+					sigab = pi.radius + pj.radius;
+					sigab *= sigab;
+					sr2 = sigab / rijsq;
+					sr6 = sr2 * sr2 * sr2;
+					sr12 = sr6 * sr6;
+					vij = (sr12 - sr6) * epsilon;
+					wij = vij + sr12 * epsilon;
+					fij = wij / rijsq * 6f;
+					fxij = fij * rxij;
+					fyij = fij * ryij;
+					fxi += fxij;
+					fyi += fyij;
+					pj.fx -= fxij;
+					pj.fy -= fyij;
+
+				}
+
+			}
+
+			pi.fx = fxi;
+			pi.fy = fyi;
+
+		}
+
 	}
 
 }
