@@ -1,8 +1,3 @@
-/*
- *   Copyright (C) 2009  The Concord Consortium, Inc.,
- *   25 Love Lane, Concord, MA 01742
- */
-
 package org.concord.energy2d.view;
 
 import java.awt.Color;
@@ -36,7 +31,7 @@ public class TextBox extends Manipulable {
 	}
 
 	@Override
-	public Manipulable duplicate(float x, float y) {
+	public TextBox duplicate(float x, float y) {
 		Rectangle2D.Float r = (Rectangle2D.Float) getShape();
 		TextBox t = new TextBox(new Rectangle2D.Float(r.x, r.y, r.width, r.height));
 		t.set(this);

@@ -126,7 +126,7 @@ public class Cloud extends Manipulable {
 	}
 
 	@Override
-	public Manipulable duplicate(float x, float y) {
+	public Cloud duplicate(float x, float y) {
 		Cloud c = new Cloud(new Rectangle2D.Float(0, 0, boundingBox.width, boundingBox.height));
 		c.speed = speed;
 		c.setLabel(getLabel());

@@ -140,7 +140,7 @@ public class Tree extends Manipulable {
 	}
 
 	@Override
-	public Manipulable duplicate(float x, float y) {
+	public Tree duplicate(float x, float y) {
 		Tree t = new Tree(new Rectangle2D.Float(0, 0, boundingBox.width, boundingBox.height), type);
 		t.setLabel(getLabel());
 		t.color = color;

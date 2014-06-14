@@ -25,9 +25,7 @@ public class Particle extends Manipulable implements Discrete {
 
 	public Particle(float rx, float ry) {
 		this();
-		this.rx = rx;
-		this.ry = ry;
-		updateShape();
+		setLocation(rx, ry);
 	}
 
 	private void updateShape() {
@@ -37,11 +35,23 @@ public class Particle extends Manipulable implements Discrete {
 		e.width = e.height = radius * 2;
 	}
 
-	public Manipulable duplicate(float x, float y) {
-		return new Particle(x, y);
+	public Particle duplicate(float x, float y) {
+		Particle p = new Particle(x, y);
+		p.color = color;
+		p.mass = mass;
+		p.radius = radius;
+		p.vx = vx;
+		p.vy = vy;
+		return p;
 	}
 
-	void translateBy(float deltaX, float deltaY) {
+	public void setLocation(float rx, float ry) {
+		this.rx = rx;
+		this.ry = ry;
+		updateShape();
+	}
+
+	public void translateBy(float deltaX, float deltaY) {
 		rx += deltaX;
 		ry += deltaY;
 		updateShape();
@@ -67,6 +77,7 @@ public class Particle extends Manipulable implements Discrete {
 		ay = fy;
 		fx *= mass;
 		fy *= mass;
+		updateShape();
 	}
 
 	public float getSpeed() {
@@ -81,6 +92,7 @@ public class Particle extends Manipulable implements Discrete {
 
 	public void setRx(float rx) {
 		this.rx = rx;
+		updateShape();
 	}
 
 	public float getRx() {
@@ -89,6 +101,7 @@ public class Particle extends Manipulable implements Discrete {
 
 	public void setRy(float ry) {
 		this.ry = ry;
+		updateShape();
 	}
 
 	public float getRy() {
@@ -121,6 +134,7 @@ public class Particle extends Manipulable implements Discrete {
 
 	public void setRadius(float radius) {
 		this.radius = radius;
+		updateShape();
 	}
 
 	public float getRadius() {

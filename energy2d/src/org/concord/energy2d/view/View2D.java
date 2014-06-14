@@ -1077,25 +1077,28 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	}
 
 	private void paste() {
+		float x = convertPixelToPointX(mouseReleasedPoint.x);
+		float y = convertPixelToPointY(mouseReleasedPoint.y);
 		if (copiedManipulable instanceof Part) {
-			Part p = (Part) copiedManipulable;
-			model.addPart(p.duplicate(convertPixelToPointX(mouseReleasedPoint.x), convertPixelToPointY(mouseReleasedPoint.y)));
+			model.addPart(((Part) copiedManipulable).duplicate(x, y));
 			model.refreshPowerArray();
 			model.refreshTemperatureBoundaryArray();
 			model.refreshMaterialPropertyArrays();
 			model.setInitialTemperature();
+		} else if (copiedManipulable instanceof Particle) {
+			model.addParticle(((Particle) copiedManipulable).duplicate(x, y));
 		} else if (copiedManipulable instanceof Thermometer) {
-			addThermometer(convertPixelToPointX(mouseReleasedPoint.x), convertPixelToPointY(mouseReleasedPoint.y));
+			addThermometer(x, y);
 		} else if (copiedManipulable instanceof HeatFluxSensor) {
-			addHeatFluxSensor(convertPixelToPointX(mouseReleasedPoint.x), convertPixelToPointY(mouseReleasedPoint.y)).setAngle(((HeatFluxSensor) copiedManipulable).getAngle());
+			addHeatFluxSensor(x, y).setAngle(((HeatFluxSensor) copiedManipulable).getAngle());
 		} else if (copiedManipulable instanceof Anemometer) {
-			addAnemometer(convertPixelToPointX(mouseReleasedPoint.x), convertPixelToPointY(mouseReleasedPoint.y));
+			addAnemometer(x, y);
 		} else if (copiedManipulable instanceof TextBox) {
-			addTextBox((TextBox) copiedManipulable.duplicate(convertPixelToPointX(mouseReleasedPoint.x), model.getLy() - convertPixelToPointY(mouseReleasedPoint.y)));
+			addTextBox(((TextBox) copiedManipulable).duplicate(x, model.getLy() - y));
 		} else if (copiedManipulable instanceof Cloud) {
-			model.addCloud((Cloud) copiedManipulable.duplicate(convertPixelToPointX(mouseReleasedPoint.x), convertPixelToPointY(mouseReleasedPoint.y)));
+			model.addCloud(((Cloud) copiedManipulable).duplicate(x, y));
 		} else if (copiedManipulable instanceof Tree) {
-			model.addTree((Tree) copiedManipulable.duplicate(convertPixelToPointX(mouseReleasedPoint.x), convertPixelToPointY(mouseReleasedPoint.y)));
+			model.addTree(((Tree) copiedManipulable).duplicate(x, y));
 		}
 		notifyManipulationListeners(copiedManipulable, ManipulationEvent.PROPERTY_CHANGE);
 		repaint();
@@ -2267,8 +2270,20 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		setSelectedManipulable(null);
 		float rx = convertPixelToPointXPrecisely(x);
 		float ry = convertPixelToPointYPrecisely(y);
-		// always prefer to select a thermometer
-		int n = model.getThermometers().size();
+		// always prefer to select a particle
+		int n = model.getParticles().size();
+		if (n > 0) {
+			synchronized (model.getParticles()) {
+				for (int i = n - 1; i >= 0; i--) { // later added, higher priority
+					Particle p = model.getParticles().get(i);
+					if (p.contains(rx, ry)) {
+						setSelectedManipulable(p);
+						return;
+					}
+				}
+			}
+		}
+		n = model.getThermometers().size();
 		if (n > 0) {
 			synchronized (model.getThermometers()) {
 				for (int i = n - 1; i >= 0; i--) { // later added, higher priority
@@ -2362,7 +2377,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			selectedManipulable.setSelected(true);
 			Shape shape = selectedManipulable.getShape();
 			boolean b = false;
-			if (shape instanceof Ellipse2D.Float) {
+			if (!(selectedManipulable instanceof Particle) && shape instanceof Ellipse2D.Float) {
 				Ellipse2D.Float e = (Ellipse2D.Float) shape;
 				b = e.width < (xmax - xmin) / nx + 0.01f * model.getLx() || e.height < (ymax - ymin) / ny + 0.01f * model.getLy();
 			}
@@ -2408,6 +2423,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				Ellipse2D.Float r = (Ellipse2D.Float) s;
 				r.x += dx;
 				r.y += dy;
+				if (m instanceof Particle) {
+					((Particle) m).translateBy(dx, dy);
+				}
 			} else if (s instanceof Ring2D) {
 				((Ring2D) s).translateBy(dx, dy);
 			} else if (s instanceof Area) {
@@ -2439,6 +2457,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			Ellipse2D.Float r = (Ellipse2D.Float) s;
 			r.x = x - r.width / 2;
 			r.y = y - r.height / 2;
+			if (m instanceof Particle) {
+				((Particle) m).setLocation(x, y);
+			}
 		} else if (s instanceof Ring2D) {
 			if (m instanceof Part) {
 				Ring2D r = (Ring2D) s;
@@ -3626,6 +3647,15 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				Ellipse2D.Float inner = new Ellipse2D.Float(xc - ai / 2, yc - bi / 2, ai, bi);
 				movingShape = new MovingAnnulus(outer, inner);
 			}
+		} else if (selectedManipulable instanceof Particle) {
+			Ellipse2D.Float e = (Ellipse2D.Float) selectedManipulable.getShape();
+			int a = convertPointToPixelX(e.x);
+			int b = convertPointToPixelY(e.y);
+			int c = convertLengthToPixelX(e.width);
+			int d = convertLengthToPixelY(e.height);
+			if (anchor)
+				setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
+			movingShape = new MovingEllipse(new Ellipse2D.Float(a, b, c, d));
 		} else if (selectedManipulable instanceof Sensor || selectedManipulable instanceof TextBox) {
 			Rectangle2D.Float r = (Rectangle2D.Float) selectedManipulable.getShape();
 			int a = convertPointToPixelX(r.x);

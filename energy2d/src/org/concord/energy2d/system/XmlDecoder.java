@@ -112,7 +112,7 @@ class XmlDecoder extends DefaultHandler {
 	private float partPower = Float.NaN;
 	private boolean partVisible = true;
 	private boolean partDraggable = true;
-	private Color partColor = Color.GRAY;
+	private Color color;
 	private byte partTextureStyle;
 	private int partTextureWidth = 10;
 	private int partTextureHeight = 10;
@@ -870,7 +870,7 @@ class XmlDecoder extends DefaultHandler {
 		} else if (qName == "draggable") {
 			partDraggable = Boolean.parseBoolean(str);
 		} else if (qName == "color") {
-			partColor = new Color(Integer.parseInt(str, 16));
+			color = new Color(Integer.parseInt(str, 16));
 		} else if (qName == "rx") {
 			particleRx = Float.parseFloat(str);
 		} else if (qName == "ry") {
@@ -916,8 +916,8 @@ class XmlDecoder extends DefaultHandler {
 				part.setConstantTemperature(partConstantTemperature);
 				part.setDraggable(partDraggable);
 				part.setVisible(partVisible);
-				if (partColor != null)
-					part.setFillPattern(new ColorFill(partColor));
+				if (color != null)
+					part.setFillPattern(new ColorFill(color));
 				if (partTextureStyle != 0)
 					part.setFillPattern(new Texture(partTextureForeground.getRGB(), partTextureBackground.getRGB(), partTextureStyle, partTextureWidth, partTextureHeight));
 				part.setFilled(partFilled);
@@ -939,6 +939,8 @@ class XmlDecoder extends DefaultHandler {
 					particle.setRadius(particleRadius);
 				if (!Float.isNaN(particleMass))
 					particle.setMass(particleMass);
+				if (color != null)
+					particle.setColor(color);
 				particle.setUid(uid);
 				particle.setLabel(label);
 				resetParticleVariables();
@@ -964,7 +966,6 @@ class XmlDecoder extends DefaultHandler {
 		partWindAngle = 0;
 		partVisible = true;
 		partDraggable = true;
-		partColor = Color.GRAY;
 		partFilled = true;
 		partTextureStyle = 0;
 		partTextureWidth = 10;
@@ -973,6 +974,7 @@ class XmlDecoder extends DefaultHandler {
 		partTextureBackground = Color.WHITE;
 		uid = null;
 		label = null;
+		color = null;
 	}
 
 	private void resetParticleVariables() {
@@ -984,6 +986,7 @@ class XmlDecoder extends DefaultHandler {
 		particleMass = Float.NaN;
 		uid = null;
 		label = null;
+		color = null;
 	}
 
 	private void resetGlobalVariables() {
