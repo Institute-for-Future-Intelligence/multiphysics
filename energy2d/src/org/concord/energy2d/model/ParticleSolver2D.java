@@ -11,7 +11,7 @@ import java.util.List;
  */
 class ParticleSolver2D {
 
-	private final static float INTERNAL_GRAVITY_UNIT = 0.00001f;
+	private final static float INTERNAL_GRAVITY_UNIT = 0.0001f;
 
 	float epsilon = 0.001f;
 	float rCutOffSquare = 1.21f;
@@ -45,7 +45,7 @@ class ParticleSolver2D {
 		ly = model.getLy();
 		timeStep = model.getTimeStep();
 		float fluidDensity = model.getBackgroundDensity();
-		float fluidConductivity = model.getBackgroundConductivity();
+		float fluidConductivity = 0.05f * model.getBackgroundConductivity();
 		synchronized (particles) {
 			for (Iterator<Particle> it = particles.iterator(); it.hasNext();) {
 				Particle p = it.next();
@@ -65,8 +65,12 @@ class ParticleSolver2D {
 				p.fy /= p.mass;
 				interactWithParts(p);
 				if (!Float.isNaN(p.temperature)) {
-					float txy = model.getTemperatureAt(p.rx, p.ry);
-					model.changeTemperatureAt(p.rx, p.ry, 0.1f * fluidConductivity * (p.temperature - txy));
+					float txy = fluidConductivity * (p.temperature - model.getTemperatureAt(p.rx, p.ry));
+					int n = Math.max(1, (int) (8 * nx * p.radius / lx));
+					for (int i = 0; i < n; i++) {
+						float theta = 2 * (float) Math.PI / n * i;
+						model.changeTemperatureAt((float) (p.rx + p.radius * Math.cos(theta)), (float) (p.ry + p.radius * Math.sin(theta)), txy);
+					}
 				}
 			}
 		}
@@ -83,9 +87,12 @@ class ParticleSolver2D {
 			j = 0;
 		else if (j >= ny)
 			j = ny - 1;
-		float density = p.mass / ((float) Math.PI * p.radius * p.radius);
+		float volume = (float) Math.PI * p.radius * p.radius;
+		float buoyantForce = INTERNAL_GRAVITY_UNIT * g * (p.mass - fluidDensity * volume);
 		p.fx = drag * (u[i][j] - p.vx);
-		p.fy = drag * (v[i][j] - p.vy) + INTERNAL_GRAVITY_UNIT * g * (density - fluidDensity);
+		p.fy = drag * (v[i][j] - p.vy) + buoyantForce;
+		// Newton's Third Law: Add the buoyant force back to the fluid
+		v[i][j] -= buoyantForce * timeStep;
 	}
 
 	private void interactWithParts(Particle p) {

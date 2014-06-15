@@ -12,16 +12,19 @@ import org.concord.energy2d.math.MathUtil;
 import org.concord.energy2d.util.MiscUtil;
 
 /**
+ * For incompressible fluid. Need to introduce a mechanism for energy dissipation.
+ * 
  * @author Charles Xie
  * 
  */
 abstract class FluidSolver2D {
 
-	// five relaxation steps are probably enough for most transient problems because there are numerous previous steps that can be considered as pre-relaxation steps, especially when changes are slow or small.
+	// five relaxation steps are probably enough for most transient problems because there are numerous previous steps that can be considered as pre-relaxation steps,
+	// especially when changes are slow or small.
 	static byte relaxationSteps = 5;
 
 	private float thermalExpansionCoefficient = 0.00025f;
-	private float gravity = 0;
+	private float gravity = 0; // not set
 	private byte buoyancyApproximation = Model2D.BUOYANCY_AVERAGE_ALL;
 	private byte gravityType = Model2D.GRAVITY_UNIFORM;
 

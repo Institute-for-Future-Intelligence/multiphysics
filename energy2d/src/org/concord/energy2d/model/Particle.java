@@ -46,6 +46,7 @@ public class Particle extends Manipulable implements Discrete {
 		p.vx = vx;
 		p.vy = vy;
 		p.temperature = temperature;
+		p.updateShape();
 		return p;
 	}
 

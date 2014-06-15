@@ -1306,14 +1306,13 @@ public class Model2D {
 		if (convective)
 			fluidSolver.solve(u, v);
 		heatSolver.solve(convective, t);
+		if (!particles.isEmpty())
+			particleSolver.move(this);
 		if (!clouds.isEmpty()) {
 			synchronized (clouds) {
 				for (Cloud c : clouds)
 					c.move(heatSolver.getTimeStep(), lx);
 			}
-		}
-		if (!particles.isEmpty()) {
-			particleSolver.move(this);
 		}
 		indexOfStep++;
 	}
