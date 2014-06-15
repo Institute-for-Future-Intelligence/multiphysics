@@ -202,7 +202,7 @@ public class Model2D {
 	}
 
 	public void setThermophoreticCoefficient(float thermophoreticCoefficient) {
-		particleSolver.thermophoreticCoefficient=thermophoreticCoefficient;
+		particleSolver.thermophoreticCoefficient = thermophoreticCoefficient;
 	}
 
 	public float getThermophoreticCoefficient() {
@@ -455,6 +455,13 @@ public class Model2D {
 				t.setLocation(scale * t.getX(), ly - scale * (ly - t.getY()));
 				t.setDimension(t.getWidth() * scale, t.getHeight() * scale);
 				if (!bound.intersects(t.getShape().getBounds2D()))
+					out = true;
+			}
+		if (!particles.isEmpty())
+			for (Particle p : particles) {
+				p.setLocation(scale * p.getRx(), ly - scale * (ly - p.getRy()));
+				p.setRadius(p.getRadius() * scale);
+				if (!bound.intersects(p.getShape().getBounds2D()))
 					out = true;
 			}
 		for (Part p : parts) {
@@ -925,12 +932,36 @@ public class Model2D {
 		return particles;
 	}
 
+	public Particle getParticle(int i) {
+		if (i < 0 || i >= particles.size())
+			return null;
+		return particles.get(i);
+	}
+
+	public Particle getParticle(String uid) {
+		if (uid == null)
+			return null;
+		synchronized (particles) {
+			for (Particle p : particles) {
+				if (uid.equals(p.getUid()))
+					return p;
+			}
+		}
+		return null;
+	}
+
 	/** Every manipulable has a UID. To avoid confusion, two objects of different types cannot have the same UID. */
 	public boolean isUidUsed(String uid) {
 		if (uid == null || uid.trim().equals(""))
 			throw new IllegalArgumentException("UID cannot be null or an empty string.");
 		synchronized (parts) {
 			for (Part p : parts) {
+				if (uid.equals(p.getUid()))
+					return true;
+			}
+		}
+		synchronized (particles) {
+			for (Particle p : particles) {
 				if (uid.equals(p.getUid()))
 					return true;
 			}
@@ -950,6 +981,18 @@ public class Model2D {
 		synchronized (heatFluxSensors) {
 			for (HeatFluxSensor h : heatFluxSensors) {
 				if (uid.equals(h.getUid()))
+					return true;
+			}
+		}
+		synchronized (clouds) {
+			for (Cloud c : clouds) {
+				if (uid.equals(c.getUid()))
+					return true;
+			}
+		}
+		synchronized (trees) {
+			for (Tree t : trees) {
+				if (uid.equals(t.getUid()))
 					return true;
 			}
 		}
@@ -1163,6 +1206,10 @@ public class Model2D {
 		clouds.clear();
 		trees.clear();
 		maximumHeatCapacity = -1;
+	}
+
+	public void removeAllParticles() {
+		particles.clear();
 	}
 
 	private void setInitialVelocity() {

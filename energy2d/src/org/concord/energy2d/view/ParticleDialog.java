@@ -37,6 +37,7 @@ class ParticleDialog extends JDialog {
 	private Window owner;
 	private JColorChooser colorChooser;
 	private BackgroundComboBox bgComboBox;
+	private JTextField uidField, labelField;
 	private JTextField rxField, ryField, vxField, vyField;
 	private JTextField massField, radiusField, temperatureField;
 	private JComboBox<Boolean> draggableComboBox, movableComboBox;
@@ -76,7 +77,20 @@ class ParticleDialog extends JDialog {
 				float vy = parse(vyField.getText());
 				if (Float.isNaN(vy))
 					return;
+				String uid = uidField.getText();
+				if (uid != null) {
+					uid = uid.trim();
+					if (!uid.equals("") && !uid.equals(particle.getUid())) {
+						if (view.isUidUsed(uid)) {
+							JOptionPane.showMessageDialog(owner, "UID: " + uid + " has been taken.", "Error", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}
+				}
 				float temperature = parse(temperatureField.getText());
+				String label = labelField.getText();
+				particle.setUid(uid);
+				particle.setLabel(label);
 				particle.setMass(mass);
 				particle.setRadius(radius);
 				particle.setTemperature(temperature);
@@ -115,8 +129,18 @@ class ParticleDialog extends JDialog {
 		box.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.add(box, BorderLayout.CENTER);
 
-		JPanel p = new JPanel(new GridLayout(10, 2, 5, 5));
+		JPanel p = new JPanel(new GridLayout(12, 2, 5, 5));
 		box.add(p);
+
+		p.add(new JLabel("Unique ID:"));
+		uidField = new JTextField(particle.getUid(), 10);
+		uidField.addActionListener(okListener);
+		p.add(uidField);
+
+		p.add(new JLabel("Label:"));
+		labelField = new JTextField(particle.getLabel(), 10);
+		labelField.addActionListener(okListener);
+		p.add(labelField);
 
 		p.add(new JLabel("Mass (kg):"));
 		massField = new JTextField(particle.getMass() + "", 10);

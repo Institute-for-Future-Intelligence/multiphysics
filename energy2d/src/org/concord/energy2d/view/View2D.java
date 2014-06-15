@@ -1648,7 +1648,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					g.setColor(getContrastColor((int) e.getCenterX(), (int) e.getCenterY()));
 					String label = p.getLabel();
 					FontMetrics fm = g.getFontMetrics();
-					g.drawString(label, (int) e.getCenterX() - fm.stringWidth(label) / 2, (int) e.getCenterY() + fm.getHeight());
+					g.drawString(label, (int) e.getCenterX() - fm.stringWidth(label) / 2, (int) e.getCenterY() + fm.getAscent() - (fm.getAscent() + fm.getDescent()) / 2);
 				}
 			}
 		}

@@ -26,6 +26,7 @@ import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Boundary;
 import org.concord.energy2d.model.DirichletThermalBoundary;
 import org.concord.energy2d.model.MassBoundary;
+import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.SimpleMassBoundary;
 import org.concord.energy2d.model.ThermalBoundary;
 import org.concord.energy2d.model.NeumannThermalBoundary;
@@ -53,6 +54,7 @@ class Scripter2D extends Scripter {
 	private final static Pattern ANEMOMETER = compile("(^(?i)anemometer\\b){1}");
 	private final static Pattern BOUNDARY = compile("(^(?i)boundary\\b){1}");
 	private final static Pattern PART_FIELD = compile("^%?((?i)part){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
+	private final static Pattern PARTICLE_FIELD = compile("^%?((?i)particle){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern TASK_FIELD = compile("^%?((?i)task){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern ANEMOMETER_FIELD = compile("^%?((?i)anemometer){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern THERMOMETER_FIELD = compile("^%?((?i)thermometer){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
@@ -364,6 +366,8 @@ class Scripter2D extends Scripter {
 			String s = ci.substring(matcher.end()).trim();
 			if (s.equalsIgnoreCase("all")) {
 				s2d.clear();
+			} else if (s.equalsIgnoreCase("particles")) {
+				s2d.model.removeAllParticles();
 			} else {
 				// TODO
 			}
@@ -861,6 +865,42 @@ class Scripter2D extends Scripter {
 						return;
 					}
 					s2d.model.setZHeatDiffusivity(zHeatDiffusivity);
+				} else if (t[0].equalsIgnoreCase("gravitational_acceleration")) {
+					float gravitationalAcceleration = 0;
+					try {
+						gravitationalAcceleration = Float.parseFloat(t[1]);
+					} catch (NumberFormatException e) {
+						showException(ci, e);
+						return;
+					}
+					s2d.model.setGravitationalAcceleration(gravitationalAcceleration);
+				} else if (t[0].equalsIgnoreCase("thermophoretic_coefficient")) {
+					float thermophoreticCoefficient = 0;
+					try {
+						thermophoreticCoefficient = Float.parseFloat(t[1]);
+					} catch (NumberFormatException e) {
+						showException(ci, e);
+						return;
+					}
+					s2d.model.setThermophoreticCoefficient(thermophoreticCoefficient);
+				} else if (t[0].equalsIgnoreCase("particle_drag")) {
+					float particleDrag = 0;
+					try {
+						particleDrag = Float.parseFloat(t[1]);
+					} catch (NumberFormatException e) {
+						showException(ci, e);
+						return;
+					}
+					s2d.model.setParticleDrag(particleDrag);
+				} else if (t[0].equalsIgnoreCase("particle_hardness")) {
+					float particleHardness = 0;
+					try {
+						particleHardness = Float.parseFloat(t[1]);
+					} catch (NumberFormatException e) {
+						showException(ci, e);
+						return;
+					}
+					s2d.model.setParticleHardness(particleHardness);
 				} else if (t[0].equalsIgnoreCase("background_viscosity")) {
 					float viscosity = 0;
 					try {
@@ -956,6 +996,20 @@ class Scripter2D extends Scripter {
 						String s3 = s1.substring(i + 1).trim();
 						s1 = s.substring(0, end - 1);
 						setPartField(s1, s2, s3);
+						return;
+					}
+					// particle field
+					matcher = PARTICLE_FIELD.matcher(s);
+					if (matcher.find()) {
+						int end = matcher.end();
+						String s1 = s.substring(end).trim();
+						int i = s1.indexOf(" ");
+						if (i < 0)
+							return;
+						String s2 = s1.substring(0, i).trim();
+						String s3 = s1.substring(i + 1).trim();
+						s1 = s.substring(0, end - 1);
+						setParticleField(s1, s2, s3);
 						return;
 					}
 					// thermometer field
@@ -1177,6 +1231,80 @@ class Scripter2D extends Scripter {
 				arrayUpdateRequested = true;
 			}
 		} else if (shape instanceof Area) {
+		}
+	}
+
+	private void setParticleField(String str1, String str2, String str3) {
+		Particle particle = null;
+		int lb = str1.indexOf("[");
+		int rb = str1.indexOf("]");
+		String s = str1.substring(lb + 1, rb).trim();
+		float z = Float.NaN;
+		try {
+			z = Float.parseFloat(s);
+		} catch (Exception e) {
+			z = Float.NaN;
+		}
+		particle = Float.isNaN(z) ? s2d.model.getParticle(s) : s2d.model.getParticle((int) Math.round(z));
+		if (particle == null) {
+			showError(str1, "Particle " + s + " not found");
+			return;
+		}
+		s = str2.toLowerCase().intern();
+		if (str3.startsWith("#")) {
+			try {
+				z = Integer.parseInt(str3.substring(1), 16);
+			} catch (Exception e) {
+				showException(str3, e);
+				return;
+			}
+		} else if (str3.startsWith("0X") || str3.startsWith("0x")) {
+			try {
+				z = Integer.parseInt(str3.substring(2), 16);
+			} catch (Exception e) {
+				showException(str3, e);
+				return;
+			}
+		} else if (str3.equalsIgnoreCase("true")) {
+			z = 1;
+		} else if (str3.equalsIgnoreCase("false")) {
+			z = 0;
+		} else {
+			if (s == "label") {
+				particle.setLabel(str3);
+				return;
+			}
+			if (s == "uid") {
+				particle.setUid(str3);
+				return;
+			}
+			try {
+				z = Float.parseFloat(str3);
+			} catch (Exception e) {
+				showException(str3, e);
+				return;
+			}
+		}
+		if (s == "rx") {
+			particle.setRx(z);
+		} else if (s == "ry") {
+			particle.setRy(z);
+		} else if (s == "vx") {
+			particle.setVx(z);
+		} else if (s == "vy") {
+			particle.setVy(z);
+		} else if (s == "mass") {
+			particle.setMass(z);
+		} else if (s == "radius") {
+			particle.setRadius(z);
+		} else if (s == "temperature") {
+			particle.setTemperature(z);
+		} else if (s == "color") {
+			particle.setColor(new Color((int) z));
+		} else if (s == "movable") {
+			particle.setMovable(z > 0);
+		} else if (s == "draggable") {
+			particle.setDraggable(z > 0);
 		}
 	}
 

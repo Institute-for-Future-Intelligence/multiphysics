@@ -452,7 +452,7 @@ class MenuBar extends JMenuBar {
 		menu.addSeparator();
 
 		mi = new JMenuItem("Clear All");
-		mi.setToolTipText("Remove all the elements");
+		mi.setToolTipText("Remove all the model elements");
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (JOptionPane.showConfirmDialog(JOptionPane.getFrameForComponent(box.view), "Are you sure you want to remove all objects?", "Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
