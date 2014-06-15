@@ -17,6 +17,7 @@ public class Particle extends Manipulable implements Discrete {
 	float vx, vy;
 	float ax, ay;
 	float fx, fy;
+	float temperature = Float.NaN;
 	boolean movable = true;
 
 	private Color color = Color.WHITE;
@@ -44,6 +45,7 @@ public class Particle extends Manipulable implements Discrete {
 		p.radius = radius;
 		p.vx = vx;
 		p.vy = vy;
+		p.temperature = temperature;
 		return p;
 	}
 
@@ -134,6 +136,14 @@ public class Particle extends Manipulable implements Discrete {
 		return ay;
 	}
 
+	public void setTemperature(float temperature) {
+		this.temperature = temperature;
+	}
+
+	public float getTemperature() {
+		return temperature;
+	}
+
 	public void setRadius(float radius) {
 		this.radius = radius;
 		updateShape();
@@ -185,6 +195,8 @@ public class Particle extends Manipulable implements Discrete {
 			xml += "<label>" + label + "</label>\n";
 		if (!Color.WHITE.equals(color))
 			xml += "<color>" + Integer.toHexString(0x00ffffff & color.getRGB()) + "</color>\n";
+		if (!Float.isNaN(temperature))
+			xml += "<temperature>" + temperature + "</temperature>\n";
 		if (!isDraggable())
 			xml += "<draggable>false</draggable>\n";
 		if (!isMovable())

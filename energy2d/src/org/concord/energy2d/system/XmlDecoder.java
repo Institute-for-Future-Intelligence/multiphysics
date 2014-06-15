@@ -106,7 +106,7 @@ class XmlDecoder extends DefaultHandler {
 	private boolean partScattering;
 	private boolean partScatteringVisible = true;
 	private float partTransmission = Float.NaN;
-	private float partTemperature = Float.NaN;
+	private float temperature = Float.NaN;
 	private float partWindSpeed;
 	private float partWindAngle;
 	private boolean partConstantTemperature = false;
@@ -848,8 +848,6 @@ class XmlDecoder extends DefaultHandler {
 			partScatteringVisible = Boolean.parseBoolean(str);
 		} else if (qName == "transmission") {
 			partTransmission = Float.parseFloat(str);
-		} else if (qName == "temperature") {
-			partTemperature = Float.parseFloat(str);
 		} else if (qName == "constant_temperature") {
 			partConstantTemperature = Boolean.parseBoolean(str);
 		} else if (qName == "power") {
@@ -892,6 +890,8 @@ class XmlDecoder extends DefaultHandler {
 			uid = str;
 		} else if (qName == "label") {
 			label = str;
+		} else if (qName == "temperature") {
+			temperature = Float.parseFloat(str);
 		} else if (qName == "boundary") {
 			// nothing to do at this point
 		} else if (qName == "part") {
@@ -902,8 +902,8 @@ class XmlDecoder extends DefaultHandler {
 					part.setSpecificHeat(partSpecificHeat);
 				if (!Float.isNaN(partDensity))
 					part.setDensity(partDensity);
-				if (!Float.isNaN(partTemperature))
-					part.setTemperature(partTemperature);
+				if (!Float.isNaN(temperature))
+					part.setTemperature(temperature);
 				if (!Float.isNaN(partPower))
 					part.setPower(partPower);
 				if (!Float.isNaN(partEmissivity))
@@ -944,6 +944,8 @@ class XmlDecoder extends DefaultHandler {
 					particle.setRadius(particleRadius);
 				if (!Float.isNaN(particleMass))
 					particle.setMass(particleMass);
+				if (!Float.isNaN(temperature))
+					particle.setTemperature(temperature);
 				if (color != null)
 					particle.setColor(color);
 				particle.setUid(uid);
@@ -958,7 +960,6 @@ class XmlDecoder extends DefaultHandler {
 		partThermalConductivity = Float.NaN;
 		partSpecificHeat = Float.NaN;
 		partDensity = Float.NaN;
-		partTemperature = Float.NaN;
 		partConstantTemperature = false;
 		partPower = Float.NaN;
 		partEmissivity = Float.NaN;
@@ -980,6 +981,7 @@ class XmlDecoder extends DefaultHandler {
 		uid = null;
 		label = null;
 		color = null;
+		temperature = Float.NaN;
 	}
 
 	private void resetParticleVariables() {
@@ -992,6 +994,7 @@ class XmlDecoder extends DefaultHandler {
 		uid = null;
 		label = null;
 		color = null;
+		temperature = Float.NaN;
 	}
 
 	private void resetGlobalVariables() {

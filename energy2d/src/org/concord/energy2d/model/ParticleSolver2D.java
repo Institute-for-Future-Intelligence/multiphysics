@@ -14,7 +14,7 @@ class ParticleSolver2D {
 	private final static float INTERNAL_GRAVITY_UNIT = 0.00001f;
 
 	float epsilon = 0.001f;
-	float rCutOffSquare = 1.0f;
+	float rCutOffSquare = 1.21f;
 	float g = 9.8f;
 	float drag = 0.01f;
 
@@ -45,6 +45,7 @@ class ParticleSolver2D {
 		ly = model.getLy();
 		timeStep = model.getTimeStep();
 		float fluidDensity = model.getBackgroundDensity();
+		float fluidConductivity = model.getBackgroundConductivity();
 		synchronized (particles) {
 			for (Iterator<Particle> it = particles.iterator(); it.hasNext();) {
 				Particle p = it.next();
@@ -62,6 +63,11 @@ class ParticleSolver2D {
 				p.correct(timeStep);
 				p.fx /= p.mass;
 				p.fy /= p.mass;
+				interactWithParts(p);
+				if (!Float.isNaN(p.temperature)) {
+					float txy = model.getTemperatureAt(p.rx, p.ry);
+					model.changeTemperatureAt(p.rx, p.ry, 0.1f * fluidConductivity * (p.temperature - txy));
+				}
 			}
 		}
 	}
@@ -149,6 +155,11 @@ class ParticleSolver2D {
 					sigma = pi.radius + pj.radius;
 					sigma *= sigma;
 					sr2 = sigma / rijsq;
+					/* check if this pair gets too close */
+					if (sr2 > 2.0f) {
+						sr2 = 2.0f;
+						rijsq = sigma * sigma;
+					}
 					sr6 = sr2 * sr2 * sr2;
 					sr12 = sr6 * sr6;
 					vij = (sr12 - sr6) * epsilon;

@@ -38,7 +38,7 @@ class ParticleDialog extends JDialog {
 	private JColorChooser colorChooser;
 	private BackgroundComboBox bgComboBox;
 	private JTextField rxField, ryField, vxField, vyField;
-	private JTextField massField, radiusField;
+	private JTextField massField, radiusField, temperatureField;
 	private JComboBox<Boolean> draggableComboBox, movableComboBox;
 	private ActionListener okListener;
 
@@ -76,8 +76,10 @@ class ParticleDialog extends JDialog {
 				float vy = parse(vyField.getText());
 				if (Float.isNaN(vy))
 					return;
+				float temperature = parse(temperatureField.getText());
 				particle.setMass(mass);
 				particle.setRadius(radius);
+				particle.setTemperature(temperature);
 				particle.setRx(rx);
 				particle.setRy(ry);
 				particle.setVx(vx);
@@ -113,7 +115,7 @@ class ParticleDialog extends JDialog {
 		box.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.add(box, BorderLayout.CENTER);
 
-		JPanel p = new JPanel(new GridLayout(9, 2, 5, 5));
+		JPanel p = new JPanel(new GridLayout(10, 2, 5, 5));
 		box.add(p);
 
 		p.add(new JLabel("Mass (kg):"));
@@ -125,6 +127,11 @@ class ParticleDialog extends JDialog {
 		radiusField = new JTextField(particle.getRadius() + "", 10);
 		radiusField.addActionListener(okListener);
 		p.add(radiusField);
+
+		p.add(new JLabel("<html>Temperature (&deg;C):</html>"));
+		temperatureField = new JTextField(particle.getTemperature() + "", 10);
+		temperatureField.addActionListener(okListener);
+		p.add(temperatureField);
 
 		p.add(new JLabel("Rx (m):"));
 		rxField = new JTextField(particle.getRx() + "", 10);
