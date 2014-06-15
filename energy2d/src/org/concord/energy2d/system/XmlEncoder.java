@@ -83,6 +83,9 @@ class XmlEncoder {
 		sb.append("<solar_ray_speed>" + box.model.getSolarRaySpeed() + "</solar_ray_speed>\n");
 		sb.append("<photon_emission_interval>" + box.model.getPhotonEmissionInterval() + "</photon_emission_interval>\n");
 		sb.append("<gravitational_acceleration>" + box.model.getGravitationalAcceleration() + "</gravitational_acceleration>\n");
+		sb.append("<thermophoretic_coefficient>" + box.model.getThermophoreticCoefficient() + "</thermophoretic_coefficient>");
+		sb.append("<particle_drag>" + box.model.getParticleDrag() + "</particle_drag>");
+		sb.append("<particle_hardness>" + box.model.getParticleHardness() + "</particle_hardness>");
 
 		sb.append("<z_heat_diffusivity>" + box.model.getZHeatDiffusivity() + "</z_heat_diffusivity>");
 

@@ -17,10 +17,12 @@ class ParticleSolver2D {
 	float rCutOffSquare = 1.21f;
 	float g = 9.8f;
 	float drag = 0.01f;
+	float thermophoreticCoefficient = 0f;
 
 	private float timeStep = 0.1f;
+	private boolean convective;
 	private List<Particle> particles;
-	private float[][] u, v;
+	private float[][] u, v, t;
 	private List<Part> parts;
 	private float lx, ly;
 	private int nx, ny;
@@ -36,6 +38,7 @@ class ParticleSolver2D {
 		parts = model.getParts();
 		u = model.getXVelocity();
 		v = model.getYVelocity();
+		t = model.getTemperature();
 		nx = model.getNx();
 		ny = model.getNy();
 	}
@@ -44,6 +47,7 @@ class ParticleSolver2D {
 		lx = model.getLx();
 		ly = model.getLy();
 		timeStep = model.getTimeStep();
+		convective = model.isConvective();
 		float fluidDensity = model.getBackgroundDensity();
 		float fluidConductivity = 0.05f * model.getBackgroundConductivity();
 		synchronized (particles) {
@@ -77,22 +81,63 @@ class ParticleSolver2D {
 	}
 
 	private void interactWithFluid(Particle p, float fluidDensity) {
-		int i = (int) (p.rx / lx * nx);
-		int j = (int) (p.ry / ly * ny);
-		if (i < 0)
-			i = 0;
-		else if (i >= nx)
-			i = nx - 1;
-		if (j < 0)
-			j = 0;
-		else if (j >= ny)
-			j = ny - 1;
 		float volume = (float) Math.PI * p.radius * p.radius;
 		float buoyantForce = INTERNAL_GRAVITY_UNIT * g * (p.mass - fluidDensity * volume);
-		p.fx = drag * (u[i][j] - p.vx);
-		p.fy = drag * (v[i][j] - p.vy) + buoyantForce;
-		// Newton's Third Law: Add the buoyant force back to the fluid
-		v[i][j] -= buoyantForce * timeStep;
+		if (convective) {
+			int i = (int) (p.rx / lx * nx);
+			int j = (int) (p.ry / ly * ny);
+			if (i < 0)
+				i = 0;
+			else if (i >= nx)
+				i = nx - 1;
+			if (j < 0)
+				j = 0;
+			else if (j >= ny)
+				j = ny - 1;
+			p.fx += drag * (u[i][j] - p.vx);
+			p.fy += drag * (v[i][j] - p.vy) + buoyantForce;
+			// Newton's Third Law: Add the buoyant force back to the fluid
+			v[i][j] -= buoyantForce * timeStep;
+		} else {
+			p.fx += -drag * p.vx;
+			p.fy += -drag * p.vy + buoyantForce;
+		}
+		if (thermophoreticCoefficient > 0) {
+			int i = (int) (p.rx / lx * nx);
+			int j = (int) (p.ry / ly * ny);
+			if (i < 0)
+				i = 0;
+			else if (i >= nx)
+				i = nx - 1;
+			if (j < 0)
+				j = 0;
+			else if (j >= ny)
+				j = ny - 1;
+			if (Math.abs(t[i][j]) > 0.1f) {
+				int i1 = (int) ((p.rx - p.radius) / lx * nx);
+				int i2 = (int) ((p.rx + p.radius) / lx * nx);
+				int j1 = (int) ((p.ry - p.radius) / ly * ny);
+				int j2 = (int) ((p.ry + p.radius) / ly * ny);
+				if (i1 < 0)
+					i1 = 0;
+				else if (i1 >= nx)
+					i1 = nx - 1;
+				if (i2 < 0)
+					i2 = 0;
+				else if (i2 >= nx)
+					i2 = nx - 1;
+				if (j1 < 0)
+					j1 = 0;
+				else if (j1 >= ny)
+					j1 = ny - 1;
+				if (j2 < 0)
+					j2 = 0;
+				else if (j2 >= ny)
+					j2 = ny - 1;
+				p.fx -= thermophoreticCoefficient / p.mass * (t[i2][j] - t[i1][j]) / t[i][j];
+				p.fy -= thermophoreticCoefficient / p.mass * (t[i][j2] - t[i][j1]) / t[i][j];
+			}
+		}
 	}
 
 	private void interactWithParts(Particle p) {

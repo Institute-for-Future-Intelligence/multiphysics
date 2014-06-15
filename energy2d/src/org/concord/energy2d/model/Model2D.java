@@ -201,6 +201,14 @@ public class Model2D {
 		return heatSolver.zHeatDiffusivity;
 	}
 
+	public void setThermophoreticCoefficient(float thermophoreticCoefficient) {
+		particleSolver.thermophoreticCoefficient=thermophoreticCoefficient;
+	}
+
+	public float getThermophoreticCoefficient() {
+		return particleSolver.thermophoreticCoefficient;
+	}
+
 	public void setGravitationalAcceleration(float g) {
 		particleSolver.g = g;
 	}

@@ -56,6 +56,9 @@ class XmlDecoder extends DefaultHandler {
 	private boolean convective = true;
 	private float zHeatDiffusivity;
 	private float gravitationalAcceleration = -1;
+	private float thermophoreticCoefficient = 0;
+	private float particleDrag = -1;
+	private float particleHardness = -1;
 	private float backgroundConductivity = Constants.AIR_THERMAL_CONDUCTIVITY;
 	private float backgroundDensity = Constants.AIR_DENSITY;
 	private float backgroundSpecificHeat = Constants.AIR_SPECIFIC_HEAT;
@@ -170,6 +173,11 @@ class XmlDecoder extends DefaultHandler {
 		box.model.setZHeatDiffusivity(zHeatDiffusivity);
 		if (gravitationalAcceleration >= 0)
 			box.model.setGravitationalAcceleration(gravitationalAcceleration);
+		box.model.setThermophoreticCoefficient(thermophoreticCoefficient);
+		if (particleDrag >= 0)
+			box.model.setParticleDrag(particleDrag);
+		if (particleHardness >= 0)
+			box.model.setParticleHardness(particleHardness);
 		box.model.setBackgroundConductivity(backgroundConductivity);
 		box.model.setBackgroundDensity(backgroundDensity);
 		box.model.setBackgroundSpecificHeat(backgroundSpecificHeat);
@@ -754,6 +762,12 @@ class XmlDecoder extends DefaultHandler {
 			zHeatDiffusivity = Float.parseFloat(str);
 		} else if (qName == "gravitational_acceleration") {
 			gravitationalAcceleration = Float.parseFloat(str);
+		} else if (qName == "thermophoretic_coefficient") {
+			thermophoreticCoefficient = Float.parseFloat(str);
+		} else if (qName == "particle_drag") {
+			particleDrag = Float.parseFloat(str);
+		} else if (qName == "particle_hardness") {
+			particleHardness = Float.parseFloat(str);
 		} else if (qName == "convective") {
 			convective = Boolean.parseBoolean(str);
 		} else if (qName == "background_conductivity") {
@@ -1016,6 +1030,9 @@ class XmlDecoder extends DefaultHandler {
 		photonEmissionInterval = 20;
 		zHeatDiffusivity = 0;
 		gravitationalAcceleration = -1;
+		thermophoreticCoefficient = 0;
+		particleDrag = -1;
+		particleHardness = -1;
 		convective = true;
 		backgroundConductivity = Constants.AIR_THERMAL_CONDUCTIVITY;
 		backgroundDensity = Constants.AIR_DENSITY;

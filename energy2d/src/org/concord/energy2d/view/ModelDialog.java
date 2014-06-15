@@ -102,6 +102,7 @@ class ModelDialog extends JDialog {
 	private JTextField gravitationalAccelerationField;
 	private JTextField particleDragField;
 	private JTextField particleHardnessField;
+	private JTextField thermophoreticField;
 	private Window owner;
 	private ActionListener okListener;
 
@@ -171,6 +172,9 @@ class ModelDialog extends JDialog {
 				float gravitationalAcceleration = parse(gravitationalAccelerationField.getText());
 				if (Float.isNaN(gravitationalAcceleration))
 					return;
+				float thermophoreticCoefficient = parse(thermophoreticField.getText());
+				if (Float.isNaN(thermophoreticCoefficient))
+					return;
 				float particleDrag = parse(particleDragField.getText());
 				if (Float.isNaN(particleDrag))
 					return;
@@ -179,7 +183,19 @@ class ModelDialog extends JDialog {
 					return;
 
 				if (steplength <= 0) {
-					JOptionPane.showMessageDialog(ModelDialog.this, "Time step must be greater than zero!", "Time step error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(ModelDialog.this, "Time step must be greater than zero!", "Time step input error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (thermophoreticCoefficient < 0) {
+					JOptionPane.showMessageDialog(ModelDialog.this, "Thermophoretic coefficient cannot be negative!", "Thermophoretic cofficient input error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (particleDrag < 0) {
+					JOptionPane.showMessageDialog(ModelDialog.this, "Particle drag cannot be negative!", "Drag input error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (particleHardness < 0) {
+					JOptionPane.showMessageDialog(ModelDialog.this, "Particle hardness cannot be negative!", "Particle hardness input error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -206,6 +222,7 @@ class ModelDialog extends JDialog {
 				model.setSunAngle((float) Math.toRadians(sunAngleSlider.getValue()));
 				model.setZHeatDiffusivity(zHeatDiffusivity);
 				model.setGravitationalAcceleration(gravitationalAcceleration);
+				model.setThermophoreticCoefficient(thermophoreticCoefficient);
 				model.setParticleDrag(particleDrag);
 				model.setParticleHardness(particleHardness);
 
@@ -597,6 +614,14 @@ class ModelDialog extends JDialog {
 		particleHardnessField.addActionListener(okListener);
 		p.add(particleHardnessField);
 		label = new JLabel("J");
+		p.add(label);
+		count++;
+
+		p.add(new JLabel("Thermophoretic Coefficient"));
+		thermophoreticField = new JTextField(FORMAT.format(model.getThermophoreticCoefficient()), 16);
+		thermophoreticField.addActionListener(okListener);
+		p.add(thermophoreticField);
+		label = new JLabel("<html>kg<sup>2</sup>m<sup>2</sup>/s<sup>2</sup></html>");
 		p.add(label);
 		count++;
 
