@@ -52,6 +52,7 @@ class Scripter2D extends Scripter {
 	private final static Pattern PART = compile("(^(?i)part\\b){1}");
 	private final static Pattern THERMOMETER = compile("(^(?i)thermometer\\b){1}");
 	private final static Pattern ANEMOMETER = compile("(^(?i)anemometer\\b){1}");
+	private final static Pattern HEAT_FLUX_SENSOR = compile("(^(?i)heatfluxsensor\\b){1}");
 	private final static Pattern BOUNDARY = compile("(^(?i)boundary\\b){1}");
 	private final static Pattern PART_FIELD = compile("^%?((?i)part){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern PARTICLE_FIELD = compile("^%?((?i)particle){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
@@ -386,8 +387,8 @@ class Scripter2D extends Scripter {
 					s2d.model.addThermometer(x, y);
 				} catch (NumberFormatException e) {
 					showException(ci, e);
-					return;
 				}
+				return;
 			}
 			out(ScriptEvent.FAILED, "Error in \'" + ci + "\'");
 		}
@@ -404,8 +405,26 @@ class Scripter2D extends Scripter {
 					s2d.model.addAnemometer(x, y);
 				} catch (NumberFormatException e) {
 					showException(ci, e);
-					return;
 				}
+				return;
+			}
+			out(ScriptEvent.FAILED, "Error in \'" + ci + "\'");
+		}
+
+		matcher = HEAT_FLUX_SENSOR.matcher(ci);
+		if (matcher.find()) {
+			String s = ci.substring(matcher.end()).trim();
+			s = s.substring(1, s.length() - 1);
+			String[] t = s.split(REGEX_SEPARATOR + "+");
+			if (t.length == 2) {
+				try {
+					float x = Float.parseFloat(t[0]);
+					float y = convertVerticalCoordinate(Float.parseFloat(t[1]));
+					s2d.model.addHeatFluxSensor(x, y);
+				} catch (NumberFormatException e) {
+					showException(ci, e);
+				}
+				return;
 			}
 			out(ScriptEvent.FAILED, "Error in \'" + ci + "\'");
 		}
@@ -426,8 +445,8 @@ class Scripter2D extends Scripter {
 						s2d.model.addRectangularPart(x, y, w, h);
 					} catch (NumberFormatException e) {
 						showException(ci, e);
-						return;
 					}
+					return;
 				}
 			} else if (s.toLowerCase().startsWith("ellipse")) {
 				s = s.substring(7).trim();
@@ -442,8 +461,8 @@ class Scripter2D extends Scripter {
 						s2d.model.addEllipticalPart(x, y, a, b);
 					} catch (NumberFormatException e) {
 						showException(ci, e);
-						return;
 					}
+					return;
 				}
 			} else if (s.toLowerCase().startsWith("ring")) {
 				s = s.substring(4).trim();
@@ -458,8 +477,8 @@ class Scripter2D extends Scripter {
 						s2d.model.addRingPart(xcenter, ycenter, inner, outer);
 					} catch (NumberFormatException e) {
 						showException(ci, e);
-						return;
 					}
+					return;
 				}
 			} else if (s.toLowerCase().startsWith("polygon")) {
 				s = s.substring(7).trim();
@@ -479,6 +498,7 @@ class Scripter2D extends Scripter {
 						}
 					}
 					s2d.model.addPolygonPart(x, y);
+					return;
 				}
 			}
 			arrayUpdateRequested = true;
@@ -511,8 +531,8 @@ class Scripter2D extends Scripter {
 						b.setTemperatureAtBorder(Boundary.LEFT, tW);
 					} catch (NumberFormatException e) {
 						showException(ci, e);
-						return;
 					}
+					return;
 				}
 			} else if (s.startsWith("flux")) {
 				s = s.substring(4).trim();
@@ -538,6 +558,29 @@ class Scripter2D extends Scripter {
 						b.setFluxAtBorder(Boundary.LEFT, fW);
 					} catch (NumberFormatException e) {
 						showException(ci, e);
+					}
+					return;
+				}
+			} else if (s.startsWith("mass")) {
+				s = s.substring(4).trim();
+				s = s.substring(1, s.length() - 1);
+				String[] t = s.split(REGEX_SEPARATOR + "+");
+				if (t.length == 4) {
+					MassBoundary boundary = s2d.model.getMassBoundary();
+					if (boundary instanceof SimpleMassBoundary) {
+						SimpleMassBoundary b = (SimpleMassBoundary) boundary;
+						try {
+							byte mN = (byte) Float.parseFloat(t[0]);
+							byte mE = (byte) Float.parseFloat(t[1]);
+							byte mS = (byte) Float.parseFloat(t[2]);
+							byte mW = (byte) Float.parseFloat(t[3]);
+							b.setFlowTypeAtBorder(Boundary.UPPER, mN);
+							b.setFlowTypeAtBorder(Boundary.RIGHT, mE);
+							b.setFlowTypeAtBorder(Boundary.LOWER, mS);
+							b.setFlowTypeAtBorder(Boundary.LEFT, mW);
+						} catch (NumberFormatException e) {
+							showException(ci, e);
+						}
 						return;
 					}
 				}

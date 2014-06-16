@@ -669,13 +669,13 @@ class ModelDialog extends JDialog {
 		p.add(label);
 		count++;
 
-		leftThermalBoundaryLabel = new JLabel();
-		p.add(leftThermalBoundaryLabel);
-		leftThermalBoundaryField = new JTextField();
-		leftThermalBoundaryField.addActionListener(okListener);
-		p.add(leftThermalBoundaryField);
-		leftThermalBoundaryLabel2 = new JLabel();
-		p.add(leftThermalBoundaryLabel2);
+		upperThermalBoundaryLabel = new JLabel();
+		p.add(upperThermalBoundaryLabel);
+		upperThermalBoundaryField = new JTextField();
+		upperThermalBoundaryField.addActionListener(okListener);
+		p.add(upperThermalBoundaryField);
+		upperThermalBoundaryLabel2 = new JLabel();
+		p.add(upperThermalBoundaryLabel2);
 		count++;
 
 		rightThermalBoundaryLabel = new JLabel();
@@ -687,15 +687,6 @@ class ModelDialog extends JDialog {
 		p.add(rightThermalBoundaryLabel2);
 		count++;
 
-		upperThermalBoundaryLabel = new JLabel();
-		p.add(upperThermalBoundaryLabel);
-		upperThermalBoundaryField = new JTextField();
-		upperThermalBoundaryField.addActionListener(okListener);
-		p.add(upperThermalBoundaryField);
-		upperThermalBoundaryLabel2 = new JLabel();
-		p.add(upperThermalBoundaryLabel2);
-		count++;
-
 		lowerThermalBoundaryLabel = new JLabel();
 		p.add(lowerThermalBoundaryLabel);
 		lowerThermalBoundaryField = new JTextField();
@@ -703,6 +694,15 @@ class ModelDialog extends JDialog {
 		p.add(lowerThermalBoundaryField);
 		lowerThermalBoundaryLabel2 = new JLabel();
 		p.add(lowerThermalBoundaryLabel2);
+		count++;
+
+		leftThermalBoundaryLabel = new JLabel();
+		p.add(leftThermalBoundaryLabel);
+		leftThermalBoundaryField = new JTextField();
+		leftThermalBoundaryField.addActionListener(okListener);
+		p.add(leftThermalBoundaryField);
+		leftThermalBoundaryLabel2 = new JLabel();
+		p.add(leftThermalBoundaryLabel2);
 		count++;
 
 		setThermalBoundaryFields(model.getThermalBoundary());
@@ -716,21 +716,21 @@ class ModelDialog extends JDialog {
 
 		SimpleMassBoundary massBoundary = (SimpleMassBoundary) model.getMassBoundary();
 
-		label = new JLabel("Left boundary");
+		label = new JLabel("Upper boundary");
 		p.add(label);
-		leftMassBoundaryReflect = new JRadioButton("Reflect");
-		p.add(leftMassBoundaryReflect);
-		leftMassBoundaryThrough = new JRadioButton("Through");
-		p.add(leftMassBoundaryThrough);
+		upperMassBoundaryReflect = new JRadioButton("Reflect");
+		p.add(upperMassBoundaryReflect);
+		upperMassBoundaryThrough = new JRadioButton("Through");
+		p.add(upperMassBoundaryThrough);
 		ButtonGroup bg = new ButtonGroup();
-		bg.add(leftMassBoundaryReflect);
-		bg.add(leftMassBoundaryThrough);
-		switch (massBoundary.getFlowTypeAtBorder(Boundary.LEFT)) {
+		bg.add(upperMassBoundaryReflect);
+		bg.add(upperMassBoundaryThrough);
+		switch (massBoundary.getFlowTypeAtBorder(Boundary.UPPER)) {
 		case MassBoundary.REFLECTIVE:
-			leftMassBoundaryReflect.setSelected(true);
+			upperMassBoundaryReflect.setSelected(true);
 			break;
 		case MassBoundary.THROUGH:
-			leftMassBoundaryThrough.setSelected(true);
+			upperMassBoundaryThrough.setSelected(true);
 			break;
 		}
 		count++;
@@ -773,21 +773,21 @@ class ModelDialog extends JDialog {
 		}
 		count++;
 
-		label = new JLabel("Upper boundary");
+		label = new JLabel("Left boundary");
 		p.add(label);
-		upperMassBoundaryReflect = new JRadioButton("Reflect");
-		p.add(upperMassBoundaryReflect);
-		upperMassBoundaryThrough = new JRadioButton("Through");
-		p.add(upperMassBoundaryThrough);
+		leftMassBoundaryReflect = new JRadioButton("Reflect");
+		p.add(leftMassBoundaryReflect);
+		leftMassBoundaryThrough = new JRadioButton("Through");
+		p.add(leftMassBoundaryThrough);
 		bg = new ButtonGroup();
-		bg.add(upperMassBoundaryReflect);
-		bg.add(upperMassBoundaryThrough);
-		switch (massBoundary.getFlowTypeAtBorder(Boundary.UPPER)) {
+		bg.add(leftMassBoundaryReflect);
+		bg.add(leftMassBoundaryThrough);
+		switch (massBoundary.getFlowTypeAtBorder(Boundary.LEFT)) {
 		case MassBoundary.REFLECTIVE:
-			upperMassBoundaryReflect.setSelected(true);
+			leftMassBoundaryReflect.setSelected(true);
 			break;
 		case MassBoundary.THROUGH:
-			upperMassBoundaryThrough.setSelected(true);
+			leftMassBoundaryThrough.setSelected(true);
 			break;
 		}
 		count++;

@@ -1646,7 +1646,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				g.setColor(new Color(~p.getColor().getRGB()));
 				if (showVelocity) {
 					float r = e.width * 0.5f;
-					VectorRenderer.drawVector(g, e.x + e.width * 0.5f, e.y + e.height * 0.5f, r, p.getVx(), p.getVy(), VectorRenderer.getDefaultScale(), (BasicStroke) thinStroke);
+					VectorRenderer.drawVector(g, e.x + e.width * 0.5f, e.y + e.height * 0.5f, r, p.getVx(), p.getVy(), VectorRenderer.getDefaultScale() * 2, (BasicStroke) thinStroke);
 				}
 				if (p.getLabel() != null) {
 					g.setFont(labelFont);
