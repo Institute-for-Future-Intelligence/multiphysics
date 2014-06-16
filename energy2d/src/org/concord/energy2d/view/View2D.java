@@ -139,9 +139,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private ColorPalette colorPalette;
 	private GraphRenderer graphRenderer;
 	private ScalarDistributionRenderer temperatureRenderer, thermalEnergyRenderer;
-	private VectorDistributionRenderer vectorFieldRenderer;
-	private float heatFluxMinimumValueSquare = VectorDistributionRenderer.getDefaultMinimumValueSquare();
-	private float heatFluxScale = VectorDistributionRenderer.getDefaultScale();
+	private VectorRenderer vectorFieldRenderer;
+	private float heatFluxMinimumValueSquare = VectorRenderer.getDefaultMinimumValueSquare();
+	private float heatFluxScale = VectorRenderer.getDefaultScale();
 	private boolean dotForZeroHeatFlux;
 	private ThermostatRenderer thermostatRenderer;
 	private boolean fahrenheitUsed;
@@ -882,16 +882,16 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		return graphRenderer.getYmax();
 	}
 
-	public void setVectorStroke(Stroke s) {
+	public void setVectorStroke(BasicStroke s) {
 		if (vectorFieldRenderer == null)
-			vectorFieldRenderer = new VectorDistributionRenderer(this, nx, ny);
+			vectorFieldRenderer = new VectorRenderer(this, nx, ny);
 		vectorFieldRenderer.setStroke(s);
 	}
 
 	public void setVelocityOn(boolean b) {
 		showVelocity = b;
 		if (b && vectorFieldRenderer == null)
-			vectorFieldRenderer = new VectorDistributionRenderer(this, nx, ny);
+			vectorFieldRenderer = new VectorRenderer(this, nx, ny);
 	}
 
 	public boolean isVelocityOn() {
@@ -901,7 +901,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public void setHeatFluxArrowsOn(boolean b) {
 		showHeatFluxArrows = b;
 		if (b && vectorFieldRenderer == null)
-			vectorFieldRenderer = new VectorDistributionRenderer(this, nx, ny);
+			vectorFieldRenderer = new VectorRenderer(this, nx, ny);
 	}
 
 	public boolean isHeatFluxArrowsOn() {
@@ -933,7 +933,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 	public void setVectorFieldSpacing(int spacing) {
 		if (vectorFieldRenderer == null)
-			vectorFieldRenderer = new VectorDistributionRenderer(this, nx, ny);
+			vectorFieldRenderer = new VectorRenderer(this, nx, ny);
 		vectorFieldRenderer.setSpacing(spacing);
 	}
 
@@ -1643,6 +1643,11 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				if (model.isRunning() && p == selectedManipulable) {
 					HandleSetter.setRects(this, selectedManipulable, handle);
 				}
+				g.setColor(new Color(~p.getColor().getRGB()));
+				if (showVelocity) {
+					float r = e.width * 0.5f;
+					VectorRenderer.drawVector(g, e.x + e.width * 0.5f, e.y + e.height * 0.5f, r, p.getVx(), p.getVy(), VectorRenderer.getDefaultScale(), (BasicStroke) thinStroke);
+				}
 				if (p.getLabel() != null) {
 					g.setFont(labelFont);
 					g.setColor(getContrastColor((int) e.getCenterX(), (int) e.getCenterY()));
@@ -1725,7 +1730,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		case HEATMAP_THERMAL_ENERGY:
 			return new Color(~thermalEnergyRenderer.getRGB(x, y));
 		default:
-			return Color.black;
+			return Color.BLACK;
 		}
 	}
 

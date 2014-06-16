@@ -18,6 +18,7 @@ class ParticleSolver2D {
 	float g = 9.8f;
 	float drag = 0.01f;
 	float thermophoreticCoefficient = 0f;
+	private float particleFluidTransfer = 0.05f; // temporary parameter
 
 	private float timeStep = 0.1f;
 	private boolean convective;
@@ -49,7 +50,7 @@ class ParticleSolver2D {
 		timeStep = model.getTimeStep();
 		convective = model.isConvective();
 		float fluidDensity = model.getBackgroundDensity();
-		float fluidConductivity = 0.05f * model.getBackgroundConductivity();
+		float fluidConductivity = model.getBackgroundConductivity();
 		synchronized (particles) {
 			for (Iterator<Particle> it = particles.iterator(); it.hasNext();) {
 				Particle p = it.next();
@@ -69,8 +70,8 @@ class ParticleSolver2D {
 				p.fy /= p.mass;
 				interactWithParts(p);
 				if (!Float.isNaN(p.temperature)) {
-					float txy = fluidConductivity * (p.temperature - model.getTemperatureAt(p.rx, p.ry));
-					int n = Math.max(1, (int) (8 * nx * p.radius / lx));
+					float txy = particleFluidTransfer * fluidConductivity * (p.temperature - model.getTemperatureAt(p.rx, p.ry));
+					int n = Math.max(1, (int) (8 * nx * p.radius / lx)); // discretize contact surface into n slices
 					for (int i = 0; i < n; i++) {
 						float theta = 2 * (float) Math.PI / n * i;
 						model.changeTemperatureAt((float) (p.rx + p.radius * Math.cos(theta)), (float) (p.ry + p.radius * Math.sin(theta)), txy);
