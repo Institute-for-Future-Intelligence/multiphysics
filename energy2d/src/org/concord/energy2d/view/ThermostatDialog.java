@@ -116,6 +116,10 @@ class ThermostatDialog extends JDialog {
 		p.add(deadbandField);
 		p.add(new JLabel("\u2103"));
 
+		p = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+		p.add(new JLabel("<html><font size=2>This type of thermostat uses the temperature at the center of this source to control its power.<br>To control the power using temperature elsewhere, use the thermostat controlled by a thermometer.</html>"));
+		box.add(p);
+
 		pack();
 		setLocationRelativeTo(view);
 

@@ -94,6 +94,15 @@ class PartModelDialog extends JDialog {
 		okListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				if (powerRadioButton.isSelected()) {
+					if (powerField.getText().equals("0")) {
+						powerField.selectAll();
+						JOptionPane.showMessageDialog(owner, "Did you forget to set the power of the source?", "Reminder", JOptionPane.INFORMATION_MESSAGE);
+						powerField.requestFocusInWindow();
+						return;
+					}
+				}
+
 				// currently, a photon is either absorbed, reflected, or transmitted. Scattering is a special case of reflection.
 				boolean visibleScattering = visibleScatteringRadioButton.isSelected();
 				boolean invisibleScattering = invisibleScatteringRadioButton.isSelected();
@@ -438,11 +447,10 @@ class PartModelDialog extends JDialog {
 
 		MiscUtil.makeCompactGrid(p, count, 6, 5, 5, 10, 2);
 
-		p = new JPanel(new SpringLayout());
+		p = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		pp = new JPanel(new BorderLayout());
 		pp.add(p, BorderLayout.NORTH);
 		tabbedPane.add(pp, "Source");
-		count = 0;
 
 		ButtonGroup bg = new ButtonGroup();
 		notHeatSourceRadioButton = new JRadioButton("Not a heat source");
@@ -492,7 +500,10 @@ class PartModelDialog extends JDialog {
 		});
 		p.add(powerRadioButton);
 		bg.add(powerRadioButton);
-		count++;
+
+		p = new JPanel(new SpringLayout());
+		pp.add(p, BorderLayout.CENTER);
+		count = 0;
 
 		temperatureLabel = new JLabel("Temperature");
 		p.add(temperatureLabel);
@@ -505,16 +516,20 @@ class PartModelDialog extends JDialog {
 		powerLabel = new JLabel("Power density");
 		powerLabel.addMouseListener(new MouseAdapter() {
 			public void mouseReleased(MouseEvent e) {
-				new ThermostatDialog(view, part, true).setVisible(true);
+				if (powerLabel.isEnabled())
+					new ThermostatDialog(view, part, true).setVisible(true);
 			}
 
 			public void mouseEntered(MouseEvent e) {
-				powerLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-				powerLabel.setToolTipText(powerLabel.isEnabled() ? "Click to set up a thermostat" : null);
+				if (powerLabel.isEnabled()) {
+					powerLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					powerLabel.setToolTipText(powerLabel.isEnabled() ? "Click to set up a thermostat" : null);
+				}
 			}
 
 			public void mouseExited(MouseEvent e) {
-				powerLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				if (powerLabel.isEnabled())
+					powerLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			}
 		});
 		p.add(powerLabel);
