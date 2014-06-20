@@ -16,7 +16,7 @@ import java.awt.geom.Rectangle2D;
  * @author Charles Xie
  * 
  */
-public class Thermostat implements Controller {
+public class Thermostat {
 
 	private Thermometer thermometer;
 	private Part powerSource;
@@ -34,7 +34,7 @@ public class Thermostat implements Controller {
 		this.thermometer = thermometer;
 	}
 
-	/** implements a bang-bang (on-off) controller */
+	/** on/off (bang-bang) control, return a boolean to indicate if it is on or off */
 	public boolean onoff(Model2D model) {
 		float power = powerSource.getPower();
 		if (power == 0)
