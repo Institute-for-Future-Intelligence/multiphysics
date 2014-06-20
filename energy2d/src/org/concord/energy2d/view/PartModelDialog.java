@@ -57,6 +57,7 @@ class PartModelDialog extends JDialog {
 	private JTextField densityField;
 	private JLabel powerLabel;
 	private JTextField powerField;
+	private JTextField temperatureCoefficientField;
 	private JLabel temperatureLabel;
 	private JTextField temperatureField;
 	private JTextField windSpeedField;
@@ -232,10 +233,10 @@ class PartModelDialog extends JDialog {
 				}
 
 				float temperature = parse(temperatureField.getText());
-				float power = parse(powerField.getText());
 				if (Float.isNaN(temperature))
 					return;
 				part.setTemperature(temperature);
+				float power = parse(powerField.getText());
 				if (notHeatSourceRadioButton.isSelected() || constantTemperatureRadioButton.isSelected()) {
 					part.setPower(0);
 				} else if (powerRadioButton.isSelected()) {
@@ -243,6 +244,10 @@ class PartModelDialog extends JDialog {
 						return;
 					part.setPower(power);
 				}
+				float temperatureCoefficient = parse(temperatureCoefficientField.getText());
+				if (Float.isNaN(temperatureCoefficient))
+					return;
+				part.setThermistorTemperatureCoefficient(temperatureCoefficient);
 				part.setConstantTemperature(constantTemperatureRadioButton.isSelected());
 
 				Shape shape = part.getShape();
@@ -485,7 +490,7 @@ class PartModelDialog extends JDialog {
 		p.add(constantTemperatureRadioButton);
 		bg.add(constantTemperatureRadioButton);
 
-		powerRadioButton = new JRadioButton("Constant power");
+		powerRadioButton = new JRadioButton("Power Source");
 		powerRadioButton.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -516,14 +521,17 @@ class PartModelDialog extends JDialog {
 		powerLabel = new JLabel("Power density");
 		powerLabel.addMouseListener(new MouseAdapter() {
 			public void mouseReleased(MouseEvent e) {
-				if (powerLabel.isEnabled())
-					new ThermostatDialog(view, part, true).setVisible(true);
+				if (powerLabel.isEnabled()) {
+					if (powerRadioButton.isSelected())
+						new ThermostatDialog(view, part, true).setVisible(true);
+				}
 			}
 
 			public void mouseEntered(MouseEvent e) {
 				if (powerLabel.isEnabled()) {
 					powerLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-					powerLabel.setToolTipText(powerLabel.isEnabled() ? "Click to set up a thermostat" : null);
+					if (powerRadioButton.isSelected())
+						powerLabel.setToolTipText(powerLabel.isEnabled() ? "Click to set up a thermostat" : null);
 				}
 			}
 
@@ -537,6 +545,13 @@ class PartModelDialog extends JDialog {
 		powerField.addActionListener(okListener);
 		p.add(powerField);
 		p.add(new JLabel("<html><i>W/m<sup><font size=2>3</font></sup></html>"));
+		count++;
+
+		p.add(new JLabel("Temperature Coefficient"));
+		temperatureCoefficientField = new JTextField(part.getThermistorTemperatureCoefficient() + "", 16);
+		temperatureCoefficientField.addActionListener(okListener);
+		p.add(temperatureCoefficientField);
+		p.add(new JLabel("<html><i>1/&deg;C</i></html>"));
 		count++;
 
 		p.add(new JLabel("Wind speed"));

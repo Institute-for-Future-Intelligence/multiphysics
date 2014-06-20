@@ -96,7 +96,7 @@ class ThermostatDialog extends JDialog {
 		panel.add(box, BorderLayout.CENTER);
 
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
-		p.setBorder(BorderFactory.createTitledBorder("Thermostat"));
+		p.setBorder(BorderFactory.createTitledBorder("Internal Thermostat"));
 		box.add(p);
 
 		Thermostat thermostat = view.model.getThermostat(null, powerSource);

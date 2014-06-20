@@ -38,6 +38,9 @@ public class Part extends Manipulable {
 	// this turns the power on and off: it should not be saved in the XML, or copied to another part
 	private boolean powerSwitch = true;
 
+	// http://en.wikipedia.org/wiki/Temperature_coefficient
+	private float thermistorTemperatureCoefficient = 0;
+
 	// a fixed or initial temperature for this part
 	private float temperature;
 
@@ -136,6 +139,7 @@ public class Part extends Manipulable {
 		p.filled = filled;
 		p.fillPattern = fillPattern;
 		p.power = power;
+		p.thermistorTemperatureCoefficient = thermistorTemperatureCoefficient;
 		p.temperature = temperature;
 		p.constantTemperature = constantTemperature;
 		p.thermalConductivity = thermalConductivity;
@@ -267,6 +271,14 @@ public class Part extends Manipulable {
 
 	public boolean getPowerSwitch() {
 		return powerSwitch;
+	}
+
+	public void setThermistorTemperatureCoefficient(float temperatureCoefficient) {
+		thermistorTemperatureCoefficient = temperatureCoefficient;
+	}
+
+	public float getThermistorTemperatureCoefficient() {
+		return thermistorTemperatureCoefficient;
 	}
 
 	public void setThermalConductivity(float thermalConductivity) {
@@ -680,6 +692,8 @@ public class Part extends Manipulable {
 		xml += "<constant_temperature>" + constantTemperature + "</constant_temperature>\n";
 		if (power != 0)
 			xml += "<power>" + power + "</power>\n";
+		if (thermistorTemperatureCoefficient != 0)
+			xml += "<temperature_coefficient>" + thermistorTemperatureCoefficient + "</temperature_coefficient>\n";
 		if (windSpeed != 0) {
 			xml += "<wind_speed>" + windSpeed + "</wind_speed>\n";
 		}

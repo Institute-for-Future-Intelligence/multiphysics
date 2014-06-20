@@ -114,6 +114,7 @@ class XmlDecoder extends DefaultHandler {
 	private float partWindAngle;
 	private boolean partConstantTemperature = false;
 	private float partPower = Float.NaN;
+	private float partTemperatureCoefficient = 0;
 	private boolean partVisible = true;
 	private boolean partDraggable = true;
 	private Color color;
@@ -866,6 +867,8 @@ class XmlDecoder extends DefaultHandler {
 			partConstantTemperature = Boolean.parseBoolean(str);
 		} else if (qName == "power") {
 			partPower = Float.parseFloat(str);
+		} else if (qName == "temperature_coefficient") {
+			partTemperatureCoefficient = Float.parseFloat(str);
 		} else if (qName == "wind_speed") {
 			partWindSpeed = Float.parseFloat(str);
 		} else if (qName == "wind_angle") {
@@ -930,6 +933,7 @@ class XmlDecoder extends DefaultHandler {
 					part.setTransmission(partTransmission);
 				part.setScattering(partScattering);
 				part.setScatteringVisible(partScatteringVisible);
+				part.setThermistorTemperatureCoefficient(partTemperatureCoefficient);
 				part.setWindAngle(partWindAngle);
 				part.setWindSpeed(partWindSpeed);
 				part.setConstantTemperature(partConstantTemperature);
@@ -976,6 +980,7 @@ class XmlDecoder extends DefaultHandler {
 		partDensity = Float.NaN;
 		partConstantTemperature = false;
 		partPower = Float.NaN;
+		partTemperatureCoefficient = 0;
 		partEmissivity = Float.NaN;
 		partAbsorption = Float.NaN;
 		partReflection = Float.NaN;

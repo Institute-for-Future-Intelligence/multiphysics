@@ -1096,7 +1096,7 @@ public class Model2D {
 
 	public void refreshPowerArray() {
 		checkPartPower();
-		float x, y;
+		float x, y, power;
 		int count;
 		for (int i = 0; i < nx; i++) {
 			x = i * deltaX;
@@ -1108,7 +1108,11 @@ public class Model2D {
 					synchronized (parts) {
 						for (Part p : parts) {
 							if (p.getPower() != 0 && p.getPowerSwitch() && p.getShape().contains(x, y)) {
-								q[i][j] += p.getPower();
+								power = p.getPower();
+								if (p.getThermistorTemperatureCoefficient() != 0) {
+									power *= 1f + p.getThermistorTemperatureCoefficient() * t[i][j];
+								}
+								q[i][j] += power;
 								count++;
 							}
 						}
@@ -1717,6 +1721,12 @@ public class Model2D {
 		for (Thermostat x : thermostats) {
 			if (x.onoff(this))
 				refresh = true;
+		}
+		for (Part p : parts) {
+			if (p.getThermistorTemperatureCoefficient() != 0) {
+				refresh = true;
+				break;
+			}
 		}
 		if (refresh)
 			refreshPowerArray();
