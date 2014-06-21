@@ -463,6 +463,49 @@ public class Part extends Manipulable {
 		}
 	}
 
+	/** return true if the line that connects the two specified points intersects with this part. */
+	public boolean intersectsLine(Point2D.Float p1, Point2D.Float p2) {
+
+		Shape shape = getShape();
+
+		Rectangle2D bound = shape.getBounds2D();
+		float deltaX = 0.01f * (float) bound.getWidth();
+		float deltaY = 0.01f * (float) bound.getHeight();
+		Rectangle2D.Float smallRect = new Rectangle2D.Float(p1.x - deltaX, p1.y - deltaY, 2 * deltaX, 2 * deltaY);
+		if (shape.intersects(smallRect)) // p1 belongs to this part, considered as non-intersecting
+			return false;
+		smallRect.setRect(p2.x - deltaX, p2.y - deltaY, 2 * deltaX, 2 * deltaY);
+		if (shape.intersects(smallRect)) // p2 belongs to this part, considered as non-intersecting
+			return false;
+
+		if (shape instanceof Rectangle2D.Float) { // simpler case, faster implementation
+
+			Rectangle2D.Float r = (Rectangle2D.Float) shape;
+			float x0 = r.x;
+			float y0 = r.y;
+			float x1 = r.x + r.width;
+			float y1 = r.y + r.height;
+			if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, x0, y0, x1, y0))
+				return true;
+			if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, x1, y0, x1, y1))
+				return true;
+			if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, x1, y1, x0, y1))
+				return true;
+			if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, x0, y1, x0, y0))
+				return true;
+
+		} else if (shape instanceof Polygon2D) {
+			// TODO
+		} else if (shape instanceof Blob2D) {
+			// TODO
+		} else if (shape instanceof Ellipse2D.Float) {
+			// TODO
+		}
+
+		return false;
+
+	}
+
 	boolean reflect(Discrete p, float timeStep, boolean scatter) {
 
 		Shape shape = getShape();

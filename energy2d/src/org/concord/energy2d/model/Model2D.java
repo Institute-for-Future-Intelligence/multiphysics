@@ -1768,4 +1768,15 @@ public class Model2D {
 			x.manipulationOccured(e);
 	}
 
+	// can the two segments see each other?
+	boolean visible(Segment s1, Segment s2) {
+		Point2D.Float p1 = s1.getCenter();
+		Point2D.Float p2 = s2.getCenter();
+		for (Part part : parts) {
+			if (part.intersectsLine(p1, p2))
+				return false;
+		}
+		return true;
+	}
+
 }
