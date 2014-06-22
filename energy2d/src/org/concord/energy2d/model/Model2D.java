@@ -85,6 +85,7 @@ public class Model2D {
 	private List<Tree> trees;
 
 	private RaySolver2D raySolver;
+	private RadiositySolver2D radiositySolver;
 	private FluidSolver2D fluidSolver;
 	private HeatSolver2D heatSolver;
 	private ParticleSolver2D particleSolver;
@@ -160,6 +161,7 @@ public class Model2D {
 
 		raySolver = new RaySolver2D(lx, ly);
 		raySolver.setPower(q);
+		radiositySolver = new RadiositySolver2D(this);
 
 		particleSolver = new ParticleSolver2D(this);
 
@@ -1361,6 +1363,7 @@ public class Model2D {
 				raySolver.radiate(this);
 			}
 			raySolver.solve(this);
+			radiositySolver.solve();
 		}
 		if (convective)
 			fluidSolver.solve(u, v);
@@ -1766,17 +1769,6 @@ public class Model2D {
 		ManipulationEvent e = new ManipulationEvent(this, type);
 		for (ManipulationListener x : manipulationListeners)
 			x.manipulationOccured(e);
-	}
-
-	// can the two segments see each other?
-	boolean visible(Segment s1, Segment s2) {
-		Point2D.Float p1 = s1.getCenter();
-		Point2D.Float p2 = s2.getCenter();
-		for (Part part : parts) {
-			if (part.intersectsLine(p1, p2))
-				return false;
-		}
-		return true;
 	}
 
 }
