@@ -539,6 +539,7 @@ class MenuBar extends JMenuBar {
 		final JCheckBoxMenuItem miHeatFluxArrow = new JCheckBoxMenuItem("Heat Flux Arrows");
 		final JCheckBoxMenuItem miHeatFluxLine = new JCheckBoxMenuItem("Heat Flux Lines");
 		final JCheckBoxMenuItem miColorPalette = new JCheckBoxMenuItem("Color Palette");
+		final JCheckBoxMenuItem miRadiationMesh = new JCheckBoxMenuItem("Radiation Mesh");
 		final JCheckBoxMenuItem miRuler = new JCheckBoxMenuItem("Ruler");
 		final JCheckBoxMenuItem miGrid = new JCheckBoxMenuItem("Grid");
 		final JMenuItem miIncrGrid = new JMenuItem("Increase Grid Lines");
@@ -556,6 +557,7 @@ class MenuBar extends JMenuBar {
 				MiscUtil.setSelectedSilently(miHeatFluxArrow, box.view.isHeatFluxArrowsOn());
 				MiscUtil.setSelectedSilently(miHeatFluxLine, box.view.isHeatFluxLinesOn());
 				MiscUtil.setSelectedSilently(miColorPalette, box.view.isColorPaletteOn());
+				MiscUtil.setSelectedSilently(miRadiationMesh, box.view.isRulerOn());
 				MiscUtil.setSelectedSilently(miRuler, box.view.isRulerOn());
 				MiscUtil.setSelectedSilently(miGrid, box.view.isGridOn());
 				miIncrGrid.setEnabled(box.view.isGridOn());
@@ -750,6 +752,17 @@ class MenuBar extends JMenuBar {
 		menu.add(miControlPanel);
 
 		menu.addSeparator();
+
+		miRadiationMesh.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
+				box.view.setRadiationMeshOn(src.isSelected());
+				box.view.repaint();
+				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
+			}
+		});
+		miRadiationMesh.setToolTipText("Check if you wish to show the radiation mesh");
+		menu.add(miRadiationMesh);
 
 		miRuler.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {

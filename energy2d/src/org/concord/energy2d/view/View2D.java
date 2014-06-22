@@ -69,6 +69,7 @@ import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
 import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.Photon;
+import org.concord.energy2d.model.Segment;
 import org.concord.energy2d.model.Sensor;
 import org.concord.energy2d.model.Thermometer;
 import org.concord.energy2d.model.Thermostat;
@@ -152,6 +153,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private boolean showGraph;
 	private boolean showColorPalette;
 	private boolean showGrid;
+	private boolean showRadiationMesh;
 	private boolean snapToGrid = true;
 	private boolean clockOn = true;
 	private boolean frankOn = true;
@@ -696,6 +698,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		setActionMode(SELECT_MODE);
 		if (modeIcon != null)
 			modeIcon.setPressed(false);
+		if (showRadiationMesh)
+			model.segmentizeRadiationParts();
 	}
 
 	public void setRunToggle(boolean b) {
@@ -767,6 +771,16 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 	public boolean isFrankOn() {
 		return frankOn;
+	}
+
+	public void setRadiationMeshOn(boolean b) {
+		showRadiationMesh = b;
+		if (b)
+			model.segmentizeRadiationParts();
+	}
+
+	public boolean isRadiationMeshOn() {
+		return showRadiationMesh;
 	}
 
 	public void setRulerOn(boolean b) {
@@ -1272,6 +1286,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		drawTextBoxes(g);
 		drawPictures(g);
 		drawParticles(g);
+		if (showRadiationMesh)
+			drawRadiationMesh(g);
 		if (showGrid && gridRenderer != null)
 			gridRenderer.render(this, g);
 		if (rulerRenderer != null)
@@ -1655,6 +1671,24 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					FontMetrics fm = g.getFontMetrics();
 					g.drawString(label, (int) e.getCenterX() - fm.stringWidth(label) / 2, (int) e.getCenterY() + fm.getAscent() - (fm.getAscent() + fm.getDescent()) / 2);
 				}
+			}
+		}
+	}
+
+	private void drawRadiationMesh(Graphics2D g) {
+		List<Segment> segments = model.getRadiationSegments();
+		if (segments.isEmpty())
+			return;
+		g.setColor(Color.WHITE);
+		g.setStroke(thinStroke);
+		synchronized (segments) {
+			for (Segment seg : segments) {
+				int x1 = convertPointToPixelX(seg.x1);
+				int y1 = convertPointToPixelY(seg.y1);
+				int x2 = convertPointToPixelX(seg.x2);
+				int y2 = convertPointToPixelY(seg.y2);
+				g.drawLine(x1, y1, x2, y2);
+				g.fillOval(Math.round(0.5f * (x1 + x2) - 2), Math.round(0.5f * (y1 + y2) - 2), 4, 4);
 			}
 		}
 	}

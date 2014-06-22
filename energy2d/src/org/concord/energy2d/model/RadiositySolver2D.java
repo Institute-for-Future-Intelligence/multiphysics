@@ -28,17 +28,23 @@ class RadiositySolver2D {
 		this.model = model;
 	}
 
+	void reset() {
+	}
+
 	void solve() {
 
 	}
 
 	void segmentize() {
 		segments.clear();
-		patchSize = model.getLx() * 0.05f;
+		patchSize = model.getLx() * 0.02f;
 		for (Part part : model.getParts()) {
 			segmentize(part);
-			System.out.println(segments.size());
 		}
+	}
+
+	List<Segment> getSegments() {
+		return segments;
 	}
 
 	private void segmentize(Part part) {

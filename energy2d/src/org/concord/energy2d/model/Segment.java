@@ -10,10 +10,10 @@ import org.concord.energy2d.math.Vector2D;
  * @author Charles Xie
  * 
  */
-class Segment {
+public class Segment {
 
-	float x1, y1;
-	float x2, y2;
+	public float x1, y1;
+	public float x2, y2;
 	private float xc, yc;
 
 	Segment(float x1, float y1, float x2, float y2, float xc, float yc) {

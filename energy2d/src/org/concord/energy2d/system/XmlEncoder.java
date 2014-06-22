@@ -197,6 +197,9 @@ class XmlEncoder {
 		if (box.view.getFahrenheitUsed()) {
 			sb.append("<fahrenheit_used>true</fahrenheit_used>\n");
 		}
+		if (box.view.isRadiationMeshOn()) {
+			sb.append("<radiation_mesh>true</radiation_mesh>\n");
+		}
 		if (box.view.isRulerOn()) {
 			sb.append("<ruler>true</ruler>\n");
 		}

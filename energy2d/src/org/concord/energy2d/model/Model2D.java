@@ -1045,6 +1045,14 @@ public class Model2D {
 		particles.remove(p);
 	}
 
+	public List<Segment> getRadiationSegments() {
+		return radiositySolver.getSegments();
+	}
+
+	public void segmentizeRadiationParts() {
+		radiositySolver.segmentize();
+	}
+
 	public float getMaximumHeatCapacity() {
 		return maximumHeatCapacity;
 	}
@@ -1326,6 +1334,7 @@ public class Model2D {
 		photons.clear();
 		heatSolver.reset();
 		fluidSolver.reset();
+		radiositySolver.reset();
 	}
 
 	private void checkPartPower() {
@@ -1355,7 +1364,6 @@ public class Model2D {
 	}
 
 	private void nextStep() {
-		radiositySolver.segmentize();
 		if (radiative) {
 			if (indexOfStep % photonEmissionInterval == 0) {
 				refreshPowerArray();

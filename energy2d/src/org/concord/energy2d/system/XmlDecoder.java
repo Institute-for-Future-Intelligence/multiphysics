@@ -72,6 +72,7 @@ class XmlDecoder extends DefaultHandler {
 	// view properties
 	private byte graphDataType;
 	private boolean fahrenheitUsed;
+	private boolean radiationMesh;
 	private boolean ruler;
 	private boolean grid;
 	private boolean snapToGrid = true;
@@ -190,6 +191,7 @@ class XmlDecoder extends DefaultHandler {
 
 		box.view.setGraphDataType(graphDataType);
 		box.view.setFahrenheitUsed(fahrenheitUsed);
+		box.view.setRadiationMeshOn(radiationMesh);
 		box.view.setRulerOn(ruler);
 		box.view.setGridOn(grid);
 		box.view.setSnapToGrid(snapToGrid);
@@ -793,6 +795,8 @@ class XmlDecoder extends DefaultHandler {
 			maximumTemperature = Float.parseFloat(str);
 		} else if (qName == "graph_data_type") {
 			graphDataType = Byte.parseByte(str);
+		} else if (qName == "radiation_mesh") {
+			radiationMesh = Boolean.parseBoolean(str);
 		} else if (qName == "ruler") {
 			ruler = Boolean.parseBoolean(str);
 		} else if (qName == "fahrenheit_used") {
@@ -1051,6 +1055,7 @@ class XmlDecoder extends DefaultHandler {
 		// view properties
 		graphDataType = 0;
 		fahrenheitUsed = false;
+		radiationMesh = false;
 		ruler = false;
 		grid = false;
 		snapToGrid = true;
