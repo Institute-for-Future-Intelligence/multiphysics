@@ -5,6 +5,9 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.Polygon2D;
@@ -18,71 +21,107 @@ import org.concord.energy2d.math.Polygon2D;
 class RadiositySolver2D {
 
 	private Model2D model;
+	private List<Segment> segments = Collections.synchronizedList(new ArrayList<Segment>());
+	private float patchSize;
 
 	RadiositySolver2D(Model2D model) {
 		this.model = model;
 	}
 
 	void solve() {
+
+	}
+
+	void segmentize() {
+		segments.clear();
+		patchSize = model.getLx() * 0.05f;
 		for (Part part : model.getParts()) {
-			radiate(part);
+			segmentize(part);
+			System.out.println(segments.size());
 		}
 	}
 
-	void radiate(Part part) {
+	private void segmentize(Part part) {
 
 		Shape shape = part.getShape();
-		Line2D.Float line = new Line2D.Float();
+		float xc = (float) shape.getBounds2D().getCenterX();
+		float yc = (float) shape.getBounds2D().getCenterY();
 
-		if (shape instanceof Rectangle2D.Float) {
-			// must follow the clockwise direction in setting lines
+		if (shape instanceof Rectangle2D.Float) { // special case, faster implementation (no trig)
 			Rectangle2D.Float r = (Rectangle2D.Float) shape;
-			// north
-			line.setLine(r.x, r.y, r.x + r.width, r.y);
-			radiate(line);
-			// east
-			line.setLine(r.x + r.width, r.y, r.x + r.width, r.y + r.height);
-			radiate(line);
-			// south
-			line.setLine(r.x + r.width, r.y + r.height, r.x, r.y + r.height);
-			radiate(line);
-			// west
-			line.setLine(r.x, r.y + r.height, r.x, r.y);
-			radiate(line);
+			float x0 = r.x;
+			float y0 = r.y;
+			float x1 = r.x + r.width;
+			float y1 = r.y + r.height;
+			// follow the clockwise direction in setting lines
+			if (r.width <= patchSize) {
+				segments.add(new Segment(x0, y0, x1, y0, xc, yc));
+			} else {
+				int n = (int) (r.width / patchSize);
+				for (int i = 0; i < n; i++)
+					segments.add(new Segment(x0 + i * patchSize, y0, x0 + (i + 1) * patchSize, y0, xc, yc));
+				segments.add(new Segment(x0 + n * patchSize, y0, x1, y0, xc, yc));
+			}
+			if (r.height <= patchSize) {
+				segments.add(new Segment(x1, y0, x1, y1, xc, yc));
+			} else {
+				int n = (int) (r.height / patchSize);
+				for (int i = 0; i < n; i++)
+					segments.add(new Segment(x1, y0 + i * patchSize, x1, y0 + (i + 1) * patchSize, xc, yc));
+				segments.add(new Segment(x1, y0 + n * patchSize, x1, y1, xc, yc));
+			}
+			if (r.width <= patchSize) {
+				segments.add(new Segment(x1, y1, x0, y1, xc, yc));
+			} else {
+				int n = (int) (r.width / patchSize);
+				for (int i = 0; i < n; i++)
+					segments.add(new Segment(x1 - i * patchSize, y1, x1 - (i + 1) * patchSize, y1, xc, yc));
+				segments.add(new Segment(x1 - n * patchSize, y1, x0, y1, xc, yc));
+			}
+			if (r.height <= patchSize) {
+				segments.add(new Segment(x0, y1, x0, y0, xc, yc));
+			} else {
+				int n = (int) (r.height / patchSize);
+				for (int i = 0; i < n; i++)
+					segments.add(new Segment(x0, y1 - i * patchSize, x0, y1 - (i + 1) * patchSize, xc, yc));
+				segments.add(new Segment(x0, y1 - n * patchSize, x0, y0, xc, yc));
+			}
 		}
 
 		else if (shape instanceof Polygon2D) {
 			Polygon2D r = (Polygon2D) shape;
 			int n = r.getVertexCount();
-			// must follow the clockwise direction in setting lines
+			// follow the clockwise direction in segmentization
 			Point2D.Float v1, v2;
+			Line2D.Float line = new Line2D.Float();
 			for (int i = 0; i < n - 1; i++) {
 				v1 = r.getVertex(i);
 				v2 = r.getVertex(i + 1);
 				line.setLine(v1, v2);
-				radiate(line);
+				segmentize(line, xc, yc);
 			}
 			v1 = r.getVertex(n - 1);
 			v2 = r.getVertex(0);
 			line.setLine(v1, v2);
-			radiate(line);
+			segmentize(line, xc, yc);
 		}
 
 		else if (shape instanceof Blob2D) {
 			Blob2D r = (Blob2D) shape;
 			int n = r.getPointCount();
-			// must follow the clockwise direction in setting lines
+			// follow the clockwise direction in setting lines
 			Point2D.Float v1, v2;
+			Line2D.Float line = new Line2D.Float();
 			for (int i = 0; i < n - 1; i++) {
 				v1 = r.getPoint(i);
 				v2 = r.getPoint(i + 1);
 				line.setLine(v1, v2);
-				radiate(line);
+				segmentize(line, xc, yc);
 			}
 			v1 = r.getPoint(n - 1);
 			v2 = r.getPoint(0);
 			line.setLine(v1, v2);
-			radiate(line);
+			segmentize(line, xc, yc);
 		}
 
 		else if (shape instanceof Ellipse2D.Float) {
@@ -91,27 +130,45 @@ class RadiositySolver2D {
 			float b = e.height * 0.5f;
 			float x = e.x + a;
 			float y = e.y + b;
-			int polygonize = 20;
-			float[] vx = new float[polygonize];
-			float[] vy = new float[polygonize];
+			float h = (a - b) / (a + b);
+			h *= h;
+			double perimeter = Math.PI * (a + b) * (1 + 3 * h / (10 + Math.sqrt(4 - 3 * h)));
+			int n = (int) (perimeter / patchSize);
+			float[] vx = new float[n];
+			float[] vy = new float[n];
 			float theta;
-			float delta = (float) (2 * Math.PI / polygonize);
-			for (int i = 0; i < polygonize; i++) {
+			float delta = (float) (2 * Math.PI / n);
+			for (int i = 0; i < n; i++) {
 				theta = delta * i;
 				vx[i] = (float) (x + a * Math.cos(theta));
 				vy[i] = (float) (y + b * Math.sin(theta));
 			}
-			for (int i = 0; i < polygonize - 1; i++) {
-				line.setLine(vx[i], vy[i], vx[i + 1], vy[i + 1]);
-				radiate(line);
+			for (int i = 0; i < n - 1; i++) {
+				segments.add(new Segment(vx[i], vy[i], vx[i + 1], vy[i + 1], xc, yc));
 			}
-			line.setLine(vx[polygonize - 1], vy[polygonize - 1], vx[0], vy[0]);
-			radiate(line);
+			segments.add(new Segment(vx[n - 1], vy[n - 1], vx[0], vy[0], xc, yc));
 		}
 
 	}
 
-	private void radiate(Line2D.Float line) {
+	private void segmentize(Line2D.Float line, float xc, float yc) {
+		float length = (float) Math.hypot(line.x1 - line.x2, line.y1 - line.y2);
+		if (length <= patchSize) {
+			segments.add(new Segment(line.x1, line.y1, line.x2, line.y2, xc, yc));
+		} else {
+			float cos = (line.x2 - line.x1) / length;
+			float sin = (line.y2 - line.y1) / length;
+			int n = (int) (length / patchSize);
+			float xi, yi, xj = 0, yj = 0;
+			for (int i = 0; i < n; i++) {
+				xi = line.x1 + i * patchSize * cos;
+				yi = line.y1 + i * patchSize * sin;
+				xj = xi + patchSize * cos;
+				yj = yi + patchSize * sin;
+				segments.add(new Segment(xi, yi, xj, yj, xc, yc));
+			}
+			segments.add(new Segment(xj, yj, line.x2, line.y2, xc, yc));
+		}
 	}
 
 	// can the two segments see each other?

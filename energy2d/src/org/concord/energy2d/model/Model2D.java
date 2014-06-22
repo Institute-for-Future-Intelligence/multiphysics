@@ -1355,6 +1355,7 @@ public class Model2D {
 	}
 
 	private void nextStep() {
+		radiositySolver.segmentize();
 		if (radiative) {
 			if (indexOfStep % photonEmissionInterval == 0) {
 				refreshPowerArray();
