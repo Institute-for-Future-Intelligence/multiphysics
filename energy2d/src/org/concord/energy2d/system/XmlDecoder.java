@@ -53,6 +53,7 @@ class XmlDecoder extends DefaultHandler {
 	private int solarRayCount = 24;
 	private float solarRaySpeed = 0.1f;
 	private int photonEmissionInterval = 20;
+	private float radiationMeshSize = 0.02f;
 	private boolean convective = true;
 	private float zHeatDiffusivity;
 	private float gravitationalAcceleration = -1;
@@ -171,6 +172,7 @@ class XmlDecoder extends DefaultHandler {
 		box.model.setSolarRayCount(solarRayCount);
 		box.model.setSolarRaySpeed(solarRaySpeed);
 		box.model.setPhotonEmissionInterval(photonEmissionInterval);
+		box.model.setRadiationMeshSize(radiationMeshSize);
 		box.model.setConvective(convective);
 		box.model.setZHeatDiffusivity(zHeatDiffusivity);
 		if (gravitationalAcceleration >= 0)
@@ -761,6 +763,8 @@ class XmlDecoder extends DefaultHandler {
 			solarRaySpeed = Float.parseFloat(str);
 		} else if (qName == "photon_emission_interval") {
 			photonEmissionInterval = Integer.parseInt(str);
+		} else if (qName == "radiation_mesh_size") {
+			radiationMeshSize = Float.parseFloat(str);
 		} else if (qName == "z_heat_diffusivity") {
 			zHeatDiffusivity = Float.parseFloat(str);
 		} else if (qName == "gravitational_acceleration") {
@@ -1037,6 +1041,7 @@ class XmlDecoder extends DefaultHandler {
 		solarRayCount = 24;
 		solarRaySpeed = 0.1f;
 		photonEmissionInterval = 20;
+		radiationMeshSize = 0.02f;
 		zHeatDiffusivity = 0;
 		gravitationalAcceleration = -1;
 		thermophoreticCoefficient = 0;

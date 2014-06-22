@@ -809,6 +809,8 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 			model.refreshTemperatureBoundaryArray();
 			if (p.getEmissivity() > 0)
 				model.getPhotons().clear();
+			if (view.isRadiationMeshOn())
+				model.generateRadiationMesh();
 			setSaved(false);
 		}
 		view.repaint();

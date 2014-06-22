@@ -200,6 +200,7 @@ class XmlEncoder {
 		if (box.view.isRadiationMeshOn()) {
 			sb.append("<radiation_mesh>true</radiation_mesh>\n");
 		}
+		sb.append("<radiation_mesh_size>" + box.model.getRadiationMeshSize() + "</radiation_mesh_size>\n");
 		if (box.view.isRulerOn()) {
 			sb.append("<ruler>true</ruler>\n");
 		}

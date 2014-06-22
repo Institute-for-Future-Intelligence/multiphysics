@@ -1049,8 +1049,16 @@ public class Model2D {
 		return radiositySolver.getSegments();
 	}
 
-	public void segmentizeRadiationParts() {
+	public void generateRadiationMesh() {
 		radiositySolver.segmentize();
+	}
+
+	public void setRadiationMeshSize(float size) {
+		radiositySolver.setPatchSizePercentage(size);
+	}
+
+	public float getRadiationMeshSize() {
+		return radiositySolver.getPatchSizePercentage();
 	}
 
 	public float getMaximumHeatCapacity() {

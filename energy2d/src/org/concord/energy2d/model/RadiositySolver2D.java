@@ -23,9 +23,18 @@ class RadiositySolver2D {
 	private Model2D model;
 	private List<Segment> segments = Collections.synchronizedList(new ArrayList<Segment>());
 	private float patchSize;
+	private float patchSizePercentage = 0.02f;
 
 	RadiositySolver2D(Model2D model) {
 		this.model = model;
+	}
+
+	void setPatchSizePercentage(float patchSizePercentage) {
+		this.patchSizePercentage = patchSizePercentage;
+	}
+
+	float getPatchSizePercentage() {
+		return patchSizePercentage;
 	}
 
 	void reset() {
@@ -37,7 +46,7 @@ class RadiositySolver2D {
 
 	void segmentize() {
 		segments.clear();
-		patchSize = model.getLx() * 0.02f;
+		patchSize = model.getLx() * patchSizePercentage;
 		for (Part part : model.getParts()) {
 			segmentize(part);
 		}

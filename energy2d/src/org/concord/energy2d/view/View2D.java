@@ -699,7 +699,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		if (modeIcon != null)
 			modeIcon.setPressed(false);
 		if (showRadiationMesh)
-			model.segmentizeRadiationParts();
+			model.generateRadiationMesh();
 	}
 
 	public void setRunToggle(boolean b) {
@@ -776,7 +776,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public void setRadiationMeshOn(boolean b) {
 		showRadiationMesh = b;
 		if (b)
-			model.segmentizeRadiationParts();
+			model.generateRadiationMesh();
 	}
 
 	public boolean isRadiationMeshOn() {
@@ -1679,7 +1679,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		List<Segment> segments = model.getRadiationSegments();
 		if (segments.isEmpty())
 			return;
-		g.setColor(Color.WHITE);
 		g.setStroke(thinStroke);
 		synchronized (segments) {
 			for (Segment seg : segments) {
@@ -1687,8 +1686,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				int y1 = convertPointToPixelY(seg.y1);
 				int x2 = convertPointToPixelX(seg.x2);
 				int y2 = convertPointToPixelY(seg.y2);
+				g.setColor(Color.WHITE);
 				g.drawLine(x1, y1, x2, y2);
-				g.fillOval(Math.round(0.5f * (x1 + x2) - 2), Math.round(0.5f * (y1 + y2) - 2), 4, 4);
+				g.setColor(Color.BLACK);
+				g.fillOval(x1 - 2, y1 - 2, 4, 4);
 			}
 		}
 	}

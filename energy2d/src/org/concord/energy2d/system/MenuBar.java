@@ -557,7 +557,7 @@ class MenuBar extends JMenuBar {
 				MiscUtil.setSelectedSilently(miHeatFluxArrow, box.view.isHeatFluxArrowsOn());
 				MiscUtil.setSelectedSilently(miHeatFluxLine, box.view.isHeatFluxLinesOn());
 				MiscUtil.setSelectedSilently(miColorPalette, box.view.isColorPaletteOn());
-				MiscUtil.setSelectedSilently(miRadiationMesh, box.view.isRulerOn());
+				MiscUtil.setSelectedSilently(miRadiationMesh, box.view.isRadiationMeshOn());
 				MiscUtil.setSelectedSilently(miRuler, box.view.isRulerOn());
 				MiscUtil.setSelectedSilently(miGrid, box.view.isGridOn());
 				miIncrGrid.setEnabled(box.view.isGridOn());
