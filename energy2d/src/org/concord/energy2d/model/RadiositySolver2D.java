@@ -89,7 +89,8 @@ class RadiositySolver2D {
 				int n = (int) (r.width / patchSize);
 				for (int i = 0; i < n; i++)
 					segments.add(new Segment(x0 + i * patchSize, y0, x0 + (i + 1) * patchSize, y0, xc, yc));
-				segments.add(new Segment(x0 + n * patchSize, y0, x1, y0, xc, yc));
+				if (Math.abs(x0 + n * patchSize - x1) > 0.05f * patchSize)
+					segments.add(new Segment(x0 + n * patchSize, y0, x1, y0, xc, yc));
 			}
 			if (r.height <= patchSize) {
 				segments.add(new Segment(x1, y0, x1, y1, xc, yc));
@@ -97,7 +98,8 @@ class RadiositySolver2D {
 				int n = (int) (r.height / patchSize);
 				for (int i = 0; i < n; i++)
 					segments.add(new Segment(x1, y0 + i * patchSize, x1, y0 + (i + 1) * patchSize, xc, yc));
-				segments.add(new Segment(x1, y0 + n * patchSize, x1, y1, xc, yc));
+				if (Math.abs(y0 + n * patchSize - y1) > 0.05f * patchSize)
+					segments.add(new Segment(x1, y0 + n * patchSize, x1, y1, xc, yc));
 			}
 			if (r.width <= patchSize) {
 				segments.add(new Segment(x1, y1, x0, y1, xc, yc));
@@ -105,7 +107,8 @@ class RadiositySolver2D {
 				int n = (int) (r.width / patchSize);
 				for (int i = 0; i < n; i++)
 					segments.add(new Segment(x1 - i * patchSize, y1, x1 - (i + 1) * patchSize, y1, xc, yc));
-				segments.add(new Segment(x1 - n * patchSize, y1, x0, y1, xc, yc));
+				if (Math.abs(x1 - n * patchSize - x0) > 0.05f * patchSize)
+					segments.add(new Segment(x1 - n * patchSize, y1, x0, y1, xc, yc));
 			}
 			if (r.height <= patchSize) {
 				segments.add(new Segment(x0, y1, x0, y0, xc, yc));
@@ -113,7 +116,8 @@ class RadiositySolver2D {
 				int n = (int) (r.height / patchSize);
 				for (int i = 0; i < n; i++)
 					segments.add(new Segment(x0, y1 - i * patchSize, x0, y1 - (i + 1) * patchSize, xc, yc));
-				segments.add(new Segment(x0, y1 - n * patchSize, x0, y0, xc, yc));
+				if (Math.abs(y1 - n * patchSize - y0) > 0.05f * patchSize)
+					segments.add(new Segment(x0, y1 - n * patchSize, x0, y0, xc, yc));
 			}
 		}
 

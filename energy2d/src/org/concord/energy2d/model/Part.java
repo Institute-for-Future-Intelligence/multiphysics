@@ -463,7 +463,7 @@ public class Part extends Manipulable {
 		}
 	}
 
-	/** return true if the line that connects the two specified points intersects with this part. */
+	/** return true if the line connecting the two specified points intersects with this part. */
 	public boolean intersectsLine(Point2D.Float p1, Point2D.Float p2) {
 
 		Shape shape = getShape();
@@ -471,7 +471,7 @@ public class Part extends Manipulable {
 		if (shape instanceof Rectangle2D.Float) { // simpler case, faster implementation
 
 			Rectangle2D.Float r0 = (Rectangle2D.Float) shape;
-			float indent = 0.01f;
+			float indent = 0.0001f;
 			// enlarge it a bit
 			Rectangle2D.Float r = new Rectangle2D.Float(r0.x - indent * r0.width, r0.y - indent * r0.height, (1 + 2 * indent) * r0.width, (1 + 2 * indent) * r0.height);
 			if (r.contains(p1) && r.contains(p2)) // both p1 and p2 belong to the same rectangular shape

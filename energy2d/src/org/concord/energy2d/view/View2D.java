@@ -1695,8 +1695,23 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		g.setColor(Color.WHITE);
 		g.setStroke(dashed);
 		int n = segments.size();
-		int x1, y1, x2, y2;
 		Segment s1, s2;
+		float viewFactorMax = -Float.MAX_VALUE;
+		float viewFactorMin = Float.MAX_VALUE;
+		for (int i = 0; i < n - 1; i++) {
+			s1 = segments.get(i);
+			for (int j = i + 1; j < n; j++) {
+				s2 = segments.get(j);
+				if (model.isVisible(s1, s2)) {
+					float vf = s2.getViewFactor(s1);
+					if (vf > viewFactorMax)
+						viewFactorMax = vf;
+					if (vf < viewFactorMin)
+						viewFactorMin = vf;
+				}
+			}
+		}
+		int x1, y1, x2, y2;
 		Point2D.Float p1, p2;
 		for (int i = 0; i < n - 1; i++) {
 			s1 = segments.get(i);
@@ -1709,10 +1724,15 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					p2 = s2.getCenter();
 					x2 = convertPointToPixelX(p2.x);
 					y2 = convertPointToPixelY(p2.y);
-					g.drawLine(x1, y1, x2, y2);
+					float vf = s2.getViewFactor(s1);
+					if (Math.abs(vf) > 0.001f) {
+						g.setColor(new Color(255, 255, 255, (int) (255 * (vf - viewFactorMin) / (viewFactorMax - viewFactorMin))));
+						g.drawLine(x1, y1, x2, y2);
+					}
 				}
 			}
 		}
+		// System.out.println(viewFactorMin + "," + viewFactorMax);
 	}
 
 	private void drawClouds(Graphics2D g) {

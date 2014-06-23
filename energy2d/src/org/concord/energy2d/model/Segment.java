@@ -23,6 +23,8 @@ public class Segment {
 		this.y2 = y2;
 		this.xc = xc;
 		this.yc = yc;
+		if (x1 == x2 && y1 == y2)
+			throw new RuntimeException("segment cannot be a point: " + this);
 	}
 
 	public float length() {
@@ -31,12 +33,11 @@ public class Segment {
 
 	// the dot product with (x2-x1, y2-y1) must be zero and this normal vector points outwards
 	public Vector2D getNormalVector() {
+		Vector2D v = new Vector2D(y1 - y2, x2 - x1);
 		Point2D.Float c = getCenter();
-		Vector2D v1 = new Vector2D(c.x - xc, c.y - yc);
-		Vector2D v2 = new Vector2D(y1 - y2, x2 - x1);
-		if (v1.dotProduct(v2) > 0)
-			return v2;
-		return new Vector2D(y2 - y1, x1 - x2);
+		if (new Vector2D(c.x - xc, c.y - yc).dotProduct(v) < 0)
+			v.set(y2 - y1, x1 - x2);
+		return v;
 	}
 
 	public Point2D.Float getCenter() {
@@ -49,9 +50,19 @@ public class Segment {
 		// calculate the center of the other segment
 		Point2D.Float p2 = s.getCenter();
 		Vector2D r = new Vector2D(p2.x - p1.x, p2.y - p1.y);
+		float r2 = r.x * r.x + r.y * r.y;
+		r.normalize();
 		Vector2D n1 = getNormalVector();
+		n1.normalize();
 		Vector2D n2 = s.getNormalVector();
-		return r.dotProduct(n1) * r.dotProduct(n2) / ((float) Math.PI * (r.x * r.x + r.y * r.y));
+		n2.normalize();
+		// System.out.println(r+","+n1+","+n2);
+		return -r.dotProduct(n1) * r.dotProduct(n2) / ((float) Math.PI * r2);
+	}
+
+	@Override
+	public String toString() {
+		return "(" + x1 + ", " + y1 + ") - (" + x2 + ", " + y2 + ")";
 	}
 
 }
