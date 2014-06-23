@@ -468,23 +468,19 @@ public class Part extends Manipulable {
 
 		Shape shape = getShape();
 
-		Rectangle2D bound = shape.getBounds2D();
-		float deltaX = 0.01f * (float) bound.getWidth();
-		float deltaY = 0.01f * (float) bound.getHeight();
-		Rectangle2D.Float smallRect = new Rectangle2D.Float(p1.x - deltaX, p1.y - deltaY, 2 * deltaX, 2 * deltaY);
-		if (shape.intersects(smallRect)) // p1 belongs to this part, considered as non-intersecting
-			return false;
-		smallRect.setRect(p2.x - deltaX, p2.y - deltaY, 2 * deltaX, 2 * deltaY);
-		if (shape.intersects(smallRect)) // p2 belongs to this part, considered as non-intersecting
-			return false;
-
 		if (shape instanceof Rectangle2D.Float) { // simpler case, faster implementation
 
-			Rectangle2D.Float r = (Rectangle2D.Float) shape;
-			float x0 = r.x;
-			float y0 = r.y;
-			float x1 = r.x + r.width;
-			float y1 = r.y + r.height;
+			Rectangle2D.Float r0 = (Rectangle2D.Float) shape;
+			float indent = 0.01f;
+			// enlarge it a bit
+			Rectangle2D.Float r = new Rectangle2D.Float(r0.x - indent * r0.width, r0.y - indent * r0.height, (1 + 2 * indent) * r0.width, (1 + 2 * indent) * r0.height);
+			if (r.contains(p1) && r.contains(p2)) // both p1 and p2 belong to the same rectangular shape
+				return true;
+			// shrink it a bit
+			float x0 = r0.x + indent * r0.width;
+			float y0 = r0.y + indent * r0.height;
+			float x1 = r0.x + (1 - indent) * r0.width;
+			float y1 = r0.y + (1 - indent) * r0.height;
 			if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, x0, y0, x1, y0))
 				return true;
 			if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, x1, y0, x1, y1))

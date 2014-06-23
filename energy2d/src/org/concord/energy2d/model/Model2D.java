@@ -1050,7 +1050,7 @@ public class Model2D {
 	}
 
 	public void generateRadiationMesh() {
-		radiositySolver.segmentize();
+		radiositySolver.segmentizePerimeters();
 	}
 
 	public void setRadiationMeshSize(float size) {
@@ -1059,6 +1059,10 @@ public class Model2D {
 
 	public float getRadiationMeshSize() {
 		return radiositySolver.getPatchSizePercentage();
+	}
+
+	public boolean isVisible(Segment s1, Segment s2) {
+		return radiositySolver.isVisible(s1, s2);
 	}
 
 	public float getMaximumHeatCapacity() {

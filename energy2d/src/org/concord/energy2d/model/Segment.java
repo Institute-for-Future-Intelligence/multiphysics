@@ -16,7 +16,7 @@ public class Segment {
 	public float x2, y2;
 	private float xc, yc;
 
-	Segment(float x1, float y1, float x2, float y2, float xc, float yc) {
+	public Segment(float x1, float y1, float x2, float y2, float xc, float yc) {
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x2;
@@ -25,12 +25,12 @@ public class Segment {
 		this.yc = yc;
 	}
 
-	float length() {
+	public float length() {
 		return (float) Math.hypot(x2 - x1, y2 - y1);
 	}
 
 	// the dot product with (x2-x1, y2-y1) must be zero and this normal vector points outwards
-	Vector2D getNormalVector() {
+	public Vector2D getNormalVector() {
 		Point2D.Float c = getCenter();
 		Vector2D v1 = new Vector2D(c.x - xc, c.y - yc);
 		Vector2D v2 = new Vector2D(y1 - y2, x2 - x1);
@@ -39,11 +39,11 @@ public class Segment {
 		return new Vector2D(y2 - y1, x1 - x2);
 	}
 
-	Point2D.Float getCenter() {
+	public Point2D.Float getCenter() {
 		return new Point2D.Float(0.5f * (x1 + x2), 0.5f * (y1 + y2));
 	}
 
-	float getViewFactor(Segment s) {
+	public float getViewFactor(Segment s) {
 		// calculate the center of this segment
 		Point2D.Float p1 = getCenter();
 		// calculate the center of the other segment

@@ -1692,6 +1692,27 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				g.fillOval(x1 - 2, y1 - 2, 4, 4);
 			}
 		}
+		g.setColor(Color.WHITE);
+		g.setStroke(dashed);
+		int n = segments.size();
+		int x1, y1, x2, y2;
+		Segment s1, s2;
+		Point2D.Float p1, p2;
+		for (int i = 0; i < n - 1; i++) {
+			s1 = segments.get(i);
+			p1 = s1.getCenter();
+			x1 = convertPointToPixelX(p1.x);
+			y1 = convertPointToPixelY(p1.y);
+			for (int j = i + 1; j < n; j++) {
+				s2 = segments.get(j);
+				if (model.isVisible(s1, s2)) {
+					p2 = s2.getCenter();
+					x2 = convertPointToPixelX(p2.x);
+					y2 = convertPointToPixelY(p2.y);
+					g.drawLine(x1, y1, x2, y2);
+				}
+			}
+		}
 	}
 
 	private void drawClouds(Graphics2D g) {

@@ -42,13 +42,27 @@ class RadiositySolver2D {
 
 	void solve() {
 
+		int n = segments.size();
+		if (n <= 0)
+			return;
+		Segment s1, s2;
+		for (int i = 0; i < n - 1; i++) {
+			s1 = segments.get(i);
+			for (int j = i + 1; j < n; j++) {
+				s2 = segments.get(j);
+				if (isVisible(s1, s2)) {
+
+				}
+			}
+		}
+
 	}
 
-	void segmentize() {
+	void segmentizePerimeters() {
 		segments.clear();
 		patchSize = model.getLx() * patchSizePercentage;
 		for (Part part : model.getParts()) {
-			segmentize(part);
+			segmentizePerimeter(part);
 		}
 	}
 
@@ -56,7 +70,7 @@ class RadiositySolver2D {
 		return segments;
 	}
 
-	private void segmentize(Part part) {
+	private void segmentizePerimeter(Part part) {
 
 		Shape shape = part.getShape();
 		float xc = (float) shape.getBounds2D().getCenterX();
@@ -187,7 +201,7 @@ class RadiositySolver2D {
 	}
 
 	// can the two segments see each other?
-	boolean visible(Segment s1, Segment s2) {
+	boolean isVisible(Segment s1, Segment s2) {
 		Point2D.Float p1 = s1.getCenter();
 		Point2D.Float p2 = s2.getCenter();
 		for (Part part : model.getParts()) {
