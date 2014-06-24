@@ -1,5 +1,6 @@
 package org.concord.energy2d.model;
 
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 
 import org.concord.energy2d.math.Vector2D;
@@ -14,17 +15,20 @@ public class Segment {
 
 	public float x1, y1;
 	public float x2, y2;
-	private float xc, yc;
+	private Part part;
 
-	public Segment(float x1, float y1, float x2, float y2, float xc, float yc) {
+	public Segment(float x1, float y1, float x2, float y2, Part part) {
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x2;
 		this.y2 = y2;
-		this.xc = xc;
-		this.yc = yc;
+		this.part = part;
 		if (x1 == x2 && y1 == y2)
 			throw new RuntimeException("segment cannot be a point: " + this);
+	}
+
+	public Part getPart() {
+		return part;
 	}
 
 	public float length() {
@@ -35,6 +39,9 @@ public class Segment {
 	public Vector2D getNormalVector() {
 		Vector2D v = new Vector2D(y1 - y2, x2 - x1);
 		Point2D.Float c = getCenter();
+		Shape shape = part.getShape();
+		float xc = (float) shape.getBounds2D().getCenterX();
+		float yc = (float) shape.getBounds2D().getCenterY();
 		if (new Vector2D(c.x - xc, c.y - yc).dotProduct(v) < 0)
 			v.set(y2 - y1, x1 - x2);
 		return v;
@@ -56,8 +63,7 @@ public class Segment {
 		n1.normalize();
 		Vector2D n2 = s.getNormalVector();
 		n2.normalize();
-		// System.out.println(r+","+n1+","+n2);
-		return -r.dotProduct(n1) * r.dotProduct(n2) / ((float) Math.PI * r2);
+		return -r.dotProduct(n1) * r.dotProduct(n2) * s.length() / ((float) Math.PI * r2);
 	}
 
 	@Override
