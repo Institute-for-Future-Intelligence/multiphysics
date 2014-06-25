@@ -65,7 +65,7 @@ public class Part extends Manipulable {
 	// optical properties
 	private float absorption = 1;
 	private float transmission;
-	private float reflection;
+	private float reflectivity;
 	private float emissivity;
 	private boolean scattering;
 	private boolean scatteringVisible = true;
@@ -146,7 +146,7 @@ public class Part extends Manipulable {
 		p.specificHeat = specificHeat;
 		p.density = density;
 		p.absorption = absorption;
-		p.reflection = reflection;
+		p.reflectivity = reflectivity;
 		p.scattering = scattering;
 		p.scatteringVisible = scatteringVisible;
 		p.transmission = transmission;
@@ -217,12 +217,12 @@ public class Part extends Manipulable {
 		return absorption;
 	}
 
-	public void setReflection(float reflection) {
-		this.reflection = reflection;
+	public void setReflectivity(float reflectivity) {
+		this.reflectivity = reflectivity;
 	}
 
-	public float getReflection() {
-		return reflection;
+	public float getReflectivity() {
+		return reflectivity;
 	}
 
 	public void setScattering(boolean scattering) {
@@ -721,7 +721,7 @@ public class Part extends Manipulable {
 		xml += "<specific_heat>" + specificHeat + "</specific_heat>\n";
 		xml += "<density>" + density + "</density>\n";
 		xml += "<transmission>" + transmission + "</transmission>\n";
-		xml += "<reflection>" + reflection + "</reflection>\n";
+		xml += "<reflection>" + reflectivity + "</reflection>\n";
 		xml += "<scattering>" + scattering + "</scattering>\n";
 		if (!scatteringVisible)
 			xml += "<scattering_visible>false</scattering_visible>\n";

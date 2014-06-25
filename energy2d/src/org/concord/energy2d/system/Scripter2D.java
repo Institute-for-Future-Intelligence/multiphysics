@@ -1227,7 +1227,7 @@ class Scripter2D extends Scripter {
 			part.setAbsorption(z);
 			arrayUpdateRequested = true;
 		} else if (s == "reflection") {
-			part.setReflection(z);
+			part.setReflectivity(z);
 			arrayUpdateRequested = true;
 		} else if (s == "scattering") {
 			part.setScattering(z == 1);

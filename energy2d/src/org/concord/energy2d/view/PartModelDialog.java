@@ -315,7 +315,7 @@ class PartModelDialog extends JDialog {
 				part.setSpecificHeat(capacity);
 				part.setDensity(density);
 				part.setAbsorption(absorption);
-				part.setReflection(reflection);
+				part.setReflectivity(reflection);
 				part.setTransmission(transmission);
 				part.setScattering(scattering);
 				part.setScatteringVisible(visibleScattering);
@@ -621,7 +621,7 @@ class PartModelDialog extends JDialog {
 		p.add(absorptionRadioButton);
 		bg.add(absorptionRadioButton);
 
-		reflectionRadioButton = new JRadioButton("Reflection", part.getScattering() ? false : Math.abs(part.getReflection() - 1) < 0.01);
+		reflectionRadioButton = new JRadioButton("Reflection", part.getScattering() ? false : Math.abs(part.getReflectivity() - 1) < 0.01);
 		p.add(reflectionRadioButton);
 		bg.add(reflectionRadioButton);
 

@@ -119,7 +119,7 @@ class RaySolver2D {
 									}
 								}
 							} else {
-								if (Math.abs(part.getReflection() - 1) < 0.001f) { // in current implementation, reflection is either 1 or 0
+								if (Math.abs(part.getReflectivity() - 1) < 0.001f) { // in current implementation, reflection is either 1 or 0
 									if (part.reflect(p, timeStep, false))
 										break;
 								} else if (Math.abs(part.getAbsorption() - 1) < 0.001f) { // in current implementation, absorption is either 1 or 0

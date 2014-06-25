@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import org.concord.energy2d.math.Vector2D;
 
 /**
- * A line segment that is considered as a basic unit of radiation
+ * A line segment that is considered as a basic unit of radiation (aka a patch)
  * 
  * @author Charles Xie
  * 
@@ -15,6 +15,9 @@ public class Segment {
 
 	public float x1, y1;
 	public float x2, y2;
+	public float radiation;
+	public float emission;
+
 	private Part part;
 
 	public Segment(float x1, float y1, float x2, float y2, Part part) {
@@ -63,7 +66,10 @@ public class Segment {
 		n1.normalize();
 		Vector2D n2 = s.getNormalVector();
 		n2.normalize();
-		return -r.dotProduct(n1) * r.dotProduct(n2) * s.length() / ((float) Math.PI * r2);
+		float dot = -r.dotProduct(n1) * r.dotProduct(n2);
+		if (dot < 0) // dot cannot be negative, eliminate numeric error
+			dot = 0;
+		return dot * s.length() / ((float) Math.PI * r2);
 	}
 
 	@Override

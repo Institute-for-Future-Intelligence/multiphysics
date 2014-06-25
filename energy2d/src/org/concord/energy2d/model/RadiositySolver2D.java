@@ -24,6 +24,7 @@ class RadiositySolver2D {
 	private List<Segment> segments = Collections.synchronizedList(new ArrayList<Segment>());
 	private float patchSize;
 	private float patchSizePercentage = 0.02f;
+	private float[][] viewFactors;
 
 	RadiositySolver2D(Model2D model) {
 		this.model = model;
@@ -46,12 +47,18 @@ class RadiositySolver2D {
 		if (n <= 0)
 			return;
 		Segment s1, s2;
+		// compute emissions
+		for (int i = 0; i < n; i++) {
+			s1 = segments.get(i);
+			s1.emission = s1.getPart().getEmissivity();
+		}
+		// populate the view factor matrix (visibility included)
 		for (int i = 0; i < n - 1; i++) {
 			s1 = segments.get(i);
 			for (int j = i + 1; j < n; j++) {
 				s2 = segments.get(j);
 				if (isVisible(s1, s2)) {
-
+					viewFactors[i][j] = viewFactors[j][i] = s1.getViewFactor(s2);
 				}
 			}
 		}
@@ -64,6 +71,8 @@ class RadiositySolver2D {
 		for (Part part : model.getParts()) {
 			segmentizePerimeter(part);
 		}
+		int n = segments.size();
+		viewFactors = new float[n][n];
 	}
 
 	List<Segment> getSegments() {
