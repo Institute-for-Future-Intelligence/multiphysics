@@ -472,11 +472,11 @@ public class Part extends Manipulable {
 
 			Rectangle2D.Float r0 = (Rectangle2D.Float) shape;
 			float indent = 0.0001f;
-			// enlarge it a bit
+			// enlarge it a bit to ensure that it is contained by this rectangular part
 			Rectangle2D.Float r = new Rectangle2D.Float(r0.x - indent * r0.width, r0.y - indent * r0.height, (1 + 2 * indent) * r0.width, (1 + 2 * indent) * r0.height);
 			if (r.contains(p1) && r.contains(p2)) // both p1 and p2 belong to the same rectangular shape
 				return true;
-			// shrink it a bit
+			// shrink it a bit to ensure that it intersects with this regular part
 			float x0 = r0.x + indent * r0.width;
 			float y0 = r0.y + indent * r0.height;
 			float x1 = r0.x + (1 - indent) * r0.width;
