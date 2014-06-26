@@ -24,7 +24,7 @@ class RadiositySolver2D {
 	private List<Segment> segments = Collections.synchronizedList(new ArrayList<Segment>());
 	private float patchSize;
 	private float patchSizePercentage = 0.02f;
-	private float[][] viewFactors;
+	private float[][] matrix;
 
 	RadiositySolver2D(Model2D model) {
 		this.model = model;
@@ -46,23 +46,51 @@ class RadiositySolver2D {
 		int n = segments.size();
 		if (n <= 0)
 			return;
-		Segment s1, s2;
-		// compute emissions
+		Segment s;
+		// compute emission
 		for (int i = 0; i < n; i++) {
-			s1 = segments.get(i);
-			s1.emission = s1.getPart().getEmissivity();
+			s = segments.get(i);
+			s.emission = s.getPart().getEmissivity() * s.getPart().getTemperature(); // Stefan's Law
 		}
+		// apply relaxation
+		for (int k = 0; k < 5; k++) {
+			for (int i = 0; i < n; i++) {
+				s = segments.get(i);
+				s.radiation = s.emission;
+				for (int j = 0; j < n; j++) {
+					if (j != i) {
+						s.radiation -= matrix[i][j] * segments.get(j).radiation;
+					}
+				}
+				s.radiation /= matrix[i][i];
+			}
+		}
+
+		System.out.println(segments.get(1).radiation + "," + segments.get(37).radiation);
+
+	}
+
+	private void computeViewFactors() {
+		int n = segments.size();
+		Segment s1, s2;
+		float vf;
 		// populate the view factor matrix (visibility included)
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				matrix[i][j] = i == j ? 1 : 0;
+			}
+		}
 		for (int i = 0; i < n - 1; i++) {
 			s1 = segments.get(i);
 			for (int j = i + 1; j < n; j++) {
 				s2 = segments.get(j);
 				if (isVisible(s1, s2)) {
-					viewFactors[i][j] = viewFactors[j][i] = s1.getViewFactor(s2);
+					vf = s1.getViewFactor(s2);
+					matrix[i][j] = -0.1f * vf;
+					matrix[j][i] = -0.1f * vf;
 				}
 			}
 		}
-
 	}
 
 	void segmentizePerimeters() {
@@ -72,7 +100,8 @@ class RadiositySolver2D {
 			segmentizePerimeter(part);
 		}
 		int n = segments.size();
-		viewFactors = new float[n][n];
+		matrix = new float[n][n];
+		computeViewFactors();
 	}
 
 	List<Segment> getSegments() {
