@@ -1732,6 +1732,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				}
 			}
 		}
+		// System.out.println(viewFactorMin+","+viewFactorMax);
 	}
 
 	private void drawClouds(Graphics2D g) {

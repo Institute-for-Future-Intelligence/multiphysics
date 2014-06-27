@@ -69,7 +69,7 @@ public class Segment {
 		float dot = -r.dotProduct(n1) * r.dotProduct(n2);
 		if (dot < 0) // dot cannot be negative, eliminate numeric error
 			dot = 0;
-		return dot * s.length() / ((float) Math.PI * r2);
+		return dot * s.length() / (float) (Math.PI * Math.sqrt(r2)); // view factor equation is different in 2D
 	}
 
 	@Override

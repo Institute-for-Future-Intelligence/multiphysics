@@ -31,6 +31,9 @@ import org.concord.energy2d.math.Ring2D;
  */
 public class Model2D {
 
+	// Stefan's constant unit J/(s*m^2*K^-4)
+	final static float STEFAN_CONSTANT = 5.67E-08f;
+
 	public final static byte BUOYANCY_AVERAGE_ALL = 0;
 	public final static byte BUOYANCY_AVERAGE_COLUMN = 1;
 	public final static byte GRAVITY_UNIFORM = 0;
@@ -1381,7 +1384,7 @@ public class Model2D {
 				refreshPowerArray();
 				if (sunny)
 					raySolver.sunShine(photons, parts);
-				raySolver.radiate(this);
+				// raySolver.radiate(this);
 			}
 			raySolver.solve(this);
 			radiositySolver.solve();
@@ -1418,6 +1421,16 @@ public class Model2D {
 		return heatSolver.getTimeStep();
 	}
 
+	void changePowerAt(float x, float y, float increment) {
+		int i = Math.min(t.length - 1, Math.round(x / deltaX));
+		if (i < 0)
+			i = 0;
+		int j = Math.min(t[0].length - 1, Math.round(y / deltaY));
+		if (j < 0)
+			j = 0;
+		q[i][j] += increment;
+	}
+
 	public void setTemperature(float[][] t) {
 		this.t = t;
 	}
@@ -1430,6 +1443,16 @@ public class Model2D {
 		if (j < 0)
 			j = 0;
 		return t[i][j];
+	}
+
+	public float getTemperatureAt(float x, float y, byte stencil) {
+		int i = Math.min(t.length - 1, Math.round(x / deltaX));
+		if (i < 0)
+			i = 0;
+		int j = Math.min(t[0].length - 1, Math.round(y / deltaY));
+		if (j < 0)
+			j = 0;
+		return getTemperature(i, j, stencil);
 	}
 
 	public float getTemperature(int i, int j, byte stencil) {

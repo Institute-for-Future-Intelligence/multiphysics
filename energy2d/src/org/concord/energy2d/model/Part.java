@@ -29,9 +29,6 @@ import org.concord.energy2d.util.Texture;
  */
 public class Part extends Manipulable {
 
-	// Stefan's constant unit J/(s*m^2*K^-4)
-	private final static float STEFAN_CONSTANT = 0.0000000567f;
-
 	// constant power input/output: positive = source, negative = sink, zero = off. Unit: W/m^3
 	private float power;
 
@@ -398,7 +395,7 @@ public class Part extends Manipulable {
 			return 0;
 		float t2 = 273 + temperature;
 		t2 *= t2;
-		return emissivity * STEFAN_CONSTANT * unitSurfaceArea * t2 * t2;
+		return emissivity * Model2D.STEFAN_CONSTANT * unitSurfaceArea * t2 * t2;
 	}
 
 	private void radiate(Model2D model, Line2D.Float line) {

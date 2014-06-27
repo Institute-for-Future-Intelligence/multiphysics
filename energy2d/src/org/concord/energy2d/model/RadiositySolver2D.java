@@ -25,6 +25,8 @@ class RadiositySolver2D {
 	private float patchSize;
 	private float patchSizePercentage = 0.02f;
 	private float[][] matrix;
+	private float sigma = Model2D.STEFAN_CONSTANT;
+	private int relaxationSteps = 5;
 
 	RadiositySolver2D(Model2D model) {
 		this.model = model;
@@ -46,27 +48,50 @@ class RadiositySolver2D {
 		int n = segments.size();
 		if (n <= 0)
 			return;
+
 		Segment s;
-		// compute emission
-		for (int i = 0; i < n; i++) {
-			s = segments.get(i);
-			s.emission = s.getPart().getEmissivity() * s.getPart().getTemperature(); // Stefan's Law
-		}
-		// apply relaxation
-		for (int k = 0; k < 5; k++) {
+		synchronized (segments) {
+
+			// compute emission
 			for (int i = 0; i < n; i++) {
 				s = segments.get(i);
-				s.radiation = s.emission;
-				for (int j = 0; j < n; j++) {
-					if (j != i) {
-						s.radiation -= matrix[i][j] * segments.get(j).radiation;
-					}
-				}
-				s.radiation /= matrix[i][i];
+				Point2D.Float c = s.getCenter();
+				// Stefan's Law (not exactly)
+				float temp = model.getTemperatureAt(c.x, c.y, Sensor.FIVE_POINT) + 273;
+				temp *= temp;
+				s.emission = s.getPart().getEmissivity() * sigma * temp * temp;
+				temp = model.getBackgroundTemperature() + 273;
+				temp *= temp;
+				s.emission -= sigma * temp * temp;
 			}
+			// apply relaxation
+			for (int k = 0; k < relaxationSteps; k++) {
+				for (int i = 0; i < n; i++) {
+					s = segments.get(i);
+					s.radiation = s.emission;
+					for (int j = 0; j < n; j++) {
+						if (j != i) {
+							s.radiation -= matrix[i][j] * segments.get(j).radiation;
+						}
+					}
+					s.radiation /= matrix[i][i];
+				}
+			}
+
+			int m = 5;
+			for (int i = 0; i < n; i++) {
+				s = segments.get(i);
+				float r = -s.radiation / m;
+				float dx = (s.x2 - s.x1) / m;
+				float dy = (s.y2 - s.y1) / m;
+				for (int a = 0; a < m; a++) {
+					model.changePowerAt(s.x1 + dx * a, s.y1 + dy * a, r);
+				}
+			}
+
 		}
 
-		System.out.println(segments.get(1).radiation + "," + segments.get(37).radiation);
+		// System.out.println(segments.get(1).radiation + "," + segments.get(37).radiation);
 
 	}
 
@@ -86,8 +111,11 @@ class RadiositySolver2D {
 				s2 = segments.get(j);
 				if (isVisible(s1, s2)) {
 					vf = s1.getViewFactor(s2);
-					matrix[i][j] = -0.1f * vf;
-					matrix[j][i] = -0.1f * vf;
+					if (vf > 1) // FIXME: Why is our view factor larger than 1?
+						vf = 1;
+					float reflectivity = 1f;
+					matrix[i][j] = reflectivity * vf;
+					matrix[j][i] = reflectivity * vf;
 				}
 			}
 		}
