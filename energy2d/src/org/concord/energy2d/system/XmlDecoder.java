@@ -934,11 +934,11 @@ class XmlDecoder extends DefaultHandler {
 				if (!Float.isNaN(partEmissivity))
 					part.setEmissivity(partEmissivity);
 				if (!Float.isNaN(partAbsorption))
-					part.setAbsorption(partAbsorption);
+					part.setAbsorptivity(partAbsorption);
 				if (!Float.isNaN(partReflection))
 					part.setReflectivity(partReflection);
 				if (!Float.isNaN(partTransmission))
-					part.setTransmission(partTransmission);
+					part.setTransmissivity(partTransmission);
 				part.setScattering(partScattering);
 				part.setScatteringVisible(partScatteringVisible);
 				part.setThermistorTemperatureCoefficient(partTemperatureCoefficient);

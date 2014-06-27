@@ -8,6 +8,7 @@ package org.concord.energy2d.view;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Shape;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -62,12 +63,10 @@ class PartModelDialog extends JDialog {
 	private JTextField temperatureField;
 	private JTextField windSpeedField;
 	private JTextField windAngleField;
-	private JRadioButton absorptionRadioButton;
-	private JRadioButton reflectionRadioButton;
-	private JRadioButton transmissionRadioButton;
+	private JRadioButton noScatteringRadioButton;
 	private JRadioButton visibleScatteringRadioButton;
 	private JRadioButton invisibleScatteringRadioButton;
-	private JTextField emissivityField;
+	private JTextField emissivityField, absorptivityField, reflectivityField, transmissivityField;
 	private JTextField xField, yField, wField, hField, angleField, scaleXField, scaleYField, shearXField, shearYField, innerDiameterField, outerDiameterField;
 	private JCheckBox flipXCheckBox, flipYCheckBox;
 	private JTextField uidField;
@@ -108,33 +107,39 @@ class PartModelDialog extends JDialog {
 				boolean visibleScattering = visibleScatteringRadioButton.isSelected();
 				boolean invisibleScattering = invisibleScatteringRadioButton.isSelected();
 				boolean scattering = visibleScattering || invisibleScattering;
-				int absorption = scattering ? 0 : (absorptionRadioButton.isSelected() ? 1 : 0);
-				int reflection = scattering ? 1 : (reflectionRadioButton.isSelected() ? 1 : 0);
-				int transmission = scattering ? 0 : (transmissionRadioButton.isSelected() ? 1 : 0);
 
+				float absorptivity = parse(absorptivityField.getText());
+				if (Float.isNaN(absorptivity))
+					return;
+				float reflectivity = parse(reflectivityField.getText());
+				if (Float.isNaN(reflectivity))
+					return;
+				float transmissivity = parse(transmissivityField.getText());
+				if (Float.isNaN(transmissivity))
+					return;
 				float emissivity = parse(emissivityField.getText());
 				if (Float.isNaN(emissivity))
 					return;
 
-				if (absorption < 0 || absorption > 1) {
-					JOptionPane.showMessageDialog(owner, "Absorption coefficient must be within [0, 1].", "Error", JOptionPane.ERROR_MESSAGE);
+				if (absorptivity < 0 || absorptivity > 1) {
+					JOptionPane.showMessageDialog(owner, "Absorptivity must be within [0, 1].", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if (reflection < 0 || reflection > 1) {
-					JOptionPane.showMessageDialog(owner, "Reflection coefficient must be within [0, 1].", "Error", JOptionPane.ERROR_MESSAGE);
+				if (reflectivity < 0 || reflectivity > 1) {
+					JOptionPane.showMessageDialog(owner, "Reflectivity must be within [0, 1].", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if (transmission < 0 || transmission > 1) {
-					JOptionPane.showMessageDialog(owner, "Transmission coefficient must be within [0, 1].", "Error", JOptionPane.ERROR_MESSAGE);
+				if (transmissivity < 0 || transmissivity > 1) {
+					JOptionPane.showMessageDialog(owner, "Transmissivity must be within [0, 1].", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (emissivity < 0 || emissivity > 1) {
 					JOptionPane.showMessageDialog(owner, "Emissivity must be within [0, 1].", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				float sum = absorption + reflection + transmission;
+				float sum = absorptivity + reflectivity + transmissivity;
 				if (Math.abs(sum - 1) > 0.01) {
-					JOptionPane.showMessageDialog(owner, "The sum of absorption, reflection, and transmission must be exactly one.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(owner, "The sum of absorptivity, reflectivity, and transmissivity must be exactly one.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -314,12 +319,12 @@ class PartModelDialog extends JDialog {
 				part.setThermalConductivity(Math.max(conductivity, 0.000000001f));
 				part.setSpecificHeat(capacity);
 				part.setDensity(density);
-				part.setAbsorption(absorption);
-				part.setReflectivity(reflection);
-				part.setTransmission(transmission);
+				part.setAbsorptivity(absorptivity);
+				part.setReflectivity(reflectivity);
+				part.setTransmissivity(transmissivity);
+				part.setEmissivity(emissivity);
 				part.setScattering(scattering);
 				part.setScatteringVisible(visibleScattering);
-				part.setEmissivity(emissivity);
 				part.setLabel(labelField.getText());
 				part.setUid(uid);
 
@@ -609,25 +614,40 @@ class PartModelDialog extends JDialog {
 
 		// optics
 
-		p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		p.setBorder(BorderFactory.createTitledBorder("Interaction with light"));
+		p = new JPanel(new GridLayout(2, 2, 8, 8));
+		p.setBorder(BorderFactory.createTitledBorder("Radiosity"));
 		pp = new JPanel(new BorderLayout());
 		pp.add(p, BorderLayout.NORTH);
 		tabbedPane.add(pp, "Optical");
 
+		p.add(new JLabel("Absorptivity:"));
+		absorptivityField = new JTextField(FORMAT.format(part.getAbsorptivity()), 10);
+		absorptivityField.addActionListener(okListener);
+		p.add(absorptivityField);
+
+		p.add(new JLabel("Reflectivity:"));
+		reflectivityField = new JTextField(FORMAT.format(part.getReflectivity()), 10);
+		reflectivityField.addActionListener(okListener);
+		p.add(reflectivityField);
+
+		p.add(new JLabel("Transmissivity:"));
+		transmissivityField = new JTextField(FORMAT.format(part.getTransmissivity()), 10);
+		transmissivityField.addActionListener(okListener);
+		p.add(transmissivityField);
+
+		p.add(new JLabel("Emissivity:"));
+		emissivityField = new JTextField(FORMAT.format(part.getEmissivity()), 10);
+		emissivityField.addActionListener(okListener);
+		p.add(emissivityField);
+
+		p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		p.setBorder(BorderFactory.createTitledBorder("For light particles only"));
+		pp.add(p, BorderLayout.CENTER);
+
 		bg = new ButtonGroup();
-
-		absorptionRadioButton = new JRadioButton("Absorption", Math.abs(part.getAbsorption() - 1) < 0.01);
-		p.add(absorptionRadioButton);
-		bg.add(absorptionRadioButton);
-
-		reflectionRadioButton = new JRadioButton("Reflection", part.getScattering() ? false : Math.abs(part.getReflectivity() - 1) < 0.01);
-		p.add(reflectionRadioButton);
-		bg.add(reflectionRadioButton);
-
-		transmissionRadioButton = new JRadioButton("Transmission", Math.abs(part.getTransmission() - 1) < 0.01);
-		p.add(transmissionRadioButton);
-		bg.add(transmissionRadioButton);
+		noScatteringRadioButton = new JRadioButton("No scattering", !part.getScattering());
+		p.add(noScatteringRadioButton);
+		bg.add(noScatteringRadioButton);
 
 		visibleScatteringRadioButton = new JRadioButton("Scattering (visible)", part.getScattering() && part.isScatteringVisible());
 		p.add(visibleScatteringRadioButton);
@@ -636,15 +656,6 @@ class PartModelDialog extends JDialog {
 		invisibleScatteringRadioButton = new JRadioButton("Scattering (invisible)", part.getScattering() && !part.isScatteringVisible());
 		p.add(invisibleScatteringRadioButton);
 		bg.add(invisibleScatteringRadioButton);
-
-		p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		p.setBorder(BorderFactory.createTitledBorder("Radiation"));
-		pp.add(p, BorderLayout.CENTER);
-
-		p.add(new JLabel("Emissivity:"));
-		emissivityField = new JTextField(FORMAT.format(part.getEmissivity()), 10);
-		emissivityField.addActionListener(okListener);
-		p.add(emissivityField);
 
 		// miscellaneous
 

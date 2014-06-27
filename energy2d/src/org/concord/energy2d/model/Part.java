@@ -60,8 +60,8 @@ public class Part extends Manipulable {
 	private float density = 25f;
 
 	// optical properties
-	private float absorption = 1;
-	private float transmission;
+	private float absorptivity = 1;
+	private float transmissivity;
 	private float reflectivity;
 	private float emissivity;
 	private boolean scattering;
@@ -142,11 +142,11 @@ public class Part extends Manipulable {
 		p.thermalConductivity = thermalConductivity;
 		p.specificHeat = specificHeat;
 		p.density = density;
-		p.absorption = absorption;
+		p.absorptivity = absorptivity;
 		p.reflectivity = reflectivity;
 		p.scattering = scattering;
 		p.scatteringVisible = scatteringVisible;
-		p.transmission = transmission;
+		p.transmissivity = transmissivity;
 		p.emissivity = emissivity;
 		p.windAngle = windAngle;
 		p.windSpeed = windSpeed;
@@ -198,20 +198,20 @@ public class Part extends Manipulable {
 		return emissivity;
 	}
 
-	public void setTransmission(float transmission) {
-		this.transmission = transmission;
+	public void setTransmissivity(float transmission) {
+		this.transmissivity = transmission;
 	}
 
-	public float getTransmission() {
-		return transmission;
+	public float getTransmissivity() {
+		return transmissivity;
 	}
 
-	public void setAbsorption(float absorption) {
-		this.absorption = absorption;
+	public void setAbsorptivity(float absorption) {
+		this.absorptivity = absorption;
 	}
 
-	public float getAbsorption() {
-		return absorption;
+	public float getAbsorptivity() {
+		return absorptivity;
 	}
 
 	public void setReflectivity(float reflectivity) {
@@ -717,12 +717,12 @@ public class Part extends Manipulable {
 		xml += "<thermal_conductivity>" + thermalConductivity + "</thermal_conductivity>\n";
 		xml += "<specific_heat>" + specificHeat + "</specific_heat>\n";
 		xml += "<density>" + density + "</density>\n";
-		xml += "<transmission>" + transmission + "</transmission>\n";
+		xml += "<transmission>" + transmissivity + "</transmission>\n";
 		xml += "<reflection>" + reflectivity + "</reflection>\n";
 		xml += "<scattering>" + scattering + "</scattering>\n";
 		if (!scatteringVisible)
 			xml += "<scattering_visible>false</scattering_visible>\n";
-		xml += "<absorption>" + absorption + "</absorption>\n";
+		xml += "<absorption>" + absorptivity + "</absorption>\n";
 		xml += "<emissivity>" + emissivity + "</emissivity>\n";
 		xml += "<temperature>" + temperature + "</temperature>\n";
 		xml += "<constant_temperature>" + constantTemperature + "</constant_temperature>\n";

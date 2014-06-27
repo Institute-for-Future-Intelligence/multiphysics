@@ -122,7 +122,7 @@ class RaySolver2D {
 								if (Math.abs(part.getReflectivity() - 1) < 0.001f) { // in current implementation, reflection is either 1 or 0
 									if (part.reflect(p, timeStep, false))
 										break;
-								} else if (Math.abs(part.getAbsorption() - 1) < 0.001f) { // in current implementation, absorption is either 1 or 0
+								} else if (Math.abs(part.getAbsorptivity() - 1) < 0.001f) { // in current implementation, absorption is either 1 or 0
 									if (part.contains(p)) {
 										i = Math.min(nx, Math.round(p.getRx() * idx));
 										j = Math.min(ny, Math.round(p.getRy() * idy));
@@ -187,7 +187,7 @@ class RaySolver2D {
 	private static boolean isContained(float x, float y, List<Part> parts) {
 		synchronized (parts) {
 			for (Part p : parts) {
-				if (p.getTransmission() < 0.99 && p.contains(x, y)) {
+				if (p.getTransmissivity() < 0.99 && p.contains(x, y)) {
 					return true;
 				}
 			}

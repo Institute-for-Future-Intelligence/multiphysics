@@ -16,6 +16,7 @@ public class Segment {
 	public float x1, y1;
 	public float x2, y2;
 	public float radiation;
+	public float absorption;
 	public float emission;
 
 	private Part part;

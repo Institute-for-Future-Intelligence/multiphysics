@@ -1221,10 +1221,10 @@ class Scripter2D extends Scripter {
 		} else if (s == "draggable") {
 			part.setDraggable(z > 0);
 		} else if (s == "transmission") {
-			part.setTransmission(z);
+			part.setTransmissivity(z);
 			arrayUpdateRequested = true;
 		} else if (s == "absorption") {
-			part.setAbsorption(z);
+			part.setAbsorptivity(z);
 			arrayUpdateRequested = true;
 		} else if (s == "reflection") {
 			part.setReflectivity(z);
