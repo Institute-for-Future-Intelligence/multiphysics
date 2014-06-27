@@ -870,10 +870,10 @@ class MenuBar extends JMenuBar {
 		subMenu = new JMenu("Radiation");
 		menu.add(subMenu);
 
-		mi = new JMenuItem("Radiation Heat and Temperature");
+		mi = new JMenuItem("Temperature Dependence");
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				box.loadModel("models/temperature-radiation.e2d");
+				box.loadModel("models/stefan.e2d");
 			}
 		});
 		subMenu.add(mi);
