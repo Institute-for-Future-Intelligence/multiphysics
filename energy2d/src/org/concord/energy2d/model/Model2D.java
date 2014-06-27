@@ -1385,9 +1385,9 @@ public class Model2D {
 				if (sunny)
 					raySolver.sunShine(photons, parts);
 				// raySolver.radiate(this);
+				radiositySolver.solve();
 			}
 			raySolver.solve(this);
-			radiositySolver.solve();
 		}
 		if (convective)
 			fluidSolver.solve(u, v);

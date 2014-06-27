@@ -25,7 +25,7 @@ class RadiositySolver2D {
 	private float patchSize;
 	private float patchSizePercentage = 0.02f;
 	private float[][] reflection, absorption;
-	private int relaxationSteps = 5;
+	private int relaxationSteps = 2; // relaxation may not be needed much as we are already solving a time-dependent problem
 
 	RadiositySolver2D(Model2D model) {
 		this.model = model;
@@ -48,35 +48,43 @@ class RadiositySolver2D {
 		if (n <= 0)
 			return;
 
-		Segment s, s2;
+		Segment s;
 		synchronized (segments) {
 
-			// compute emission
+			// compute emission of each segment using Stefan's Law (offset by the background radiation)
 			for (int i = 0; i < n; i++) {
 				s = segments.get(i);
-				Point2D.Float c = s.getCenter();
-				// Stefan's Law (not exactly)
-				float temp = model.getTemperatureAt(c.x, c.y, Sensor.FIVE_POINT) + 273;
-				temp *= temp;
-				s.emission = s.getPart().getEmissivity() * Model2D.STEFAN_CONSTANT * temp * temp;
-				temp = model.getBackgroundTemperature() + 273;
-				temp *= temp;
-				s.emission -= Model2D.STEFAN_CONSTANT * temp * temp;
+				if (s.getPart().getEmissivity() > 0) {
+					Point2D.Float c = s.getCenter();
+					float temp = model.getTemperatureAt(c.x, c.y, Sensor.FIVE_POINT) + 273;
+					temp *= temp;
+					s.emission = s.getPart().getEmissivity() * Model2D.STEFAN_CONSTANT * temp * temp;
+					temp = model.getBackgroundTemperature() + 273;
+					temp *= temp;
+					s.emission -= Model2D.STEFAN_CONSTANT * temp * temp;
+				}
 			}
-			// apply relaxation
+
+			// apply Jacobi relaxation to get outgoing radiation for each segment (solving the radiosity matrix equation)
 			for (int k = 0; k < relaxationSteps; k++) {
 				for (int i = 0; i < n; i++) {
 					s = segments.get(i);
 					s.radiation = s.emission;
-					s.absorption = 0;
 					for (int j = 0; j < n; j++) {
-						if (j != i) {
-							s2 = segments.get(j);
-							s.radiation -= reflection[i][j] * s2.radiation;
-							s.absorption += absorption[i][j] * s2.radiation;
-						}
+						if (j != i)
+							s.radiation -= reflection[i][j] * segments.get(j).radiation;
 					}
 					s.radiation /= reflection[i][i];
+				}
+			}
+
+			// get the radiation from other segments that ends up being absorbed by each segment
+			for (int i = 0; i < n; i++) {
+				s = segments.get(i);
+				s.absorption = 0;
+				for (int j = 0; j < n; j++) {
+					if (j != i)
+						s.absorption += absorption[i][j] * segments.get(j).radiation;
 				}
 			}
 
@@ -88,11 +96,12 @@ class RadiositySolver2D {
 				float dy = Math.abs(s.y2 - s.y1);
 				int m = (int) Math.max(dx * gx, dy * gy);
 				if (m > 1) {
-					float r = (s.absorption - s.radiation) / (m - 1);
+					// equally divide and add energy to the power density array (the last round of radiation energy has been stored as thermal energy by the heat solver)
+					float r = (s.absorption - s.emission) / (m - 1);
 					dx = (s.x2 - s.x1) / m;
 					dy = (s.y2 - s.y1) / m;
+					// somehow we have to bypass the end points to avoid duplicating energy around a corner
 					for (int a = 1; a < m; a++)
-						// somehow we have to bypass the first point to avoid duplicating energy around a corner
 						model.changePowerAt(s.x1 + dx * a, s.y1 + dy * a, r);
 				}
 			}
@@ -103,15 +112,15 @@ class RadiositySolver2D {
 
 	}
 
-	private void computeViewFactors() {
+	// populate the reflection matrix and the absorption matrix using visibility and view factors
+	private void computeReflectionAndAbsorptionMatrices() {
 		int n = segments.size();
 		Segment s1, s2;
 		float vf;
-		// populate the reflection matrix (using visibility and view factors)
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
-				reflection[i][j] = i == j ? 1 : 0;
-				absorption[i][j] = 0;
+				reflection[i][j] = i == j ? 1 : 0; // the diagonal elements must be one because a segment is a line (hence the view factor must be zero)
+				absorption[i][j] = 0; // the diagonal elements must be zero as a segment cannot absorb its own radiation
 			}
 		}
 		for (int i = 0; i < n - 1; i++) {
@@ -120,10 +129,11 @@ class RadiositySolver2D {
 				s2 = segments.get(j);
 				if (isVisible(s1, s2)) {
 					vf = s1.getViewFactor(s2);
-					if (vf > 1) // FIXME: Why is our view factor sometimes larger than 1?
+					if (vf > 1) // FIXME: Why is our view factor larger than 1 when two patches are very close?
 						vf = 1;
-					reflection[i][j] = s1.getPart().getReflectivity() * vf;
-					reflection[j][i] = s2.getPart().getReflectivity() * vf;
+					// the order of s1 and s2 is important below
+					reflection[i][j] = -s1.getPart().getReflectivity() * vf;
+					reflection[j][i] = -s2.getPart().getReflectivity() * vf;
 					absorption[i][j] = s1.getPart().getAbsorptivity() * vf;
 					absorption[j][i] = s2.getPart().getAbsorptivity() * vf;
 				}
@@ -140,7 +150,7 @@ class RadiositySolver2D {
 		int n = segments.size();
 		reflection = new float[n][n];
 		absorption = new float[n][n];
-		computeViewFactors();
+		computeReflectionAndAbsorptionMatrices();
 	}
 
 	List<Segment> getSegments() {
