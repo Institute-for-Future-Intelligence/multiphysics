@@ -12,6 +12,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.util.List;
 
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.Polygon2D;
@@ -463,20 +464,24 @@ public class Part extends Manipulable {
 		}
 	}
 
-	/** return true if the line connecting the two specified points intersects with this part. */
-	public boolean intersectsLine(Point2D.Float p1, Point2D.Float p2) {
+	/* return true if the line connecting the two specified segments intersects with this part. */
+	boolean intersectsLine(Segment s1, Segment s2) {
+
+		Point2D.Float p1 = s1.getCenter();
+		Point2D.Float p2 = s2.getCenter();
+
+		if (p1.distanceSq(p2) < 0.000001f * model.getLx())
+			return true;
 
 		Shape shape = getShape();
 
-		if (shape instanceof Rectangle2D.Float) { // simpler case, faster implementation
+		if (shape instanceof Rectangle2D.Float) { // a rectangle is convex
 
-			Rectangle2D.Float r0 = (Rectangle2D.Float) shape;
-			float indent = 0.0001f;
-			// enlarge it a bit to ensure that it is contained by this rectangular part
-			Rectangle2D.Float r = new Rectangle2D.Float(r0.x - indent * r0.width, r0.y - indent * r0.height, (1 + 2 * indent) * r0.width, (1 + 2 * indent) * r0.height);
-			if (r.contains(p1) && r.contains(p2)) // both p1 and p2 belong to the same rectangular shape
+			if (s1.getPart() == s2.getPart())
 				return true;
 			// shrink it a bit to ensure that it intersects with this regular part
+			Rectangle2D.Float r0 = (Rectangle2D.Float) shape;
+			float indent = 0.0001f;
 			float x0 = r0.x + indent * r0.width;
 			float y0 = r0.y + indent * r0.height;
 			float x1 = r0.x + (1 - indent) * r0.width;
@@ -490,24 +495,34 @@ public class Part extends Manipulable {
 			if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, x0, y1, x0, y0))
 				return true;
 
-		} else if (shape instanceof Polygon2D) {
-			// TODO
-		} else if (shape instanceof Blob2D) {
-			// TODO
-		} else if (shape instanceof Ellipse2D.Float) {
+		} else if (shape instanceof Polygon2D) { // a polygon may be concave or convex
 
-			Ellipse2D.Float e0 = (Ellipse2D.Float) shape;
-			float indent = 0.01f;
-			// enlarge it a bit to ensure that it is contained by this elliptical part
-			Ellipse2D.Float e = new Ellipse2D.Float(e0.x - indent * e0.width, e0.y - indent * e0.height, (1 + 2 * indent) * e0.width, (1 + 2 * indent) * e0.height);
-			if (e.contains(p1) && e.contains(p2)) // both p1 and p2 belong to the same elliptical shape
+			List<Segment> segments = model.getRadiationSegments();
+			for (Segment s : segments) {
+				if (s.getPart() == this) {
+
+				}
+			}
+
+		} else if (shape instanceof Blob2D) { // a blob may be concave or convex
+
+			// TODO
+
+		} else if (shape instanceof Ellipse2D.Float) { // an ellipse is convex
+
+			if (s1.getPart() == s2.getPart())
 				return true;
+			Ellipse2D.Float e0 = (Ellipse2D.Float) shape;
 			// shrink it a bit to ensure that it intersects with this elliptical part
-			e.setFrame(e0.x + indent * e0.width, e0.y + indent * e0.height, (1 - 2 * indent) * e0.width, (1 - 2 * indent) * e0.height);
-			float a = e.width * 0.5f;
-			float b = e.height * 0.5f;
-			float x = e.x + a;
-			float y = e.y + b;
+			float indent = 0.01f;
+			float ex = e0.x + indent * e0.width;
+			float ey = e0.y + indent * e0.height;
+			float ew = (1 - 2 * indent) * e0.width;
+			float eh = (1 - 2 * indent) * e0.height;
+			float a = ew * 0.5f;
+			float b = eh * 0.5f;
+			float x = ex + a;
+			float y = ey + b;
 			float h = (a - b) / (a + b);
 			h *= h;
 			double perimeter = Math.PI * (a + b) * (1 + 3 * h / (10 + Math.sqrt(4 - 3 * h)));

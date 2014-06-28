@@ -291,10 +291,8 @@ class RadiositySolver2D {
 
 	// can the two segments see each other?
 	boolean isVisible(Segment s1, Segment s2) {
-		Point2D.Float p1 = s1.getCenter();
-		Point2D.Float p2 = s2.getCenter();
 		for (Part part : model.getParts()) {
-			if (part.intersectsLine(p1, p2))
+			if (part.intersectsLine(s1, s2))
 				return false;
 		}
 		return true;
