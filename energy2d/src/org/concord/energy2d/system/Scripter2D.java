@@ -719,6 +719,9 @@ class Scripter2D extends Scripter {
 				} else if (t[0].equalsIgnoreCase("grid")) {
 					s2d.view.setGridOn("true".equalsIgnoreCase(t[1]));
 					s2d.view.repaint();
+				} else if (t[0].equalsIgnoreCase("radiation_mesh")) {
+					s2d.view.setRadiationMeshOn("true".equalsIgnoreCase(t[1]));
+					s2d.view.repaint();
 				} else if (t[0].equalsIgnoreCase("grid_size")) {
 					int gridSize = 0;
 					try {
@@ -1220,13 +1223,13 @@ class Scripter2D extends Scripter {
 			part.setFilled(z > 0);
 		} else if (s == "draggable") {
 			part.setDraggable(z > 0);
-		} else if (s == "transmission") {
+		} else if (s == "transmission" || s == "transmissivity") {
 			part.setTransmissivity(z);
 			arrayUpdateRequested = true;
-		} else if (s == "absorption") {
+		} else if (s == "absorption" || s == "absorptivity") {
 			part.setAbsorptivity(z);
 			arrayUpdateRequested = true;
-		} else if (s == "reflection") {
+		} else if (s == "reflection" || s == "reflectivity") {
 			part.setReflectivity(z);
 			arrayUpdateRequested = true;
 		} else if (s == "scattering") {
