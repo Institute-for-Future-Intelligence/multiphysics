@@ -189,11 +189,9 @@ class Scripter2D extends Scripter {
 
 		matcher = STOP.matcher(ci);
 		if (matcher.find()) {
-			if (s2d.clickStop != null) {
+			s2d.stop(); // stop immediately and then set button state if needed
+			if (s2d.clickStop != null)
 				EventQueue.invokeLater(s2d.clickStop);
-			} else {
-				s2d.stop();
-			}
 			notifySaveReminder = false;
 			return;
 		}

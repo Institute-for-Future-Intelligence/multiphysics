@@ -21,7 +21,7 @@ public abstract class Sensor extends Manipulable {
 
 	byte stencil = ONE_POINT;
 
-	final static int MAX = 1000;
+	private static int maximumDataPoints = 1000;
 	List<TimedData> data;
 	private List<MeasurementListener> listeners;
 
@@ -31,6 +31,14 @@ public abstract class Sensor extends Manipulable {
 		super(shape);
 		data = Collections.synchronizedList(new ArrayList<TimedData>());
 		listeners = new ArrayList<MeasurementListener>();
+	}
+
+	public static void setMaximumDataPoints(int n) {
+		maximumDataPoints = n;
+	}
+
+	public static int getMaximumDataPoints() {
+		return maximumDataPoints;
 	}
 
 	public void setCenter(float x, float y) {
@@ -174,7 +182,7 @@ public abstract class Sensor extends Manipulable {
 	public void addData(float time, float x) {
 		data.add(new TimedData(time, x));
 		notifyMeasurementListeners();
-		if (data.size() > MAX)
+		if (data.size() > maximumDataPoints)
 			data.remove(0);
 	}
 

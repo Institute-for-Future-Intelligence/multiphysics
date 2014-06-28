@@ -56,6 +56,7 @@ import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
 import org.concord.energy2d.model.Particle;
+import org.concord.energy2d.model.Sensor;
 import org.concord.energy2d.model.Thermometer;
 import org.concord.energy2d.model.Tree;
 import org.concord.energy2d.util.MiscUtil;
@@ -958,6 +959,7 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 					for (int i = 0; i < n; i++)
 						preferences.put("Recent File " + i, recentFiles[n - i - 1]);
 			}
+			preferences.putInt("Sensor Maximum Data Points", Sensor.getMaximumDataPoints());
 		}
 		MiscUtil.shutdown();
 	}
@@ -982,6 +984,7 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 
 		if (preferences == null)
 			preferences = Preferences.userNodeForPackage(System2D.class);
+		Sensor.setMaximumDataPoints(preferences.getInt("Sensor Maximum Data Points", 1000));
 
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		int w = (int) (screen.height * 0.7);

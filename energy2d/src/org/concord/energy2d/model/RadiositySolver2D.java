@@ -90,19 +90,21 @@ class RadiositySolver2D {
 
 			float gx = model.getNx() / model.getLx();
 			float gy = model.getNy() / model.getLy();
+			float power;
+			float length;
+			float dx, dy;
 			for (int i = 0; i < n; i++) {
 				s = segments.get(i);
-				float dx = Math.abs(s.x2 - s.x1);
-				float dy = Math.abs(s.y2 - s.y1);
-				int m = (int) Math.max(dx * gx, dy * gy);
+				length = s.length();
+				int m = (int) (length * Math.max(gx, gy));
 				if (m > 1) {
+					power = (s.absorption - s.emission) / (m - 1);
 					// equally divide and add energy to the power density array (the last round of radiation energy has been stored as thermal energy by the heat solver)
-					float r = (s.absorption - s.emission) / (m - 1);
 					dx = (s.x2 - s.x1) / m;
 					dy = (s.y2 - s.y1) / m;
 					// somehow we have to bypass the end points to avoid duplicating energy around a corner
 					for (int a = 1; a < m; a++)
-						model.changePowerAt(s.x1 + dx * a, s.y1 + dy * a, r);
+						model.changePowerAt(s.x1 + dx * a, s.y1 + dy * a, power);
 				}
 			}
 

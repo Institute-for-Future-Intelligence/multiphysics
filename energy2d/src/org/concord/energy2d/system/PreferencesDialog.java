@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.concord.energy2d.event.ManipulationEvent;
+import org.concord.energy2d.model.Sensor;
 
 /**
  * @author Charles Xie
@@ -29,6 +30,7 @@ class PreferencesDialog extends JDialog {
 	private Window owner;
 	private JCheckBox snapToGridCheckBox;
 	private JTextField radiationMeshField;
+	private JTextField maximumDataPointsField;
 	private ActionListener okListener;
 
 	PreferencesDialog(final System2D s2d, boolean modal) {
@@ -47,16 +49,32 @@ class PreferencesDialog extends JDialog {
 
 		okListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				float x = parse(radiationMeshField.getText());
 				if (Float.isNaN(x))
 					return;
+				if (x < 1 || x > 20) {
+					JOptionPane.showMessageDialog(owner, "Mesh size cannot be smaller than 1% or larger than 20%.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				s2d.model.setRadiationMeshSize(0.01f * x);
 				if (s2d.view.isRadiationMeshOn())
 					s2d.model.generateRadiationMesh();
+
+				x = parse(maximumDataPointsField.getText());
+				if (Float.isNaN(x))
+					return;
+				if (x < 100 || x > 100000) {
+					JOptionPane.showMessageDialog(owner, "Maximum data points should be at least 100 and at most 100000.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				Sensor.setMaximumDataPoints((int) x);
+
 				s2d.view.setSnapToGrid(snapToGridCheckBox.isSelected());
 				s2d.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 				s2d.view.repaint();
 				dispose();
+
 			}
 		};
 
@@ -89,6 +107,16 @@ class PreferencesDialog extends JDialog {
 		snapToGridCheckBox = new JCheckBox("Snap to computational grid (" + s2d.model.getNx() + " x " + s2d.model.getNy() + ")", s2d.view.isSnapToGrid());
 		snapToGridCheckBox.setToolTipText("Should objects' shapes and coordinates be snapped to the computational grid?");
 		p.add(snapToGridCheckBox);
+
+		p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		p.setBorder(BorderFactory.createTitledBorder("Graphs"));
+		box.add(p);
+
+		p.add(new JLabel("Sensor Maximum Data Points:"));
+		maximumDataPointsField = new JTextField("" + Sensor.getMaximumDataPoints(), 10);
+		maximumDataPointsField.setToolTipText("Set the maximum number of data points sensors will collect");
+		maximumDataPointsField.addActionListener(okListener);
+		p.add(maximumDataPointsField);
 
 		p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		p.setBorder(BorderFactory.createTitledBorder("Radiation Mesh"));

@@ -120,8 +120,9 @@ public abstract class TaskManager {
 					if (task.isCompleted()) {
 						remove(task);
 					}
-					if (getIndexOfStep() % task.getInterval() == 0)
+					if (getIndexOfStep() % task.getInterval() == 0) {
 						task.execute();
+					}
 				}
 			}
 		} catch (Throwable t) {
