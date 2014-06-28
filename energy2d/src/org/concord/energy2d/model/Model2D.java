@@ -864,7 +864,7 @@ public class Model2D {
 	}
 
 	public Part addRectangularPart(float x, float y, float w, float h) {
-		Part p = new Part(new Rectangle2D.Float(x, y, w, h));
+		Part p = new Part(new Rectangle2D.Float(x, y, w, h), this);
 		addPart(p);
 		return p;
 	}
@@ -876,7 +876,7 @@ public class Model2D {
 	}
 
 	public Part addEllipticalPart(float x, float y, float a, float b) {
-		Part p = new Part(new Ellipse2D.Float(x - 0.5f * a, y - 0.5f * b, a, b));
+		Part p = new Part(new Ellipse2D.Float(x - 0.5f * a, y - 0.5f * b, a, b), this);
 		addPart(p);
 		return p;
 	}
@@ -888,13 +888,13 @@ public class Model2D {
 	}
 
 	public Part addRingPart(float x, float y, float inner, float outer) {
-		Part p = new Part(new Ring2D(x, y, inner, outer));
+		Part p = new Part(new Ring2D(x, y, inner, outer), this);
 		addPart(p);
 		return p;
 	}
 
 	public Part addPolygonPart(float[] x, float[] y) {
-		Part p = new Part(new Polygon2D(x, y));
+		Part p = new Part(new Polygon2D(x, y), this);
 		addPart(p);
 		return p;
 	}
@@ -906,7 +906,7 @@ public class Model2D {
 	}
 
 	public Part addBlobPart(float[] x, float[] y) {
-		Part p = new Part(new Blob2D(x, y));
+		Part p = new Part(new Blob2D(x, y), this);
 		addPart(p);
 		return p;
 	}

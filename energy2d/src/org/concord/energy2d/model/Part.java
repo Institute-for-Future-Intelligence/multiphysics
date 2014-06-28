@@ -85,8 +85,11 @@ public class Part extends Manipulable {
 	private FillPattern fillPattern;
 	private boolean filled = true;
 
-	public Part(Shape shape) {
+	private Model2D model;
+
+	public Part(Shape shape, Model2D model) {
 		super(shape);
+		this.model = model;
 		fillPattern = new ColorFill(Color.gray);
 	}
 
@@ -132,7 +135,7 @@ public class Part extends Manipulable {
 			((Blob2D) s).translateBy(dx, dy);
 			((Blob2D) s).update();
 		}
-		Part p = new Part(s);
+		Part p = new Part(s, model);
 		p.filled = filled;
 		p.fillPattern = fillPattern;
 		p.power = power;
@@ -492,7 +495,39 @@ public class Part extends Manipulable {
 		} else if (shape instanceof Blob2D) {
 			// TODO
 		} else if (shape instanceof Ellipse2D.Float) {
-			// TODO
+
+			Ellipse2D.Float e0 = (Ellipse2D.Float) shape;
+			float indent = 0.01f;
+			// enlarge it a bit to ensure that it is contained by this elliptical part
+			Ellipse2D.Float e = new Ellipse2D.Float(e0.x - indent * e0.width, e0.y - indent * e0.height, (1 + 2 * indent) * e0.width, (1 + 2 * indent) * e0.height);
+			if (e.contains(p1) && e.contains(p2)) // both p1 and p2 belong to the same elliptical shape
+				return true;
+			// shrink it a bit to ensure that it intersects with this elliptical part
+			e.setFrame(e0.x + indent * e0.width, e0.y + indent * e0.height, (1 - 2 * indent) * e0.width, (1 - 2 * indent) * e0.height);
+			float a = e.width * 0.5f;
+			float b = e.height * 0.5f;
+			float x = e.x + a;
+			float y = e.y + b;
+			float h = (a - b) / (a + b);
+			h *= h;
+			double perimeter = Math.PI * (a + b) * (1 + 3 * h / (10 + Math.sqrt(4 - 3 * h)));
+			float patchSize = model.getLx() * model.getRadiationMeshSize();
+			int n = (int) (perimeter / patchSize);
+			float[] vx = new float[n];
+			float[] vy = new float[n];
+			float theta;
+			float delta = (float) (2 * Math.PI / n);
+			for (int i = 0; i < n; i++) {
+				theta = delta * i;
+				vx[i] = (float) (x + a * Math.cos(theta));
+				vy[i] = (float) (y + b * Math.sin(theta));
+			}
+			for (int i = 0; i < n - 1; i++)
+				if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[i], vy[i], vx[i + 1], vy[i + 1]))
+					return true;
+			if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[n - 1], vy[n - 1], vx[0], vy[0]))
+				return true;
+
 		}
 
 		return false;
