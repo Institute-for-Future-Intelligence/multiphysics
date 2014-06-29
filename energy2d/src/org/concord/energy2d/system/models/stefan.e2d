@@ -69,10 +69,10 @@
 <constant_temperature>false</constant_temperature>
 <uid>C</uid>
 <texture><texture_fg>-1000000</texture_fg>
-<texture_bg>-7f7f80</texture_bg>
-<texture_style>9</texture_style>
-<texture_width>12</texture_width>
-<texture_height>12</texture_height>
+<texture_bg>-333334</texture_bg>
+<texture_style>16</texture_style>
+<texture_width>4</texture_width>
+<texture_height>4</texture_height>
 </texture>
 <label>Radiation Barrier</label>
 </part>

@@ -39,19 +39,18 @@
 <filled>false</filled>
 </part>
 <part>
-<polygon count="8" vertices="0.20857798, 0.21096605, 0.20857798, 0.67096597, 0.37857798, 0.67096597, 0.37857798, 0.21096605, 0.353578, 0.21096605, 0.318578, 0.50096595, 0.263578, 0.50096595, 0.233578, 0.21096605"/>
-<thermal_conductivity>0.001</thermal_conductivity>
+<rectangle x="0.16999999" y="0.21000001" width="0.05" height="0.45"/><thermal_conductivity>0.1</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
-<density>1.0</density>
+<density>10.0</density>
 <transmission>0.0</transmission>
-<reflection>0.0</reflection>
+<reflection>1.0</reflection>
 <scattering>false</scattering>
 <scattering_visible>false</scattering_visible>
-<absorption>1.0</absorption>
+<absorption>0.0</absorption>
 <emissivity>1.0</emissivity>
 <temperature>80.0</temperature>
 <constant_temperature>true</constant_temperature>
-<filled>false</filled>
+<label>%temperature</label>
 </part>
 </structure>
 <environment>
@@ -72,5 +71,6 @@
 <color_palette_type>1</color_palette_type>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>70.0</maximum_temperature>
-<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel></view>
+<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Radiation transfer occurs between different parts -linebreak-of a concave object." face="Arial" size="10" style="0" color="ffffff" x="0.46" y="0.305"/>
+</view>
 </state>

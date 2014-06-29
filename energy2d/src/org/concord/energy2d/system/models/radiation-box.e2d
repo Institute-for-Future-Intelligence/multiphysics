@@ -100,7 +100,7 @@
 <label>%temperature</label>
 </part>
 <part>
-<ellipse x="0.41999998688697815" y="0.4699999913573265" a="0.26" b="0.11"/><thermal_conductivity>1.0</thermal_conductivity>
+<ellipse x="0.5399999544024467" y="0.3999999687075615" a="0.17" b="0.11"/><thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -111,6 +111,23 @@
 <emissivity>1.0</emissivity>
 <temperature>100.0</temperature>
 <constant_temperature>true</constant_temperature>
+<filled>false</filled>
+<label>%temperature</label>
+</part>
+<part>
+<blob count="5" points="0.31951132, 0.47255388, 0.4647836, 0.57930577, 0.31785288, 0.64342594, 0.23922282, 0.54434365, 0.31868213, 0.55798995"/>
+<thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>1.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
 <label>%temperature</label>
 </part>
 </structure>
@@ -134,5 +151,7 @@
 <color_palette_type>1</color_palette_type>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>20.0</minimum_temperature>
 <maximum_temperature>70.0</maximum_temperature>
-<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel></view>
+<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Completely-linebreak-reflective" face="Arial" size="10" style="1" color="ffffff" x="0.67499995" y="0.45499998"/>
+<text string="Completely-linebreak-absorber" face="Arial" size="10" style="1" color="ffffff" x="0.305" y="0.425"/>
+</view>
 </state>

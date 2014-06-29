@@ -46,6 +46,7 @@ public class Segment {
 	}
 
 	// the dot product with (x2-x1, y2-y1) must be zero and this normal vector points outwards as the order of segments follow clockwise direction
+	// FIXME: This method doesn't always return the outward-pointing normal
 	public Vector2D getNormalVector() {
 		return new Vector2D(y1 - y2, x2 - x1);
 	}
@@ -67,8 +68,7 @@ public class Segment {
 		Vector2D n2 = s.getNormalVector();
 		n2.normalize();
 		float dot = -r.dotProduct(n1) * r.dotProduct(n2);
-		if (dot < 0) // dot cannot be negative, eliminate numeric error
-			dot = 0;
+		dot = Math.abs(dot); // Force this to be positive because sometimes the normal vectors might not point outwards
 		return dot * s.length() / (float) (Math.PI * Math.sqrt(r2)); // view factor equation is different in 2D
 	}
 
