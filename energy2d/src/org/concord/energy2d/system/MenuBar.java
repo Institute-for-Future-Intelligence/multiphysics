@@ -872,14 +872,10 @@ class MenuBar extends JMenuBar {
 
 		subMenu = new JMenu("Radiation");
 		menu.add(subMenu);
-
-		mi = new JMenuItem("Temperature Dependence");
-		mi.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				box.loadModel("models/stefan.e2d");
-			}
-		});
-		subMenu.add(mi);
+		examples.put("Temperature Dependence", "models/stefan.e2d");
+		examples.put("Radiation in a Box", "models/radiation-box.e2d");
+		examples.put("Concave Radiators", "models/concave.e2d");
+		createMenu(box, subMenu, examples);
 
 		subMenu = new JMenu("Fluid Dynamics");
 		menu.add(subMenu);

@@ -281,7 +281,8 @@ class RadiositySolver2D {
 	private void segmentize(Line2D.Float line, Part part) {
 		float length = (float) Math.hypot(line.x1 - line.x2, line.y1 - line.y2);
 		if (length <= patchSize) {
-			segments.add(new Segment(line.x1, line.y1, line.x2, line.y2, part));
+			if (line.x1 != line.x2 || line.y1 != line.y2)
+				segments.add(new Segment(line.x1, line.y1, line.x2, line.y2, part));
 		} else {
 			float cos = (line.x2 - line.x1) / length;
 			float sin = (line.y2 - line.y1) / length;
