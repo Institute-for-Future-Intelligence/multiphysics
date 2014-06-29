@@ -56,7 +56,12 @@ class RadiositySolver2D {
 				s = segments.get(i);
 				if (s.getPart().getEmissivity() > 0) {
 					Point2D.Float c = s.getCenter();
-					float temp = model.getTemperatureAt(c.x, c.y, Sensor.NINE_POINT) + 273; // it seems stencils with more points are more stable
+					float temp;
+					if (s.getPart().getConstantTemperature()) {
+						temp = s.getPart().getTemperature() + 273;
+					} else {
+						temp = model.getTemperatureAt(c.x, c.y, Sensor.NINE_POINT) + 273; // FIXME: This needs to take the stencil points inwardly
+					}
 					temp *= temp;
 					s.emission = s.getPart().getEmissivity() * Model2D.STEFAN_CONSTANT * temp * temp;
 					temp = model.getBackgroundTemperature() + 273;
