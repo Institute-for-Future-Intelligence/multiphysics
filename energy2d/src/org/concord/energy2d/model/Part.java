@@ -497,8 +497,6 @@ public class Part extends Manipulable {
 
 		} else if (shape instanceof Polygon2D) { // a polygon may be concave or convex
 
-			if (s1.getPart() == s2.getPart())
-				return true;
 			float indent = 0.001f * model.getLx() / model.getNx();
 			List<Segment> segments = model.getRadiationSegments();
 			float delta = 0;
@@ -516,8 +514,10 @@ public class Part extends Manipulable {
 				y4 = p1.y + k * (x4 - p1.x);
 			}
 			for (Segment s : segments) {
-				if (s.getPart() == this && s.intersectsLine(x3, y3, x4, y4))
-					return true;
+				if (s.getPart() == this) {
+					if (getShape().contains(x3, y3) || getShape().contains(x4, y4) || s.intersectsLine(x3, y3, x4, y4))
+						return true;
+				}
 			}
 
 		} else if (shape instanceof Blob2D) { // a blob may be concave or convex

@@ -1,10 +1,8 @@
 package org.concord.energy2d.model;
 
-import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Vector2D;
 
 /**

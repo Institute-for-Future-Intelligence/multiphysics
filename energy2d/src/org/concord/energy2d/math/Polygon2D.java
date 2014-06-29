@@ -47,11 +47,13 @@ public class Polygon2D implements TransformableShape {
 	}
 
 	private void update() {
-		path.reset();
-		path.moveTo(vertex[0].x, vertex[0].y);
-		for (int i = 1; i < vertex.length; i++)
-			path.lineTo(vertex[i].x, vertex[i].y);
-		path.closePath();
+		synchronized (path) {
+			path.reset();
+			path.moveTo(vertex[0].x, vertex[0].y);
+			for (int i = 1; i < vertex.length; i++)
+				path.lineTo(vertex[i].x, vertex[i].y);
+			path.closePath();
+		}
 	}
 
 	public void setVertex(int i, float x, float y) {
