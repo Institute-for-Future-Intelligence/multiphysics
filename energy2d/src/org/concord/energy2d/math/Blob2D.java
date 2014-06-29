@@ -86,6 +86,27 @@ public class Blob2D implements TransformableShape {
 		return path;
 	}
 
+	public float getPerimeter() {
+		float perimeter = 0;
+		int n = pathPoints.size();
+		float dx, dy;
+		Point2D.Float p1, p2 = null;
+		for (int i = 0; i < n - 1; i++) {
+			p1 = pathPoints.get(i);
+			p2 = pathPoints.get(i + 1);
+			dx = p2.x - p1.x;
+			dy = p2.y - p1.y;
+			perimeter += Math.hypot(dx, dy);
+		}
+		if (p2 != null) {
+			p1 = pathPoints.get(0);
+			dx = p2.x - p1.x;
+			dy = p2.y - p1.y;
+			perimeter += Math.hypot(dx, dy);
+		}
+		return perimeter;
+	}
+
 	public void update() {
 		path.reset();
 		pathPoints.clear();

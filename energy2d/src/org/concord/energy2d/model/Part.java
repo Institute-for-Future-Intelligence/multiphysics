@@ -12,7 +12,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
-import java.util.List;
 
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.Polygon2D;
@@ -477,11 +476,11 @@ public class Part extends Manipulable {
 
 		if (shape instanceof Rectangle2D.Float) { // a rectangle is convex
 
-			if (s1.getPart() == s2.getPart())
+			if (s1.getPart() == this && s2.getPart() == this)
 				return true;
-			// shrink it a bit to ensure that it intersects with this regular part
+			// shrink it a bit to ensure that it intersects with this rectangular part
 			Rectangle2D.Float r0 = (Rectangle2D.Float) shape;
-			float indent = 0.0001f;
+			float indent = 0.001f;
 			float x0 = r0.x + indent * r0.width;
 			float y0 = r0.y + indent * r0.height;
 			float x1 = r0.x + (1 - indent) * r0.width;
@@ -498,13 +497,16 @@ public class Part extends Manipulable {
 		} else if (shape instanceof Polygon2D) { // a polygon may be concave or convex
 
 			float indent = 0.001f * model.getLx() / model.getNx();
-			List<Segment> segments = model.getRadiationSegments();
 			float delta = 0;
 			float x3 = p1.x, y3 = p1.y, x4 = p2.x, y4 = p2.y;
 			if (Math.abs(p1.x - p2.x) < indent) {
 				delta = Math.signum(p2.y - p1.y) * indent;
 				y3 += delta;
 				y4 -= delta;
+			} else if (Math.abs(p1.y - p2.y) < indent) {
+				delta = Math.signum(p2.x - p1.x) * indent;
+				x3 += delta;
+				x4 -= delta;
 			} else {
 				float k = (p2.y - p1.y) / (p2.x - p1.x);
 				delta = Math.signum(p2.x - p1.x) * indent;
@@ -513,20 +515,66 @@ public class Part extends Manipulable {
 				y3 = p1.y + k * (x3 - p1.x);
 				y4 = p1.y + k * (x4 - p1.x);
 			}
-			for (Segment s : segments) {
-				if (s.getPart() == this) {
-					if (getShape().contains(x3, y3) || getShape().contains(x4, y4) || s.intersectsLine(x3, y3, x4, y4))
-						return true;
+			if (s1.getPart() == this && s2.getPart() == this) {
+				for (Segment s : model.getRadiationSegments()) {
+					if (s.getPart() == this) {
+						if (shape.contains(x3, y3) || shape.contains(x4, y4))
+							return true;
+						if (s.intersectsLine(x3, y3, x4, y4))
+							return true;
+					}
+				}
+			} else {
+				for (Segment s : model.getRadiationSegments()) {
+					if (s.getPart() == this) {
+						if (s.intersectsLine(x3, y3, x4, y4))
+							return true;
+					}
 				}
 			}
 
 		} else if (shape instanceof Blob2D) { // a blob may be concave or convex
 
-			// TODO
+			float indent = 0.001f * model.getLx() / model.getNx();
+			float delta = 0;
+			float x3 = p1.x, y3 = p1.y, x4 = p2.x, y4 = p2.y;
+			if (Math.abs(p1.x - p2.x) < indent) {
+				delta = Math.signum(p2.y - p1.y) * indent;
+				y3 += delta;
+				y4 -= delta;
+			} else if (Math.abs(p1.y - p2.y) < indent) {
+				delta = Math.signum(p2.x - p1.x) * indent;
+				x3 += delta;
+				x4 -= delta;
+			} else {
+				float k = (p2.y - p1.y) / (p2.x - p1.x);
+				delta = Math.signum(p2.x - p1.x) * indent;
+				x3 += delta;
+				x4 -= delta;
+				y3 = p1.y + k * (x3 - p1.x);
+				y4 = p1.y + k * (x4 - p1.x);
+			}
+			if (s1.getPart() == this && s2.getPart() == this) {
+				for (Segment s : model.getRadiationSegments()) {
+					if (s.getPart() == this) {
+						if (shape.contains(x3, y3) || shape.contains(x4, y4))
+							return true;
+						if (s.intersectsLine(x3, y3, x4, y4))
+							return true;
+					}
+				}
+			} else {
+				for (Segment s : model.getRadiationSegments()) {
+					if (s.getPart() == this) {
+						if (s.intersectsLine(x3, y3, x4, y4))
+							return true;
+					}
+				}
+			}
 
 		} else if (shape instanceof Ellipse2D.Float) { // an ellipse is convex
 
-			if (s1.getPart() == s2.getPart())
+			if (s1.getPart() == this && s2.getPart() == this)
 				return true;
 			Ellipse2D.Float e0 = (Ellipse2D.Float) shape;
 			// shrink it a bit to ensure that it intersects with this elliptical part

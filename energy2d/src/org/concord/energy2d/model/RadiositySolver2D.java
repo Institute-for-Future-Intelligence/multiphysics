@@ -213,7 +213,7 @@ class RadiositySolver2D {
 			Polygon2D r = (Polygon2D) shape;
 			int n = r.getVertexCount();
 			// follow the clockwise direction in segmentization
-			Point2D.Float v1, v2;
+			Point2D.Float v1, v2 = null;
 			Line2D.Float line = new Line2D.Float();
 			for (int i = 0; i < n - 1; i++) {
 				v1 = r.getVertex(i);
@@ -221,28 +221,33 @@ class RadiositySolver2D {
 				line.setLine(v1, v2);
 				segmentize(line, part);
 			}
-			v1 = r.getVertex(n - 1);
-			v2 = r.getVertex(0);
-			line.setLine(v1, v2);
-			segmentize(line, part);
-		}
-
-		else if (shape instanceof Blob2D) {
-			Blob2D r = (Blob2D) shape;
-			int n = r.getPointCount();
-			// follow the clockwise direction in setting lines
-			Point2D.Float v1, v2;
-			Line2D.Float line = new Line2D.Float();
-			for (int i = 0; i < n - 1; i++) {
-				v1 = r.getPoint(i);
-				v2 = r.getPoint(i + 1);
+			if (v2 != null) {
+				v1 = r.getVertex(0);
 				line.setLine(v1, v2);
 				segmentize(line, part);
 			}
-			v1 = r.getPoint(n - 1);
-			v2 = r.getPoint(0);
-			line.setLine(v1, v2);
-			segmentize(line, part);
+		}
+
+		else if (shape instanceof Blob2D) {
+			Blob2D b = (Blob2D) shape;
+			int n = b.getPathPointCount();
+			int m = (int) (n / b.getPerimeter() * patchSize);
+			Point2D.Float v1, v2 = null;
+			// follow the clockwise direction in setting lines
+			Line2D.Float line = new Line2D.Float();
+			for (int i = 0; i < n - m; i++) {
+				if (i % m == 0) {
+					v1 = b.getPathPoint(i);
+					v2 = b.getPathPoint(i + m);
+					line.setLine(v1, v2);
+					segmentize(line, part);
+				}
+			}
+			if (v2 != null) {
+				v1 = b.getPathPoint(0);
+				line.setLine(v1, v2);
+				segmentize(line, part);
+			}
 		}
 
 		else if (shape instanceof Ellipse2D.Float) {
@@ -265,10 +270,10 @@ class RadiositySolver2D {
 				vx[i] = (float) (x + a * Math.cos(theta));
 				vy[i] = (float) (y + b * Math.sin(theta));
 			}
-			for (int i = 0; i < n - 1; i++) {
+			for (int i = 0; i < n - 1; i++)
 				segments.add(new Segment(vx[i], vy[i], vx[i + 1], vy[i + 1], part));
-			}
-			segments.add(new Segment(vx[n - 1], vy[n - 1], vx[0], vy[0], part));
+			if (vx[n - 1] != vx[0] || vy[n - 1] != vy[0])
+				segments.add(new Segment(vx[n - 1], vy[n - 1], vx[0], vy[0], part));
 		}
 
 	}

@@ -1677,7 +1677,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 	private void drawRadiationMesh(Graphics2D g) {
 		List<Segment> segments = model.getRadiationSegments();
-		if (segments.isEmpty())
+		int n = segments.size();
+		if (n == 0)
 			return;
 		g.setStroke(thinStroke);
 		synchronized (segments) {
@@ -1694,7 +1695,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		}
 		g.setColor(Color.WHITE);
 		g.setStroke(dashed);
-		int n = segments.size();
 		Segment s1, s2;
 		float viewFactorMax = -Float.MAX_VALUE;
 		float viewFactorMin = Float.MAX_VALUE;
