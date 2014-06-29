@@ -56,7 +56,7 @@ class RadiositySolver2D {
 				s = segments.get(i);
 				if (s.getPart().getEmissivity() > 0) {
 					Point2D.Float c = s.getCenter();
-					float temp = model.getTemperatureAt(c.x, c.y, Sensor.FIVE_POINT) + 273;
+					float temp = model.getTemperatureAt(c.x, c.y, Sensor.NINE_POINT) + 273; // it seems stencils with more points are more stable
 					temp *= temp;
 					s.emission = s.getPart().getEmissivity() * Model2D.STEFAN_CONSTANT * temp * temp;
 					temp = model.getBackgroundTemperature() + 273;
@@ -65,7 +65,7 @@ class RadiositySolver2D {
 				}
 			}
 
-			// apply Jacobi relaxation to get outgoing radiation for each segment (solving the radiosity matrix equation)
+			// apply Gauss-Seidel relaxation to get outgoing radiation for each segment (solving the radiosity matrix equation)
 			for (int k = 0; k < relaxationSteps; k++) {
 				for (int i = 0; i < n; i++) {
 					s = segments.get(i);
