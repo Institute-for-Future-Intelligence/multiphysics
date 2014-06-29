@@ -61,7 +61,7 @@ class RadiositySolver2D {
 					s.emission = s.getPart().getEmissivity() * Model2D.STEFAN_CONSTANT * temp * temp;
 					temp = model.getBackgroundTemperature() + 273;
 					temp *= temp;
-					s.emission -= Model2D.STEFAN_CONSTANT * temp * temp;
+					s.emission -= s.getPart().getEmissivity() * Model2D.STEFAN_CONSTANT * temp * temp;
 				}
 			}
 
