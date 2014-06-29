@@ -1,6 +1,7 @@
 package org.concord.energy2d.model;
 
 import java.awt.Shape;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import org.concord.energy2d.math.Vector2D;
@@ -15,7 +16,7 @@ public class Segment {
 
 	public float x1, y1;
 	public float x2, y2;
-	
+
 	// these radiation properties are all power flux: J/(s*m^2)
 	public float radiation;
 	public float absorption;
@@ -39,6 +40,10 @@ public class Segment {
 
 	public float length() {
 		return (float) Math.hypot(x2 - x1, y2 - y1);
+	}
+
+	public boolean intersectsLine(float x3, float y3, float x4, float y4) {
+		return Line2D.linesIntersect(x1, y1, x2, y2, x3, y3, x4, y4);
 	}
 
 	// the dot product with (x2-x1, y2-y1) must be zero and this normal vector points outwards

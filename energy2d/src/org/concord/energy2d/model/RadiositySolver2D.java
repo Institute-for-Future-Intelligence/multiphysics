@@ -133,11 +133,12 @@ class RadiositySolver2D {
 					vf = s1.getViewFactor(s2);
 					if (vf > 1) // FIXME: Why is our view factor larger than 1 when two patches are very close?
 						vf = 1;
-					// the order of s1 and s2 is important below
+					// the order of s1 and s2 is important below 
+					float lengthRatio = s1.length() / s2.length(); // apply the reciprocity rule
 					reflection[i][j] = -s1.getPart().getReflectivity() * vf;
-					reflection[j][i] = -s2.getPart().getReflectivity() * vf;
+					reflection[j][i] = -s2.getPart().getReflectivity() * vf * lengthRatio;
 					absorption[i][j] = s1.getPart().getAbsorptivity() * vf;
-					absorption[j][i] = s2.getPart().getAbsorptivity() * vf;
+					absorption[j][i] = s2.getPart().getAbsorptivity() * vf * lengthRatio;
 				}
 			}
 		}
