@@ -133,7 +133,7 @@ class RadiositySolver2D {
 					vf = s1.getViewFactor(s2);
 					if (vf > 1) // FIXME: Why is our view factor larger than 1 when two patches are very close?
 						vf = 1;
-					// the order of s1 and s2 is important below 
+					// the order of s1 and s2 is important below
 					float lengthRatio = s1.length() / s2.length(); // apply the reciprocity rule
 					reflection[i][j] = -s1.getPart().getReflectivity() * vf;
 					reflection[j][i] = -s2.getPart().getReflectivity() * vf * lengthRatio;
@@ -170,7 +170,7 @@ class RadiositySolver2D {
 			float y0 = r.y;
 			float x1 = r.x + r.width;
 			float y1 = r.y + r.height;
-			// follow the clockwise direction in setting lines
+			// follow the clockwise direction in setting lines (this is important for calculating outward-pointing normal vectors
 			if (r.width <= patchSize) {
 				segments.add(new Segment(x0, y0, x1, y0, part));
 			} else {
@@ -259,6 +259,7 @@ class RadiositySolver2D {
 			float[] vy = new float[n];
 			float theta;
 			float delta = (float) (2 * Math.PI / n);
+			// follow the clockwise direction in setting lines
 			for (int i = 0; i < n; i++) {
 				theta = delta * i;
 				vx[i] = (float) (x + a * Math.cos(theta));
@@ -288,7 +289,8 @@ class RadiositySolver2D {
 				yj = yi + patchSize * sin;
 				segments.add(new Segment(xi, yi, xj, yj, part));
 			}
-			segments.add(new Segment(xj, yj, line.x2, line.y2, part));
+			if (xj != line.x2 || yj != line.y2)
+				segments.add(new Segment(xj, yj, line.x2, line.y2, part));
 		}
 	}
 

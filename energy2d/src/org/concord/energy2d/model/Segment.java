@@ -4,6 +4,7 @@ import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Vector2D;
 
 /**
@@ -46,16 +47,9 @@ public class Segment {
 		return Line2D.linesIntersect(x1, y1, x2, y2, x3, y3, x4, y4);
 	}
 
-	// the dot product with (x2-x1, y2-y1) must be zero and this normal vector points outwards
+	// the dot product with (x2-x1, y2-y1) must be zero and this normal vector points outwards as the order of segments follow clockwise direction
 	public Vector2D getNormalVector() {
-		Vector2D v = new Vector2D(y1 - y2, x2 - x1);
-		Point2D.Float c = getCenter();
-		Shape shape = part.getShape();
-		float xc = (float) shape.getBounds2D().getCenterX();
-		float yc = (float) shape.getBounds2D().getCenterY();
-		if (new Vector2D(c.x - xc, c.y - yc).dotProduct(v) < 0)
-			v.set(y2 - y1, x1 - x2);
-		return v;
+		return new Vector2D(y1 - y2, x2 - x1);
 	}
 
 	public Point2D.Float getCenter() {

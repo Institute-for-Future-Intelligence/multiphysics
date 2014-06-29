@@ -504,18 +504,14 @@ public class Part extends Manipulable {
 			float delta = 0;
 			float x3 = p1.x, y3 = p1.y, x4 = p2.x, y4 = p2.y;
 			if (Math.abs(p1.x - p2.x) < indent) {
-				delta = Math.signum(p1.y - p2.y) * indent;
+				delta = Math.signum(p2.y - p1.y) * indent;
 				y3 += delta;
 				y4 -= delta;
 			} else {
 				float k = (p2.y - p1.y) / (p2.x - p1.x);
-				if (p1.x > p2.x) {
-					x3 = p1.x - indent;
-					x4 = p2.x + indent;
-				} else {
-					x3 = p2.x - indent;
-					x4 = p1.x + indent;
-				}
+				delta = Math.signum(p2.x - p1.x) * indent;
+				x3 += delta;
+				x4 -= delta;
 				y3 = p1.y + k * (x3 - p1.x);
 				y4 = p1.y + k * (x4 - p1.x);
 			}
