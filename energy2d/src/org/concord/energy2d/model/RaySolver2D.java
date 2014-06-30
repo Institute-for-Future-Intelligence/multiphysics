@@ -76,18 +76,8 @@ class RaySolver2D {
 		this.q = q;
 	}
 
-	void radiate(Model2D model) {
-		synchronized (model.getParts()) {
-			for (Part p : model.getParts()) {
-				if (p.getEmissivity() > 0)
-					p.radiate(model);
-			}
-		}
-	}
-
 	void solve(Model2D model) {
 		List<Photon> photons = model.getPhotons();
-		// System.out.println(photons.size());
 		if (photons.isEmpty())
 			return;
 		Photon p;

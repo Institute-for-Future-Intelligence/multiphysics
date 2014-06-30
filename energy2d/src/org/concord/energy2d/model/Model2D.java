@@ -95,6 +95,7 @@ public class Model2D {
 
 	private boolean sunny;
 	private int photonEmissionInterval = 20;
+	private int radiosityInterval = 20;
 
 	private int nx = 100;
 	private int ny = 100;
@@ -1384,10 +1385,11 @@ public class Model2D {
 				refreshPowerArray();
 				if (sunny)
 					raySolver.sunShine(photons, parts);
-				// raySolver.radiate(this);
-				radiositySolver.solve();
 			}
 			raySolver.solve(this);
+			if (indexOfStep % radiosityInterval == 0) {
+				radiositySolver.solve();
+			}
 		}
 		if (convective)
 			fluidSolver.solve(u, v);
