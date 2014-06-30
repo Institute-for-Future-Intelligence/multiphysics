@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.Polygon2D;
+import org.concord.energy2d.math.Ring2D;
 
 /**
  * This solves the radiosity equation.
@@ -214,6 +215,32 @@ class RadiositySolver2D {
 			}
 		}
 
+		else if (shape instanceof Ellipse2D.Float) {
+			Ellipse2D.Float e = (Ellipse2D.Float) shape;
+			float a = e.width * 0.5f;
+			float b = e.height * 0.5f;
+			float x = e.x + a;
+			float y = e.y + b;
+			float h = (a - b) / (a + b);
+			h *= h;
+			double perimeter = Math.PI * (a + b) * (1 + 3 * h / (10 + Math.sqrt(4 - 3 * h)));
+			int n = (int) (perimeter / patchSize);
+			float[] vx = new float[n];
+			float[] vy = new float[n];
+			float theta;
+			float delta = (float) (2 * Math.PI / n);
+			// follow the clockwise direction in setting lines
+			for (int i = 0; i < n; i++) {
+				theta = delta * i;
+				vx[i] = (float) (x + a * Math.cos(theta));
+				vy[i] = (float) (y + b * Math.sin(theta));
+			}
+			for (int i = 0; i < n - 1; i++)
+				segments.add(new Segment(vx[i], vy[i], vx[i + 1], vy[i + 1], part));
+			if (vx[n - 1] != vx[0] || vy[n - 1] != vy[0])
+				segments.add(new Segment(vx[n - 1], vy[n - 1], vx[0], vy[0], part));
+		}
+
 		else if (shape instanceof Polygon2D) {
 			Polygon2D r = (Polygon2D) shape;
 			int n = r.getVertexCount();
@@ -239,41 +266,51 @@ class RadiositySolver2D {
 			int m = (int) (n / b.getPerimeter() * patchSize);
 			Point2D.Float v1, v2 = null;
 			// follow the clockwise direction in setting lines
-			Line2D.Float line = new Line2D.Float();
 			for (int i = 0; i < n - m; i++) {
 				if (i % m == 0) {
 					v1 = b.getPathPoint(i);
 					v2 = b.getPathPoint(i + m);
-					line.setLine(v1, v2);
-					segmentize(line, part);
+					if (v1.x != v2.x || v1.y != v2.y)
+						segments.add(new Segment(v1.x, v1.y, v2.x, v2.y, part));
 				}
 			}
 			if (v2 != null) {
 				v1 = b.getPathPoint(0);
-				line.setLine(v1, v2);
-				segmentize(line, part);
+				if (v1.x != v2.x || v1.y != v2.y)
+					segments.add(new Segment(v1.x, v1.y, v2.x, v2.y, part));
 			}
 		}
 
-		else if (shape instanceof Ellipse2D.Float) {
-			Ellipse2D.Float e = (Ellipse2D.Float) shape;
-			float a = e.width * 0.5f;
-			float b = e.height * 0.5f;
-			float x = e.x + a;
-			float y = e.y + b;
-			float h = (a - b) / (a + b);
-			h *= h;
-			double perimeter = Math.PI * (a + b) * (1 + 3 * h / (10 + Math.sqrt(4 - 3 * h)));
+		else if (shape instanceof Ring2D) {
+			Ring2D r = (Ring2D) shape;
+			double perimeter = Math.PI * r.getInnerDiameter();
 			int n = (int) (perimeter / patchSize);
 			float[] vx = new float[n];
 			float[] vy = new float[n];
 			float theta;
 			float delta = (float) (2 * Math.PI / n);
+			float radius = 0.5f * r.getInnerDiameter();
 			// follow the clockwise direction in setting lines
 			for (int i = 0; i < n; i++) {
 				theta = delta * i;
-				vx[i] = (float) (x + a * Math.cos(theta));
-				vy[i] = (float) (y + b * Math.sin(theta));
+				vx[i] = (float) (r.getX() + radius * Math.cos(theta));
+				vy[i] = (float) (r.getY() + radius * Math.sin(theta));
+			}
+			for (int i = 0; i < n - 1; i++)
+				segments.add(new Segment(vx[i], vy[i], vx[i + 1], vy[i + 1], part));
+			if (vx[n - 1] != vx[0] || vy[n - 1] != vy[0])
+				segments.add(new Segment(vx[n - 1], vy[n - 1], vx[0], vy[0], part));
+			perimeter = Math.PI * r.getOuterDiameter();
+			n = (int) (perimeter / patchSize);
+			vx = new float[n];
+			vy = new float[n];
+			delta = (float) (2 * Math.PI / n);
+			radius = 0.5f * r.getOuterDiameter();
+			// follow the clockwise direction in setting lines
+			for (int i = 0; i < n; i++) {
+				theta = delta * i;
+				vx[i] = (float) (r.getX() + radius * Math.cos(theta));
+				vy[i] = (float) (r.getY() + radius * Math.sin(theta));
 			}
 			for (int i = 0; i < n - 1; i++)
 				segments.add(new Segment(vx[i], vy[i], vx[i + 1], vy[i + 1], part));

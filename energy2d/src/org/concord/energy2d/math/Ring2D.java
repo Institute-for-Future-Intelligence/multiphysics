@@ -47,10 +47,12 @@ public class Ring2D extends Area {
 		this.outerDiameter = outerDiameter;
 	}
 
+	/** return the x-coordinate of the center */
 	public float getX() {
 		return x;
 	}
 
+	/** return the y-coordinate of the center */
 	public float getY() {
 		return y;
 	}
