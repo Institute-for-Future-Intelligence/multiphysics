@@ -332,7 +332,7 @@ public class Part extends Manipulable {
 			if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, x0, y1, x0, y0))
 				return true;
 
-		} else if (shape instanceof Polygon2D) { // a polygon may be concave or convex
+		} else if (shape instanceof Polygon2D || shape instanceof Blob2D) { // a polygon or blob may be concave or convex
 
 			float indent = 0.001f * model.getLx() / model.getNx();
 			float delta = 0;
@@ -353,60 +353,13 @@ public class Part extends Manipulable {
 				y3 = p1.y + k * (x3 - p1.x);
 				y4 = p1.y + k * (x4 - p1.x);
 			}
-			if (s1.getPart() == this && s2.getPart() == this) {
-				for (Segment s : model.getRadiationSegments()) {
-					if (s.getPart() == this) {
-						if (shape.contains(x3, y3) || shape.contains(x4, y4))
-							return true;
-						if (s.intersectsLine(x3, y3, x4, y4))
-							return true;
-					}
-				}
-			} else {
-				for (Segment s : model.getRadiationSegments()) {
-					if (s.getPart() == this) {
-						if (s.intersectsLine(x3, y3, x4, y4))
-							return true;
-					}
-				}
-			}
-
-		} else if (shape instanceof Blob2D) { // a blob may be concave or convex
-
-			float indent = 0.001f * model.getLx() / model.getNx();
-			float delta = 0;
-			float x3 = p1.x, y3 = p1.y, x4 = p2.x, y4 = p2.y;
-			if (Math.abs(p1.x - p2.x) < indent) {
-				delta = Math.signum(p2.y - p1.y) * indent;
-				y3 += delta;
-				y4 -= delta;
-			} else if (Math.abs(p1.y - p2.y) < indent) {
-				delta = Math.signum(p2.x - p1.x) * indent;
-				x3 += delta;
-				x4 -= delta;
-			} else {
-				float k = (p2.y - p1.y) / (p2.x - p1.x);
-				delta = Math.signum(p2.x - p1.x) * indent;
-				x3 += delta;
-				x4 -= delta;
-				y3 = p1.y + k * (x3 - p1.x);
-				y4 = p1.y + k * (x4 - p1.x);
-			}
-			if (s1.getPart() == this && s2.getPart() == this) {
-				for (Segment s : model.getRadiationSegments()) {
-					if (s.getPart() == this) {
-						if (shape.contains(x3, y3) || shape.contains(x4, y4))
-							return true;
-						if (s.intersectsLine(x3, y3, x4, y4))
-							return true;
-					}
-				}
-			} else {
-				for (Segment s : model.getRadiationSegments()) {
-					if (s.getPart() == this) {
-						if (s.intersectsLine(x3, y3, x4, y4))
-							return true;
-					}
+			boolean bothBelongToThisPart = s1.getPart() == this && s2.getPart() == this;
+			for (Segment s : model.getRadiationSegments()) {
+				if (s.getPart() == this) {
+					if (bothBelongToThisPart && (shape.contains(x3, y3) || shape.contains(x4, y4)))
+						return true;
+					if (s.intersectsLine(x3, y3, x4, y4))
+						return true;
 				}
 			}
 

@@ -116,8 +116,6 @@ class RadiositySolver2D {
 
 		}
 
-		// System.out.println(segments.get(1).radiation + "," + segments.get(37).radiation);
-
 	}
 
 	// populate the reflection matrix and the absorption matrix using visibility and view factors
