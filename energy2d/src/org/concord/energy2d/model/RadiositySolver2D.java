@@ -24,7 +24,7 @@ class RadiositySolver2D {
 	private Model2D model;
 	private List<Segment> segments = Collections.synchronizedList(new ArrayList<Segment>());
 	private float patchSize;
-	private float patchSizePercentage = 0.02f;
+	private float patchSizePercentage = 0.05f;
 	private float[][] reflection, absorption;
 	private int relaxationSteps = 2; // relaxation may not be needed much as we are already solving a time-dependent problem
 
