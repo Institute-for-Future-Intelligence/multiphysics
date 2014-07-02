@@ -53,7 +53,7 @@ class XmlDecoder extends DefaultHandler {
 	private int solarRayCount = 24;
 	private float solarRaySpeed = 0.1f;
 	private int photonEmissionInterval = 20;
-	private float radiationMeshSize = 0.02f;
+	private float radiationMeshSize = 0.05f;
 	private boolean convective = true;
 	private float zHeatDiffusivity;
 	private float gravitationalAcceleration = -1;
@@ -1041,7 +1041,7 @@ class XmlDecoder extends DefaultHandler {
 		solarRayCount = 24;
 		solarRaySpeed = 0.1f;
 		photonEmissionInterval = 20;
-		radiationMeshSize = 0.02f;
+		radiationMeshSize = 0.05f;
 		zHeatDiffusivity = 0;
 		gravitationalAcceleration = -1;
 		thermophoreticCoefficient = 0;
