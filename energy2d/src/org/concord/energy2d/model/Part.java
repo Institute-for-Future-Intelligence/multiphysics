@@ -9,9 +9,11 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.util.List;
 
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.Polygon2D;
@@ -334,14 +336,14 @@ public class Part extends Manipulable {
 
 		} else if (shape instanceof Polygon2D || shape instanceof Blob2D) { // a polygon or blob may be concave or convex
 
-			float indent = 0.001f * model.getLx() / model.getNx();
-			float delta = 0;
+			float delta = model.getLx() / model.getNx();
+			float indent = (shape instanceof Blob2D ? 0.001f : 0.001f) * delta; // segments of blobs may need larger indents
 			float x3 = p1.x, y3 = p1.y, x4 = p2.x, y4 = p2.y;
-			if (Math.abs(p1.x - p2.x) < indent) {
+			if (Math.abs(p1.x - p2.x) < 0.001f * delta) {
 				delta = Math.signum(p2.y - p1.y) * indent;
 				y3 += delta;
 				y4 -= delta;
-			} else if (Math.abs(p1.y - p2.y) < indent) {
+			} else if (Math.abs(p1.y - p2.y) < 0.001f * delta) {
 				delta = Math.signum(p2.x - p1.x) * indent;
 				x3 += delta;
 				x4 -= delta;
@@ -354,9 +356,26 @@ public class Part extends Manipulable {
 				y4 = p1.y + k * (x4 - p1.x);
 			}
 			boolean bothBelongToThisPart = s1.getPart() == this && s2.getPart() == this;
-			for (Segment s : model.getRadiationSegments()) {
-				if (s.getPart() == this) {
-					if (bothBelongToThisPart && (shape.contains(x3, y3) || shape.contains(x4, y4)))
+			List<Segment> partSegments = model.getRadiationSegments(this);
+			int n = partSegments.size();
+			if (n > 0) {
+				Shape shape2 = shape;
+				if (shape instanceof Blob2D) {
+					Path2D.Float path = new Path2D.Float();
+					Segment s = partSegments.get(0);
+					path.moveTo(s.x1, s.y1);
+					path.lineTo(s.x2, s.y2);
+					if (n > 1) {
+						for (int i = 1; i < n; i++) {
+							s = partSegments.get(i);
+							path.lineTo(s.x2, s.y2);
+						}
+					}
+					path.closePath();
+					shape2 = path;
+				}
+				for (Segment s : partSegments) {
+					if (bothBelongToThisPart && (shape2.contains(x3, y3) || shape2.contains(x4, y4)))
 						return true;
 					if (s.intersectsLine(x3, y3, x4, y4))
 						return true;

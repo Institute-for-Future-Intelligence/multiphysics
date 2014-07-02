@@ -1053,6 +1053,15 @@ public class Model2D {
 		return radiositySolver.getSegments();
 	}
 
+	List<Segment> getRadiationSegments(Part part) {
+		List<Segment> list = new ArrayList<Segment>();
+		for (Segment s : radiositySolver.getSegments()) {
+			if (s.getPart() == part)
+				list.add(s);
+		}
+		return list;
+	}
+
 	public void generateRadiationMesh() {
 		radiositySolver.segmentizePerimeters();
 	}
