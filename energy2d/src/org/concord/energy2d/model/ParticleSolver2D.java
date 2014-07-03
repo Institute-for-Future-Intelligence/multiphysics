@@ -144,7 +144,7 @@ class ParticleSolver2D {
 	private void interactWithParts(Particle p) {
 		synchronized (parts) {
 			for (Part part : parts) {
-				if (part.reflect(p, timeStep, false))
+				if (part.reflect(p, false))
 					break;
 			}
 		}

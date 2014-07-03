@@ -337,13 +337,13 @@ public class Part extends Manipulable {
 		} else if (shape instanceof Polygon2D || shape instanceof Blob2D) { // a polygon or blob may be concave or convex
 
 			float delta = model.getLx() / model.getNx();
-			float indent = (shape instanceof Blob2D ? 0.001f : 0.001f) * delta; // segments of blobs may need larger indents
+			float indent = 0.001f * delta;
 			float x3 = p1.x, y3 = p1.y, x4 = p2.x, y4 = p2.y;
-			if (Math.abs(p1.x - p2.x) < 0.001f * delta) {
+			if (Math.abs(p1.x - p2.x) < indent) {
 				delta = Math.signum(p2.y - p1.y) * indent;
 				y3 += delta;
 				y4 -= delta;
-			} else if (Math.abs(p1.y - p2.y) < 0.001f * delta) {
+			} else if (Math.abs(p1.y - p2.y) < indent) {
 				delta = Math.signum(p2.x - p1.x) * indent;
 				x3 += delta;
 				x4 -= delta;
@@ -355,12 +355,12 @@ public class Part extends Manipulable {
 				y3 = p1.y + k * (x3 - p1.x);
 				y4 = p1.y + k * (x4 - p1.x);
 			}
-			boolean bothBelongToThisPart = s1.getPart() == this && s2.getPart() == this;
 			List<Segment> partSegments = model.getRadiationSegments(this);
 			int n = partSegments.size();
 			if (n > 0) {
+				boolean bothBelongToThisPart = s1.getPart() == this && s2.getPart() == this;
 				Shape shape2 = shape;
-				if (shape instanceof Blob2D) {
+				if (shape instanceof Blob2D) { // we will have to use the approximated polygon instead of the blob
 					Path2D.Float path = new Path2D.Float();
 					Segment s = partSegments.get(0);
 					path.moveTo(s.x1, s.y1);
@@ -468,7 +468,7 @@ public class Part extends Manipulable {
 
 	}
 
-	boolean reflect(Discrete p, float timeStep, boolean scatter) {
+	boolean reflect(Discrete p, boolean scatter) {
 
 		Shape shape = getShape();
 
@@ -484,7 +484,7 @@ public class Part extends Manipulable {
 			float x1 = r.x + r.width;
 			float y1 = r.y + r.height;
 			if (p.getRx() - radius <= x1 && p.getRx() + radius >= x0 && p.getRy() - radius <= y1 && p.getRy() + radius >= y0) { // overlap
-				float dx = p.getVx() * timeStep;
+				float dx = p.getVx() * model.getTimeStep();
 				if (p.getRx() + radius - dx <= x0) {
 					if (scatter) {
 						p.setAngle((float) (Math.PI * (0.5 + Math.random())));
@@ -498,7 +498,7 @@ public class Part extends Manipulable {
 						p.setVx(Math.abs(p.getVx()));
 					}
 				}
-				float dy = p.getVy() * timeStep;
+				float dy = p.getVy() * model.getTimeStep();
 				if (p.getRy() + radius - dy <= y0) {
 					if (scatter) {
 						p.setAngle((float) (Math.PI * (1 + Math.random())));
@@ -519,7 +519,7 @@ public class Part extends Manipulable {
 
 			Polygon2D r = (Polygon2D) shape;
 			if (r.contains(p.getRx(), p.getRy())) {
-				reflect(r, p, timeStep, scatter);
+				reflect(r, p, scatter);
 				return true;
 			}
 
@@ -527,7 +527,7 @@ public class Part extends Manipulable {
 
 			Blob2D b = (Blob2D) shape;
 			if (b.contains(p.getRx(), p.getRy())) {
-				reflect(b, p, timeStep, scatter);
+				reflect(b, p, scatter);
 				return true;
 			}
 
@@ -535,7 +535,7 @@ public class Part extends Manipulable {
 
 			Ellipse2D.Float e = (Ellipse2D.Float) shape;
 			if (e.contains(p.getRx(), p.getRy())) {
-				reflect(e, p, timeStep, scatter);
+				reflect(e, p, scatter);
 				return true;
 			}
 
@@ -545,7 +545,7 @@ public class Part extends Manipulable {
 
 	}
 
-	private static void reflect(Ellipse2D.Float e, Discrete p, float timeStep, boolean scatter) {
+	private void reflect(Ellipse2D.Float e, Discrete p, boolean scatter) {
 		float a = e.width * 0.5f;
 		float b = e.height * 0.5f;
 		float x = e.x + a;
@@ -562,14 +562,14 @@ public class Part extends Manipulable {
 		Line2D.Float line = new Line2D.Float();
 		for (int i = 0; i < polygonize - 1; i++) {
 			line.setLine(vx[i], vy[i], vx[i + 1], vy[i + 1]);
-			if (reflectFromLine(p, line, timeStep, scatter))
+			if (reflectFromLine(p, line, scatter))
 				return;
 		}
 		line.setLine(vx[polygonize - 1], vy[polygonize - 1], vx[0], vy[0]);
-		reflectFromLine(p, line, timeStep, scatter);
+		reflectFromLine(p, line, scatter);
 	}
 
-	private static void reflect(Polygon2D r, Discrete p, float timeStep, boolean scatter) {
+	private void reflect(Polygon2D r, Discrete p, boolean scatter) {
 		int n = r.getVertexCount();
 		Point2D.Float v1, v2;
 		Line2D.Float line = new Line2D.Float();
@@ -577,16 +577,16 @@ public class Part extends Manipulable {
 			v1 = r.getVertex(i);
 			v2 = r.getVertex(i + 1);
 			line.setLine(v1, v2);
-			if (reflectFromLine(p, line, timeStep, scatter))
+			if (reflectFromLine(p, line, scatter))
 				return;
 		}
 		v1 = r.getVertex(n - 1);
 		v2 = r.getVertex(0);
 		line.setLine(v1, v2);
-		reflectFromLine(p, line, timeStep, scatter);
+		reflectFromLine(p, line, scatter);
 	}
 
-	private static void reflect(Blob2D b, Discrete p, float timeStep, boolean scatter) {
+	private void reflect(Blob2D b, Discrete p, boolean scatter) {
 		int n = b.getPathPointCount();
 		Point2D.Float v1, v2;
 		Line2D.Float line = new Line2D.Float();
@@ -594,20 +594,27 @@ public class Part extends Manipulable {
 			v1 = b.getPathPoint(i);
 			v2 = b.getPathPoint(i + 1);
 			line.setLine(v1, v2);
-			if (reflectFromLine(p, line, timeStep, scatter))
+			if (reflectFromLine(p, line, scatter))
 				return;
 		}
 		v1 = b.getPathPoint(n - 1);
 		v2 = b.getPathPoint(0);
 		line.setLine(v1, v2);
-		reflectFromLine(p, line, timeStep, scatter);
+		reflectFromLine(p, line, scatter);
 	}
 
-	private static boolean reflectFromLine(Discrete p, Line2D.Float line, float timeStep, boolean scatter) {
+	private boolean reflectFromLine(Discrete p, Line2D.Float line, boolean scatter) {
+		float timeStep = model.getTimeStep();
 		float x1 = p.getRx();
 		float y1 = p.getRy();
 		float x2 = p.getRx() - p.getVx() * timeStep;
 		float y2 = p.getRy() - p.getVy() * timeStep;
+		if (p instanceof Particle) {
+			Particle p2 = (Particle) p;
+			float timeStep2 = 0.5f * timeStep * timeStep;
+			x2 -= p2.ax * timeStep2;
+			y2 -= p2.ay * timeStep2;
+		}
 		if (line.intersectsLine(x1, y1, x2, y2)) {
 			x1 = line.x1;
 			y1 = line.y1;

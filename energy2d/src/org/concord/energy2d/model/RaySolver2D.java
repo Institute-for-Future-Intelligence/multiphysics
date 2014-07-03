@@ -100,7 +100,7 @@ class RaySolver2D {
 						for (Part part : model.getParts()) {
 							if (part.getScattering()) {
 								if (part.isScatteringVisible()) {
-									if (part.reflect(p, timeStep, true))
+									if (part.reflect(p, true))
 										break;
 								} else { // assuming heating caused by scattering can be neglected, we can just remove the photon to make the scene less messy
 									if (part.contains(p.getRx(), p.getRy())) {
@@ -110,7 +110,7 @@ class RaySolver2D {
 								}
 							} else {
 								if (Math.abs(part.getReflectivity() - 1) < 0.001f) { // in current implementation, reflection is either 1 or 0
-									if (part.reflect(p, timeStep, false))
+									if (part.reflect(p, false))
 										break;
 								} else if (Math.abs(part.getAbsorptivity() - 1) < 0.001f) { // in current implementation, absorption is either 1 or 0
 									if (part.contains(p)) {
