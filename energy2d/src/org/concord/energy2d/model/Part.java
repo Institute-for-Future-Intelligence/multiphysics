@@ -72,7 +72,6 @@ public class Part extends Manipulable {
 	private float windSpeed;
 	private float windAngle;
 
-	private static int polygonize = 50;
 	private final static DecimalFormat LABEL_FORMAT = new DecimalFormat("####.######");
 	private final static DecimalFormat SHORT_LABEL_FORMAT = new DecimalFormat("###.##");
 
@@ -469,87 +468,112 @@ public class Part extends Manipulable {
 	}
 
 	boolean reflect(Discrete p, boolean scatter) {
-
+		float dt = model.getTimeStep();
+		float predictedX = p.getRx() + p.getVx() * dt;
+		float predictedY = p.getRy() + p.getVy() * dt;
+		if (p instanceof Particle) {
+			float dt2 = 0.5f * dt * dt;
+			predictedX += ((Particle) p).ax * dt2;
+			predictedY += ((Particle) p).ay * dt2;
+		}
 		Shape shape = getShape();
+		boolean predictedToBeInShape = true; // optimization flag: if the predicted position is not within this part, skip the costly reflection calculation
+		if (p instanceof Photon)
+			predictedToBeInShape = shape.contains(predictedX, predictedY);
+		if (shape instanceof Rectangle2D.Float) {
+			if (predictedToBeInShape)
+				return reflect((Rectangle2D.Float) shape, p, predictedX, predictedY, scatter);
+		} else if (shape instanceof Polygon2D) {
+			if (predictedToBeInShape)
+				return reflect((Polygon2D) shape, p, predictedX, predictedY, scatter);
+		} else if (shape instanceof Blob2D) {
+			if (predictedToBeInShape)
+				return reflect((Blob2D) shape, p, predictedX, predictedY, scatter);
+		} else if (shape instanceof Ellipse2D.Float) {
+			if (predictedToBeInShape)
+				return reflect((Ellipse2D.Float) shape, p, predictedX, predictedY, scatter);
+		}
+		return false;
+	}
 
-		if (shape instanceof Rectangle2D.Float) { // simpler case, faster implementation
-
-			float radius = 0;
-			if (p instanceof Particle)
-				radius = ((Particle) p).radius;
-
-			Rectangle2D.Float r = (Rectangle2D.Float) shape;
+	// simpler case, avoid trig for a faster implementation
+	private boolean reflect(Rectangle2D.Float r, Discrete p, float predictedX, float predictedY, boolean scatter) {
+		if (p instanceof Particle) {
+			float radius = ((Particle) p).radius;
 			float x0 = r.x;
 			float y0 = r.y;
 			float x1 = r.x + r.width;
 			float y1 = r.y + r.height;
-			if (p.getRx() - radius <= x1 && p.getRx() + radius >= x0 && p.getRy() - radius <= y1 && p.getRy() + radius >= y0) { // overlap
-				float dx = p.getVx() * model.getTimeStep();
-				if (p.getRx() + radius - dx <= x0) {
-					if (scatter) {
-						p.setAngle((float) (Math.PI * (0.5 + Math.random())));
-					} else {
-						p.setVx(-Math.abs(p.getVx()));
-					}
-				} else if (p.getRx() - radius - dx >= x1) {
-					if (scatter) {
-						p.setAngle((float) (Math.PI * (0.5 - Math.random())));
-					} else {
-						p.setVx(Math.abs(p.getVx()));
-					}
+			if (predictedX - radius <= x1 && predictedX + radius >= x0 && predictedY - radius <= y1 && predictedY + radius >= y0) { // predicted to hit
+				if (p.getRx() + radius <= x0) {
+					p.setVx(-Math.abs(p.getVx()));
+				} else if (p.getRx() - radius >= x1) {
+					p.setVx(Math.abs(p.getVx()));
 				}
-				float dy = p.getVy() * model.getTimeStep();
-				if (p.getRy() + radius - dy <= y0) {
-					if (scatter) {
-						p.setAngle((float) (Math.PI * (1 + Math.random())));
-					} else {
-						p.setVy(-Math.abs(p.getVy()));
-					}
-				} else if (p.getRy() - radius - dy >= y1) {
-					if (scatter) {
-						p.setAngle((float) (Math.PI * Math.random()));
-					} else {
-						p.setVy(Math.abs(p.getVy()));
-					}
+				if (p.getRy() + radius <= y0) {
+					p.setVy(-Math.abs(p.getVy()));
+				} else if (p.getRy() - radius >= y1) {
+					p.setVy(Math.abs(p.getVy()));
 				}
 				return true;
 			}
-
-		} else if (shape instanceof Polygon2D) {
-
-			Polygon2D r = (Polygon2D) shape;
-			if (r.contains(p.getRx(), p.getRy())) {
-				reflect(r, p, scatter);
-				return true;
+		} else if (p instanceof Photon) {
+			if (p.getRx() <= r.x) {
+				if (scatter) {
+					p.setAngle((float) (Math.PI * (0.5 + Math.random())));
+				} else {
+					p.setVx(-Math.abs(p.getVx()));
+				}
+			} else if (p.getRx() >= r.x + r.width) {
+				if (scatter) {
+					p.setAngle((float) (Math.PI * (0.5 - Math.random())));
+				} else {
+					p.setVx(Math.abs(p.getVx()));
+				}
 			}
-
-		} else if (shape instanceof Blob2D) {
-
-			Blob2D b = (Blob2D) shape;
-			if (b.contains(p.getRx(), p.getRy())) {
-				reflect(b, p, scatter);
-				return true;
+			if (p.getRy() <= r.y) {
+				if (scatter) {
+					p.setAngle((float) (Math.PI * (1 + Math.random())));
+				} else {
+					p.setVy(-Math.abs(p.getVy()));
+				}
+			} else if (p.getRy() >= r.y + r.height) {
+				if (scatter) {
+					p.setAngle((float) (Math.PI * Math.random()));
+				} else {
+					p.setVy(Math.abs(p.getVy()));
+				}
 			}
-
-		} else if (shape instanceof Ellipse2D.Float) {
-
-			Ellipse2D.Float e = (Ellipse2D.Float) shape;
-			if (e.contains(p.getRx(), p.getRy())) {
-				reflect(e, p, scatter);
-				return true;
-			}
-
+			return true;
 		}
-
 		return false;
-
 	}
 
-	private void reflect(Ellipse2D.Float e, Discrete p, boolean scatter) {
+	private boolean reflect(Blob2D b, Discrete p, float predictedX, float predictedY, boolean scatter) {
+		int n = b.getPathPointCount();
+		Point2D.Float v1, v2;
+		Line2D.Float line = new Line2D.Float();
+		for (int i = 0; i < n - 1; i++) {
+			v1 = b.getPathPoint(i);
+			v2 = b.getPathPoint(i + 1);
+			line.setLine(v1, v2);
+			if (reflectFromLine(p, line, predictedX, predictedY, scatter))
+				return true;
+		}
+		v1 = b.getPathPoint(n - 1);
+		v2 = b.getPathPoint(0);
+		line.setLine(v1, v2);
+		if (reflectFromLine(p, line, predictedX, predictedY, scatter))
+			return true;
+		return false;
+	}
+
+	private boolean reflect(Ellipse2D.Float e, Discrete p, float predictedX, float predictedY, boolean scatter) {
 		float a = e.width * 0.5f;
 		float b = e.height * 0.5f;
 		float x = e.x + a;
 		float y = e.y + b;
+		int polygonize = 50;
 		float[] vx = new float[polygonize];
 		float[] vy = new float[polygonize];
 		float theta;
@@ -562,14 +586,16 @@ public class Part extends Manipulable {
 		Line2D.Float line = new Line2D.Float();
 		for (int i = 0; i < polygonize - 1; i++) {
 			line.setLine(vx[i], vy[i], vx[i + 1], vy[i + 1]);
-			if (reflectFromLine(p, line, scatter))
-				return;
+			if (reflectFromLine(p, line, predictedX, predictedY, scatter))
+				return true;
 		}
 		line.setLine(vx[polygonize - 1], vy[polygonize - 1], vx[0], vy[0]);
-		reflectFromLine(p, line, scatter);
+		if (reflectFromLine(p, line, predictedX, predictedY, scatter))
+			return true;
+		return false;
 	}
 
-	private void reflect(Polygon2D r, Discrete p, boolean scatter) {
+	private boolean reflect(Polygon2D r, Discrete p, float predictedX, float predictedY, boolean scatter) {
 		int n = r.getVertexCount();
 		Point2D.Float v1, v2;
 		Line2D.Float line = new Line2D.Float();
@@ -577,52 +603,29 @@ public class Part extends Manipulable {
 			v1 = r.getVertex(i);
 			v2 = r.getVertex(i + 1);
 			line.setLine(v1, v2);
-			if (reflectFromLine(p, line, scatter))
-				return;
+			if (reflectFromLine(p, line, predictedX, predictedY, scatter))
+				return true;
 		}
 		v1 = r.getVertex(n - 1);
 		v2 = r.getVertex(0);
 		line.setLine(v1, v2);
-		reflectFromLine(p, line, scatter);
+		if (reflectFromLine(p, line, predictedX, predictedY, scatter))
+			return true;
+		return false;
 	}
 
-	private void reflect(Blob2D b, Discrete p, boolean scatter) {
-		int n = b.getPathPointCount();
-		Point2D.Float v1, v2;
-		Line2D.Float line = new Line2D.Float();
-		for (int i = 0; i < n - 1; i++) {
-			v1 = b.getPathPoint(i);
-			v2 = b.getPathPoint(i + 1);
-			line.setLine(v1, v2);
-			if (reflectFromLine(p, line, scatter))
-				return;
+	private boolean reflectFromLine(Discrete p, Line2D.Float line, float predictedX, float predictedY, boolean scatter) {
+		boolean hit = false;
+		if (p instanceof Photon) { // a photon doesn't have any size, use its center to detect collision
+			hit = line.intersectsLine(p.getRx(), p.getRy(), predictedX, predictedY);
+		} else if (p instanceof Particle) {
+			float r = ((Particle) p).radius;
+			hit = Line2D.ptSegDistSq(line.x1, line.y1, line.x2, line.y2, predictedX, predictedY) <= r * r;
 		}
-		v1 = b.getPathPoint(n - 1);
-		v2 = b.getPathPoint(0);
-		line.setLine(v1, v2);
-		reflectFromLine(p, line, scatter);
-	}
-
-	private boolean reflectFromLine(Discrete p, Line2D.Float line, boolean scatter) {
-		float timeStep = model.getTimeStep();
-		float x1 = p.getRx();
-		float y1 = p.getRy();
-		float x2 = p.getRx() - p.getVx() * timeStep;
-		float y2 = p.getRy() - p.getVy() * timeStep;
-		if (p instanceof Particle) {
-			Particle p2 = (Particle) p;
-			float timeStep2 = 0.5f * timeStep * timeStep;
-			x2 -= p2.ax * timeStep2;
-			y2 -= p2.ay * timeStep2;
-		}
-		if (line.intersectsLine(x1, y1, x2, y2)) {
-			x1 = line.x1;
-			y1 = line.y1;
-			x2 = line.x2;
-			y2 = line.y2;
-			float r12 = 1.0f / (float) Math.hypot(x1 - x2, y1 - y2);
-			float sin = (y2 - y1) * r12;
-			float cos = (x2 - x1) * r12;
+		if (hit) {
+			float r12 = 1.0f / (float) Math.hypot(line.x1 - line.x2, line.y1 - line.y2);
+			float sin = (line.y2 - line.y1) * r12;
+			float cos = (line.x2 - line.x1) * r12;
 			if (scatter) {
 				double angle = -Math.PI * Math.random(); // remember internally the y-axis points downward
 				double cos1 = Math.cos(angle);
