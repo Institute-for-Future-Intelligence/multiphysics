@@ -13,12 +13,13 @@ class ParticleSolver2D {
 
 	private final static float INTERNAL_GRAVITY_UNIT = 0.0001f;
 
-	float epsilon = 0.001f;
-	float rCutOffSquare = 1.21f;
+	float epsilon = 0.000001f;
+	float rCutOffSquare = 1.5f;
 	float g = 9.8f;
 	float drag = 0.01f;
 	float thermophoreticCoefficient = 0f;
 	private float particleFluidTransfer = 0.05f; // temporary parameter
+	private float attractive = 0f;
 
 	private float timeStep = 0.1f;
 	private boolean convective;
@@ -28,10 +29,10 @@ class ParticleSolver2D {
 	private float lx, ly;
 	private int nx, ny;
 
-	private float sigma, sigmasq;
+	private float sigma;
 	private float fxi, fyi;
 	private float rxij, ryij, rijsq;
-	private float sr2, sr6, sr12, vij, wij, fij;
+	private float sr2, sr6, sr12, fij;
 	private float fxij, fyij;
 
 	public ParticleSolver2D(Model2D model) {
@@ -202,9 +203,8 @@ class ParticleSolver2D {
 				rxij = pi.rx - pj.rx;
 				ryij = pi.ry - pj.ry;
 				rijsq = rxij * rxij + ryij * ryij;
-				sigmasq = 4.0f * pi.radius * pj.radius;
 
-				if (rijsq < rCutOffSquare * sigmasq) {
+				if (rijsq < rCutOffSquare * 4.0f * pi.radius * pj.radius) {
 					sigma = pi.radius + pj.radius;
 					sigma *= sigma;
 					sr2 = sigma / rijsq;
@@ -215,9 +215,7 @@ class ParticleSolver2D {
 					}
 					sr6 = sr2 * sr2 * sr2;
 					sr12 = sr6 * sr6;
-					vij = (sr12 - sr6) * epsilon;
-					wij = vij + sr12 * epsilon;
-					fij = wij / rijsq * 6f;
+					fij = 6f * epsilon / rijsq * (2f * sr12 - attractive * sr6);
 					fxij = fij * rxij;
 					fyij = fij * ryij;
 					fxi += fxij;

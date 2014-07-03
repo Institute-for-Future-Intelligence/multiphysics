@@ -11,7 +11,7 @@
 <solar_ray_speed>0.1</solar_ray_speed>
 <photon_emission_interval>20</photon_emission_interval>
 <gravitational_acceleration>9.8</gravitational_acceleration>
-<z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>5.0</background_conductivity>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-5</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>5.0</background_conductivity>
 <background_viscosity>0.001</background_viscosity>
 <thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
 <buoyancy_approximation>1</buoyancy_approximation>
@@ -694,6 +694,7 @@
 <view>
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
+<radiation_mesh_size>0.05</radiation_mesh_size>
 <color_palette_type>0</color_palette_type>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>20.0</maximum_temperature>

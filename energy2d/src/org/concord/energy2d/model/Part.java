@@ -497,7 +497,7 @@ public class Part extends Manipulable {
 	}
 
 	// simpler case, avoid trig for a faster implementation
-	private boolean reflect(Rectangle2D.Float r, Discrete p, float predictedX, float predictedY, boolean scatter) {
+	private static boolean reflect(Rectangle2D.Float r, Discrete p, float predictedX, float predictedY, boolean scatter) {
 		if (p instanceof Particle) {
 			float radius = ((Particle) p).radius;
 			float x0 = r.x;
@@ -549,7 +549,7 @@ public class Part extends Manipulable {
 		return false;
 	}
 
-	private boolean reflect(Blob2D b, Discrete p, float predictedX, float predictedY, boolean scatter) {
+	private static boolean reflect(Blob2D b, Discrete p, float predictedX, float predictedY, boolean scatter) {
 		int n = b.getPathPointCount();
 		Point2D.Float v1, v2;
 		Line2D.Float line = new Line2D.Float();
@@ -568,7 +568,7 @@ public class Part extends Manipulable {
 		return false;
 	}
 
-	private boolean reflect(Ellipse2D.Float e, Discrete p, float predictedX, float predictedY, boolean scatter) {
+	private static boolean reflect(Ellipse2D.Float e, Discrete p, float predictedX, float predictedY, boolean scatter) {
 		float a = e.width * 0.5f;
 		float b = e.height * 0.5f;
 		float x = e.x + a;
@@ -595,7 +595,7 @@ public class Part extends Manipulable {
 		return false;
 	}
 
-	private boolean reflect(Polygon2D r, Discrete p, float predictedX, float predictedY, boolean scatter) {
+	private static boolean reflect(Polygon2D r, Discrete p, float predictedX, float predictedY, boolean scatter) {
 		int n = r.getVertexCount();
 		Point2D.Float v1, v2;
 		Line2D.Float line = new Line2D.Float();
@@ -614,7 +614,7 @@ public class Part extends Manipulable {
 		return false;
 	}
 
-	private boolean reflectFromLine(Discrete p, Line2D.Float line, float predictedX, float predictedY, boolean scatter) {
+	private static boolean reflectFromLine(Discrete p, Line2D.Float line, float predictedX, float predictedY, boolean scatter) {
 		boolean hit = false;
 		if (p instanceof Photon) { // a photon doesn't have any size, use its center to detect collision
 			hit = line.intersectsLine(p.getRx(), p.getRy(), predictedX, predictedY);

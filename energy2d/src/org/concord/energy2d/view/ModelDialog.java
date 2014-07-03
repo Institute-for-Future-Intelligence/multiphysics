@@ -224,7 +224,7 @@ class ModelDialog extends JDialog {
 				model.setGravitationalAcceleration(gravitationalAcceleration);
 				model.setThermophoreticCoefficient(thermophoreticCoefficient);
 				model.setParticleDrag(particleDrag);
-				model.setParticleHardness(particleHardness);
+				model.setParticleHardness(particleHardness * 0.000001f);
 
 				switch (thermalBoundaryComboBox.getSelectedIndex()) {
 				case 0:
@@ -610,10 +610,10 @@ class ModelDialog extends JDialog {
 		count++;
 
 		p.add(new JLabel("Hardness"));
-		particleHardnessField = new JTextField(FORMAT.format(model.getParticleHardness()), 16);
+		particleHardnessField = new JTextField(FORMAT.format(model.getParticleHardness() * 1000000f), 16);
 		particleHardnessField.addActionListener(okListener);
 		p.add(particleHardnessField);
-		label = new JLabel("J");
+		label = new JLabel("");
 		p.add(label);
 		count++;
 
