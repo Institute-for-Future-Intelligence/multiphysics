@@ -75,7 +75,7 @@ public class Helper {
 		s += "<h4><i>Interactive Heat Transfer Simulations for Everyone</i></h4>";
 		s += "http://energy.concord.org/energy2d<br>The Educational Modeling Laboratory, The Concord Consortium, 2011-2014";
 		s += "<hr>";
-		s += "<h4>Attribution & Acknowledgement:</h4>This program is created by Dr. Charles Xie. Funding is provided by the National Science Foundation<br>under grants 0918449, 1124281, and 1304485 for which Dr. Xie serves as the Principal Investigator.";
+		s += "<h4>Attribution & Acknowledgement:</h4>This program is being created by Dr. Charles Xie. Funding is provided by the National Science Foundation<br>under grants 0918449, 1124281, and 1304485 for which Dr. Xie also serves as the Principal Investigator.";
 		s += "<h4>License:</h4>GNU Lesser General Public License V3.0";
 		s += "</html>";
 		JOptionPane.showMessageDialog(frame, new JLabel(s), "About Energy2D", JOptionPane.INFORMATION_MESSAGE);

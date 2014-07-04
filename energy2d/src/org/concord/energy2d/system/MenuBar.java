@@ -927,13 +927,6 @@ class MenuBar extends JMenuBar {
 		examples.put("Mantle Convection", "models/mantle.e2d");
 		createMenu(box, subMenu, examples);
 
-		subMenu = new JMenu("Boundary Conditions");
-		menu.add(subMenu);
-
-		examples.put("Fixed Temperature Boundary", "models/fixed-temperature-boundary.e2d");
-		examples.put("Fixed Heat Flux Boundary", "models/fixed-flux-boundary.e2d");
-		createMenu(box, subMenu, examples);
-
 		subMenu = new JMenu("Particle Coupling");
 		menu.add(subMenu);
 
@@ -941,6 +934,13 @@ class MenuBar extends JMenuBar {
 		examples.put("Fireballs", "models/fireballs.e2d");
 		examples.put("Convective Lift", "models/particles.e2d");
 		examples.put("Thermophoresis", "models/thermophoresis.e2d");
+		createMenu(box, subMenu, examples);
+
+		subMenu = new JMenu("Boundary Conditions");
+		menu.add(subMenu);
+
+		examples.put("Fixed Temperature Boundary", "models/fixed-temperature-boundary.e2d");
+		examples.put("Fixed Heat Flux Boundary", "models/fixed-flux-boundary.e2d");
 		createMenu(box, subMenu, examples);
 
 		subMenu = new JMenu("Miscellaneous");

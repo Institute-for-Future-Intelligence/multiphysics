@@ -517,7 +517,8 @@ public class Part extends Manipulable {
 			float y0 = r.y;
 			float x1 = r.x + r.width;
 			float y1 = r.y + r.height;
-			if (predictedX - radius <= x1 && predictedX + radius >= x0 && predictedY - radius <= y1 && predictedY + radius >= y0) { // predicted to hit
+			boolean predictedToHit = predictedX - radius <= x1 && predictedX + radius >= x0 && predictedY - radius <= y1 && predictedY + radius >= y0;
+			if (predictedToHit) {
 				float impulse = 0;
 				float hitX = predictedX, hitY = predictedY;
 				if (particle.rx + radius <= x0) {
@@ -539,7 +540,7 @@ public class Part extends Manipulable {
 					hitY -= radius + 0.5f * model.getLy() / model.getNy();
 				}
 				if (elasticity < 1) {
-					float energy = 4 * particle.impactEnergyFactor * particle.mass * impulse * impulse * (1 - elasticity * elasticity);
+					float energy = 0.5f * particle.mass * impulse * impulse * (1 - elasticity * elasticity);
 					float volume = model.getLx() * model.getLy() / (model.getNx() * model.getNy());
 					model.changeTemperatureAt(hitX, hitY, energy / (specificHeat * density * volume));
 				}
@@ -668,15 +669,18 @@ public class Part extends Manipulable {
 				float u = p.getVx() * cos + p.getVy() * sin;
 				// velocity component perpendicular to the line
 				float w = p.getVy() * cos - p.getVx() * sin;
-				if (p instanceof Particle)
-					w *= elasticity;
-				p.setVx(u * cos + w * sin);
-				p.setVy(u * sin - w * cos);
+				if (p instanceof Particle) {
+					p.setVx(u * cos + w * elasticity * sin);
+					p.setVy(u * sin - w * elasticity * cos);
+				} else {
+					p.setVx(u * cos + w * sin);
+					p.setVy(u * sin - w * cos);
+				}
 				if (p instanceof Particle && elasticity < 1) {
 					Particle particle = (Particle) p;
-					float hitX = predictedX - particle.radius * sin;
-					float hitY = predictedY + particle.radius * cos;
-					float energy = 4 * particle.impactEnergyFactor * particle.mass * w * w * (1 - elasticity * elasticity);
+					float hitX = predictedX - (particle.radius + 0.5f * model.getLx() / model.getNx()) * sin;
+					float hitY = predictedY + (particle.radius + 0.5f * model.getLy() / model.getNy()) * cos;
+					float energy = 0.5f * particle.mass * w * w * (1 - elasticity * elasticity);
 					float volume = model.getLx() * model.getLy() / (model.getNx() * model.getNy());
 					model.changeTemperatureAt(hitX, hitY, energy / (specificHeat * density * volume));
 				}

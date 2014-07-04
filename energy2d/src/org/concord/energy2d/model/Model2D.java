@@ -507,6 +507,16 @@ public class Model2D {
 				}
 				if (!bound.intersects(g.getBounds2D()))
 					out = true;
+			} else if (s instanceof Blob2D) {
+				Blob2D b = (Blob2D) s;
+				int n = b.getPointCount();
+				for (int i = 0; i < n; i++) {
+					Point2D.Float h = b.getPoint(i);
+					h.x = scale * h.x;
+					h.y = ly - scale * (ly - h.y);
+				}
+				if (!bound.intersects(b.getBounds2D()))
+					out = true;
 			}
 		}
 		return out;

@@ -69,7 +69,6 @@ class ParticleSolver2D {
 				p.correct(timeStep);
 				p.fx /= p.mass;
 				p.fy /= p.mass;
-				interactWithParts(p);
 				if (!Float.isNaN(p.temperature)) {
 					float txy = particleFluidTransfer * fluidConductivity * (p.temperature - model.getTemperatureAt(p.rx, p.ry));
 					int n = Math.max(1, (int) (8 * nx * p.radius / lx)); // discretize contact surface into n slices
@@ -78,6 +77,9 @@ class ParticleSolver2D {
 						model.changeTemperatureAt((float) (p.rx + p.radius * Math.cos(theta)), (float) (p.ry + p.radius * Math.sin(theta)), txy);
 					}
 				}
+			}
+			for (Particle p : particles) {
+				interactWithParts(p);
 			}
 		}
 	}
