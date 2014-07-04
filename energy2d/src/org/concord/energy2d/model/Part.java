@@ -135,6 +135,7 @@ public class Part extends Manipulable {
 		p.filled = filled;
 		p.fillPattern = fillPattern;
 		p.power = power;
+		p.elasticity = elasticity;
 		p.thermistorTemperatureCoefficient = thermistorTemperatureCoefficient;
 		p.temperature = temperature;
 		p.constantTemperature = constantTemperature;
@@ -535,7 +536,7 @@ public class Part extends Manipulable {
 				} else if (particle.ry - radius >= y1) {
 					impulse = Math.abs(particle.vy);
 					particle.vy = impulse * elasticity;
-					hitY -= radius;
+					hitY -= radius + 0.5f * model.getLy() / model.getNy(); // FIXME: Why do we need some extra inward distance? The problem might be in the heat solver
 				}
 				if (elasticity < 1)
 					model.changeTemperatureAt(hitX, hitY, 4 * particle.impactEnergyFactor * particle.mass * impulse * impulse * (1 - elasticity * elasticity));
