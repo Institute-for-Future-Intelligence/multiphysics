@@ -19,9 +19,10 @@ public class Particle extends Manipulable implements Discrete {
 	float fx, fy;
 	float temperature = Float.NaN;
 	boolean movable = true;
-	float impactEnergyFactor = 100000;
-	
+	float impactEnergyFactor = 10000000;
+
 	private Color color = Color.WHITE;
+	private Color velocityColor = Color.BLACK;
 
 	public Particle() {
 		super(new Ellipse2D.Float());
@@ -42,6 +43,7 @@ public class Particle extends Manipulable implements Discrete {
 	public Particle duplicate(float x, float y) {
 		Particle p = new Particle(x, y);
 		p.color = color;
+		p.velocityColor = velocityColor;
 		p.mass = mass;
 		p.radius = radius;
 		p.vx = vx;
@@ -179,6 +181,14 @@ public class Particle extends Manipulable implements Discrete {
 		return color;
 	}
 
+	public void setVelocityColor(Color color) {
+		velocityColor = color;
+	}
+
+	public Color getVelocityColor() {
+		return velocityColor;
+	}
+
 	public String toXml() {
 		String xml = "<particle>\n";
 		xml += "<rx>" + rx + "</rx>\n";
@@ -197,6 +207,8 @@ public class Particle extends Manipulable implements Discrete {
 			xml += "<label>" + label + "</label>\n";
 		if (!Color.WHITE.equals(color))
 			xml += "<color>" + Integer.toHexString(0x00ffffff & color.getRGB()) + "</color>\n";
+		if (!Color.BLACK.equals(color))
+			xml += "<velocity_color>" + Integer.toHexString(0x00ffffff & velocityColor.getRGB()) + "</velocity_color>\n";
 		if (!Float.isNaN(temperature))
 			xml += "<temperature>" + temperature + "</temperature>\n";
 		if (!isDraggable())

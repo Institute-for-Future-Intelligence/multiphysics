@@ -523,23 +523,26 @@ public class Part extends Manipulable {
 				if (particle.rx + radius <= x0) {
 					impulse = Math.abs(particle.vx);
 					particle.vx = -impulse * elasticity;
-					hitX += radius;
+					hitX += radius + 0.5f * model.getLy() / model.getNy();
 				} else if (particle.rx - radius >= x1) {
 					impulse = Math.abs(particle.vx);
 					particle.vx = impulse * elasticity;
-					hitX -= radius;
+					hitX -= radius + 0.5f * model.getLy() / model.getNy();
 				}
 				if (particle.ry + radius <= y0) {
 					impulse = Math.abs(particle.vy);
 					particle.vy = -impulse * elasticity;
-					hitY += radius;
+					hitY += radius + 0.5f * model.getLy() / model.getNy();
 				} else if (particle.ry - radius >= y1) {
 					impulse = Math.abs(particle.vy);
 					particle.vy = impulse * elasticity;
-					hitY -= radius + 0.5f * model.getLy() / model.getNy(); // FIXME: Why do we need some extra inward distance? The problem might be in the heat solver
+					hitY -= radius + 0.5f * model.getLy() / model.getNy();
 				}
-				if (elasticity < 1)
-					model.changeTemperatureAt(hitX, hitY, 4 * particle.impactEnergyFactor * particle.mass * impulse * impulse * (1 - elasticity * elasticity));
+				if (elasticity < 1) {
+					float energy = 4 * particle.impactEnergyFactor * particle.mass * impulse * impulse * (1 - elasticity * elasticity);
+					float volume = model.getLx() * model.getLy() / (model.getNx() * model.getNy());
+					model.changeTemperatureAt(hitX, hitY, energy / (specificHeat * density * volume));
+				}
 				return true;
 			}
 		} else if (p instanceof Photon) {
@@ -574,7 +577,7 @@ public class Part extends Manipulable {
 		return false;
 	}
 
-	private static boolean reflect(Blob2D b, Discrete p, float predictedX, float predictedY, boolean scatter) {
+	private boolean reflect(Blob2D b, Discrete p, float predictedX, float predictedY, boolean scatter) {
 		int n = b.getPathPointCount();
 		Point2D.Float v1, v2;
 		Line2D.Float line = new Line2D.Float();
@@ -593,7 +596,7 @@ public class Part extends Manipulable {
 		return false;
 	}
 
-	private static boolean reflect(Ellipse2D.Float e, Discrete p, float predictedX, float predictedY, boolean scatter) {
+	private boolean reflect(Ellipse2D.Float e, Discrete p, float predictedX, float predictedY, boolean scatter) {
 		float a = e.width * 0.5f;
 		float b = e.height * 0.5f;
 		float x = e.x + a;
@@ -620,7 +623,7 @@ public class Part extends Manipulable {
 		return false;
 	}
 
-	private static boolean reflect(Polygon2D r, Discrete p, float predictedX, float predictedY, boolean scatter) {
+	private boolean reflect(Polygon2D r, Discrete p, float predictedX, float predictedY, boolean scatter) {
 		int n = r.getVertexCount();
 		Point2D.Float v1, v2;
 		Line2D.Float line = new Line2D.Float();
@@ -639,7 +642,7 @@ public class Part extends Manipulable {
 		return false;
 	}
 
-	private static boolean reflectFromLine(Discrete p, Line2D.Float line, float predictedX, float predictedY, boolean scatter) {
+	private boolean reflectFromLine(Discrete p, Line2D.Float line, float predictedX, float predictedY, boolean scatter) {
 		boolean hit = false;
 		if (p instanceof Photon) { // a photon doesn't have any size, use its center to detect collision
 			hit = line.intersectsLine(p.getRx(), p.getRy(), predictedX, predictedY);
@@ -665,8 +668,18 @@ public class Part extends Manipulable {
 				float u = p.getVx() * cos + p.getVy() * sin;
 				// velocity component perpendicular to the line
 				float w = p.getVy() * cos - p.getVx() * sin;
+				if (p instanceof Particle)
+					w *= elasticity;
 				p.setVx(u * cos + w * sin);
 				p.setVy(u * sin - w * cos);
+				if (p instanceof Particle && elasticity < 1) {
+					Particle particle = (Particle) p;
+					float hitX = predictedX - particle.radius * sin;
+					float hitY = predictedY + particle.radius * cos;
+					float energy = 4 * particle.impactEnergyFactor * particle.mass * w * w * (1 - elasticity * elasticity);
+					float volume = model.getLx() * model.getLy() / (model.getNx() * model.getNy());
+					model.changeTemperatureAt(hitX, hitY, energy / (specificHeat * density * volume));
+				}
 			}
 			return true;
 		}
@@ -787,10 +800,12 @@ public class Part extends Manipulable {
 			Rectangle2D bounds = getShape().getBounds2D();
 			float temp = model.getTemperatureAt((float) bounds.getCenterX(), (float) bounds.getCenterY());
 			s = useFahrenheit ? Math.round(temp * 1.8f + 32) + " \u00b0F" : Math.round(temp) + " \u00b0C";
-		} else if (label.equalsIgnoreCase("%thermal_energy")) {
+		} else if (label.equalsIgnoreCase("%thermal_energy"))
 			s = Math.round(model.getThermalEnergy(this)) + " J";
-		} else if (label.equalsIgnoreCase("%density"))
+		else if (label.equalsIgnoreCase("%density"))
 			s = (int) density + " kg/m\u00b3";
+		else if (label.equalsIgnoreCase("%elasticity"))
+			s = SHORT_LABEL_FORMAT.format(elasticity) + "";
 		else if (label.equalsIgnoreCase("%specific_heat"))
 			s = (int) specificHeat + " J/(kg\u00d7\u00b0C)";
 		else if (label.equalsIgnoreCase("%heat_capacity"))

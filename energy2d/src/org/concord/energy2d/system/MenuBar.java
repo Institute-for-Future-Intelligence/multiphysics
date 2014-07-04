@@ -934,9 +934,10 @@ class MenuBar extends JMenuBar {
 		examples.put("Fixed Heat Flux Boundary", "models/fixed-flux-boundary.e2d");
 		createMenu(box, subMenu, examples);
 
-		subMenu = new JMenu("Particle-Fluid Coupling");
+		subMenu = new JMenu("Particle Coupling");
 		menu.add(subMenu);
 
+		examples.put("Inelastic Collisions", "models/inelastic-collision.e2d");
 		examples.put("Fireballs", "models/fireballs.e2d");
 		examples.put("Convective Lift", "models/particles.e2d");
 		examples.put("Thermophoresis", "models/thermophoresis.e2d");
@@ -945,6 +946,7 @@ class MenuBar extends JMenuBar {
 		subMenu = new JMenu("Miscellaneous");
 		menu.add(subMenu);
 
+		examples.put("Collision Detection", "models/collision.e2d");
 		examples.put("Ray Optics", "models/ray-optics.e2d");
 		examples.put("Natural Daylighting", "models/natural-daylighting.e2d");
 		examples.put("Thermoregulation", "models/thermoregulation.e2d");

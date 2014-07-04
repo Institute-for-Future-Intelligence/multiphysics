@@ -36,7 +36,7 @@ class ParticleDialog extends JDialog {
 
 	private Window owner;
 	private JColorChooser colorChooser;
-	private BackgroundComboBox bgComboBox;
+	private BackgroundComboBox particleColorComboBox, velocityColorComboBox;
 	private JTextField uidField, labelField;
 	private JTextField rxField, ryField, vxField, vyField;
 	private JTextField massField, radiusField, temperatureField;
@@ -129,7 +129,7 @@ class ParticleDialog extends JDialog {
 		box.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.add(box, BorderLayout.CENTER);
 
-		JPanel p = new JPanel(new GridLayout(12, 2, 5, 5));
+		JPanel p = new JPanel(new GridLayout(13, 2, 5, 5));
 		box.add(p);
 
 		p.add(new JLabel("Unique ID:"));
@@ -180,36 +180,68 @@ class ParticleDialog extends JDialog {
 		p.add(new JLabel("Color:"));
 		colorChooser = new JColorChooser();
 		colorChooser.setColor(particle.getColor());
-		bgComboBox = new BackgroundComboBox(this, colorChooser, null);
-		bgComboBox.setToolTipText("Particle color");
-		bgComboBox.setFillPattern(new ColorFill(particle.getColor()));
-		bgComboBox.getColorMenu().setColorArrayAction(new AbstractAction() {
+		particleColorComboBox = new BackgroundComboBox(this, colorChooser, null);
+		particleColorComboBox.setToolTipText("Particle color");
+		particleColorComboBox.setFillPattern(new ColorFill(particle.getColor()));
+		particleColorComboBox.getColorMenu().setColorArrayAction(new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				Color c = bgComboBox.getColorMenu().getColor();
+				Color c = particleColorComboBox.getColorMenu().getColor();
 				particle.setColor(c);
 				view.repaint();
-				bgComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, new ColorFill(c));
+				particleColorComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, new ColorFill(c));
 			}
 		});
-		bgComboBox.getColorMenu().setMoreColorAction(new ActionListener() {
+		particleColorComboBox.getColorMenu().setMoreColorAction(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Color c = bgComboBox.getColorMenu().getColorChooser().getColor();
+				Color c = particleColorComboBox.getColorMenu().getColorChooser().getColor();
 				particle.setColor(c);
 				view.repaint();
-				bgComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, new ColorFill(c));
+				particleColorComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, new ColorFill(c));
 			}
 		});
-		bgComboBox.getColorMenu().addHexColorListener(new ActionListener() {
+		particleColorComboBox.getColorMenu().addHexColorListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Color c = bgComboBox.getColorMenu().getHexInputColor(particle.getColor());
+				Color c = particleColorComboBox.getColorMenu().getHexInputColor(particle.getColor());
 				if (c == null)
 					return;
 				particle.setColor(c);
 				view.repaint();
-				bgComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, new ColorFill(c));
+				particleColorComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, new ColorFill(c));
 			}
 		});
-		p.add(bgComboBox);
+		p.add(particleColorComboBox);
+
+		p.add(new JLabel("Velocity Color:"));
+		velocityColorComboBox = new BackgroundComboBox(this, colorChooser, null);
+		velocityColorComboBox.setToolTipText("Velocity color");
+		velocityColorComboBox.setFillPattern(new ColorFill(particle.getVelocityColor()));
+		velocityColorComboBox.getColorMenu().setColorArrayAction(new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				Color c = velocityColorComboBox.getColorMenu().getColor();
+				particle.setVelocityColor(c);
+				view.repaint();
+				velocityColorComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, new ColorFill(c));
+			}
+		});
+		velocityColorComboBox.getColorMenu().setMoreColorAction(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Color c = velocityColorComboBox.getColorMenu().getColorChooser().getColor();
+				particle.setVelocityColor(c);
+				view.repaint();
+				velocityColorComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, new ColorFill(c));
+			}
+		});
+		velocityColorComboBox.getColorMenu().addHexColorListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Color c = velocityColorComboBox.getColorMenu().getHexInputColor(particle.getColor());
+				if (c == null)
+					return;
+				particle.setVelocityColor(c);
+				view.repaint();
+				velocityColorComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, new ColorFill(c));
+			}
+		});
+		p.add(velocityColorComboBox);
 
 		p.add(new JLabel("Movable:"));
 		movableComboBox = new JComboBox<Boolean>();

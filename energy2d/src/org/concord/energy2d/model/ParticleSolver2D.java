@@ -14,7 +14,7 @@ class ParticleSolver2D {
 	private final static float INTERNAL_GRAVITY_UNIT = 0.0001f;
 
 	float epsilon = 0.000001f;
-	float rCutOffSquare = 1.5f;
+	float rCutOffSquare = 2f;
 	float g = 9.8f;
 	float drag = 0.01f;
 	float thermophoreticCoefficient = 0f;
@@ -212,8 +212,8 @@ class ParticleSolver2D {
 					sigma *= sigma;
 					sr2 = sigma / rijsq;
 					/* check if this pair gets too close */
-					if (sr2 > 2.0f) {
-						sr2 = 2.0f;
+					if (sr2 > 5.0f) {
+						sr2 = 5.0f;
 						rijsq = sigma * sigma;
 					}
 					sr6 = sr2 * sr2 * sr2;

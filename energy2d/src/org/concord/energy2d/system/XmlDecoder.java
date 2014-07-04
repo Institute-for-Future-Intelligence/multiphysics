@@ -121,6 +121,7 @@ class XmlDecoder extends DefaultHandler {
 	private boolean partVisible = true;
 	private boolean partDraggable = true;
 	private Color color;
+	private Color velocityColor;
 	private byte partTextureStyle;
 	private int partTextureWidth = 10;
 	private int partTextureHeight = 10;
@@ -902,6 +903,8 @@ class XmlDecoder extends DefaultHandler {
 			partDraggable = Boolean.parseBoolean(str);
 		} else if (qName == "color") {
 			color = new Color(Integer.parseInt(str, 16));
+		} else if (qName == "velocity_color") {
+			velocityColor = new Color(Integer.parseInt(str, 16));
 		} else if (qName == "rx") {
 			particleRx = Float.parseFloat(str);
 		} else if (qName == "ry") {
@@ -978,6 +981,8 @@ class XmlDecoder extends DefaultHandler {
 					particle.setTemperature(temperature);
 				if (color != null)
 					particle.setColor(color);
+				if (velocityColor != null)
+					particle.setVelocityColor(velocityColor);
 				particle.setUid(uid);
 				particle.setLabel(label);
 				resetParticleVariables();
@@ -1026,6 +1031,7 @@ class XmlDecoder extends DefaultHandler {
 		uid = null;
 		label = null;
 		color = null;
+		velocityColor = null;
 		temperature = Float.NaN;
 	}
 
