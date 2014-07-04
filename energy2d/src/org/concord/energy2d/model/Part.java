@@ -497,24 +497,36 @@ public class Part extends Manipulable {
 	}
 
 	// simpler case, avoid trig for a faster implementation
-	private static boolean reflect(Rectangle2D.Float r, Discrete p, float predictedX, float predictedY, boolean scatter) {
+	private boolean reflect(Rectangle2D.Float r, Discrete p, float predictedX, float predictedY, boolean scatter) {
 		if (p instanceof Particle) {
-			float radius = ((Particle) p).radius;
+			Particle particle = (Particle) p;
+			float radius = particle.radius;
 			float x0 = r.x;
 			float y0 = r.y;
 			float x1 = r.x + r.width;
 			float y1 = r.y + r.height;
 			if (predictedX - radius <= x1 && predictedX + radius >= x0 && predictedY - radius <= y1 && predictedY + radius >= y0) { // predicted to hit
-				if (p.getRx() + radius <= x0) {
-					p.setVx(-Math.abs(p.getVx()));
-				} else if (p.getRx() - radius >= x1) {
-					p.setVx(Math.abs(p.getVx()));
+				float impulse = 0;
+				float hitX = predictedX, hitY = predictedY;
+				if (particle.rx + radius <= x0) {
+					impulse = Math.abs(particle.vx);
+					particle.vx = -impulse;
+					hitX += radius;
+				} else if (particle.rx - radius >= x1) {
+					impulse = Math.abs(particle.vx);
+					particle.vx = impulse;
+					hitX -= radius;
 				}
-				if (p.getRy() + radius <= y0) {
-					p.setVy(-Math.abs(p.getVy()));
-				} else if (p.getRy() - radius >= y1) {
-					p.setVy(Math.abs(p.getVy()));
+				if (particle.ry + radius <= y0) {
+					impulse = Math.abs(particle.vy);
+					particle.vy = -impulse;
+					hitY += radius;
+				} else if (particle.ry - radius >= y1) {
+					impulse = Math.abs(particle.vy);
+					particle.vy = impulse;
+					hitY -= radius;
 				}
+				model.changeTemperatureAt(hitX, hitY, 4 * particle.impactEnergyFactor * particle.mass * impulse * impulse);
 				return true;
 			}
 		} else if (p instanceof Photon) {
@@ -620,12 +632,13 @@ public class Part extends Manipulable {
 			hit = line.intersectsLine(p.getRx(), p.getRy(), predictedX, predictedY);
 		} else if (p instanceof Particle) {
 			float r = ((Particle) p).radius;
-			hit = Line2D.ptSegDistSq(line.x1, line.y1, line.x2, line.y2, predictedX, predictedY) <= r * r;
+			if (line.x1 != line.x2 || line.y1 != line.y2)
+				hit = Line2D.ptSegDistSq(line.x1, line.y1, line.x2, line.y2, predictedX, predictedY) <= r * r;
 		}
 		if (hit) {
-			float r12 = 1.0f / (float) Math.hypot(line.x1 - line.x2, line.y1 - line.y2);
-			float sin = (line.y2 - line.y1) * r12;
-			float cos = (line.x2 - line.x1) * r12;
+			float d12 = (float) Math.hypot(line.x1 - line.x2, line.y1 - line.y2);
+			float sin = (line.y2 - line.y1) / d12;
+			float cos = (line.x2 - line.x1) / d12;
 			if (scatter) {
 				double angle = -Math.PI * Math.random(); // remember internally the y-axis points downward
 				double cos1 = Math.cos(angle);
