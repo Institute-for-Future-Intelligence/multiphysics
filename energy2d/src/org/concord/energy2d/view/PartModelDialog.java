@@ -67,6 +67,7 @@ class PartModelDialog extends JDialog {
 	private JRadioButton visibleScatteringRadioButton;
 	private JRadioButton invisibleScatteringRadioButton;
 	private JTextField emissivityField, absorptivityField, reflectivityField, transmissivityField;
+	private JTextField elasticityField;
 	private JTextField xField, yField, wField, hField, angleField, scaleXField, scaleYField, shearXField, shearYField, innerDiameterField, outerDiameterField;
 	private JCheckBox flipXCheckBox, flipYCheckBox;
 	private JTextField uidField;
@@ -120,6 +121,9 @@ class PartModelDialog extends JDialog {
 				float emissivity = parse(emissivityField.getText());
 				if (Float.isNaN(emissivity))
 					return;
+				float elasticity = parse(elasticityField.getText());
+				if (Float.isNaN(elasticity))
+					return;
 
 				if (absorptivity < 0 || absorptivity > 1) {
 					JOptionPane.showMessageDialog(owner, "Absorptivity must be within [0, 1].", "Error", JOptionPane.ERROR_MESSAGE);
@@ -140,6 +144,10 @@ class PartModelDialog extends JDialog {
 				float sum = absorptivity + reflectivity + transmissivity;
 				if (Math.abs(sum - 1) > 0.01) {
 					JOptionPane.showMessageDialog(owner, "The sum of absorptivity, reflectivity, and transmissivity must be exactly one.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (elasticity < 0 || elasticity > 1) {
+					JOptionPane.showMessageDialog(owner, "Elasticity must be within [0, 1].", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -325,6 +333,7 @@ class PartModelDialog extends JDialog {
 				part.setEmissivity(emissivity);
 				part.setScattering(scattering);
 				part.setScatteringVisible(visibleScattering);
+				part.setElasticity(elasticity);
 				part.setLabel(labelField.getText());
 				part.setUid(uid);
 
@@ -615,7 +624,7 @@ class PartModelDialog extends JDialog {
 		// optics
 
 		p = new JPanel(new GridLayout(2, 2, 8, 8));
-		p.setBorder(BorderFactory.createTitledBorder("Radiosity"));
+		p.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 		pp = new JPanel(new BorderLayout());
 		pp.add(p, BorderLayout.NORTH);
 		tabbedPane.add(pp, "Optical");
@@ -656,6 +665,20 @@ class PartModelDialog extends JDialog {
 		invisibleScatteringRadioButton = new JRadioButton("Scattering (invisible)", part.getScattering() && !part.isScatteringVisible());
 		p.add(invisibleScatteringRadioButton);
 		bg.add(invisibleScatteringRadioButton);
+
+		// mechanics
+
+		p = new JPanel(new GridLayout(1, 3, 8, 8));
+		p.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+		pp = new JPanel(new BorderLayout());
+		pp.add(p, BorderLayout.NORTH);
+		tabbedPane.add(pp, "Mechanical");
+
+		p.add(new JLabel("Elasticity:"));
+		elasticityField = new JTextField(FORMAT.format(part.getElasticity()), 10);
+		elasticityField.addActionListener(okListener);
+		p.add(elasticityField);
+		p.add(new JLabel("Dimensionless [0, 1]"));
 
 		// miscellaneous
 

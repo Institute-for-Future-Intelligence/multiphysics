@@ -1203,6 +1203,8 @@ class Scripter2D extends Scripter {
 		} else if (s == "density") {
 			part.setDensity(z);
 			arrayUpdateRequested = true;
+		} else if (s == "elasticity") {
+			part.setElasticity(z);
 		} else if (s == "power") {
 			part.setPower(z);
 			arrayUpdateRequested = true;
@@ -1232,10 +1234,8 @@ class Scripter2D extends Scripter {
 			arrayUpdateRequested = true;
 		} else if (s == "scattering") {
 			part.setScattering(z == 1);
-			arrayUpdateRequested = true;
 		} else if (s == "scattering_visible") {
 			part.setScatteringVisible(z == 1);
-			arrayUpdateRequested = true;
 		} else if (s == "emissivity") {
 			part.setEmissivity(z);
 			arrayUpdateRequested = true;

@@ -108,6 +108,7 @@ class XmlDecoder extends DefaultHandler {
 	private float partEmissivity = Float.NaN;
 	private float partAbsorption = Float.NaN;
 	private float partReflection = Float.NaN;
+	private float partElasticity = 1;
 	private boolean partScattering;
 	private boolean partScatteringVisible = true;
 	private float partTransmission = Float.NaN;
@@ -853,6 +854,8 @@ class XmlDecoder extends DefaultHandler {
 			graphYmin = Float.parseFloat(str);
 		} else if (qName == "graph_ymax") {
 			graphYmax = Float.parseFloat(str);
+		} else if (qName == "elasticity") {
+			partElasticity = Float.parseFloat(str);
 		} else if (qName == "thermal_conductivity") {
 			partThermalConductivity = Float.parseFloat(str);
 		} else if (qName == "specific_heat") {
@@ -939,6 +942,7 @@ class XmlDecoder extends DefaultHandler {
 					part.setReflectivity(partReflection);
 				if (!Float.isNaN(partTransmission))
 					part.setTransmissivity(partTransmission);
+				part.setElasticity(partElasticity);
 				part.setScattering(partScattering);
 				part.setScatteringVisible(partScatteringVisible);
 				part.setThermistorTemperatureCoefficient(partTemperatureCoefficient);
@@ -986,6 +990,7 @@ class XmlDecoder extends DefaultHandler {
 		partThermalConductivity = Float.NaN;
 		partSpecificHeat = Float.NaN;
 		partDensity = Float.NaN;
+		partElasticity = 1;
 		partConstantTemperature = false;
 		partPower = Float.NaN;
 		partTemperatureCoefficient = 0;

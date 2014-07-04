@@ -69,6 +69,9 @@ public class Part extends Manipulable {
 	private boolean scattering;
 	private boolean scatteringVisible = true;
 
+	// mechanical properties
+	private float elasticity = 1.0f;
+
 	private float windSpeed;
 	private float windAngle;
 
@@ -232,6 +235,14 @@ public class Part extends Manipulable {
 
 	public boolean isScatteringVisible() {
 		return scatteringVisible;
+	}
+
+	public void setElasticity(float elasticity) {
+		this.elasticity = elasticity;
+	}
+
+	public float getElasticity() {
+		return elasticity;
 	}
 
 	public void setConstantTemperature(boolean b) {
@@ -510,23 +521,24 @@ public class Part extends Manipulable {
 				float hitX = predictedX, hitY = predictedY;
 				if (particle.rx + radius <= x0) {
 					impulse = Math.abs(particle.vx);
-					particle.vx = -impulse;
+					particle.vx = -impulse * elasticity;
 					hitX += radius;
 				} else if (particle.rx - radius >= x1) {
 					impulse = Math.abs(particle.vx);
-					particle.vx = impulse;
+					particle.vx = impulse * elasticity;
 					hitX -= radius;
 				}
 				if (particle.ry + radius <= y0) {
 					impulse = Math.abs(particle.vy);
-					particle.vy = -impulse;
+					particle.vy = -impulse * elasticity;
 					hitY += radius;
 				} else if (particle.ry - radius >= y1) {
 					impulse = Math.abs(particle.vy);
-					particle.vy = impulse;
+					particle.vy = impulse * elasticity;
 					hitY -= radius;
 				}
-				model.changeTemperatureAt(hitX, hitY, 4 * particle.impactEnergyFactor * particle.mass * impulse * impulse);
+				if (elasticity < 1)
+					model.changeTemperatureAt(hitX, hitY, 4 * particle.impactEnergyFactor * particle.mass * impulse * impulse * (1 - elasticity * elasticity));
 				return true;
 			}
 		} else if (p instanceof Photon) {
@@ -706,6 +718,7 @@ public class Part extends Manipulable {
 			xml += " inner=\"" + ring.getInnerDiameter() + "\"";
 			xml += " outer=\"" + ring.getOuterDiameter() + "\"/>";
 		}
+		xml += "<elasticity>" + elasticity + "</elasticity>\n";
 		xml += "<thermal_conductivity>" + thermalConductivity + "</thermal_conductivity>\n";
 		xml += "<specific_heat>" + specificHeat + "</specific_heat>\n";
 		xml += "<density>" + density + "</density>\n";

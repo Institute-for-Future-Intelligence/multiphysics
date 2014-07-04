@@ -19,7 +19,7 @@ public class Particle extends Manipulable implements Discrete {
 	float fx, fy;
 	float temperature = Float.NaN;
 	boolean movable = true;
-	float impactEnergyFactor = 10000;
+	float impactEnergyFactor = 100000;
 	
 	private Color color = Color.WHITE;
 
