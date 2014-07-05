@@ -20,6 +20,8 @@ public class Particle extends Manipulable implements Discrete {
 	float temperature = Float.NaN;
 	boolean movable = true;
 
+	private float rx0 = Float.NaN, ry0 = Float.NaN;
+	private float vx0 = Float.NaN, vy0 = Float.NaN;
 	private Color color = Color.WHITE;
 	private Color velocityColor = Color.BLACK;
 
@@ -55,6 +57,25 @@ public class Particle extends Manipulable implements Discrete {
 	public void setLocation(float rx, float ry) {
 		this.rx = rx;
 		this.ry = ry;
+		updateShape();
+	}
+
+	public void storeState() {
+		rx0 = rx;
+		ry0 = ry;
+		vx0 = vx;
+		vy0 = vy;
+	}
+
+	public void restoreState() {
+		if (!Float.isNaN(rx0))
+			rx = rx0;
+		if (!Float.isNaN(ry0))
+			ry = ry0;
+		if (!Float.isNaN(vx0))
+			vx = vx0;
+		if (!Float.isNaN(vy0))
+			vy = vy0;
 		updateShape();
 	}
 

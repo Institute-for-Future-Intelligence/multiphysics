@@ -62,7 +62,7 @@ class ParticleSolver2D {
 				p.fx = p.fy = 0.0f;
 				p.predict(timeStep);
 				interactWithFluid(p, fluidDensity);
-				//interactWithParts(p);
+				// interactWithParts(p);
 			}
 			computeParticleCollisions();
 			for (Particle p : particles) {
@@ -234,6 +234,11 @@ class ParticleSolver2D {
 
 		}
 
+	}
+
+	void reset() {
+		for (Particle p : particles)
+			p.restoreState();
 	}
 
 }

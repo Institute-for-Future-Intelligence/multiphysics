@@ -1369,6 +1369,7 @@ public class Model2D {
 		photons.clear();
 		heatSolver.reset();
 		fluidSolver.reset();
+		particleSolver.reset();
 		radiositySolver.reset();
 	}
 

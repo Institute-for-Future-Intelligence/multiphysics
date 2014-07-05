@@ -985,6 +985,7 @@ class XmlDecoder extends DefaultHandler {
 					particle.setVelocityColor(velocityColor);
 				particle.setUid(uid);
 				particle.setLabel(label);
+				particle.storeState();
 				resetParticleVariables();
 			}
 		}

@@ -674,8 +674,9 @@ public class Part extends Manipulable {
 					u = particle.vx * cos + particle.vy * sin;
 					w = particle.vy * cos - particle.vx * sin;
 					w *= elasticity;
-					if (sin < 0) // FIXME: I don't understand why this fixes the collision miss
+					if (Math.abs(w) < 0.001f) {
 						w = -Math.abs(w);
+					}
 					p.setVx(u * cos + w * sin);
 					p.setVy(u * sin - w * cos);
 				} else {
