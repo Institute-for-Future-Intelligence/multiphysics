@@ -46,6 +46,15 @@ public class Polygon2D implements TransformableShape {
 		return new Polygon2D(x, y);
 	}
 
+	public boolean isClockwise() {
+		float sum = 0;
+		int n = vertex.length;
+		for (int i = 0; i < n - 1; i++)
+			sum += (vertex[i + 1].x - vertex[i].x) * (vertex[i + 1].y + vertex[i].y);
+		sum += (vertex[0].x - vertex[n - 1].x) * (vertex[0].y + vertex[n - 1].y);
+		return sum > 0;
+	}
+
 	private void update() {
 		synchronized (path) {
 			path.reset();

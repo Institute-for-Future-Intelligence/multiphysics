@@ -579,6 +579,7 @@ public class Part extends Manipulable {
 	}
 
 	private boolean reflect(Blob2D b, Discrete p, float predictedX, float predictedY, boolean scatter) {
+		boolean clockwise = b.isClockwise();
 		int n = b.getPathPointCount();
 		Point2D.Float v1, v2;
 		Line2D.Float line = new Line2D.Float();
@@ -586,13 +587,13 @@ public class Part extends Manipulable {
 			v1 = b.getPathPoint(i);
 			v2 = b.getPathPoint(i + 1);
 			line.setLine(v1, v2);
-			if (reflectFromLine(p, line, predictedX, predictedY, scatter))
+			if (reflectFromLine(p, line, predictedX, predictedY, scatter, clockwise))
 				return true;
 		}
 		v1 = b.getPathPoint(n - 1);
 		v2 = b.getPathPoint(0);
 		line.setLine(v1, v2);
-		if (reflectFromLine(p, line, predictedX, predictedY, scatter))
+		if (reflectFromLine(p, line, predictedX, predictedY, scatter, clockwise))
 			return true;
 		return false;
 	}
@@ -608,23 +609,24 @@ public class Part extends Manipulable {
 		float theta;
 		float delta = (float) (2 * Math.PI / polygonize);
 		for (int i = 0; i < polygonize; i++) {
-			theta = delta * i;
+			theta = -delta * i;
 			vx[i] = (float) (x + a * Math.cos(theta));
 			vy[i] = (float) (y + b * Math.sin(theta));
 		}
 		Line2D.Float line = new Line2D.Float();
 		for (int i = 0; i < polygonize - 1; i++) {
 			line.setLine(vx[i], vy[i], vx[i + 1], vy[i + 1]);
-			if (reflectFromLine(p, line, predictedX, predictedY, scatter))
+			if (reflectFromLine(p, line, predictedX, predictedY, scatter, true))
 				return true;
 		}
 		line.setLine(vx[polygonize - 1], vy[polygonize - 1], vx[0], vy[0]);
-		if (reflectFromLine(p, line, predictedX, predictedY, scatter))
+		if (reflectFromLine(p, line, predictedX, predictedY, scatter, true))
 			return true;
 		return false;
 	}
 
 	private boolean reflect(Polygon2D r, Discrete p, float predictedX, float predictedY, boolean scatter) {
+		boolean clockwise = r.isClockwise();
 		int n = r.getVertexCount();
 		Point2D.Float v1, v2;
 		Line2D.Float line = new Line2D.Float();
@@ -632,18 +634,18 @@ public class Part extends Manipulable {
 			v1 = r.getVertex(i);
 			v2 = r.getVertex(i + 1);
 			line.setLine(v1, v2);
-			if (reflectFromLine(p, line, predictedX, predictedY, scatter))
+			if (reflectFromLine(p, line, predictedX, predictedY, scatter, clockwise))
 				return true;
 		}
 		v1 = r.getVertex(n - 1);
 		v2 = r.getVertex(0);
 		line.setLine(v1, v2);
-		if (reflectFromLine(p, line, predictedX, predictedY, scatter))
+		if (reflectFromLine(p, line, predictedX, predictedY, scatter, clockwise))
 			return true;
 		return false;
 	}
 
-	private boolean reflectFromLine(Discrete p, Line2D.Float line, float predictedX, float predictedY, boolean scatter) {
+	private boolean reflectFromLine(Discrete p, Line2D.Float line, float predictedX, float predictedY, boolean scatter, boolean clockwise) {
 		if (line.x1 == line.x2 && line.y1 == line.y2)
 			return false;
 		boolean hit = false;
@@ -656,8 +658,8 @@ public class Part extends Manipulable {
 		}
 		if (hit) {
 			float d12 = (float) Math.hypot(line.x1 - line.x2, line.y1 - line.y2);
-			float sin = (line.y2 - line.y1) / d12;
-			float cos = (line.x2 - line.x1) / d12;
+			float sin = (clockwise ? line.y2 - line.y1 : line.y1 - line.y2) / d12;
+			float cos = (clockwise ? line.x2 - line.x1 : line.x1 - line.x2) / d12;
 			if (scatter) {
 				double angle = -Math.PI * Math.random(); // remember internally the y-axis points downward
 				double cos1 = Math.cos(angle);
@@ -674,9 +676,8 @@ public class Part extends Manipulable {
 					u = particle.vx * cos + particle.vy * sin;
 					w = particle.vy * cos - particle.vx * sin;
 					w *= elasticity;
-					if (Math.abs(w) < 0.001f) {
+					if (Math.abs(w) < 0.01f)
 						w = -Math.abs(w);
-					}
 					p.setVx(u * cos + w * sin);
 					p.setVy(u * sin - w * cos);
 				} else {

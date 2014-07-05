@@ -13,7 +13,7 @@
 <solar_ray_speed>0.001</solar_ray_speed>
 <photon_emission_interval>25</photon_emission_interval>
 <gravitational_acceleration>0.0</gravitational_acceleration>
-<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.0</particle_drag><particle_hardness>1.0E-8</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.0</particle_drag><particle_hardness>0.001</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
 <background_conductivity>0.001</background_conductivity>
 <thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
 <buoyancy_approximation>1</buoyancy_approximation>

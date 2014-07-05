@@ -71,6 +71,15 @@ public class Blob2D implements TransformableShape {
 		update();
 	}
 
+	public boolean isClockwise() {
+		float sum = 0;
+		int n = points.length;
+		for (int i = 0; i < n - 1; i++)
+			sum += (points[i + 1].x - points[i].x) * (points[i + 1].y + points[i].y);
+		sum += (points[0].x - points[n - 1].x) * (points[0].y + points[n - 1].y);
+		return sum > 0;
+	}
+
 	public Blob2D duplicate() {
 		int n = points.length;
 		float[] x = new float[n];

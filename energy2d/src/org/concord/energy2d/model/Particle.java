@@ -76,6 +76,10 @@ public class Particle extends Manipulable implements Discrete {
 			vx = vx0;
 		if (!Float.isNaN(vy0))
 			vy = vy0;
+		ax = 0;
+		ay = 0;
+		fx = 0;
+		fy = 0;
 		updateShape();
 	}
 
