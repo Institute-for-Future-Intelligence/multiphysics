@@ -521,20 +521,20 @@ public class Part extends Manipulable {
 			if (predictedToHit) {
 				float impulse = 0;
 				float hitX = predictedX, hitY = predictedY;
-				if (particle.rx + radius <= x0) {
+				if (particle.rx - radius <= x0) { // particle to the left
 					impulse = Math.abs(particle.vx);
 					particle.vx = -impulse * elasticity;
 					hitX += radius + 0.5f * model.getLy() / model.getNy();
-				} else if (particle.rx - radius >= x1) {
+				} else if (particle.rx + radius >= x1) { // particle to the right
 					impulse = Math.abs(particle.vx);
 					particle.vx = impulse * elasticity;
 					hitX -= radius + 0.5f * model.getLy() / model.getNy();
 				}
-				if (particle.ry + radius <= y0) {
+				if (particle.ry - radius <= y0) { // particle above
 					impulse = Math.abs(particle.vy);
 					particle.vy = -impulse * elasticity;
 					hitY += radius + 0.5f * model.getLy() / model.getNy();
-				} else if (particle.ry - radius >= y1) {
+				} else if (particle.ry + radius >= y1) { // particle below
 					impulse = Math.abs(particle.vy);
 					particle.vy = impulse * elasticity;
 					hitY -= radius + 0.5f * model.getLy() / model.getNy();
@@ -665,14 +665,18 @@ public class Part extends Manipulable {
 				p.setVx((float) (p.getSpeed() * cos2));
 				p.setVy((float) (p.getSpeed() * sin2));
 			} else {
-				// velocity component parallel to the line
-				float u = p.getVx() * cos + p.getVy() * sin;
-				// velocity component perpendicular to the line
-				float w = p.getVy() * cos - p.getVx() * sin;
+				float u; // velocity component parallel to the line
+				float w; // velocity component perpendicular to the line
 				if (p instanceof Particle) {
-					p.setVx(u * cos + w * elasticity * sin);
-					p.setVy(u * sin - w * elasticity * cos);
+					Particle particle = (Particle) p;
+					u = particle.vx * cos + particle.vy * sin;
+					w = particle.vy * cos - particle.vx * sin;
+					w *= elasticity;
+					p.setVx(u * cos + w * sin);
+					p.setVy(u * sin - w * cos);
 				} else {
+					u = p.getVx() * cos + p.getVy() * sin;
+					w = p.getVy() * cos - p.getVx() * sin;
 					p.setVx(u * cos + w * sin);
 					p.setVy(u * sin - w * cos);
 				}
