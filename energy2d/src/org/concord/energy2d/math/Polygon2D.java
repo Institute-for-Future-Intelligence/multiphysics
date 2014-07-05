@@ -261,12 +261,12 @@ public class Polygon2D implements TransformableShape {
 
 	public boolean intersects(Rectangle2D r) {
 		update();
-		return intersects(r);
+		return path.intersects(r);
 	}
 
 	public boolean intersects(double x, double y, double w, double h) {
 		update();
-		return intersects(x, y, w, h);
+		return path.intersects(x, y, w, h);
 	}
 
 }

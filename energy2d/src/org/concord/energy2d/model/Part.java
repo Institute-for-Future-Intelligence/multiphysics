@@ -650,7 +650,8 @@ public class Part extends Manipulable {
 		if (p instanceof Photon) { // a photon doesn't have any size, use its center to detect collision
 			hit = line.intersectsLine(p.getRx(), p.getRy(), predictedX, predictedY);
 		} else if (p instanceof Particle) {
-			float r = ((Particle) p).radius;
+			Particle particle = (Particle) p;
+			float r = particle.radius;
 			hit = Line2D.ptSegDistSq(line.x1, line.y1, line.x2, line.y2, predictedX, predictedY) <= r * r;
 		}
 		if (hit) {
@@ -673,6 +674,8 @@ public class Part extends Manipulable {
 					u = particle.vx * cos + particle.vy * sin;
 					w = particle.vy * cos - particle.vx * sin;
 					w *= elasticity;
+					if (sin < 0) // FIXME: I don't understand why this fixes the collision miss
+						w = -Math.abs(w);
 					p.setVx(u * cos + w * sin);
 					p.setVy(u * sin - w * cos);
 				} else {
