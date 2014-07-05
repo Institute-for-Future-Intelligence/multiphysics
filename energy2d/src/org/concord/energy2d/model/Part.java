@@ -677,7 +677,7 @@ public class Part extends Manipulable {
 					w = particle.vy * cos - particle.vx * sin;
 					w *= elasticity;
 					if (Math.abs(w) < 0.01f)
-						w = -Math.abs(w);
+						w = -Math.abs(w); // force the w component to point outwards
 					p.setVx(u * cos + w * sin);
 					p.setVy(u * sin - w * cos);
 				} else {
@@ -688,8 +688,8 @@ public class Part extends Manipulable {
 				}
 				if (p instanceof Particle && elasticity < 1) {
 					Particle particle = (Particle) p;
-					float hitX = predictedX - (particle.radius + 0.5f * model.getLx() / model.getNx()) * sin;
-					float hitY = predictedY + (particle.radius + 0.5f * model.getLy() / model.getNy()) * cos;
+					float hitX = predictedX + (particle.radius + 0.5f * model.getLx() / model.getNx()) * sin;
+					float hitY = predictedY - (particle.radius + 0.5f * model.getLy() / model.getNy()) * cos;
 					float energy = 0.5f * particle.mass * w * w * (1 - elasticity * elasticity);
 					float volume = model.getLx() * model.getLy() / (model.getNx() * model.getNy());
 					model.changeTemperatureAt(hitX, hitY, energy / (specificHeat * density * volume));
