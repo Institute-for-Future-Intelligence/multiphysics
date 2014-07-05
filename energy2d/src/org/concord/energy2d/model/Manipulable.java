@@ -8,7 +8,7 @@ package org.concord.energy2d.model;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 
-import org.concord.energy2d.math.Polygon2D;
+import org.concord.energy2d.math.TransformableShape;
 
 /**
  * @author Charles Xie
@@ -58,8 +58,8 @@ public abstract class Manipulable {
 	}
 
 	public Point2D.Float getCenter() {
-		if (shape instanceof Polygon2D)
-			return ((Polygon2D) shape).getCenter();
+		if (shape instanceof TransformableShape)
+			return ((TransformableShape) shape).getCenter();
 		return new Point2D.Float((float) shape.getBounds2D().getCenterX(), (float) shape.getBounds2D().getCenterY());
 	}
 

@@ -521,7 +521,7 @@ public class Part extends Manipulable {
 			if (predictedToHit) {
 				float impulse = 0;
 				float hitX = predictedX, hitY = predictedY;
-				if (particle.rx - radius <= x0) { // particle to the left
+				if (particle.rx - radius <= x0) { // use the farthest point to decide if the particle is to the left
 					impulse = Math.abs(particle.vx);
 					particle.vx = -impulse * elasticity;
 					hitX += radius + 0.5f * model.getLy() / model.getNy();
@@ -644,13 +644,14 @@ public class Part extends Manipulable {
 	}
 
 	private boolean reflectFromLine(Discrete p, Line2D.Float line, float predictedX, float predictedY, boolean scatter) {
+		if (line.x1 == line.x2 && line.y1 == line.y2)
+			return false;
 		boolean hit = false;
 		if (p instanceof Photon) { // a photon doesn't have any size, use its center to detect collision
 			hit = line.intersectsLine(p.getRx(), p.getRy(), predictedX, predictedY);
 		} else if (p instanceof Particle) {
 			float r = ((Particle) p).radius;
-			if (line.x1 != line.x2 || line.y1 != line.y2)
-				hit = Line2D.ptSegDistSq(line.x1, line.y1, line.x2, line.y2, predictedX, predictedY) <= r * r;
+			hit = Line2D.ptSegDistSq(line.x1, line.y1, line.x2, line.y2, predictedX, predictedY) <= r * r;
 		}
 		if (hit) {
 			float d12 = (float) Math.hypot(line.x1 - line.x2, line.y1 - line.y2);
