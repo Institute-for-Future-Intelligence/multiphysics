@@ -409,6 +409,7 @@ class MenuBar extends JMenuBar {
 		menu.add(miRadiometer);
 		menu.addSeparator();
 		menu.add(box.view.getActionMap().get("Insert Particle"));
+		menu.addSeparator();
 		menu.add(box.view.getActionMap().get("Insert Cloud"));
 		menu.add(box.view.getActionMap().get("Insert Tree"));
 		menu.addSeparator();
@@ -890,6 +891,16 @@ class MenuBar extends JMenuBar {
 		examples.put("Von Kármán Vortex Street", "models/vortex-street.e2d");
 		createMenu(box, subMenu, examples);
 
+		subMenu = new JMenu("Particle Coupling");
+		menu.add(subMenu);
+
+		examples.put("Elasticity", "models/compare-elasticity.e2d");
+		examples.put("Inelastic Collisions", "models/inelastic-collision.e2d");
+		examples.put("Fireballs", "models/fireballs.e2d");
+		examples.put("Convective Lift", "models/particles.e2d");
+		examples.put("Thermophoresis", "models/thermophoresis.e2d");
+		createMenu(box, subMenu, examples);
+
 		subMenu = new JMenu("Building Energy Analysis");
 		menu.add(subMenu);
 
@@ -926,16 +937,6 @@ class MenuBar extends JMenuBar {
 		examples.put("Sun & Clouds", "models/solar-cycles.e2d");
 		examples.put("USA Isotherm", "models/usa-isotherm.e2d");
 		examples.put("Mantle Convection", "models/mantle.e2d");
-		createMenu(box, subMenu, examples);
-
-		subMenu = new JMenu("Particle Coupling");
-		menu.add(subMenu);
-
-		examples.put("Elasticity", "models/compare-elasticity.e2d");
-		examples.put("Inelastic Collisions", "models/inelastic-collision.e2d");
-		examples.put("Fireballs", "models/fireballs.e2d");
-		examples.put("Convective Lift", "models/particles.e2d");
-		examples.put("Thermophoresis", "models/thermophoresis.e2d");
 		createMenu(box, subMenu, examples);
 
 		subMenu = new JMenu("Boundary Conditions");

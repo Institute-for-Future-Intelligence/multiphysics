@@ -29,7 +29,7 @@ class PreferencesDialog extends JDialog {
 
 	private Window owner;
 	private JCheckBox snapToGridCheckBox;
-	private JTextField radiationMeshField;
+	private JTextField perimeterStepField;
 	private JTextField maximumDataPointsField;
 	private ActionListener okListener;
 
@@ -50,11 +50,11 @@ class PreferencesDialog extends JDialog {
 		okListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				float x = parse(radiationMeshField.getText());
+				float x = parse(perimeterStepField.getText());
 				if (Float.isNaN(x))
 					return;
 				if (x < 1 || x > 20) {
-					JOptionPane.showMessageDialog(owner, "Mesh size cannot be smaller than 1% or larger than 20%.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(owner, "Perimeter step cannot be smaller than 1% or larger than 20%.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				s2d.model.setPerimeterStepSize(0.01f * x);
@@ -119,14 +119,14 @@ class PreferencesDialog extends JDialog {
 		p.add(maximumDataPointsField);
 
 		p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		p.setBorder(BorderFactory.createTitledBorder("Radiation Mesh"));
+		p.setBorder(BorderFactory.createTitledBorder("Perimeter Step"));
 		box.add(p);
 
 		p.add(new JLabel("Percentage of the box size:"));
-		radiationMeshField = new JTextField("" + Math.round(100 * s2d.model.getPerimeterStepSize()), 10);
-		radiationMeshField.setToolTipText("Set the size of the radiation mesh on the surface of a radiation body");
-		radiationMeshField.addActionListener(okListener);
-		p.add(radiationMeshField);
+		perimeterStepField = new JTextField("" + Math.round(100 * s2d.model.getPerimeterStepSize()), 10);
+		perimeterStepField.setToolTipText("Set the step size for the perimeter of a radiation body");
+		perimeterStepField.addActionListener(okListener);
+		p.add(perimeterStepField);
 
 		pack();
 		setLocationRelativeTo(s2d.view);
