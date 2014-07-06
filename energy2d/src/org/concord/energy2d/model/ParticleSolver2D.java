@@ -212,8 +212,8 @@ class ParticleSolver2D {
 					sigma *= sigma;
 					sr2 = sigma / rijsq;
 					/* check if this pair gets too close */
-					if (sr2 > 2.0f) {
-						sr2 = 2.0f;
+					if (sr2 > 10.0f) {
+						sr2 = 10.0f;
 						rijsq = sigma * sigma;
 					}
 					sr6 = sr2 * sr2 * sr2;
