@@ -388,7 +388,6 @@ class PartModelDialog extends JDialog {
 		count++;
 
 		Shape shape = part.getShape();
-
 		if (shape instanceof RectangularShape) {
 
 			p.add(new JLabel("Width"));

@@ -6,8 +6,8 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Shape;
 import java.awt.Toolkit;
-import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.net.URL;
@@ -22,6 +22,8 @@ import javax.swing.JOptionPane;
 
 import org.concord.energy2d.event.ScriptEvent;
 import org.concord.energy2d.event.ScriptListener;
+import org.concord.energy2d.math.Blob2D;
+import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Boundary;
 import org.concord.energy2d.model.DirichletThermalBoundary;
@@ -129,6 +131,9 @@ class Scripter2D extends Scripter {
 			s2d.model.refreshPowerArray();
 			s2d.model.refreshTemperatureBoundaryArray();
 			s2d.model.refreshMaterialPropertyArrays();
+			if (s2d.model.isRadiative()) {
+				s2d.model.generateRadiationMesh();
+			}
 			arrayUpdateRequested = false;
 		}
 		if (temperatureInitializationRequested) {
@@ -1274,8 +1279,52 @@ class Scripter2D extends Scripter {
 				e.height = z;
 				arrayUpdateRequested = true;
 			}
-		} else if (shape instanceof Area) {
+		} else if (shape instanceof Polygon2D) {
+			Polygon2D p = (Polygon2D) shape;
+			if (s == "rotation_angle") {
+				p.rotateBy(z);
+				arrayUpdateRequested = true;
+			} else if (s == "x") {
+				p.translateBy(z - p.getCenter().x, 0);
+				arrayUpdateRequested = true;
+			} else if (s == "y") {
+				p.flipY();
+				p.translateBy(0, z - p.getCenter().y);
+				float ly = s2d.model.getLy();
+				int n = p.getVertexCount();
+				Point2D.Float v;
+				for (int i = 0; i < n; i++) {
+					v = p.getVertex(i);
+					v.y = ly - v.y;
+				}
+				arrayUpdateRequested = true;
+			}
+		} else if (shape instanceof Blob2D) {
+			Blob2D b = (Blob2D) shape;
+			if (s == "rotation_angle") {
+				b.rotateBy(z);
+				b.update();
+				arrayUpdateRequested = true;
+			} else if (s == "x") {
+				b.translateBy(z - b.getCenter().x, 0);
+				b.update();
+				arrayUpdateRequested = true;
+			} else if (s == "y") {
+				b.flipY();
+				b.translateBy(0, z - b.getCenter().y);
+				float ly = s2d.model.getLy();
+				int n = b.getPointCount();
+				Point2D.Float v;
+				for (int i = 0; i < n; i++) {
+					v = b.getPoint(i);
+					v.y = ly - v.y;
+				}
+				b.update();
+				arrayUpdateRequested = true;
+			}
 		}
+		if (part.isSelected()) // if selected, update the selection handles
+			s2d.view.setSelectedManipulable(part);
 	}
 
 	private void setParticleField(String str1, String str2, String str3) {

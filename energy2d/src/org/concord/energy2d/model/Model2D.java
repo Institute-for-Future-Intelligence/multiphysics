@@ -1385,6 +1385,11 @@ public class Model2D {
 		}
 	}
 
+	public boolean isRadiative() {
+		checkPartRadiation();
+		return radiative;
+	}
+
 	private void checkPartRadiation() {
 		radiative = sunny;
 		if (!radiative) {

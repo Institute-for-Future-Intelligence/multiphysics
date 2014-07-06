@@ -873,6 +873,7 @@ class MenuBar extends JMenuBar {
 		subMenu = new JMenu("Radiation");
 		menu.add(subMenu);
 		examples.put("Temperature Dependence", "models/stefan.e2d");
+		examples.put("View Factor", "models/viewfactor.e2d");
 		examples.put("Symmetry Test Case", "models/radiation-symmetry-test.e2d");
 		examples.put("Radiation in a Box", "models/radiation-box.e2d");
 		examples.put("Radiation to a Ring", "models/radiation-ring.e2d");
@@ -930,6 +931,7 @@ class MenuBar extends JMenuBar {
 		subMenu = new JMenu("Particle Coupling");
 		menu.add(subMenu);
 
+		examples.put("Elasticity", "models/compare-elasticity.e2d");
 		examples.put("Inelastic Collisions", "models/inelastic-collision.e2d");
 		examples.put("Fireballs", "models/fireballs.e2d");
 		examples.put("Convective Lift", "models/particles.e2d");
