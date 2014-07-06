@@ -542,7 +542,7 @@ class MenuBar extends JMenuBar {
 		final JCheckBoxMenuItem miHeatFluxArrow = new JCheckBoxMenuItem("Heat Flux Arrows");
 		final JCheckBoxMenuItem miHeatFluxLine = new JCheckBoxMenuItem("Heat Flux Lines");
 		final JCheckBoxMenuItem miColorPalette = new JCheckBoxMenuItem("Color Palette");
-		final JCheckBoxMenuItem miRadiationMesh = new JCheckBoxMenuItem("Radiation Mesh");
+		final JCheckBoxMenuItem miViewFactorLines = new JCheckBoxMenuItem("View Factor Lines");
 		final JCheckBoxMenuItem miRuler = new JCheckBoxMenuItem("Ruler");
 		final JCheckBoxMenuItem miGrid = new JCheckBoxMenuItem("Grid");
 		final JMenuItem miIncrGrid = new JMenuItem("Increase Grid Lines");
@@ -560,7 +560,7 @@ class MenuBar extends JMenuBar {
 				MiscUtil.setSelectedSilently(miHeatFluxArrow, box.view.isHeatFluxArrowsOn());
 				MiscUtil.setSelectedSilently(miHeatFluxLine, box.view.isHeatFluxLinesOn());
 				MiscUtil.setSelectedSilently(miColorPalette, box.view.isColorPaletteOn());
-				MiscUtil.setSelectedSilently(miRadiationMesh, box.view.isRadiationMeshOn());
+				MiscUtil.setSelectedSilently(miViewFactorLines, box.view.isViewFactorLinesOn());
 				MiscUtil.setSelectedSilently(miRuler, box.view.isRulerOn());
 				MiscUtil.setSelectedSilently(miGrid, box.view.isGridOn());
 				miIncrGrid.setEnabled(box.view.isGridOn());
@@ -756,16 +756,16 @@ class MenuBar extends JMenuBar {
 
 		menu.addSeparator();
 
-		miRadiationMesh.addItemListener(new ItemListener() {
+		miViewFactorLines.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
-				box.view.setRadiationMeshOn(src.isSelected());
+				box.view.setViewFactorLinesOn(src.isSelected());
 				box.view.repaint();
 				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 			}
 		});
-		miRadiationMesh.setToolTipText("Check if you wish to show the radiation mesh");
-		menu.add(miRadiationMesh);
+		miViewFactorLines.setToolTipText("Check if you wish to show the view factor lines");
+		menu.add(miViewFactorLines);
 
 		miRuler.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -873,7 +873,7 @@ class MenuBar extends JMenuBar {
 		subMenu = new JMenu("Radiation");
 		menu.add(subMenu);
 		examples.put("Temperature Dependence", "models/stefan.e2d");
-		examples.put("View Factor", "models/viewfactor.e2d");
+		examples.put("Angular Dependence", "models/viewfactor.e2d");
 		examples.put("Symmetry Test Case", "models/radiation-symmetry-test.e2d");
 		examples.put("Radiation in a Box", "models/radiation-box.e2d");
 		examples.put("Radiation to a Ring", "models/radiation-ring.e2d");

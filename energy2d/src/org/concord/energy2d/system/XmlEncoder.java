@@ -197,10 +197,10 @@ class XmlEncoder {
 		if (box.view.getFahrenheitUsed()) {
 			sb.append("<fahrenheit_used>true</fahrenheit_used>\n");
 		}
-		if (box.view.isRadiationMeshOn()) {
-			sb.append("<radiation_mesh>true</radiation_mesh>\n");
+		if (box.view.isViewFactorLinesOn()) {
+			sb.append("<view_factor_lines>true</view_factor_lines>\n");
 		}
-		sb.append("<radiation_mesh_size>" + box.model.getRadiationMeshSize() + "</radiation_mesh_size>\n");
+		sb.append("<perimeter_step_size>" + box.model.getPerimeterStepSize() + "</perimeter_step_size>\n");
 		if (box.view.isRulerOn()) {
 			sb.append("<ruler>true</ruler>\n");
 		}

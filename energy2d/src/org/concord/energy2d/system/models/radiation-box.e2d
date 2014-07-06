@@ -25,7 +25,8 @@
 </boundary>
 <structure>
 <part>
-<rectangle x="0.099999994" y="0.2" width="0.8" height="0.1"/><thermal_conductivity>0.001</thermal_conductivity>
+<rectangle x="0.099999994" y="0.2" width="0.8" height="0.1"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>10.0</density>
 <transmission>0.0</transmission>
@@ -40,7 +41,8 @@
 <label>%temperature</label>
 </part>
 <part>
-<rectangle x="0.099999994" y="0.7" width="0.8" height="0.1"/><thermal_conductivity>0.001</thermal_conductivity>
+<rectangle x="0.099999994" y="0.7" width="0.8" height="0.1"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>10.0</density>
 <transmission>0.0</transmission>
@@ -55,7 +57,8 @@
 <label>%temperature</label>
 </part>
 <part>
-<rectangle x="0.8" y="0.3" width="0.1" height="0.4"/><thermal_conductivity>0.001</thermal_conductivity>
+<rectangle x="0.8" y="0.3" width="0.1" height="0.4"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>10.0</density>
 <transmission>0.0</transmission>
@@ -70,7 +73,8 @@
 <label>%temperature</label>
 </part>
 <part>
-<rectangle x="0.099999994" y="0.29999998" width="0.099999994" height="0.39999998"/><thermal_conductivity>0.001</thermal_conductivity>
+<rectangle x="0.099999994" y="0.29999998" width="0.099999994" height="0.39999998"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>10.0</density>
 <transmission>0.0</transmission>
@@ -85,7 +89,8 @@
 <label>%temperature</label>
 </part>
 <part>
-<rectangle x="0.66999996" y="0.39" width="0.07" height="0.14999999"/><thermal_conductivity>0.001</thermal_conductivity>
+<rectangle x="0.66999996" y="0.39" width="0.07" height="0.14999999"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>1.0</density>
 <transmission>0.0</transmission>
@@ -100,7 +105,8 @@
 <label>%temperature</label>
 </part>
 <part>
-<ellipse x="0.5399999544024467" y="0.3999999687075615" a="0.17" b="0.11"/><thermal_conductivity>1.0</thermal_conductivity>
+<ellipse x="0.5399999544024467" y="0.3999999687075615" a="0.17" b="0.11"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -116,6 +122,7 @@
 </part>
 <part>
 <blob count="5" points="0.31951132, 0.47255388, 0.4647836, 0.57930577, 0.31785288, 0.64342594, 0.23922282, 0.54434365, 0.31868213, 0.55798995"/>
+<elasticity>1.0</elasticity>
 <thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>1.0</density>
@@ -145,8 +152,8 @@
 <view>
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
-<radiation_mesh>true</radiation_mesh>
-<radiation_mesh_size>0.049999997</radiation_mesh_size>
+<view_factor_lines>true</view_factor_lines>
+<perimeter_step_size>0.05</perimeter_step_size>
 <ruler>true</ruler>
 <color_palette_type>1</color_palette_type>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>20.0</minimum_temperature>

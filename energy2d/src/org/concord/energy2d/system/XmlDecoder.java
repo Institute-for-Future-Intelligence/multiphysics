@@ -53,7 +53,7 @@ class XmlDecoder extends DefaultHandler {
 	private int solarRayCount = 24;
 	private float solarRaySpeed = 0.1f;
 	private int photonEmissionInterval = 20;
-	private float radiationMeshSize = 0.05f;
+	private float perimeterStepSize = 0.05f;
 	private boolean convective = true;
 	private float zHeatDiffusivity;
 	private float gravitationalAcceleration = -1;
@@ -73,7 +73,7 @@ class XmlDecoder extends DefaultHandler {
 	// view properties
 	private byte graphDataType;
 	private boolean fahrenheitUsed;
-	private boolean radiationMesh;
+	private boolean viewFactorLines;
 	private boolean ruler;
 	private boolean grid;
 	private boolean snapToGrid = true;
@@ -175,7 +175,7 @@ class XmlDecoder extends DefaultHandler {
 		box.model.setSolarRayCount(solarRayCount);
 		box.model.setSolarRaySpeed(solarRaySpeed);
 		box.model.setPhotonEmissionInterval(photonEmissionInterval);
-		box.model.setRadiationMeshSize(radiationMeshSize);
+		box.model.setPerimeterStepSize(perimeterStepSize);
 		box.model.setConvective(convective);
 		box.model.setZHeatDiffusivity(zHeatDiffusivity);
 		if (gravitationalAcceleration >= 0)
@@ -196,7 +196,7 @@ class XmlDecoder extends DefaultHandler {
 
 		box.view.setGraphDataType(graphDataType);
 		box.view.setFahrenheitUsed(fahrenheitUsed);
-		box.view.setRadiationMeshOn(radiationMesh);
+		box.view.setViewFactorLinesOn(viewFactorLines);
 		box.view.setRulerOn(ruler);
 		box.view.setGridOn(grid);
 		box.view.setSnapToGrid(snapToGrid);
@@ -766,8 +766,8 @@ class XmlDecoder extends DefaultHandler {
 			solarRaySpeed = Float.parseFloat(str);
 		} else if (qName == "photon_emission_interval") {
 			photonEmissionInterval = Integer.parseInt(str);
-		} else if (qName == "radiation_mesh_size") {
-			radiationMeshSize = Float.parseFloat(str);
+		} else if (qName == "perimeter_step_size") {
+			perimeterStepSize = Float.parseFloat(str);
 		} else if (qName == "z_heat_diffusivity") {
 			zHeatDiffusivity = Float.parseFloat(str);
 		} else if (qName == "gravitational_acceleration") {
@@ -802,8 +802,8 @@ class XmlDecoder extends DefaultHandler {
 			maximumTemperature = Float.parseFloat(str);
 		} else if (qName == "graph_data_type") {
 			graphDataType = Byte.parseByte(str);
-		} else if (qName == "radiation_mesh") {
-			radiationMesh = Boolean.parseBoolean(str);
+		} else if (qName == "view_factor_lines") {
+			viewFactorLines = Boolean.parseBoolean(str);
 		} else if (qName == "ruler") {
 			ruler = Boolean.parseBoolean(str);
 		} else if (qName == "fahrenheit_used") {
@@ -1060,7 +1060,7 @@ class XmlDecoder extends DefaultHandler {
 		solarRayCount = 24;
 		solarRaySpeed = 0.1f;
 		photonEmissionInterval = 20;
-		radiationMeshSize = 0.05f;
+		perimeterStepSize = 0.05f;
 		zHeatDiffusivity = 0;
 		gravitationalAcceleration = -1;
 		thermophoreticCoefficient = 0;
@@ -1079,7 +1079,7 @@ class XmlDecoder extends DefaultHandler {
 		// view properties
 		graphDataType = 0;
 		fahrenheitUsed = false;
-		radiationMesh = false;
+		viewFactorLines = false;
 		ruler = false;
 		grid = false;
 		snapToGrid = true;

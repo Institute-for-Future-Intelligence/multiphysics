@@ -10,6 +10,7 @@ import java.awt.Desktop;
 import java.awt.Frame;
 import java.net.URI;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -78,7 +79,7 @@ public class Helper {
 		s += "<h4>Attribution & Acknowledgement:</h4>This program is being created by Dr. Charles Xie. Funding is provided by the National Science Foundation<br>under grants 0918449, 1124281, and 1304485 for which Dr. Xie also serves as the Principal Investigator.";
 		s += "<h4>License:</h4>GNU Lesser General Public License V3.0";
 		s += "</html>";
-		JOptionPane.showMessageDialog(frame, new JLabel(s), "About Energy2D", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(frame, new JLabel(s), "About Energy2D", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(System2D.class.getResource("resources/frame.png")));
 	}
 
 }

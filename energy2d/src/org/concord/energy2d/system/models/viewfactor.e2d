@@ -46,7 +46,7 @@
 <label>%temperature</label>
 </part>
 <part>
-<polygon count="4" vertices="0.25161877, 0.41019738, 0.28980258, 0.44838122, 0.14838122, 0.5898026, 0.11019748, 0.5516188"/>
+<polygon count="4" vertices="0.2731025, 0.42661723, 0.30010253, 0.47338265, 0.12689744, 0.57338274, 0.099897474, 0.52661735"/>
 <elasticity>1.0</elasticity>
 <thermal_conductivity>0.01</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
@@ -56,7 +56,7 @@
 <scattering>false</scattering>
 <scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
-<emissivity>0.0</emissivity>
+<emissivity>1.0</emissivity>
 <temperature>0.0</temperature>
 <constant_temperature>false</constant_temperature>
 <uid>LEFT</uid>
@@ -67,7 +67,7 @@
 <texture_height>8</texture_height>
 </texture>
 <filled>false</filled>
-<label>%temperature</label>
+<label>%thermal_energy</label>
 </part>
 <part>
 <polygon count="4" vertices="0.77299994, 0.39999998, 0.827, 0.39999998, 0.827, 0.6, 0.773, 0.6"/>
@@ -80,7 +80,7 @@
 <scattering>false</scattering>
 <scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
-<emissivity>0.0</emissivity>
+<emissivity>1.0</emissivity>
 <temperature>0.0</temperature>
 <constant_temperature>false</constant_temperature>
 <uid>RIGHT</uid>
@@ -91,7 +91,7 @@
 <texture_height>8</texture_height>
 </texture>
 <filled>false</filled>
-<label>%temperature</label>
+<label>%thermal_energy</label>
 </part>
 </structure>
 <environment>
@@ -107,8 +107,8 @@
 <grid>true</grid>
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
-<radiation_mesh>true</radiation_mesh>
-<radiation_mesh_size>0.02</radiation_mesh_size>
+<view_factor_lines>true</view_factor_lines>
+<perimeter_step_size>0.05</perimeter_step_size>
 <ruler>true</ruler>
 <color_palette_type>1</color_palette_type>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>

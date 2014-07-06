@@ -216,11 +216,11 @@ class ViewDialog extends JDialog {
 		p.add(checkBox);
 
 		checkBox = new JCheckBox("Radiation Mesh");
-		checkBox.setSelected(view.isRadiationMeshOn());
+		checkBox.setSelected(view.isViewFactorLinesOn());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				JCheckBox src = (JCheckBox) e.getSource();
-				view.setRadiationMeshOn(src.isSelected());
+				view.setViewFactorLinesOn(src.isSelected());
 				view.repaint();
 			}
 		});

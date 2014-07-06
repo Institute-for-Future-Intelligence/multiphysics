@@ -153,7 +153,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private boolean showGraph;
 	private boolean showColorPalette;
 	private boolean showGrid;
-	private boolean showRadiationMesh;
+	private boolean showViewFactorLines;
 	private boolean snapToGrid = true;
 	private boolean clockOn = true;
 	private boolean frankOn = true;
@@ -698,8 +698,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		setActionMode(SELECT_MODE);
 		if (modeIcon != null)
 			modeIcon.setPressed(false);
-		if (showRadiationMesh)
-			model.generateRadiationMesh();
+		if (showViewFactorLines)
+			model.generateViewFactorMesh();
 	}
 
 	public void setRunToggle(boolean b) {
@@ -773,14 +773,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		return frankOn;
 	}
 
-	public void setRadiationMeshOn(boolean b) {
-		showRadiationMesh = b;
+	public void setViewFactorLinesOn(boolean b) {
+		showViewFactorLines = b;
 		if (b)
-			model.generateRadiationMesh();
+			model.generateViewFactorMesh();
 	}
 
-	public boolean isRadiationMeshOn() {
-		return showRadiationMesh;
+	public boolean isViewFactorLinesOn() {
+		return showViewFactorLines;
 	}
 
 	public void setRulerOn(boolean b) {
@@ -1286,8 +1286,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		drawTextBoxes(g);
 		drawPictures(g);
 		drawParticles(g);
-		if (showRadiationMesh)
-			drawRadiationMesh(g);
+		if (showViewFactorLines)
+			drawViewFactorMesh(g);
 		if (showGrid && gridRenderer != null)
 			gridRenderer.render(this, g);
 		if (rulerRenderer != null)
@@ -1675,8 +1675,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		}
 	}
 
-	private void drawRadiationMesh(Graphics2D g) {
-		List<Segment> segments = model.getRadiationSegments();
+	private void drawViewFactorMesh(Graphics2D g) {
+		List<Segment> segments = model.getPerimeterSegments();
 		int n = segments.size();
 		if (n == 0)
 			return;
@@ -1732,7 +1732,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				}
 			}
 		}
-		// System.out.println(viewFactorMin+","+viewFactorMax);
 	}
 
 	private void drawClouds(Graphics2D g) {

@@ -57,9 +57,9 @@ class PreferencesDialog extends JDialog {
 					JOptionPane.showMessageDialog(owner, "Mesh size cannot be smaller than 1% or larger than 20%.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				s2d.model.setRadiationMeshSize(0.01f * x);
-				if (s2d.view.isRadiationMeshOn())
-					s2d.model.generateRadiationMesh();
+				s2d.model.setPerimeterStepSize(0.01f * x);
+				if (s2d.view.isViewFactorLinesOn())
+					s2d.model.generateViewFactorMesh();
 
 				x = parse(maximumDataPointsField.getText());
 				if (Float.isNaN(x))
@@ -123,7 +123,7 @@ class PreferencesDialog extends JDialog {
 		box.add(p);
 
 		p.add(new JLabel("Percentage of the box size:"));
-		radiationMeshField = new JTextField("" + Math.round(100 * s2d.model.getRadiationMeshSize()), 10);
+		radiationMeshField = new JTextField("" + Math.round(100 * s2d.model.getPerimeterStepSize()), 10);
 		radiationMeshField.setToolTipText("Set the size of the radiation mesh on the surface of a radiation body");
 		radiationMeshField.addActionListener(okListener);
 		p.add(radiationMeshField);

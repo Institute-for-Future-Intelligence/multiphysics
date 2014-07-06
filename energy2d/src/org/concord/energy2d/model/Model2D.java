@@ -1059,11 +1059,11 @@ public class Model2D {
 		particles.remove(p);
 	}
 
-	public List<Segment> getRadiationSegments() {
+	public List<Segment> getPerimeterSegments() {
 		return radiositySolver.getSegments();
 	}
 
-	List<Segment> getRadiationSegments(Part part) {
+	List<Segment> getPerimeterSegments(Part part) {
 		List<Segment> list = new ArrayList<Segment>();
 		for (Segment s : radiositySolver.getSegments()) {
 			if (s.getPart() == part)
@@ -1072,15 +1072,15 @@ public class Model2D {
 		return list;
 	}
 
-	public void generateRadiationMesh() {
+	public void generateViewFactorMesh() {
 		radiositySolver.segmentizePerimeters();
 	}
 
-	public void setRadiationMeshSize(float size) {
+	public void setPerimeterStepSize(float size) {
 		radiositySolver.setPatchSizePercentage(size);
 	}
 
-	public float getRadiationMeshSize() {
+	public float getPerimeterStepSize() {
 		return radiositySolver.getPatchSizePercentage();
 	}
 

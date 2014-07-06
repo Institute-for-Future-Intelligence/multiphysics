@@ -366,7 +366,7 @@ public class Part extends Manipulable {
 				y3 = p1.y + k * (x3 - p1.x);
 				y4 = p1.y + k * (x4 - p1.x);
 			}
-			List<Segment> partSegments = model.getRadiationSegments(this);
+			List<Segment> partSegments = model.getPerimeterSegments(this);
 			int n = partSegments.size();
 			if (n > 0) {
 				boolean bothBelongToThisPart = s1.getPart() == this && s2.getPart() == this;
@@ -411,7 +411,7 @@ public class Part extends Manipulable {
 			float h = (a - b) / (a + b);
 			h *= h;
 			double perimeter = Math.PI * (a + b) * (1 + 3 * h / (10 + Math.sqrt(4 - 3 * h)));
-			float patchSize = model.getLx() * model.getRadiationMeshSize();
+			float patchSize = model.getLx() * model.getPerimeterStepSize();
 			int n = (int) (perimeter / patchSize);
 			float[] vx = new float[n];
 			float[] vy = new float[n];
@@ -437,7 +437,7 @@ public class Part extends Manipulable {
 			float y = r0.getY();
 			float d = r0.getOuterDiameter() * (1 - indent);
 			double perimeter = Math.PI * d;
-			float patchSize = model.getLx() * model.getRadiationMeshSize();
+			float patchSize = model.getLx() * model.getPerimeterStepSize();
 			int n = (int) (perimeter / patchSize);
 			float[] vx = new float[n];
 			float[] vy = new float[n];

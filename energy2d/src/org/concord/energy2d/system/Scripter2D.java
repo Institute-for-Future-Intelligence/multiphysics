@@ -132,7 +132,7 @@ class Scripter2D extends Scripter {
 			s2d.model.refreshTemperatureBoundaryArray();
 			s2d.model.refreshMaterialPropertyArrays();
 			if (s2d.model.isRadiative()) {
-				s2d.model.generateRadiationMesh();
+				s2d.model.generateViewFactorMesh();
 			}
 			arrayUpdateRequested = false;
 		}
@@ -722,8 +722,8 @@ class Scripter2D extends Scripter {
 				} else if (t[0].equalsIgnoreCase("grid")) {
 					s2d.view.setGridOn("true".equalsIgnoreCase(t[1]));
 					s2d.view.repaint();
-				} else if (t[0].equalsIgnoreCase("radiation_mesh")) {
-					s2d.view.setRadiationMeshOn("true".equalsIgnoreCase(t[1]));
+				} else if (t[0].equalsIgnoreCase("view_factor_lines")) {
+					s2d.view.setViewFactorLinesOn("true".equalsIgnoreCase(t[1]));
 					s2d.view.repaint();
 				} else if (t[0].equalsIgnoreCase("grid_size")) {
 					int gridSize = 0;
