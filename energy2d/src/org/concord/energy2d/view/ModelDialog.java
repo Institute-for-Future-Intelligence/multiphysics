@@ -593,6 +593,13 @@ class ModelDialog extends JDialog {
 		tabbedPane.add(pp, "Particle");
 		count = 0;
 
+		p.add(new JLabel("Particle Count"));
+		JTextField particleCountField = new JTextField("" + model.getParticles().size());
+		particleCountField.setEditable(false);
+		p.add(particleCountField);
+		p.add(new JLabel());
+		count++;
+
 		p.add(new JLabel("Gravitational Acceleration"));
 		gravitationalAccelerationField = new JTextField("" + model.getGravitationalAcceleration(), 16);
 		gravitationalAccelerationField.addActionListener(okListener);

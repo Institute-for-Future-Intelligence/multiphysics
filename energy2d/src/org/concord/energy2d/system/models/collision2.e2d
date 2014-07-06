@@ -4,7 +4,7 @@
 <prev_sim>collision.e2d</prev_sim>
 </links>
 <model>
-<timestep>1.0</timestep>
+<timestep>0.5</timestep>
 <sun_angle>1.5707964</sun_angle>
 <solar_power_density>100000.0</solar_power_density>
 <solar_ray_count>24</solar_ray_count>

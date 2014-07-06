@@ -62,9 +62,9 @@ class ParticleSolver2D {
 				p.fx = p.fy = 0.0f;
 				p.predict(timeStep);
 				interactWithFluid(p, fluidDensity);
-				// interactWithParts(p);
 			}
-			computeParticleCollisions();
+			if (epsilon > 0)
+				computeParticleCollisions();
 			for (Particle p : particles) {
 				p.correct(timeStep);
 				p.fx /= p.mass;
@@ -212,8 +212,8 @@ class ParticleSolver2D {
 					sigma *= sigma;
 					sr2 = sigma / rijsq;
 					/* check if this pair gets too close */
-					if (sr2 > 5.0f) {
-						sr2 = 5.0f;
+					if (sr2 > 2.0f) {
+						sr2 = 2.0f;
 						rijsq = sigma * sigma;
 					}
 					sr6 = sr2 * sr2 * sr2;

@@ -91,6 +91,8 @@ public class Particle extends Manipulable implements Discrete {
 
 	// predict this particle's new position using second order Taylor expansion.
 	void predict(float dt) {
+		if (!movable)
+			return;
 		float dt2 = 0.5f * dt * dt;
 		rx += vx * dt + ax * dt2;
 		ry += vy * dt + ay * dt2;
@@ -103,6 +105,8 @@ public class Particle extends Manipulable implements Discrete {
 	// ax and ay were used to hold the old acceleration data before calling this method.
 	// After calling this method, new acceleration data will be assigned to ax and ay, whereas the forces to fx and fy.
 	void correct(float dt) {
+		if (!movable)
+			return;
 		vx += 0.5f * dt * (fx - ax);
 		vy += 0.5f * dt * (fy - ay);
 		ax = fx;

@@ -119,7 +119,8 @@ class XmlDecoder extends DefaultHandler {
 	private float partPower = Float.NaN;
 	private float partTemperatureCoefficient = 0;
 	private boolean partVisible = true;
-	private boolean partDraggable = true;
+	private boolean draggable = true;
+	private boolean movable = true;
 	private Color color;
 	private Color velocityColor;
 	private byte partTextureStyle;
@@ -900,7 +901,9 @@ class XmlDecoder extends DefaultHandler {
 		} else if (qName == "visible") {
 			partVisible = Boolean.parseBoolean(str);
 		} else if (qName == "draggable") {
-			partDraggable = Boolean.parseBoolean(str);
+			draggable = Boolean.parseBoolean(str);
+		} else if (qName == "movable") {
+			movable = Boolean.parseBoolean(str);
 		} else if (qName == "color") {
 			color = new Color(Integer.parseInt(str, 16));
 		} else if (qName == "velocity_color") {
@@ -952,7 +955,7 @@ class XmlDecoder extends DefaultHandler {
 				part.setWindAngle(partWindAngle);
 				part.setWindSpeed(partWindSpeed);
 				part.setConstantTemperature(partConstantTemperature);
-				part.setDraggable(partDraggable);
+				part.setDraggable(draggable);
 				part.setVisible(partVisible);
 				if (color != null)
 					part.setFillPattern(new ColorFill(color));
@@ -985,6 +988,8 @@ class XmlDecoder extends DefaultHandler {
 					particle.setVelocityColor(velocityColor);
 				particle.setUid(uid);
 				particle.setLabel(label);
+				particle.setMovable(movable);
+				particle.setDraggable(draggable);
 				particle.storeState();
 				resetParticleVariables();
 			}
@@ -1009,7 +1014,6 @@ class XmlDecoder extends DefaultHandler {
 		partWindSpeed = 0;
 		partWindAngle = 0;
 		partVisible = true;
-		partDraggable = true;
 		partFilled = true;
 		partTextureStyle = 0;
 		partTextureWidth = 10;
@@ -1020,6 +1024,7 @@ class XmlDecoder extends DefaultHandler {
 		label = null;
 		color = null;
 		temperature = Float.NaN;
+		draggable = true;
 	}
 
 	private void resetParticleVariables() {
@@ -1029,11 +1034,13 @@ class XmlDecoder extends DefaultHandler {
 		particleVy = Float.NaN;
 		particleRadius = Float.NaN;
 		particleMass = Float.NaN;
+		movable = true;
 		uid = null;
 		label = null;
 		color = null;
 		velocityColor = null;
 		temperature = Float.NaN;
+		draggable = true;
 	}
 
 	private void resetGlobalVariables() {
