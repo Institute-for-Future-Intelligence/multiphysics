@@ -10,16 +10,19 @@
 <solar_ray_count>24</solar_ray_count>
 <solar_ray_speed>0.1</solar_ray_speed>
 <photon_emission_interval>20</photon_emission_interval>
-<z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>0.5</background_conductivity>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>0.5</background_conductivity>
 <background_viscosity>1.0E-4</background_viscosity>
-<thermal_buoyancy>0.0</thermal_buoyancy>
+<thermal_expansion_coefficient>0.0</thermal_expansion_coefficient>
 <buoyancy_approximation>1</buoyancy_approximation>
 <boundary>
 <flux_at_border upper="0.0" lower="0.0" left="0.0" right="-2.0"/>
-<mass_flow_at_border upper="0" lower="0" left="0" right="1"/>
+<mass_flow_at_border upper="0" lower="0" left="1" right="1"/>
 </boundary>
 <structure>
-<part><rectangle x="0.099999994" y="2.75" width="0.5" height="1.8"/><thermal_conductivity>0.08</thermal_conductivity>
+<part>
+<rectangle x="0.099999994" y="2.75" width="0.5" height="1.8"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.08</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -40,7 +43,9 @@
 <label>     2</label>
 <visible>false</visible>
 </part>
-<part><rectangle x="0.05000019" y="2.4000003" width="9.9" height="0.2"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="0.05000019" y="2.4000003" width="9.9" height="0.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -57,7 +62,9 @@
 <texture_height>8</texture_height>
 </texture>
 </part>
-<part><rectangle x="0.05000019" y="4.7000003" width="9.9" height="0.2"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="0.05000019" y="4.7000003" width="9.9" height="0.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -74,7 +81,9 @@
 <texture_height>8</texture_height>
 </texture>
 </part>
-<part><rectangle x="0.099999994" y="0.4500004" width="0.5" height="1.8"/><thermal_conductivity>0.08</thermal_conductivity>
+<part>
+<rectangle x="0.099999994" y="0.4500004" width="0.5" height="1.8"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.08</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -95,7 +104,9 @@
 <label>      1</label>
 <visible>false</visible>
 </part>
-<part><rectangle x="0.05000019" y="-0.049999997" width="9.9" height="0.3"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="0.05000019" y="-0.049999997" width="9.9" height="0.3"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -112,7 +123,9 @@
 <texture_height>36</texture_height>
 </texture>
 </part>
-<part><rectangle x="0.07495928" y="7.1000004" width="9.9" height="0.2"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="0.07495928" y="7.1000004" width="9.9" height="0.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -129,7 +142,9 @@
 <texture_height>8</texture_height>
 </texture>
 </part>
-<part><rectangle x="0.099999994" y="5.100001" width="0.5" height="1.8"/><thermal_conductivity>0.08</thermal_conductivity>
+<part>
+<rectangle x="0.099999994" y="5.100001" width="0.5" height="1.8"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.08</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -150,7 +165,9 @@
 <label>      5</label>
 <visible>false</visible>
 </part>
-<part><rectangle x="1.15" y="3.3" width="0.7" height="0.6"/><thermal_conductivity>1.0</thermal_conductivity>
+<part>
+<rectangle x="1.15" y="3.3" width="0.7" height="0.6"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -162,7 +179,9 @@
 <constant_temperature>true</constant_temperature>
 <label>%temperature</label>
 </part>
-<part><rectangle x="1.15" y="0.99999994" width="0.7" height="0.6"/><thermal_conductivity>1.0</thermal_conductivity>
+<part>
+<rectangle x="1.15" y="0.99999994" width="0.7" height="0.6"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -174,7 +193,9 @@
 <constant_temperature>true</constant_temperature>
 <label>%temperature</label>
 </part>
-<part><rectangle x="1.15" y="5.7" width="0.7" height="0.6"/><thermal_conductivity>1.0</thermal_conductivity>
+<part>
+<rectangle x="1.15" y="5.7" width="0.7" height="0.6"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -186,7 +207,9 @@
 <constant_temperature>true</constant_temperature>
 <label>%temperature</label>
 </part>
-<part><rectangle x="0.016638935" y="9.483334" width="9.9001665" height="0.48333332"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="0.016638935" y="9.483334" width="9.9001665" height="0.48333332"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -203,7 +226,9 @@
 <texture_height>36</texture_height>
 </texture>
 </part>
-<part><rectangle x="0.099999994" y="7.5000014" width="0.5" height="1.8"/><thermal_conductivity>0.08</thermal_conductivity>
+<part>
+<rectangle x="0.099999994" y="7.5000014" width="0.5" height="1.8"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.08</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -224,7 +249,9 @@
 <label>     10</label>
 <visible>false</visible>
 </part>
-<part><rectangle x="1.15" y="8.2" width="0.7" height="0.6"/><thermal_conductivity>1.0</thermal_conductivity>
+<part>
+<rectangle x="1.15" y="8.2" width="0.7" height="0.6"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -260,9 +287,10 @@
 <grid>true</grid>
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
+<perimeter_step_size>0.05</perimeter_step_size>
 <color_palette_type>1</color_palette_type>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>50.0</maximum_temperature>
-<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><graph_data_range>0.0 50.0 0.0 50.0 0.0 50.0 0.0 50.0</graph_data_range><text string="Stronger wind is more likely to cause turbulent flow." face="Arial" size="14" style="1" color="ffffff" x="0.17780018" y="0.4563"/>
+<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Stronger wind is more likely to cause turbulent flow." face="Arial" size="14" style="1" color="ffffff" x="0.17780018" y="0.4563"/>
 </view>
 </state>
