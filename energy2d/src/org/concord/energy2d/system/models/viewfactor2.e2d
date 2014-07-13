@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <state>
 <links>
-<next_sim>viewfactor2.e2d</next_sim>
+<prev_sim>viewfactor.e2d</prev_sim>
 </links>
 <model>
 <model_width>1.0</model_width>
@@ -13,8 +13,8 @@
 <solar_ray_count>24</solar_ray_count>
 <solar_ray_speed>0.1</solar_ray_speed>
 <photon_emission_interval>20</photon_emission_interval>
-<gravitational_acceleration>9.8</gravitational_acceleration>
-<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>0.001</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<gravitational_acceleration>0.0</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.0</particle_drag><particle_hardness>0.001</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
 <background_conductivity>1.0E-9</background_conductivity>
 <background_specific_heat>1.0</background_specific_heat>
 <thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
@@ -47,11 +47,10 @@
 <label>%temperature</label>
 </part>
 <part>
-<polygon count="4" vertices="0.2731025, 0.42661723, 0.30010253, 0.47338265, 0.12689744, 0.57338274, 0.099897474, 0.52661735"/>
-<elasticity>1.0</elasticity>
-<thermal_conductivity>0.01</thermal_conductivity>
-<specific_heat>1000.0</specific_heat>
-<density>10.0</density>
+<rectangle x="0.65" y="0.35" width="0.08" height="0.3"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
@@ -60,46 +59,36 @@
 <emissivity>1.0</emissivity>
 <temperature>0.0</temperature>
 <constant_temperature>false</constant_temperature>
-<uid>LEFT</uid>
-<texture><texture_fg>-1000000</texture_fg>
-<texture_bg>-7f7f80</texture_bg>
-<texture_style>22</texture_style>
-<texture_width>8</texture_width>
-<texture_height>8</texture_height>
-</texture>
 <filled>false</filled>
 <label>%thermal_energy</label>
 </part>
-<part>
-<polygon count="4" vertices="0.77299994, 0.39999998, 0.827, 0.39999998, 0.827, 0.6, 0.773, 0.6"/>
-<elasticity>1.0</elasticity>
-<thermal_conductivity>0.01</thermal_conductivity>
-<specific_heat>1000.0</specific_heat>
-<density>10.0</density>
-<transmission>0.0</transmission>
-<reflection>0.0</reflection>
-<scattering>false</scattering>
-<scattering_visible>false</scattering_visible>
-<absorption>1.0</absorption>
-<emissivity>1.0</emissivity>
-<temperature>0.0</temperature>
-<constant_temperature>false</constant_temperature>
-<uid>RIGHT</uid>
-<texture><texture_fg>-1000000</texture_fg>
-<texture_bg>-7f7f80</texture_bg>
-<texture_style>22</texture_style>
-<texture_width>8</texture_width>
-<texture_height>8</texture_height>
-</texture>
-<filled>false</filled>
-<label>%thermal_energy</label>
-</part>
+<particle>
+<rx>0.3</rx>
+<ry>0.5</ry>
+<vy>1.0E-4</vy>
+<theta>1.5707964</theta>
+<radius>0.01</radius>
+<mass>0.1</mass>
+<uid>P1</uid>
+<velocity_color>0</velocity_color>
+</particle>
+<particle>
+<rx>0.10000006</rx>
+<ry>0.5</ry>
+<omega>8.726646E-4</omega>
+<radius>0.01</radius>
+<mass>0.1</mass>
+<uid>P2</uid>
+<velocity_color>0</velocity_color>
+</particle>
 </structure>
 <environment>
 </environment>
 <sensor>
-<thermometer x="0.79999995" y="0.45999998"/>
-<thermometer x="0.19999999" y="0.45999998"/>
+<thermometer x="0.69" y="0.45000002"/>
+<heat_flux_sensor uid="F1" label="F1" angle="1.5707964" x="0.82" y="0.5"/>
+<heat_flux_sensor uid="F2" attach="P1" label="F2" angle="1.5707964" x="0.29999995" y="0.5"/>
+<heat_flux_sensor uid="F3" attach="P2" label="F3" angle="0.0" x="0.10000006" y="0.5"/>
 </sensor>
 <controller>
 </controller>
@@ -108,6 +97,7 @@
 <grid>true</grid>
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
+<graph_data_type>1</graph_data_type>
 <view_factor_lines>true</view_factor_lines>
 <perimeter_step_size>0.05</perimeter_step_size>
 <ruler>true</ruler>
@@ -115,6 +105,6 @@
 <control_panel>true</control_panel>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>50.0</maximum_temperature>
-<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="The view factor between two surfaces-linebreak-describes the portion of radiation energy -linebreak-arriving at one surface from the other." face="Arial" size="12" style="1" color="ffffff" border="true" x="0.055" y="0.975"/>
-</view>
+<graph>true</graph>
+<graph_xlabel>Time</graph_xlabel><graph_ylabel>Heat flux (W/m²)</graph_ylabel></view>
 </state>

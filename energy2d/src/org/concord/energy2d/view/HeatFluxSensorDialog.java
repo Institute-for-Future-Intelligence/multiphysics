@@ -108,6 +108,7 @@ class HeatFluxSensorDialog extends JDialog {
 						if (particle != null) {
 							heatFluxSensor.setX(particle.getRx());
 							heatFluxSensor.setY(particle.getRy());
+							heatFluxSensor.setAngle(particle.getTheta());
 						}
 					}
 				}
