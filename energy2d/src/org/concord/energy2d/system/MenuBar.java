@@ -404,9 +404,6 @@ class MenuBar extends JMenuBar {
 		menu.add(box.view.getActionMap().get("Insert Thermometer"));
 		menu.add(box.view.getActionMap().get("Insert Heat Flux Sensor"));
 		menu.add(box.view.getActionMap().get("Insert Anemometer"));
-		JMenuItem miRadiometer = new JMenuItem("Radiometer");
-		miRadiometer.setEnabled(false);
-		menu.add(miRadiometer);
 		menu.addSeparator();
 		menu.add(box.view.getActionMap().get("Insert Particle"));
 		menu.addSeparator();

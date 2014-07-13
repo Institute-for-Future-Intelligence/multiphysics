@@ -1770,7 +1770,11 @@ public class Model2D {
 					j = Math.round(f.getY() / deltaY);
 					if (i >= 0 && i < nx && j >= 0 && j < ny) {
 						float[] h = getHeatFlux(i, j);
-						f.addData(getTime(), (float) (h[0] * Math.sin(f.getAngle()) + h[1] * Math.cos(f.getAngle())));
+						float flux = (float) (h[0] * Math.sin(f.getAngle()) + h[1] * Math.cos(f.getAngle()));
+						if (radiative)
+							flux += radiositySolver.measure(f);
+						f.setValue(flux);
+						f.addData(getTime(), flux);
 					}
 				}
 			}

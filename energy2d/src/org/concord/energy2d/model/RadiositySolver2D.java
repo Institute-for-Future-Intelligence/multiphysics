@@ -43,6 +43,26 @@ class RadiositySolver2D {
 	void reset() {
 	}
 
+	float measure(HeatFluxSensor sensor) {
+		float measurement = 0f;
+		float dx = patchSize * 0.5f * (float) Math.cos(sensor.getAngle());
+		float dy = patchSize * 0.5f * (float) Math.sin(sensor.getAngle());
+		float x1 = sensor.getX() - dx;
+		float x2 = sensor.getX() + dx;
+		float y1 = sensor.getY() - dy;
+		float y2 = sensor.getY() + dy;
+		Segment ss = new Segment(x1, y1, x2, y2, null);
+		for (Segment s : segments) {
+			if (isVisible(s, ss)) {
+				float vf = s.getViewFactor(ss);
+				if (vf > 1) // FIXME: Why is our view factor larger than 1 when two patches are very close?
+					vf = 1;
+				measurement += s.radiation * vf;
+			}
+		}
+		return measurement;
+	}
+
 	void solve() {
 
 		int n = segments.size();

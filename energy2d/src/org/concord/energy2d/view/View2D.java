@@ -1889,8 +1889,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				if (rx >= 0 && rx < 1 && ry >= 0 && ry < 1) {
 					x = (int) (rx * getWidth() - iconW2);
 					y = (int) (ry * getHeight() - iconH2);
-					float[] flux = model.getHeatFluxAt(f.getX(), f.getY());
-					str = HEAT_FLUX_FORMAT.format(flux[0] * Math.sin(f.getAngle()) + flux[1] * Math.cos(f.getAngle())) + "W/m" + '\u00B2';
+					str = HEAT_FLUX_FORMAT.format(f.getValue()) + "W/m" + '\u00B2';
 					if (f.getAngle() != 0)
 						g.rotate(f.getAngle(), x + s.w / 2, y + s.h / 2);
 					centerString(str, g, (int) (x + iconW2), y - 5, true);

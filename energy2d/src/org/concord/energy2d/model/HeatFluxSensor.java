@@ -3,6 +3,8 @@ package org.concord.energy2d.model;
 import java.awt.geom.Rectangle2D;
 
 /**
+ * Measure both conductive and radiative heat fluxes.
+ * 
  * @author Charles Xie
  * 
  */
@@ -12,6 +14,7 @@ public class HeatFluxSensor extends Sensor {
 	public final static float RELATIVE_HEIGHT = 0.012f;
 
 	private float angle;
+	private float value;
 
 	public HeatFluxSensor(float x, float y) {
 		super(new Rectangle2D.Float());
@@ -26,6 +29,14 @@ public class HeatFluxSensor extends Sensor {
 
 	public HeatFluxSensor duplicate(float x, float y) {
 		return new HeatFluxSensor(x, y, null, angle);
+	}
+
+	public void setValue(float value) {
+		this.value = value;
+	}
+
+	public float getValue() {
+		return value;
 	}
 
 	public void setAngle(float angle) {

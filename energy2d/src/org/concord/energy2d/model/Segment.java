@@ -16,7 +16,7 @@ public class Segment {
 	public float x1, y1;
 	public float x2, y2;
 
-	// these radiation properties are all power flux: J/(s*m^2)
+	// these radiation properties are all power density: W/m^2
 	public float radiation;
 	public float absorption;
 	public float emission;
