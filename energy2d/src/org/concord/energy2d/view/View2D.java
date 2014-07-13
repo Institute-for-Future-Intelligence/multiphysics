@@ -2525,6 +2525,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				b.translateBy(dx, dy);
 				b.update();
 			}
+			if (!model.getParticles().isEmpty())
+				model.attachSensors();
 			notifyManipulationListeners(m, ManipulationEvent.TRANSLATE);
 		}
 	}
@@ -2587,6 +2589,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				b.update();
 			}
 		}
+		if (!model.getParticles().isEmpty())
+			model.attachSensors();
 		notifyManipulationListeners(m, ManipulationEvent.TRANSLATE);
 	}
 

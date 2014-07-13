@@ -1374,6 +1374,7 @@ public class Model2D {
 		fluidSolver.reset();
 		particleSolver.reset();
 		radiositySolver.reset();
+		attachSensors();
 	}
 
 	private void checkPartPower() {
@@ -1751,10 +1752,8 @@ public class Model2D {
 		return !thermometers.isEmpty() || !heatFluxSensors.isEmpty() || !anemometers.isEmpty();
 	}
 
-	public void takeMeasurement() {
+	public void attachSensors() {
 		if (!thermometers.isEmpty()) {
-			int i, j;
-			int offset = Math.round(thermometers.get(0).getSensingSpotY() / ly * ny);
 			synchronized (thermometers) {
 				for (Thermometer m : thermometers) {
 					if (m.getAttachID() != null) {
@@ -1764,6 +1763,45 @@ public class Model2D {
 							m.setY(host.ry - m.getSensingSpotY());
 						}
 					}
+				}
+			}
+		}
+		if (!heatFluxSensors.isEmpty()) {
+			synchronized (heatFluxSensors) {
+				for (HeatFluxSensor f : heatFluxSensors) {
+					if (f.getAttachID() != null) {
+						Particle host = getParticle(f.getAttachID());
+						if (host != null) {
+							f.setX(host.rx);
+							f.setY(host.ry);
+							f.setAngle(host.getTheta());
+						}
+					}
+				}
+			}
+		}
+		if (!anemometers.isEmpty()) {
+			synchronized (anemometers) {
+				for (Anemometer a : anemometers) {
+					if (a.getAttachID() != null) {
+						Particle host = getParticle(a.getAttachID());
+						if (host != null) {
+							a.setX(host.rx);
+							a.setY(host.ry);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void takeMeasurement() {
+		attachSensors();
+		if (!thermometers.isEmpty()) {
+			int i, j;
+			int offset = Math.round(thermometers.get(0).getSensingSpotY() / ly * ny);
+			synchronized (thermometers) {
+				for (Thermometer m : thermometers) {
 					i = Math.round(m.getX() / deltaX);
 					j = Math.round(m.getY() / deltaY);
 					if (i >= 0 && i < nx && j >= 0 && j < ny) {
@@ -1776,14 +1814,6 @@ public class Model2D {
 			int i, j;
 			synchronized (heatFluxSensors) {
 				for (HeatFluxSensor f : heatFluxSensors) {
-					if (f.getAttachID() != null) {
-						Particle host = getParticle(f.getAttachID());
-						if (host != null) {
-							f.setX(host.rx);
-							f.setY(host.ry);
-							f.setAngle(host.getTheta());
-						}
-					}
 					i = Math.round(f.getX() / deltaX);
 					j = Math.round(f.getY() / deltaY);
 					if (i >= 0 && i < nx && j >= 0 && j < ny) {
@@ -1801,13 +1831,6 @@ public class Model2D {
 			int i, j;
 			synchronized (anemometers) {
 				for (Anemometer a : anemometers) {
-					if (a.getAttachID() != null) {
-						Particle host = getParticle(a.getAttachID());
-						if (host != null) {
-							a.setX(host.rx);
-							a.setY(host.ry);
-						}
-					}
 					i = Math.round(a.getX() / deltaX);
 					j = Math.round(a.getY() / deltaY);
 					if (i >= 0 && i < nx && j >= 0 && j < ny) {

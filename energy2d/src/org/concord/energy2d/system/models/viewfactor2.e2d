@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <state>
 <links>
+<next_sim>viewfactor3.e2d</next_sim>
 <prev_sim>viewfactor.e2d</prev_sim>
 </links>
 <model>
@@ -14,7 +15,7 @@
 <solar_ray_speed>0.1</solar_ray_speed>
 <photon_emission_interval>20</photon_emission_interval>
 <gravitational_acceleration>0.0</gravitational_acceleration>
-<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.0</particle_drag><particle_hardness>0.001</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.0</particle_drag><particle_hardness>0.0</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
 <background_conductivity>1.0E-9</background_conductivity>
 <background_specific_heat>1.0</background_specific_heat>
 <thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
@@ -69,16 +70,26 @@
 <theta>1.5707964</theta>
 <radius>0.01</radius>
 <mass>0.1</mass>
-<uid>P1</uid>
+<uid>P2</uid>
 <velocity_color>0</velocity_color>
 </particle>
 <particle>
-<rx>0.10000006</rx>
+<rx>0.1</rx>
 <ry>0.5</ry>
 <omega>8.726646E-4</omega>
 <radius>0.01</radius>
 <mass>0.1</mass>
-<uid>P2</uid>
+<uid>P3</uid>
+<velocity_color>0</velocity_color>
+</particle>
+<particle>
+<rx>0.2</rx>
+<ry>0.5</ry>
+<vx>1.0E-4</vx>
+<theta>1.5707964</theta>
+<radius>0.01</radius>
+<mass>0.1</mass>
+<uid>P1</uid>
 <velocity_color>0</velocity_color>
 </particle>
 </structure>
@@ -86,9 +97,10 @@
 </environment>
 <sensor>
 <thermometer x="0.69" y="0.45000002"/>
-<heat_flux_sensor uid="F1" label="F1" angle="1.5707964" x="0.82" y="0.5"/>
-<heat_flux_sensor uid="F2" attach="P1" label="F2" angle="1.5707964" x="0.29999995" y="0.5"/>
-<heat_flux_sensor uid="F3" attach="P2" label="F3" angle="0.0" x="0.10000006" y="0.5"/>
+<heat_flux_sensor uid="F4" label="F4" angle="1.5707964" x="0.82" y="0.5"/>
+<heat_flux_sensor uid="F2" attach="P2" label="F2" angle="1.5707964" x="0.3" y="0.5"/>
+<heat_flux_sensor uid="F3" attach="P3" label="F3" angle="0.0" x="0.1" y="0.5"/>
+<heat_flux_sensor uid="F1" attach="P1" label="F1" angle="1.5707964" x="0.20000002" y="0.5"/>
 </sensor>
 <controller>
 </controller>
@@ -106,5 +118,6 @@
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>50.0</maximum_temperature>
 <graph>true</graph>
-<graph_xlabel>Time</graph_xlabel><graph_ylabel>Heat flux (W/m²)</graph_ylabel></view>
+<graph_xlabel>Time</graph_xlabel><graph_ylabel>Heat flux (W/m²)</graph_ylabel><text string="Use moving heat flux sensors-linebreak-to show view factor effects" face="Arial" size="12" style="1" color="ffffff" border="true" x="0.31999993" y="0.96999997"/>
+</view>
 </state>
