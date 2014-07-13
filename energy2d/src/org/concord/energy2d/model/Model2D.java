@@ -1781,6 +1781,7 @@ public class Model2D {
 						if (host != null) {
 							f.setX(host.rx);
 							f.setY(host.ry);
+							f.setAngle(host.getTheta());
 						}
 					}
 					i = Math.round(f.getX() / deltaX);

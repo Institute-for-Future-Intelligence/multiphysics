@@ -549,26 +549,26 @@ public class Part extends Manipulable {
 		} else if (p instanceof Photon) {
 			if (p.getRx() <= r.x) {
 				if (scatter) {
-					p.setAngle((float) (Math.PI * (0.5 + Math.random())));
+					p.setVelocityAngle((float) (Math.PI * (0.5 + Math.random())));
 				} else {
 					p.setVx(-Math.abs(p.getVx()));
 				}
 			} else if (p.getRx() >= r.x + r.width) {
 				if (scatter) {
-					p.setAngle((float) (Math.PI * (0.5 - Math.random())));
+					p.setVelocityAngle((float) (Math.PI * (0.5 - Math.random())));
 				} else {
 					p.setVx(Math.abs(p.getVx()));
 				}
 			}
 			if (p.getRy() <= r.y) {
 				if (scatter) {
-					p.setAngle((float) (Math.PI * (1 + Math.random())));
+					p.setVelocityAngle((float) (Math.PI * (1 + Math.random())));
 				} else {
 					p.setVy(-Math.abs(p.getVy()));
 				}
 			} else if (p.getRy() >= r.y + r.height) {
 				if (scatter) {
-					p.setAngle((float) (Math.PI * Math.random()));
+					p.setVelocityAngle((float) (Math.PI * Math.random()));
 				} else {
 					p.setVy(Math.abs(p.getVy()));
 				}

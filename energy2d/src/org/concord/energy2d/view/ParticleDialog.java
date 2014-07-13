@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DecimalFormat;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -34,11 +35,13 @@ import org.concord.energy2d.util.ColorMenu;
  */
 class ParticleDialog extends JDialog {
 
+	private final static DecimalFormat FORMAT = new DecimalFormat("####.####");
+
 	private Window owner;
 	private JColorChooser colorChooser;
 	private BackgroundComboBox particleColorComboBox, velocityColorComboBox;
 	private JTextField uidField, labelField;
-	private JTextField rxField, ryField, vxField, vyField;
+	private JTextField rxField, ryField, vxField, vyField, thetaField, omegaField;
 	private JTextField massField, radiusField, temperatureField;
 	private JComboBox<Boolean> draggableComboBox, movableComboBox;
 	private ActionListener okListener;
@@ -77,6 +80,12 @@ class ParticleDialog extends JDialog {
 				float vy = parse(vyField.getText());
 				if (Float.isNaN(vy))
 					return;
+				float theta = parse(thetaField.getText());
+				if (Float.isNaN(theta))
+					return;
+				float omega = parse(omegaField.getText());
+				if (Float.isNaN(omega))
+					return;
 				String uid = uidField.getText();
 				if (uid != null) {
 					uid = uid.trim();
@@ -98,6 +107,8 @@ class ParticleDialog extends JDialog {
 				particle.setRy(ry);
 				particle.setVx(vx);
 				particle.setVy(vy);
+				particle.setTheta((float) Math.toRadians(theta));
+				particle.setOmega((float) Math.toRadians(omega));
 				particle.setDraggable(draggableComboBox.getSelectedItem() == Boolean.TRUE);
 				particle.setMovable(movableComboBox.getSelectedItem() == Boolean.TRUE);
 				view.notifyManipulationListeners(particle, ManipulationEvent.PROPERTY_CHANGE);
@@ -129,7 +140,7 @@ class ParticleDialog extends JDialog {
 		box.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.add(box, BorderLayout.CENTER);
 
-		JPanel p = new JPanel(new GridLayout(13, 2, 5, 5));
+		JPanel p = new JPanel(new GridLayout(15, 2, 5, 5));
 		box.add(p);
 
 		p.add(new JLabel("Unique ID:"));
@@ -158,24 +169,34 @@ class ParticleDialog extends JDialog {
 		p.add(temperatureField);
 
 		p.add(new JLabel("Rx (m):"));
-		rxField = new JTextField(particle.getRx() + "", 10);
+		rxField = new JTextField(FORMAT.format(particle.getRx()), 10);
 		rxField.addActionListener(okListener);
 		p.add(rxField);
 
 		p.add(new JLabel("Ry (m):"));
-		ryField = new JTextField(particle.getRy() + "", 10);
+		ryField = new JTextField(FORMAT.format(particle.getRy()), 10);
 		ryField.addActionListener(okListener);
 		p.add(ryField);
 
 		p.add(new JLabel("Vx (m/s):"));
-		vxField = new JTextField(particle.getVx() + "", 10);
+		vxField = new JTextField(FORMAT.format(particle.getVx()), 10);
 		vxField.addActionListener(okListener);
 		p.add(vxField);
 
 		p.add(new JLabel("Vy (m/s):"));
-		vyField = new JTextField(particle.getVy() + "", 10);
+		vyField = new JTextField(FORMAT.format(particle.getVy()), 10);
 		vyField.addActionListener(okListener);
 		p.add(vyField);
+
+		p.add(new JLabel("<html>&theta; (&deg;):</html>"));
+		thetaField = new JTextField(FORMAT.format(Math.toDegrees(particle.getTheta())), 10);
+		thetaField.addActionListener(okListener);
+		p.add(thetaField);
+
+		p.add(new JLabel("<html>&omega; (&deg;/s):</html>"));
+		omegaField = new JTextField(FORMAT.format(Math.toDegrees(particle.getOmega())), 10);
+		omegaField.addActionListener(okListener);
+		p.add(omegaField);
 
 		p.add(new JLabel("Color:"));
 		colorChooser = new JColorChooser();

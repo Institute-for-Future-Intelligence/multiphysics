@@ -136,6 +136,8 @@ class XmlDecoder extends DefaultHandler {
 	private float particleRy = Float.NaN;
 	private float particleVx = Float.NaN;
 	private float particleVy = Float.NaN;
+	private float particleTheta = Float.NaN;
+	private float particleOmega = Float.NaN;
 	private float particleRadius = Float.NaN;
 	private float particleMass = Float.NaN;
 	private Particle particle;
@@ -931,6 +933,10 @@ class XmlDecoder extends DefaultHandler {
 			particleVx = Float.parseFloat(str);
 		} else if (qName == "vy") {
 			particleVy = Float.parseFloat(str);
+		} else if (qName == "theta") {
+			particleTheta = Float.parseFloat(str);
+		} else if (qName == "omega") {
+			particleOmega = Float.parseFloat(str);
 		} else if (qName == "radius") {
 			particleRadius = Float.parseFloat(str);
 		} else if (qName == "mass") {
@@ -991,6 +997,10 @@ class XmlDecoder extends DefaultHandler {
 					particle.setVx(particleVx);
 				if (!Float.isNaN(particleVy))
 					particle.setVy(particleVy);
+				if (!Float.isNaN(particleTheta))
+					particle.setTheta(particleTheta);
+				if (!Float.isNaN(particleOmega))
+					particle.setOmega(particleOmega);
 				if (!Float.isNaN(particleRadius))
 					particle.setRadius(particleRadius);
 				if (!Float.isNaN(particleMass))
@@ -1047,6 +1057,8 @@ class XmlDecoder extends DefaultHandler {
 		particleRy = Float.NaN;
 		particleVx = Float.NaN;
 		particleVy = Float.NaN;
+		particleTheta = Float.NaN;
+		particleOmega = Float.NaN;
 		particleRadius = Float.NaN;
 		particleMass = Float.NaN;
 		movable = true;

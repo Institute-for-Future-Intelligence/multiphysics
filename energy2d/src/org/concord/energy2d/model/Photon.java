@@ -30,7 +30,7 @@ public class Photon implements Discrete {
 
 	public Photon(float rx, float ry, float energy, float angle, float c) {
 		this(rx, ry, energy, c);
-		setAngle(angle);
+		setVelocityAngle(angle);
 	}
 
 	/** This is not really the speed of light, just a number that represents the speed of the light animation. */
@@ -42,7 +42,7 @@ public class Photon implements Discrete {
 		return energy;
 	}
 
-	public void setAngle(float angle) {
+	public void setVelocityAngle(float angle) {
 		vx = (float) (Math.cos(angle) * c);
 		vy = (float) (Math.sin(angle) * c);
 	}

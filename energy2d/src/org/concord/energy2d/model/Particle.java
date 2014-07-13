@@ -17,11 +17,15 @@ public class Particle extends Manipulable implements Discrete {
 	float vx, vy;
 	float ax, ay;
 	float fx, fy;
+	float theta;
+	float omega;
+	float alpha;
 	float temperature = Float.NaN;
 	boolean movable = true;
 
 	private float rx0 = Float.NaN, ry0 = Float.NaN;
 	private float vx0 = Float.NaN, vy0 = Float.NaN;
+	private float theta0 = Float.NaN, omega0 = Float.NaN;
 	private Color color = Color.WHITE;
 	private Color velocityColor = Color.BLACK;
 
@@ -65,6 +69,8 @@ public class Particle extends Manipulable implements Discrete {
 		ry0 = ry;
 		vx0 = vx;
 		vy0 = vy;
+		theta0 = theta;
+		omega0 = omega;
 	}
 
 	public void restoreState() {
@@ -76,6 +82,10 @@ public class Particle extends Manipulable implements Discrete {
 			vx = vx0;
 		if (!Float.isNaN(vy0))
 			vy = vy0;
+		if (!Float.isNaN(theta0))
+			theta = theta0;
+		if (!Float.isNaN(omega0))
+			omega = omega0;
 		ax = 0;
 		ay = 0;
 		fx = 0;
@@ -98,6 +108,9 @@ public class Particle extends Manipulable implements Discrete {
 		ry += vy * dt + ay * dt2;
 		vx += ax * dt;
 		vy += ay * dt;
+		theta += omega * dt + alpha * dt2;
+		omega += alpha * dt;
+		theta %= Math.PI * 2;
 	}
 
 	// correct this particle's position predicted by the predict method.
@@ -114,13 +127,14 @@ public class Particle extends Manipulable implements Discrete {
 		fx *= mass;
 		fy *= mass;
 		updateShape();
+		// TODO: theta and omega
 	}
 
 	public float getSpeed() {
 		return (float) Math.hypot(vx, vy);
 	}
 
-	public void setAngle(float angle) {
+	public void setVelocityAngle(float angle) {
 		float c = getSpeed();
 		vx = (float) (Math.cos(angle) * c);
 		vy = (float) (Math.sin(angle) * c);
@@ -166,6 +180,30 @@ public class Particle extends Manipulable implements Discrete {
 
 	public float getAy() {
 		return ay;
+	}
+
+	public void setTheta(float theta) {
+		this.theta = theta;
+	}
+
+	public float getTheta() {
+		return theta;
+	}
+
+	public void setOmega(float omega) {
+		this.omega = omega;
+	}
+
+	public float getOmega() {
+		return omega;
+	}
+
+	public void setAlpha(float alpha) {
+		this.alpha = alpha;
+	}
+
+	public float getAlpha() {
+		return alpha;
 	}
 
 	public void setTemperature(float temperature) {
@@ -225,6 +263,10 @@ public class Particle extends Manipulable implements Discrete {
 			xml += "<vx>" + vx + "</vx>\n";
 		if (vy != 0)
 			xml += "<vy>" + vy + "</vy>\n";
+		if (theta != 0)
+			xml += "<theta>" + theta + "</theta>\n";
+		if (omega != 0)
+			xml += "<omega>" + omega + "</omega>\n";
 		xml += "<radius>" + radius + "</radius>\n";
 		xml += "<mass>" + mass + "</mass>\n";
 		String uid = getUid();

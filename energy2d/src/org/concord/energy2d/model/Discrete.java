@@ -20,6 +20,6 @@ public interface Discrete {
 
 	public float getSpeed();
 
-	public void setAngle(float angle);
+	public void setVelocityAngle(float angle);
 
 }
