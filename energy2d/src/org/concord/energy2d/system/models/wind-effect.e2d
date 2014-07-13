@@ -10,18 +10,21 @@
 <solar_ray_count>24</solar_ray_count>
 <solar_ray_speed>0.1</solar_ray_speed>
 <photon_emission_interval>20</photon_emission_interval>
-<z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>1.0</background_conductivity>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>1.0</background_conductivity>
 <background_density>1.0</background_density>
 <background_specific_heat>1000.0</background_specific_heat>
 <background_viscosity>2.0E-4</background_viscosity>
-<thermal_buoyancy>1.0E-4</thermal_buoyancy>
+<thermal_expansion_coefficient>1.0E-4</thermal_expansion_coefficient>
 <buoyancy_approximation>0</buoyancy_approximation>
 <boundary>
 <temperature_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
-<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+<mass_flow_at_border upper="1" lower="1" left="1" right="1"/>
 </boundary>
 <structure>
-<part><rectangle x="0.5166665" y="0.68333364" width="0.183333" height="7.683333"/><thermal_conductivity>0.08</thermal_conductivity>
+<part>
+<rectangle x="0.5166665" y="0.68333364" width="0.183333" height="7.683333"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.08</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -35,7 +38,9 @@
 <visible>false</visible>
 <draggable>false</draggable>
 </part>
-<part><rectangle x="0.0" y="8.3" width="10.0" height="1.6"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="0.0" y="8.3" width="10.0" height="1.6"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -49,7 +54,9 @@
 <label>Ground</label>
 <draggable>false</draggable>
 </part>
-<part><rectangle x="2.0" y="6.4" width="0.25" height="2.0"/><thermal_conductivity>1.0</thermal_conductivity>
+<part>
+<rectangle x="2.0" y="6.4" width="0.25" height="2.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -61,7 +68,9 @@
 <constant_temperature>false</constant_temperature>
 <label>Wall</label>
 </part>
-<part><rectangle x="7.5" y="6.4" width="0.25" height="2.0"/><thermal_conductivity>1.0</thermal_conductivity>
+<part>
+<rectangle x="7.5" y="6.4" width="0.25" height="2.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -73,7 +82,9 @@
 <constant_temperature>false</constant_temperature>
 <label>Wall</label>
 </part>
-<part><rectangle x="1.7" y="2.7" width="6.3" height="0.3"/><thermal_conductivity>5.0</thermal_conductivity>
+<part>
+<rectangle x="1.7" y="2.7" width="6.3" height="0.3"/><elasticity>1.0</elasticity>
+<thermal_conductivity>5.0</thermal_conductivity>
 <specific_heat>100.0</specific_heat>
 <density>1.0</density>
 <transmission>0.0</transmission>
@@ -85,7 +96,9 @@
 <constant_temperature>false</constant_temperature>
 <label>Roof</label>
 </part>
-<part><rectangle x="2.0" y="3.000001" width="0.25" height="1.0"/><thermal_conductivity>1.0</thermal_conductivity>
+<part>
+<rectangle x="2.0" y="3.000001" width="0.25" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -96,7 +109,9 @@
 <temperature>0.0</temperature>
 <constant_temperature>false</constant_temperature>
 </part>
-<part><rectangle x="7.5" y="3.0" width="0.25" height="1.0"/><thermal_conductivity>1.0</thermal_conductivity>
+<part>
+<rectangle x="7.5" y="3.0" width="0.25" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -107,7 +122,9 @@
 <temperature>0.0</temperature>
 <constant_temperature>false</constant_temperature>
 </part>
-<part><rectangle x="3.1333332" y="7.883333" width="3.466667" height="0.366667"/><thermal_conductivity>1.0</thermal_conductivity>
+<part>
+<rectangle x="3.1333332" y="7.883333" width="3.466667" height="0.366667"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -119,7 +136,9 @@
 <constant_temperature>true</constant_temperature>
 <label>Heating board</label>
 </part>
-<part><rectangle x="2.1000001" y="3.65" width="0.1" height="2.5"/><thermal_conductivity>0.01</thermal_conductivity>
+<part>
+<rectangle x="2.1000001" y="3.65" width="0.1" height="2.5"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.01</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -132,7 +151,9 @@
 <color>ccccff</color>
 <label>Window</label>
 </part>
-<part><rectangle x="7.5499997" y="3.65" width="0.1" height="2.5"/><thermal_conductivity>0.01</thermal_conductivity>
+<part>
+<rectangle x="7.5499997" y="3.65" width="0.1" height="2.5"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.01</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -158,12 +179,13 @@
 <view>
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
-<graph_data_type>3</graph_data_type>
+<graph_data_type>2</graph_data_type>
 <fahrenheit_used>true</fahrenheit_used>
+<perimeter_step_size>0.05</perimeter_step_size>
 <color_palette_type>0</color_palette_type>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>50.0</maximum_temperature>
 <velocity>true</velocity>
-<graph_xlabel>Time</graph_xlabel><graph_ylabel>Wind speed (m/s)</graph_ylabel><graph_ymin>8.4436254E-4</graph_ymin><graph_ymax>0.17540655</graph_ymax><text string="East Wind &gt;&gt;&gt;" face="Arial" size="14" style="0" color="ffffff" x="0.5556" y="9.4907"/>
+<graph_xlabel>Time</graph_xlabel><graph_ylabel>Wind speed (m/s)</graph_ylabel><graph_ymin>8.4436254E-4</graph_ymin><graph_ymax>0.17540655</graph_ymax><text string="West Wind &gt;&gt;&gt;" face="Arial" size="14" style="0" color="ffffff" x="0.35" y="9.8"/>
 </view>
 </state>

@@ -11,16 +11,19 @@
 <solar_ray_count>48</solar_ray_count>
 <solar_ray_speed>0.08</solar_ray_speed>
 <photon_emission_interval>5</photon_emission_interval>
-<z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>1.0</background_conductivity>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>1.0</background_conductivity>
 <background_viscosity>0.01</background_viscosity>
-<thermal_buoyancy>2.5E-4</thermal_buoyancy>
+<thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
 <buoyancy_approximation>0</buoyancy_approximation>
 <boundary>
 <temperature_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
-<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+<mass_flow_at_border upper="1" lower="1" left="1" right="1"/>
 </boundary>
 <structure>
-<part><rectangle x="0.0" y="8.0" width="10.0" height="2.0"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="0.0" y="8.0" width="10.0" height="2.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -39,7 +42,9 @@
 </texture>
 <draggable>false</draggable>
 </part>
-<part><rectangle x="5.4" y="1.6000001" width="0.2" height="5.6"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="5.4" y="1.6000001" width="0.2" height="5.6"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -57,7 +62,9 @@
 <texture_height>10</texture_height>
 </texture>
 </part>
-<part><rectangle x="1.4" y="7.8" width="7.2000003" height="0.2"/><thermal_conductivity>0.1</thermal_conductivity>
+<part>
+<rectangle x="1.4" y="7.8" width="7.2000003" height="0.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.1</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>10.0</density>
 <transmission>0.0</transmission>
@@ -75,7 +82,9 @@
 </texture>
 <draggable>false</draggable>
 </part>
-<part><rectangle x="4.4" y="1.6000001" width="0.2" height="5.6"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="4.4" y="1.6000001" width="0.2" height="5.6"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -93,7 +102,9 @@
 <texture_height>10</texture_height>
 </texture>
 </part>
-<part><rectangle x="5.4" y="7.2000003" width="3.2" height="0.1"/><thermal_conductivity>1.0E-9</thermal_conductivity>
+<part>
+<rectangle x="5.4" y="7.2000003" width="3.2" height="0.1"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0E-9</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>25.0</density>
 <transmission>1.0</transmission>
@@ -105,7 +116,9 @@
 <constant_temperature>false</constant_temperature>
 <color>ccccff</color>
 </part>
-<part><rectangle x="1.4" y="7.2000003" width="3.2" height="0.1"/><thermal_conductivity>1.0E-9</thermal_conductivity>
+<part>
+<rectangle x="1.4" y="7.2000003" width="3.2" height="0.1"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0E-9</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>25.0</density>
 <transmission>1.0</transmission>
@@ -117,7 +130,9 @@
 <constant_temperature>false</constant_temperature>
 <color>ccccff</color>
 </part>
-<part><polygon count="3" vertices="5.0, 7.5, 5.4, 7.8, 4.6, 7.8"/>
+<part>
+<polygon count="3" vertices="5.0, 7.5, 5.4, 7.8, 4.6, 7.8"/>
+<elasticity>1.0</elasticity>
 <thermal_conductivity>0.1</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>10.0</density>
@@ -153,6 +168,7 @@
 <grid>true</grid>
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
+<perimeter_step_size>0.05</perimeter_step_size>
 <ruler>true</ruler>
 <color_palette_type>0</color_palette_type>
 <control_panel>true</control_panel>

@@ -3,7 +3,7 @@
 <links>
 </links>
 <model>
-<timestep>0.1</timestep>
+<timestep>0.05</timestep>
 <viewupdate_interval>10</viewupdate_interval>
 <sun_angle>1.5707964</sun_angle>
 <solar_power_density>2000.0</solar_power_density>
@@ -11,7 +11,7 @@
 <solar_ray_speed>0.1</solar_ray_speed>
 <photon_emission_interval>20</photon_emission_interval>
 <gravitational_acceleration>9.8</gravitational_acceleration>
-<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.1</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>1.0</background_conductivity>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.1</particle_drag><particle_hardness>1.0E-4</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>1.0</background_conductivity>
 <background_viscosity>1.0E-4</background_viscosity>
 <thermal_expansion_coefficient>0.0</thermal_expansion_coefficient>
 <buoyancy_approximation>1</buoyancy_approximation>
@@ -21,7 +21,8 @@
 </boundary>
 <structure>
 <part>
-<rectangle x="0.0" y="0.0" width="0.2" height="0.5"/><thermal_conductivity>0.08</thermal_conductivity>
+<rectangle x="0.0" y="0.0" width="0.2" height="0.5"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.08</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -42,6 +43,7 @@
 <vy>1.2500694E-5</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>1.8000001</rx>
@@ -49,6 +51,7 @@
 <vy>9.183891E-6</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>6.5</rx>
@@ -57,15 +60,17 @@
 <vy>-4.8677884E-7</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>5.4</rx>
 <ry>0.60000473</ry>
 <vx>1.7113214E-5</vx>
 <vy>6.597023E-5</vy>
-<radius>0.1</radius>
-<mass>1.0</mass>
-<color>ff00</color>
+<radius>0.15</radius>
+<mass>20.0</mass>
+<color>8080</color>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>2.6143765</rx>
@@ -74,6 +79,7 @@
 <vy>0.030917464</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>7.714377</rx>
@@ -82,6 +88,7 @@
 <vy>0.030910712</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>8.714376</rx>
@@ -90,6 +97,7 @@
 <vy>0.030908339</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>4.4143767</rx>
@@ -98,6 +106,7 @@
 <vy>0.030941663</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>2.3143764</rx>
@@ -106,22 +115,16 @@
 <vy>0.030917464</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>3.6000001</rx>
 <ry>0.8000047</ry>
 <vy>9.405744E-5</vy>
 <radius>0.1</radius>
-<mass>1.0</mass>
+<mass>10.0</mass>
 <color>ff00</color>
-</particle>
-<particle>
-<rx>8.014377</rx>
-<ry>0.9062148</ry>
-<vx>0.07151403</vx>
-<vy>0.030934796</vy>
-<radius>0.04</radius>
-<mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>9.214376</rx>
@@ -130,6 +133,7 @@
 <vy>0.030865233</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>3.4143765</rx>
@@ -138,14 +142,7 @@
 <vy>0.030917464</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
-</particle>
-<particle>
-<rx>1.2143764</rx>
-<ry>0.40621474</ry>
-<vx>0.07150492</vx>
-<vy>0.030917464</vy>
-<radius>0.04</radius>
-<mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>1.4143764</rx>
@@ -154,6 +151,7 @@
 <vy>0.030917464</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>4.685596</rx>
@@ -162,6 +160,7 @@
 <vy>-0.0132445535</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>5.785596</rx>
@@ -170,6 +169,7 @@
 <vy>-0.013198718</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>4.685596</rx>
@@ -178,22 +178,7 @@
 <vy>-0.013192711</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
-</particle>
-<particle>
-<rx>1.5855955</rx>
-<ry>0.89734423</ry>
-<vx>-0.07164446</vx>
-<vy>-0.013202601</vy>
-<radius>0.04</radius>
-<mass>0.1</mass>
-</particle>
-<particle>
-<rx>1.4855955</rx>
-<ry>1.3973441</ry>
-<vx>-0.07164446</vx>
-<vy>-0.013202601</vy>
-<radius>0.04</radius>
-<mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>7.185596</rx>
@@ -202,6 +187,7 @@
 <vy>-0.01318939</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>8.285596</rx>
@@ -210,6 +196,7 @@
 <vy>-0.013182599</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>6.385596</rx>
@@ -218,6 +205,7 @@
 <vy>-0.013211485</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>4.992796</rx>
@@ -226,14 +214,7 @@
 <vy>-0.013198854</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
-</particle>
-<particle>
-<rx>5.192796</rx>
-<ry>0.99867153</ry>
-<vx>-0.07168776</vx>
-<vy>-0.013222712</vy>
-<radius>0.04</radius>
-<mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>5.992796</rx>
@@ -242,14 +223,7 @@
 <vy>-0.013223229</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
-</particle>
-<particle>
-<rx>2.792796</rx>
-<ry>0.89867157</ry>
-<vx>-0.0716803</vx>
-<vy>-0.013213791</vy>
-<radius>0.04</radius>
-<mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>0.49279594</rx>
@@ -258,6 +232,7 @@
 <vy>-0.013213791</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>7.592796</rx>
@@ -266,6 +241,7 @@
 <vy>-0.013200978</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 <particle>
 <rx>0.39279595</rx>
@@ -274,6 +250,7 @@
 <vy>-0.013213791</vy>
 <radius>0.04</radius>
 <mass>0.1</mass>
+<velocity_color>0</velocity_color>
 </particle>
 </structure>
 <environment>
@@ -293,7 +270,7 @@
 <grid_size>10</grid_size>
 <graph_data_type>2</graph_data_type>
 <fahrenheit_used>true</fahrenheit_used>
-<radiation_mesh_size>0.049999997</radiation_mesh_size>
+<perimeter_step_size>0.05</perimeter_step_size>
 <color_palette_type>0</color_palette_type>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>40.0</maximum_temperature>

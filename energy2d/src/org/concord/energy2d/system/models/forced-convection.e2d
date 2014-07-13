@@ -14,16 +14,19 @@
 <solar_ray_count>24</solar_ray_count>
 <solar_ray_speed>0.1</solar_ray_speed>
 <photon_emission_interval>20</photon_emission_interval>
-<z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>1.0</background_conductivity>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>1.0</background_conductivity>
 <background_viscosity>1.0E-4</background_viscosity>
-<thermal_buoyancy>0.0</thermal_buoyancy>
+<thermal_expansion_coefficient>0.0</thermal_expansion_coefficient>
 <buoyancy_approximation>1</buoyancy_approximation>
 <boundary>
 <flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
-<mass_flow_at_border upper="0" lower="0" left="0" right="1"/>
+<mass_flow_at_border upper="1" lower="1" left="1" right="1"/>
 </boundary>
 <structure>
-<part><rectangle x="0.0" y="0.20000005" width="0.2" height="4.6"/><thermal_conductivity>0.08</thermal_conductivity>
+<part>
+<rectangle x="0.0" y="0.20000005" width="0.2" height="4.6"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.08</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -44,7 +47,9 @@
 <visible>false</visible>
 <draggable>false</draggable>
 </part>
-<part><rectangle x="0.0" y="5.0" width="0.2" height="5.0"/><thermal_conductivity>0.08</thermal_conductivity>
+<part>
+<rectangle x="0.0" y="5.0" width="0.2" height="5.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.08</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -63,7 +68,9 @@
 <visible>false</visible>
 <draggable>false</draggable>
 </part>
-<part><rectangle x="0.0" y="4.85" width="10.0" height="0.3"/><thermal_conductivity>1.0E-9</thermal_conductivity>
+<part>
+<rectangle x="0.0" y="4.85" width="10.0" height="0.3"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0E-9</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -81,7 +88,9 @@
 </texture>
 <draggable>false</draggable>
 </part>
-<part><ellipse x="2.5" y="7.5" a="1.0" b="1.0"/><thermal_conductivity>1.0</thermal_conductivity>
+<part>
+<ellipse x="2.5" y="7.5" a="1.0" b="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>2000.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -93,7 +102,9 @@
 <constant_temperature>false</constant_temperature>
 <filled>false</filled>
 </part>
-<part><ellipse x="2.5" y="2.5" a="1.0" b="1.0"/><thermal_conductivity>1.0</thermal_conductivity>
+<part>
+<ellipse x="2.5" y="2.5" a="1.0" b="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>2000.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -121,6 +132,7 @@
 <view>
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
+<perimeter_step_size>0.05</perimeter_step_size>
 <color_palette_type>0</color_palette_type>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>60.0</maximum_temperature>
