@@ -2,6 +2,7 @@ package org.concord.energy2d.view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +21,7 @@ import javax.swing.JTextField;
 
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.model.HeatFluxSensor;
+import org.concord.energy2d.model.Particle;
 
 /**
  * @author Charles Xie
@@ -36,6 +38,7 @@ class HeatFluxSensorDialog extends JDialog {
 	private JTextField angleField;
 	private JTextField labelField;
 	private JTextField uidField;
+	private JTextField attachField;
 
 	HeatFluxSensorDialog(final View2D view, final HeatFluxSensor heatFluxSensor, boolean modal) {
 
@@ -88,6 +91,27 @@ class HeatFluxSensorDialog extends JDialog {
 					}
 				}
 
+				String attachID = attachField.getText();
+				if (attachID != null) {
+					attachID = attachID.trim();
+					if (!attachID.equals("")) {
+						if (attachID.equals(heatFluxSensor.getUid())) {
+							JOptionPane.showMessageDialog(owner, "Heat flux sensor " + attachID + " cannot be attached to itself.", "Error", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+						if (!view.isUidUsed(attachID)) {
+							JOptionPane.showMessageDialog(owner, "Object " + attachID + " not found.", "Error", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+						heatFluxSensor.setAttachID(attachID);
+						Particle particle = view.model.getParticle(attachID);
+						if (particle != null) {
+							heatFluxSensor.setX(particle.getRx());
+							heatFluxSensor.setY(particle.getRy());
+						}
+					}
+				}
+
 				view.notifyManipulationListeners(heatFluxSensor, ManipulationEvent.PROPERTY_CHANGE);
 				view.repaint();
 				dispose();
@@ -114,7 +138,7 @@ class HeatFluxSensorDialog extends JDialog {
 
 		// general properties
 
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel p = new JPanel(new GridLayout(3, 2, 8, 8));
 		p.setBorder(BorderFactory.createTitledBorder("General properties"));
 		box.add(p);
 
@@ -142,6 +166,11 @@ class HeatFluxSensorDialog extends JDialog {
 		labelField = new JTextField(heatFluxSensor.getLabel(), 10);
 		labelField.addActionListener(okListener);
 		p.add(labelField);
+
+		p.add(new JLabel("Attach to:"));
+		attachField = new JTextField(heatFluxSensor.getAttachID(), 10);
+		attachField.addActionListener(okListener);
+		p.add(attachField);
 
 		pack();
 		setLocationRelativeTo(view);

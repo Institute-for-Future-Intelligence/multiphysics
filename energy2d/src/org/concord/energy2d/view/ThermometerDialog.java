@@ -30,6 +30,7 @@ import javax.swing.JTextField;
 
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.model.Part;
+import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.Sensor;
 import org.concord.energy2d.model.Thermometer;
 import org.concord.energy2d.model.Thermostat;
@@ -46,6 +47,7 @@ class ThermometerDialog extends JDialog {
 	private JTextField yField;
 	private JTextField labelField;
 	private JTextField uidField;
+	private JTextField attachField;
 	private JTextField setpointField;
 	private JTextField deadbandField;
 	private JRadioButton onePointButton;
@@ -112,6 +114,27 @@ class ThermometerDialog extends JDialog {
 					}
 				}
 
+				String attachID = attachField.getText();
+				if (attachID != null) {
+					attachID = attachID.trim();
+					if (!attachID.equals("")) {
+						if (attachID.equals(thermometer.getUid())) {
+							JOptionPane.showMessageDialog(owner, "Thermometer " + attachID + " cannot be attached to itself.", "Error", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+						if (!view.isUidUsed(attachID)) {
+							JOptionPane.showMessageDialog(owner, "Object " + attachID + " not found.", "Error", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+						thermometer.setAttachID(attachID);
+						Particle particle = view.model.getParticle(attachID);
+						if (particle != null) {
+							thermometer.setX(particle.getRx());
+							thermometer.setY(particle.getRy() - thermometer.getSensingSpotY());
+						}
+					}
+				}
+
 				if (onePointButton.isSelected())
 					thermometer.setStencil(Sensor.ONE_POINT);
 				else if (fivePointsButton.isSelected())
@@ -162,7 +185,7 @@ class ThermometerDialog extends JDialog {
 
 		// general properties
 
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel p = new JPanel(new GridLayout(3, 2, 8, 8));
 		p.setBorder(BorderFactory.createTitledBorder("General properties"));
 		box.add(p);
 
@@ -180,6 +203,11 @@ class ThermometerDialog extends JDialog {
 		uidField = new JTextField(thermometer.getUid(), 10);
 		uidField.addActionListener(okListener);
 		p.add(uidField);
+
+		p.add(new JLabel("Attached to:"));
+		attachField = new JTextField(thermometer.getAttachID(), 10);
+		attachField.addActionListener(okListener);
+		p.add(attachField);
 
 		p.add(new JLabel("Label:"));
 		labelField = new JTextField(thermometer.getLabel(), 10);

@@ -25,6 +25,7 @@ public abstract class Sensor extends Manipulable {
 	List<TimedData> data;
 	private List<MeasurementListener> listeners;
 
+	String attachID;
 	private float sensingSpotX, sensingSpotY;
 
 	public Sensor(Shape shape) {
@@ -111,6 +112,14 @@ public abstract class Sensor extends Manipulable {
 
 	public float getSensingSpotY() {
 		return sensingSpotY;
+	}
+
+	public void setAttachID(String attachID) {
+		this.attachID = attachID;
+	}
+
+	public String getAttachID() {
+		return attachID;
 	}
 
 	public void setStencil(byte stencil) {

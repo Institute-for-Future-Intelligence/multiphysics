@@ -519,7 +519,7 @@ class XmlDecoder extends DefaultHandler {
 		} else if (qName == "thermometer") {
 			if (attrib != null) {
 				float x = Float.NaN, y = Float.NaN;
-				String label = null, uid = null;
+				String label = null, uid = null, attachID = null;
 				byte stencil = Thermometer.ONE_POINT;
 				for (int i = 0, n = attrib.getLength(); i < n; i++) {
 					attribName = attrib.getQName(i).intern();
@@ -532,17 +532,22 @@ class XmlDecoder extends DefaultHandler {
 						stencil = Byte.parseByte(attribValue);
 					} else if (attribName == "uid") {
 						uid = attribValue;
+					} else if (attribName == "attach") {
+						attachID = attribValue;
 					} else if (attribName == "label") {
 						label = attribValue;
 					}
 				}
-				if (!Float.isNaN(x) && !Float.isNaN(y))
-					box.model.addThermometer(x, y, uid, label, stencil);
+				if (!Float.isNaN(x) && !Float.isNaN(y)) {
+					Thermometer t = box.model.addThermometer(x, y, uid, label, stencil);
+					if (attachID != null)
+						t.setAttachID(attachID);
+				}
 			}
 		} else if (qName == "heat_flux_sensor") {
 			if (attrib != null) {
 				float x = Float.NaN, y = Float.NaN;
-				String label = null, uid = null;
+				String label = null, uid = null, attachID = null;
 				float angle = 0;
 				for (int i = 0, n = attrib.getLength(); i < n; i++) {
 					attribName = attrib.getQName(i).intern();
@@ -555,17 +560,22 @@ class XmlDecoder extends DefaultHandler {
 						angle = Float.parseFloat(attribValue);
 					} else if (attribName == "uid") {
 						uid = attribValue;
+					} else if (attribName == "attach") {
+						attachID = attribValue;
 					} else if (attribName == "label") {
 						label = attribValue;
 					}
 				}
-				if (!Float.isNaN(x) && !Float.isNaN(y))
-					box.model.addHeatFluxSensor(x, y, uid, label, angle);
+				if (!Float.isNaN(x) && !Float.isNaN(y)) {
+					HeatFluxSensor h = box.model.addHeatFluxSensor(x, y, uid, label, angle);
+					if (attachID != null)
+						h.setAttachID(attachID);
+				}
 			}
 		} else if (qName == "anemometer") {
 			if (attrib != null) {
 				float x = Float.NaN, y = Float.NaN;
-				String label = null, uid = null;
+				String label = null, uid = null, attachID = null;
 				byte stencil = Anemometer.ONE_POINT;
 				for (int i = 0, n = attrib.getLength(); i < n; i++) {
 					attribName = attrib.getQName(i).intern();
@@ -578,12 +588,17 @@ class XmlDecoder extends DefaultHandler {
 						stencil = Byte.parseByte(attribValue);
 					} else if (attribName == "uid") {
 						uid = attribValue;
+					} else if (attribName == "attach") {
+						attachID = attribValue;
 					} else if (attribName == "label") {
 						label = attribValue;
 					}
 				}
-				if (!Float.isNaN(x) && !Float.isNaN(y))
-					box.model.addAnemometer(x, y, uid, label, stencil);
+				if (!Float.isNaN(x) && !Float.isNaN(y)) {
+					Anemometer a = box.model.addAnemometer(x, y, uid, label, stencil);
+					if (attachID != null)
+						a.setAttachID(attachID);
+				}
 			}
 		} else if (qName == "thermostat") {
 			if (attrib != null) {

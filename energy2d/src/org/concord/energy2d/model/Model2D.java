@@ -655,12 +655,13 @@ public class Model2D {
 		thermometers.add(new Thermometer(x, y));
 	}
 
-	public void addThermometer(float x, float y, String uid, String label, byte stencil) {
+	public Thermometer addThermometer(float x, float y, String uid, String label, byte stencil) {
 		Thermometer t = new Thermometer(x, y);
 		t.setUid(uid);
 		t.setLabel(label);
 		t.setStencil(stencil);
 		thermometers.add(t);
+		return t;
 	}
 
 	public void removeThermometer(Thermometer t) {
@@ -707,12 +708,13 @@ public class Model2D {
 		anemometers.add(new Anemometer(x, y));
 	}
 
-	public void addAnemometer(float x, float y, String uid, String label, byte stencil) {
+	public Anemometer addAnemometer(float x, float y, String uid, String label, byte stencil) {
 		Anemometer a = new Anemometer(x, y);
 		a.setUid(uid);
 		a.setLabel(label);
 		a.setStencil(stencil);
 		anemometers.add(a);
+		return a;
 	}
 
 	public void removeAnemometer(Anemometer a) {
@@ -751,12 +753,13 @@ public class Model2D {
 		heatFluxSensors.add(new HeatFluxSensor(x, y));
 	}
 
-	public void addHeatFluxSensor(float x, float y, String uid, String label, float angle) {
+	public HeatFluxSensor addHeatFluxSensor(float x, float y, String uid, String label, float angle) {
 		HeatFluxSensor h = new HeatFluxSensor(x, y);
 		h.setUid(uid);
 		h.setLabel(label);
 		h.setAngle(angle);
 		heatFluxSensors.add(h);
+		return h;
 	}
 
 	public void removeHeatFluxSensor(HeatFluxSensor h) {
@@ -1754,6 +1757,13 @@ public class Model2D {
 			int offset = Math.round(thermometers.get(0).getSensingSpotY() / ly * ny);
 			synchronized (thermometers) {
 				for (Thermometer m : thermometers) {
+					if (m.getAttachID() != null) {
+						Particle host = getParticle(m.getAttachID());
+						if (host != null) {
+							m.setX(host.rx);
+							m.setY(host.ry - m.getSensingSpotY());
+						}
+					}
 					i = Math.round(m.getX() / deltaX);
 					j = Math.round(m.getY() / deltaY);
 					if (i >= 0 && i < nx && j >= 0 && j < ny) {
@@ -1766,6 +1776,13 @@ public class Model2D {
 			int i, j;
 			synchronized (heatFluxSensors) {
 				for (HeatFluxSensor f : heatFluxSensors) {
+					if (f.getAttachID() != null) {
+						Particle host = getParticle(f.getAttachID());
+						if (host != null) {
+							f.setX(host.rx);
+							f.setY(host.ry);
+						}
+					}
 					i = Math.round(f.getX() / deltaX);
 					j = Math.round(f.getY() / deltaY);
 					if (i >= 0 && i < nx && j >= 0 && j < ny) {
@@ -1783,6 +1800,13 @@ public class Model2D {
 			int i, j;
 			synchronized (anemometers) {
 				for (Anemometer a : anemometers) {
+					if (a.getAttachID() != null) {
+						Particle host = getParticle(a.getAttachID());
+						if (host != null) {
+							a.setX(host.rx);
+							a.setY(host.ry);
+						}
+					}
 					i = Math.round(a.getX() / deltaX);
 					j = Math.round(a.getY() / deltaY);
 					if (i >= 0 && i < nx && j >= 0 && j < ny) {

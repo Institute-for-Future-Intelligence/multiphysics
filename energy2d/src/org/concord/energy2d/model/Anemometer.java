@@ -48,6 +48,8 @@ public class Anemometer extends Sensor {
 		String uid = getUid();
 		if (uid != null && !uid.trim().equals(""))
 			xml += " uid=\"" + uid + "\"";
+		if (attachID != null && !attachID.trim().equals(""))
+			xml += " attach=\"" + attachID + "\"";
 		String label = getLabel();
 		if (label != null && !label.trim().equals(""))
 			xml += " label=\"" + label + "\"";

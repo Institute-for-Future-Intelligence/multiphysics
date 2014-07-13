@@ -2,6 +2,7 @@ package org.concord.energy2d.view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ import javax.swing.JTextField;
 
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.model.Anemometer;
+import org.concord.energy2d.model.Particle;
 
 /**
  * @author Charles Xie
@@ -32,6 +34,7 @@ class AnemometerDialog extends JDialog {
 	private JTextField yField;
 	private JTextField labelField;
 	private JTextField uidField;
+	private JTextField attachField;
 
 	AnemometerDialog(final View2D view, final Anemometer anemometer, boolean modal) {
 
@@ -79,6 +82,27 @@ class AnemometerDialog extends JDialog {
 					}
 				}
 
+				String attachID = attachField.getText();
+				if (attachID != null) {
+					attachID = attachID.trim();
+					if (!attachID.equals("")) {
+						if (attachID.equals(anemometer.getUid())) {
+							JOptionPane.showMessageDialog(owner, "Anemometer " + attachID + " cannot be attached to itself.", "Error", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+						if (!view.isUidUsed(attachID)) {
+							JOptionPane.showMessageDialog(owner, "Object " + attachID + " not found.", "Error", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+						anemometer.setAttachID(attachID);
+						Particle particle = view.model.getParticle(attachID);
+						if (particle != null) {
+							anemometer.setX(particle.getRx());
+							anemometer.setY(particle.getRy());
+						}
+					}
+				}
+
 				view.notifyManipulationListeners(anemometer, ManipulationEvent.PROPERTY_CHANGE);
 				view.repaint();
 				dispose();
@@ -105,7 +129,7 @@ class AnemometerDialog extends JDialog {
 
 		// general properties
 
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel p = new JPanel(new GridLayout(3, 2, 8, 8));
 		p.setBorder(BorderFactory.createTitledBorder("General properties"));
 		box.add(p);
 
@@ -123,6 +147,11 @@ class AnemometerDialog extends JDialog {
 		uidField = new JTextField(anemometer.getUid(), 10);
 		uidField.addActionListener(okListener);
 		p.add(uidField);
+
+		p.add(new JLabel("Attached to:"));
+		attachField = new JTextField(anemometer.getAttachID(), 10);
+		attachField.addActionListener(okListener);
+		p.add(attachField);
 
 		p.add(new JLabel("Label:"));
 		labelField = new JTextField(anemometer.getLabel(), 10);

@@ -13,7 +13,7 @@ public class HeatFluxSensor extends Sensor {
 	public final static float RELATIVE_WIDTH = 0.036f;
 	public final static float RELATIVE_HEIGHT = 0.012f;
 
-	private float angle;
+	private float angle; // radians
 	private float value;
 
 	public HeatFluxSensor(float x, float y) {
@@ -58,6 +58,8 @@ public class HeatFluxSensor extends Sensor {
 		String uid = getUid();
 		if (uid != null && !uid.trim().equals(""))
 			xml += " uid=\"" + uid + "\"";
+		if (attachID != null && !attachID.trim().equals(""))
+			xml += " attach=\"" + attachID + "\"";
 		String label = getLabel();
 		if (label != null && !label.trim().equals(""))
 			xml += " label=\"" + label + "\"";

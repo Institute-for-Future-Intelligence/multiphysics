@@ -27,6 +27,7 @@ import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Boundary;
 import org.concord.energy2d.model.DirichletThermalBoundary;
+import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.MassBoundary;
 import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.SimpleMassBoundary;
@@ -61,6 +62,7 @@ class Scripter2D extends Scripter {
 	private final static Pattern TASK_FIELD = compile("^%?((?i)task){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern ANEMOMETER_FIELD = compile("^%?((?i)anemometer){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern THERMOMETER_FIELD = compile("^%?((?i)thermometer){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
+	private final static Pattern HEAT_FLUX_SENSOR_FIELD = compile("^%?((?i)heatfluxsensor){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern IMAGE_FIELD = compile("^%?((?i)image){1}(\\[){1}" + REGEX_WHITESPACE + "*" + REGEX_NONNEGATIVE_DECIMAL + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern TEXT_FIELD = compile("^%?((?i)text){1}(\\[){1}" + REGEX_WHITESPACE + "*" + REGEX_NONNEGATIVE_DECIMAL + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern BOUNDARY_FIELD = compile("^%?((?i)boundary){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
@@ -1089,6 +1091,20 @@ class Scripter2D extends Scripter {
 						setAnemometerField(s1, s2, s3);
 						return;
 					}
+					// heat flux sensor field
+					matcher = HEAT_FLUX_SENSOR_FIELD.matcher(s);
+					if (matcher.find()) {
+						int end = matcher.end();
+						String s1 = s.substring(end).trim();
+						int i = s1.indexOf(" ");
+						if (i < 0)
+							return;
+						String s2 = s1.substring(0, i).trim();
+						String s3 = s1.substring(i + 1).trim();
+						s1 = s.substring(0, end - 1);
+						setHeatFluxSensorField(s1, s2, s3);
+						return;
+					}
 					// boundary field
 					matcher = BOUNDARY_FIELD.matcher(s);
 					if (matcher.find()) {
@@ -1479,7 +1495,7 @@ class Scripter2D extends Scripter {
 		}
 		sensor = Float.isNaN(z) ? s2d.model.getThermometer(s) : s2d.model.getThermometer((int) Math.round(z));
 		if (sensor == null) {
-			showError(str1, "Sensor " + s + " not found");
+			showError(str1, "Thermometer " + s + " not found");
 			return;
 		}
 		s = str2.toLowerCase().intern();
@@ -1517,7 +1533,7 @@ class Scripter2D extends Scripter {
 		}
 		sensor = Float.isNaN(z) ? s2d.model.getAnemometer(s) : s2d.model.getAnemometer((int) Math.round(z));
 		if (sensor == null) {
-			showError(str1, "Sensor " + s + " not found");
+			showError(str1, "Anemometer " + s + " not found");
 			return;
 		}
 		s = str2.toLowerCase().intern();
@@ -1539,6 +1555,46 @@ class Scripter2D extends Scripter {
 			sensor.setX(z);
 		} else if (s == "y") {
 			sensor.setY(convertVerticalCoordinate(z));
+		}
+	}
+
+	private void setHeatFluxSensorField(String str1, String str2, String str3) {
+		HeatFluxSensor sensor = null;
+		int lb = str1.indexOf("[");
+		int rb = str1.indexOf("]");
+		String s = str1.substring(lb + 1, rb).trim();
+		float z = Float.NaN;
+		try {
+			z = Float.parseFloat(s);
+		} catch (Exception e) {
+			z = Float.NaN;
+		}
+		sensor = Float.isNaN(z) ? s2d.model.getHeatFluxSensor(s) : s2d.model.getHeatFluxSensor(((int) Math.round(z)));
+		if (sensor == null) {
+			showError(str1, "Heat flux sensor " + s + " not found");
+			return;
+		}
+		s = str2.toLowerCase().intern();
+		if (s == "label") {
+			sensor.setLabel(str3);
+			return;
+		}
+		if (s == "uid") {
+			sensor.setUid(str3);
+			return;
+		}
+		try {
+			z = Float.parseFloat(str3);
+		} catch (Exception e) {
+			showException(str3, e);
+			return;
+		}
+		if (s == "x") {
+			sensor.setX(z);
+		} else if (s == "y") {
+			sensor.setY(convertVerticalCoordinate(z));
+		} else if (s == "angle") {
+			sensor.setAngle((float) Math.toRadians(z));
 		}
 	}
 
