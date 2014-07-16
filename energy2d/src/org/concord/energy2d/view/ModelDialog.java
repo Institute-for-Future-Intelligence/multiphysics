@@ -81,6 +81,10 @@ class ModelDialog extends JDialog {
 	private JRadioButton lowerMassBoundaryThrough;
 	private JRadioButton leftMassBoundaryThrough;
 	private JRadioButton rightMassBoundaryThrough;
+	private JRadioButton upperMassBoundaryStop;
+	private JRadioButton lowerMassBoundaryStop;
+	private JRadioButton leftMassBoundaryStop;
+	private JRadioButton rightMassBoundaryStop;
 	private JLabel solarPowerLabel;
 	private JTextField solarPowerField;
 	private JLabel raySpeedLabel;
@@ -248,21 +252,29 @@ class ModelDialog extends JDialog {
 				SimpleMassBoundary massBoundary = (SimpleMassBoundary) model.getMassBoundary();
 				if (leftMassBoundaryReflect.isSelected()) {
 					massBoundary.setFlowTypeAtBorder(Boundary.LEFT, MassBoundary.REFLECTIVE);
+				} else if (leftMassBoundaryStop.isSelected()) {
+					massBoundary.setFlowTypeAtBorder(Boundary.LEFT, MassBoundary.STOP);
 				} else if (leftMassBoundaryThrough.isSelected()) {
 					massBoundary.setFlowTypeAtBorder(Boundary.LEFT, MassBoundary.THROUGH);
 				}
 				if (rightMassBoundaryReflect.isSelected()) {
 					massBoundary.setFlowTypeAtBorder(Boundary.RIGHT, MassBoundary.REFLECTIVE);
+				} else if (rightMassBoundaryStop.isSelected()) {
+					massBoundary.setFlowTypeAtBorder(Boundary.RIGHT, MassBoundary.STOP);
 				} else if (rightMassBoundaryThrough.isSelected()) {
 					massBoundary.setFlowTypeAtBorder(Boundary.RIGHT, MassBoundary.THROUGH);
 				}
 				if (upperMassBoundaryReflect.isSelected()) {
 					massBoundary.setFlowTypeAtBorder(Boundary.UPPER, MassBoundary.REFLECTIVE);
+				} else if (upperMassBoundaryStop.isSelected()) {
+					massBoundary.setFlowTypeAtBorder(Boundary.UPPER, MassBoundary.STOP);
 				} else if (upperMassBoundaryThrough.isSelected()) {
 					massBoundary.setFlowTypeAtBorder(Boundary.UPPER, MassBoundary.THROUGH);
 				}
 				if (lowerMassBoundaryReflect.isSelected()) {
 					massBoundary.setFlowTypeAtBorder(Boundary.LOWER, MassBoundary.REFLECTIVE);
+				} else if (lowerMassBoundaryStop.isSelected()) {
+					massBoundary.setFlowTypeAtBorder(Boundary.LOWER, MassBoundary.STOP);
 				} else if (lowerMassBoundaryThrough.isSelected()) {
 					massBoundary.setFlowTypeAtBorder(Boundary.LOWER, MassBoundary.THROUGH);
 				}
@@ -727,17 +739,23 @@ class ModelDialog extends JDialog {
 		p.add(label);
 		upperMassBoundaryReflect = new JRadioButton("Reflect");
 		p.add(upperMassBoundaryReflect);
+		upperMassBoundaryStop = new JRadioButton("Stop");
+		p.add(upperMassBoundaryStop);
 		upperMassBoundaryThrough = new JRadioButton("Through");
 		p.add(upperMassBoundaryThrough);
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(upperMassBoundaryReflect);
 		bg.add(upperMassBoundaryThrough);
+		bg.add(upperMassBoundaryStop);
 		switch (massBoundary.getFlowTypeAtBorder(Boundary.UPPER)) {
 		case MassBoundary.REFLECTIVE:
 			upperMassBoundaryReflect.setSelected(true);
 			break;
 		case MassBoundary.THROUGH:
 			upperMassBoundaryThrough.setSelected(true);
+			break;
+		case MassBoundary.STOP:
+			upperMassBoundaryStop.setSelected(true);
 			break;
 		}
 		count++;
@@ -746,17 +764,23 @@ class ModelDialog extends JDialog {
 		p.add(label);
 		rightMassBoundaryReflect = new JRadioButton("Reflect");
 		p.add(rightMassBoundaryReflect);
+		rightMassBoundaryStop = new JRadioButton("Stop");
+		p.add(rightMassBoundaryStop);
 		rightMassBoundaryThrough = new JRadioButton("Through");
 		p.add(rightMassBoundaryThrough);
 		bg = new ButtonGroup();
 		bg.add(rightMassBoundaryReflect);
 		bg.add(rightMassBoundaryThrough);
+		bg.add(rightMassBoundaryStop);
 		switch (massBoundary.getFlowTypeAtBorder(Boundary.RIGHT)) {
 		case MassBoundary.REFLECTIVE:
 			rightMassBoundaryReflect.setSelected(true);
 			break;
 		case MassBoundary.THROUGH:
 			rightMassBoundaryThrough.setSelected(true);
+			break;
+		case MassBoundary.STOP:
+			rightMassBoundaryStop.setSelected(true);
 			break;
 		}
 		count++;
@@ -765,17 +789,23 @@ class ModelDialog extends JDialog {
 		p.add(label);
 		lowerMassBoundaryReflect = new JRadioButton("Reflect");
 		p.add(lowerMassBoundaryReflect);
+		lowerMassBoundaryStop = new JRadioButton("Stop");
+		p.add(lowerMassBoundaryStop);
 		lowerMassBoundaryThrough = new JRadioButton("Through");
 		p.add(lowerMassBoundaryThrough);
 		bg = new ButtonGroup();
 		bg.add(lowerMassBoundaryReflect);
 		bg.add(lowerMassBoundaryThrough);
+		bg.add(lowerMassBoundaryStop);
 		switch (massBoundary.getFlowTypeAtBorder(Boundary.LOWER)) {
 		case MassBoundary.REFLECTIVE:
 			lowerMassBoundaryReflect.setSelected(true);
 			break;
 		case MassBoundary.THROUGH:
 			lowerMassBoundaryThrough.setSelected(true);
+			break;
+		case MassBoundary.STOP:
+			lowerMassBoundaryStop.setSelected(true);
 			break;
 		}
 		count++;
@@ -784,11 +814,14 @@ class ModelDialog extends JDialog {
 		p.add(label);
 		leftMassBoundaryReflect = new JRadioButton("Reflect");
 		p.add(leftMassBoundaryReflect);
+		leftMassBoundaryStop = new JRadioButton("Stop");
+		p.add(leftMassBoundaryStop);
 		leftMassBoundaryThrough = new JRadioButton("Through");
 		p.add(leftMassBoundaryThrough);
 		bg = new ButtonGroup();
 		bg.add(leftMassBoundaryReflect);
 		bg.add(leftMassBoundaryThrough);
+		bg.add(leftMassBoundaryStop);
 		switch (massBoundary.getFlowTypeAtBorder(Boundary.LEFT)) {
 		case MassBoundary.REFLECTIVE:
 			leftMassBoundaryReflect.setSelected(true);
@@ -796,10 +829,13 @@ class ModelDialog extends JDialog {
 		case MassBoundary.THROUGH:
 			leftMassBoundaryThrough.setSelected(true);
 			break;
+		case MassBoundary.STOP:
+			leftMassBoundaryStop.setSelected(true);
+			break;
 		}
 		count++;
 
-		MiscUtil.makeCompactGrid(p, count, 3, 5, 5, 10, 2);
+		MiscUtil.makeCompactGrid(p, count, 4, 5, 5, 10, 2);
 
 		pack();
 		setLocationRelativeTo(view);

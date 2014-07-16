@@ -398,15 +398,27 @@ abstract class FluidSolver2D {
 		for (int i = 1; i < nx1; i++) {
 			// upper side
 			if (vertical) {
-				if (b.getFlowTypeAtBorder(Boundary.UPPER) == MassBoundary.REFLECTIVE)
+				switch (b.getFlowTypeAtBorder(Boundary.UPPER)) {
+				case MassBoundary.STOP:
+					f[i][0] = 0;
+					break;
+				case MassBoundary.REFLECTIVE:
 					f[i][0] = -f[i][1];
+					break;
+				}
 			} else {
 				f[i][0] = f[i][1];
 			}
 			// lower side
 			if (vertical) {
-				if (b.getFlowTypeAtBorder(Boundary.LOWER) == MassBoundary.REFLECTIVE)
+				switch (b.getFlowTypeAtBorder(Boundary.LOWER)) {
+				case MassBoundary.STOP:
+					f[i][ny1] = 0;
+					break;
+				case MassBoundary.REFLECTIVE:
 					f[i][ny1] = -f[i][ny2];
+					break;
+				}
 			} else {
 				f[i][ny1] = f[i][ny2];
 			}
@@ -414,15 +426,27 @@ abstract class FluidSolver2D {
 		for (int j = 1; j < ny1; j++) {
 			// left side
 			if (horizontal) {
-				if (b.getFlowTypeAtBorder(Boundary.LEFT) == MassBoundary.REFLECTIVE)
+				switch (b.getFlowTypeAtBorder(Boundary.LEFT)) {
+				case MassBoundary.STOP:
+					f[0][j] = 0;
+					break;
+				case MassBoundary.REFLECTIVE:
 					f[0][j] = -f[1][j];
+					break;
+				}
 			} else {
 				f[0][j] = f[1][j];
 			}
 			// right side
 			if (horizontal) {
-				if (b.getFlowTypeAtBorder(Boundary.RIGHT) == MassBoundary.REFLECTIVE)
+				switch (b.getFlowTypeAtBorder(Boundary.RIGHT)) {
+				case MassBoundary.STOP:
+					f[nx1][j] = 0;
+					break;
+				case MassBoundary.REFLECTIVE:
 					f[nx1][j] = -f[nx2][j];
+					break;
+				}
 			} else {
 				f[nx1][j] = f[nx2][j];
 			}

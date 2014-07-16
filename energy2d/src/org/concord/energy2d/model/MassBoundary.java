@@ -13,5 +13,6 @@ public interface MassBoundary extends Boundary {
 
 	public final static byte REFLECTIVE = 0;
 	public final static byte THROUGH = 1;
+	public final static byte STOP = 2;
 
 }

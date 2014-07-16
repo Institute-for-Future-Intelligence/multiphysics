@@ -158,30 +158,50 @@ class ParticleSolver2D {
 		if (boundary instanceof SimpleMassBoundary) {
 			SimpleMassBoundary b = (SimpleMassBoundary) boundary;
 			if (predictedX + p.radius > lx) {
-				byte flowType = b.getFlowTypeAtBorder(Boundary.RIGHT);
-				if (flowType == MassBoundary.REFLECTIVE)
+				switch (b.getFlowTypeAtBorder(Boundary.RIGHT)) {
+				case MassBoundary.REFLECTIVE:
 					p.vx = -Math.abs(p.vx);
-				else if (flowType == MassBoundary.THROUGH)
+					break;
+				case MassBoundary.STOP:
+					p.vx = 0;
+					break;
+				case MassBoundary.THROUGH:
 					return true;
+				}
 			} else if (predictedX - p.radius < 0) {
-				byte flowType = b.getFlowTypeAtBorder(Boundary.LEFT);
-				if (flowType == MassBoundary.REFLECTIVE)
+				switch (b.getFlowTypeAtBorder(Boundary.LEFT)) {
+				case MassBoundary.REFLECTIVE:
 					p.vx = Math.abs(p.vx);
-				else if (flowType == MassBoundary.THROUGH)
+					break;
+				case MassBoundary.STOP:
+					p.vx = 0;
+					break;
+				case MassBoundary.THROUGH:
 					return true;
+				}
 			}
 			if (predictedY + p.radius > ly) {
-				byte flowType = b.getFlowTypeAtBorder(Boundary.LOWER);
-				if (flowType == MassBoundary.REFLECTIVE)
+				switch (b.getFlowTypeAtBorder(Boundary.LOWER)) {
+				case MassBoundary.REFLECTIVE:
 					p.vy = -Math.abs(p.vy);
-				else if (flowType == MassBoundary.THROUGH)
+					break;
+				case MassBoundary.STOP:
+					p.vy = 0;
+					break;
+				case MassBoundary.THROUGH:
 					return true;
+				}
 			} else if (predictedY - p.radius < 0) {
-				byte flowType = b.getFlowTypeAtBorder(Boundary.UPPER);
-				if (flowType == MassBoundary.REFLECTIVE)
+				switch (b.getFlowTypeAtBorder(Boundary.UPPER)) {
+				case MassBoundary.REFLECTIVE:
 					p.vy = Math.abs(p.vy);
-				else if (flowType == MassBoundary.THROUGH)
+					break;
+				case MassBoundary.STOP:
+					p.vy = 0;
+					break;
+				case MassBoundary.THROUGH:
 					return true;
+				}
 			}
 		}
 		return false;
