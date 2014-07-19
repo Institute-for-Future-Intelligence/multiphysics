@@ -26,6 +26,7 @@ import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.util.BackgroundComboBox;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.ColorMenu;
+import org.concord.energy2d.util.MiscUtil;
 
 /**
  * @author Charles Xie
@@ -46,7 +47,6 @@ class CloudDialog extends JDialog {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		owner = getOwner();
 
-		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				view.notifyManipulationListeners(cloud, ManipulationEvent.PROPERTY_CHANGE);
@@ -57,7 +57,7 @@ class CloudDialog extends JDialog {
 
 		okListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				float x = parse(speedField.getText());
+				float x = MiscUtil.parse(owner, speedField.getText());
 				if (Float.isNaN(x))
 					return;
 				cloud.setSpeed(x);
@@ -143,16 +143,6 @@ class CloudDialog extends JDialog {
 		pack();
 		setLocationRelativeTo(view);
 
-	}
-
-	private float parse(String s) {
-		float x = Float.NaN;
-		try {
-			x = Float.parseFloat(s);
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(owner, "Cannot parse " + e.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		return x;
 	}
 
 }

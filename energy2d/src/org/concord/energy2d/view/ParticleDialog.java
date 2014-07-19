@@ -28,6 +28,7 @@ import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.util.BackgroundComboBox;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.ColorMenu;
+import org.concord.energy2d.util.MiscUtil;
 
 /**
  * @author Charles Xie
@@ -284,13 +285,7 @@ class ParticleDialog extends JDialog {
 	}
 
 	private float parse(String s) {
-		float x = Float.NaN;
-		try {
-			x = Float.parseFloat(s);
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(owner, "Cannot parse " + e.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		return x;
+		return MiscUtil.parse(owner, s);
 	}
 
 }

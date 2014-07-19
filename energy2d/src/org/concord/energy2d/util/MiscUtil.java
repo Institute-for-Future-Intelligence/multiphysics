@@ -8,17 +8,22 @@ package org.concord.energy2d.util;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Window;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.lang.reflect.Array;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
 import javax.swing.AbstractButton;
+import javax.swing.JOptionPane;
 import javax.swing.Spring;
 import javax.swing.SpringLayout;
 import javax.swing.filechooser.FileFilter;
@@ -352,6 +357,17 @@ public final class MiscUtil {
 		if (synthesizer != null) {
 			synthesizer.close();
 		}
+	}
+
+	/** Parse a number using the current locale */
+	public static float parse(Window owner, String s) {
+		float x = Float.NaN;
+		try {
+			x = NumberFormat.getInstance(Locale.getDefault()).parse(s).floatValue();
+		} catch (ParseException e) {
+			JOptionPane.showMessageDialog(owner, "Cannot parse " + e.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		return x;
 	}
 
 }

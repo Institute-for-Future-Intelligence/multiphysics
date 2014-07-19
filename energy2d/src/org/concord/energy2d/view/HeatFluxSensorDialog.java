@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.Particle;
+import org.concord.energy2d.util.MiscUtil;
 
 /**
  * @author Charles Xie
@@ -179,13 +180,7 @@ class HeatFluxSensorDialog extends JDialog {
 	}
 
 	private float parse(String s) {
-		float x = Float.NaN;
-		try {
-			x = Float.parseFloat(s);
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(owner, "Cannot parse " + e.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		return x;
+		return MiscUtil.parse(owner, s);
 	}
 
 }

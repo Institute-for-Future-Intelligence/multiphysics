@@ -42,6 +42,7 @@ import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.util.ColorComboBox;
 import org.concord.energy2d.util.ColorRectangle;
 import org.concord.energy2d.util.ComboBoxRenderer;
+import org.concord.energy2d.util.MiscUtil;
 
 /**
  * @author Charles Xie
@@ -348,13 +349,7 @@ class TextBoxPanel extends JPanel {
 	}
 
 	private float parse(String s) {
-		float x = Float.NaN;
-		try {
-			x = Float.parseFloat(s);
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(view), "Cannot parse " + e.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		return x;
+		return MiscUtil.parse(JOptionPane.getFrameForComponent(view), s);
 	}
 
 }

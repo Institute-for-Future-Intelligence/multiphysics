@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Particle;
+import org.concord.energy2d.util.MiscUtil;
 
 /**
  * @author Charles Xie
@@ -59,12 +60,12 @@ class AnemometerDialog extends JDialog {
 		okListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				float x = parse(xField.getText());
+				float x = MiscUtil.parse(owner, xField.getText());
 				if (Float.isNaN(x))
 					return;
 				anemometer.setX(x);
 
-				x = parse(yField.getText());
+				x = MiscUtil.parse(owner, yField.getText());
 				if (Float.isNaN(x))
 					return;
 				anemometer.setY(view.model.getLy() - x);
@@ -161,16 +162,6 @@ class AnemometerDialog extends JDialog {
 		pack();
 		setLocationRelativeTo(view);
 
-	}
-
-	private float parse(String s) {
-		float x = Float.NaN;
-		try {
-			x = Float.parseFloat(s);
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(owner, "Cannot parse " + e.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		return x;
 	}
 
 }
