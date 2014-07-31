@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <state>
 <links>
-<next_sim>double-vortex-streets2.e2d</next_sim>
+<prev_sim>double-vortex-streets.e2d</prev_sim>
 </links>
 <model>
 <timestep>0.5</timestep>
@@ -22,13 +22,14 @@
 </boundary>
 <structure>
 <part>
-<rectangle x="0.0" y="4.0" width="0.5" height="2.0"/><elasticity>1.0</elasticity>
+<rectangle x="0.0" y="0.0" width="0.5" height="10.0"/><elasticity>1.0</elasticity>
 <thermal_conductivity>0.08</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>20.0</temperature>
