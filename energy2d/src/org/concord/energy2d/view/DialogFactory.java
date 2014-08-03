@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 
 import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Cloud;
+import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
@@ -44,6 +45,8 @@ final class DialogFactory {
 			return new CloudDialog(view, (Cloud) o, modal);
 		if (o instanceof Tree)
 			return new TreeDialog(view, (Tree) o, modal);
+		if (o instanceof Fan)
+			return new FanDialog(view, (Fan) o, modal);
 		if (o instanceof Thermometer)
 			return new ThermometerDialog(view, (Thermometer) o, modal);
 		if (o instanceof Anemometer)
@@ -66,6 +69,8 @@ final class DialogFactory {
 			return new CloudDialog(view, (Cloud) o, modal);
 		if (o instanceof Tree)
 			return new TreeDialog(view, (Tree) o, modal);
+		if (o instanceof Fan)
+			return new FanDialog(view, (Fan) o, modal);
 		if (o instanceof Thermometer)
 			return new ThermometerDialog(view, (Thermometer) o, modal);
 		if (o instanceof Anemometer)

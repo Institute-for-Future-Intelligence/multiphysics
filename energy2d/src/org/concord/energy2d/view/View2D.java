@@ -3078,6 +3078,20 @@ public class View2D extends JPanel implements PropertyChangeListener {
 							movingShape = new MovingTree(setMovingRect(a, x, y), ((Tree) selectedManipulable).getType());
 							setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 						}
+					} else if (selectedManipulable instanceof Fan && movingShape instanceof MovingFan) {
+						MovingFan mf = (MovingFan) movingShape;
+						Rectangle r = mf.getShape().getBounds();
+						if (selectedSpot == -1) {
+							int xc = (int) (x - pressedPointRelative.x - r.getCenterX());
+							int yc = (int) (y - pressedPointRelative.y - r.getCenterY());
+							mf.setLocation(xc, yc);
+						} else {
+							float[] a = new float[] { (float) r.getX() + mf.getX(), (float) r.getY() + mf.getY(), (float) r.getWidth(), (float) r.getHeight() };
+							Fan f = (Fan) selectedManipulable;
+							float rotation = f.getSpeed() * model.getTime();
+							movingShape = new MovingFan(setMovingRect(a, x, y), f.getSpeed(), f.getAngle(), (float) Math.abs(Math.sin(rotation)));
+							setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+						}
 					} else if (selectedManipulable instanceof Part && movingShape instanceof MovingAnnulus) {
 						MovingAnnulus ma = (MovingAnnulus) movingShape;
 						Rectangle r = ma.getShape().getBounds();
@@ -3299,6 +3313,15 @@ public class View2D extends JPanel implements PropertyChangeListener {
 									float w2 = convertPixelToLengthX((int) r.getWidth());
 									float h2 = convertPixelToLengthY((int) r.getHeight());
 									Point p = ((MovingTree) movingShape).getLocation();
+									resizeManipulableTo(selectedManipulable, x2, y2, w2, h2, convertPixelToPointX(p.x), convertPixelToPointY(p.y));
+									setSelectedManipulable(selectedManipulable);
+								} else if (selectedManipulable instanceof Fan && movingShape instanceof MovingFan) {
+									Rectangle2D r = shape.getBounds2D();
+									float x2 = convertPixelToPointX((int) r.getX());
+									float y2 = convertPixelToPointY((int) r.getY());
+									float w2 = convertPixelToLengthX((int) r.getWidth());
+									float h2 = convertPixelToLengthY((int) r.getHeight());
+									Point p = ((MovingFan) movingShape).getLocation();
 									resizeManipulableTo(selectedManipulable, x2, y2, w2, h2, convertPixelToPointX(p.x), convertPixelToPointY(p.y));
 									setSelectedManipulable(selectedManipulable);
 								}
@@ -3538,7 +3561,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		switch (actionMode) {
 		case SELECT_MODE:
 			int iSpot = -1;
-			if (!showGraph && (selectedManipulable instanceof Part || selectedManipulable instanceof Cloud || selectedManipulable instanceof Tree)) {
+			if (!showGraph && (selectedManipulable instanceof Part || selectedManipulable instanceof Cloud || selectedManipulable instanceof Tree || selectedManipulable instanceof Fan)) {
 				for (int i = 0; i < handle.length; i++) {
 					if (handle[i].x < -10 || handle[i].y < -10)
 						continue;
