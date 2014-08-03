@@ -6,6 +6,7 @@ import java.util.List;
 import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Constants;
+import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
@@ -145,6 +146,12 @@ class XmlEncoder {
 		if (trees != null) {
 			for (Tree t : trees) {
 				sb.append(t.toXml() + "\n");
+			}
+		}
+		List<Fan> fans = box.model.getFans();
+		if (!fans.isEmpty()) {
+			for (Fan f : fans) {
+				sb.append(f.toXml());
 			}
 		}
 		sb.append("</environment>\n");

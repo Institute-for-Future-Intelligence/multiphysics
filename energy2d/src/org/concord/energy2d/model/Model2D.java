@@ -1100,6 +1100,10 @@ public class Model2D {
 		fans.remove(f);
 	}
 
+	public List<Fan> getFans() {
+		return fans;
+	}
+
 	public List<Segment> getPerimeterSegments() {
 		return radiositySolver.getSegments();
 	}
@@ -1135,7 +1139,6 @@ public class Model2D {
 
 	/** the part on the top sets the properties of a cell */
 	public void refreshMaterialPropertyArrays() {
-		Part p = null;
 		int count = parts.size();
 		float x, y, windSpeed = 0;
 		boolean initial = indexOfStep == 0;
@@ -1153,7 +1156,7 @@ public class Model2D {
 				synchronized (parts) {
 					ListIterator<Part> li = parts.listIterator(count);
 					while (li.hasPrevious()) {
-						p = li.previous();
+						Part p = li.previous();
 						if (p.getShape().contains(x, y)) {
 							conductivity[i][j] = p.getThermalConductivity();
 							specificHeat[i][j] = p.getSpecificHeat();
@@ -1164,6 +1167,17 @@ public class Model2D {
 							if ((windSpeed = p.getWindSpeed()) != 0) {
 								uWind[i][j] = (float) (windSpeed * Math.cos(p.getWindAngle()));
 								vWind[i][j] = (float) (windSpeed * Math.sin(p.getWindAngle()));
+							}
+							break;
+						}
+					}
+				}
+				synchronized (fans) {
+					for (Fan f : fans) {
+						if (f.getShape().contains(x, y)) {
+							if ((windSpeed = f.getSpeed()) != 0) {
+								uWind[i][j] = (float) (windSpeed * Math.cos(f.getAngle()));
+								vWind[i][j] = (float) (windSpeed * Math.sin(f.getAngle()));
 							}
 							break;
 						}

@@ -42,9 +42,13 @@ abstract class ComplexMovingShape implements MovingShape {
 	}
 
 	public void render(Graphics2D g) {
-		g.translate(location.x, location.y);
-		g.draw(area);
-		g.translate(-location.x, -location.y);
+		if (location.x != 0 && location.y != 0) {
+			g.translate(location.x, location.y);
+			g.draw(area);
+			g.translate(-location.x, -location.y);
+		} else {
+			g.draw(area);
+		}
 	}
 
 }

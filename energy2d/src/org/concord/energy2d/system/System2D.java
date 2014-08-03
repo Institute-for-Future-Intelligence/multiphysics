@@ -52,6 +52,7 @@ import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.event.ManipulationListener;
 import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Cloud;
+import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
@@ -744,6 +745,8 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 				view.removeCloud((Cloud) target);
 			else if (target instanceof Tree)
 				view.removeTree((Tree) target);
+			else if (target instanceof Fan)
+				view.removeFan((Fan) target);
 			setSaved(false);
 			break;
 		case ManipulationEvent.RUN:
@@ -813,6 +816,8 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 			if (view.isViewFactorLinesOn())
 				model.generateViewFactorMesh();
 			setSaved(false);
+		} else if (target instanceof Fan) {
+			model.refreshMaterialPropertyArrays();
 		}
 		view.repaint();
 	}

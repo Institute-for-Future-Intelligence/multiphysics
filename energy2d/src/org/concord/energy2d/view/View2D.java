@@ -63,6 +63,7 @@ import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Ring2D;
 import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Cloud;
+import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.Manipulable;
 import org.concord.energy2d.model.Model2D;
@@ -342,6 +343,19 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			public void actionPerformed(ActionEvent e) {
 				float x = mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.05f;
 				float y = mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.025f;
+				setSelectedManipulable(addFan(x, y, model.getLx() * 0.3f, model.getLy() * 0.1f));
+				notifyManipulationListeners(null, ManipulationEvent.OBJECT_ADDED);
+				repaint();
+			}
+		};
+		a.putValue(Action.NAME, "Fan");
+		a.putValue(Action.SHORT_DESCRIPTION, "Insert a fan where the mouse last clicked");
+		getActionMap().put("Insert Fan", a);
+
+		a = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				float x = mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.05f;
+				float y = mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.025f;
 				setSelectedManipulable(addCloud(x, y, model.getLx() * 0.3f, model.getLy() * 0.1f, 0));
 				notifyManipulationListeners(null, ManipulationEvent.OBJECT_ADDED);
 				repaint();
@@ -601,6 +615,17 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		if (i < 0 || i >= pictures.size())
 			return null;
 		return pictures.get(i);
+	}
+
+	public Fan addFan(float x, float y, float w, float h) {
+		Fan f = new Fan(new Rectangle2D.Float(x, y, w, h));
+		model.addFan(f);
+		return f;
+	}
+
+	public void removeFan(Fan f) {
+		model.removeFan(f);
+		repaint();
 	}
 
 	public Cloud addCloud(float x, float y, float w, float h, float speed) {
@@ -1281,6 +1306,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			g.fillRect(0, 0, w, h);
 		}
 		drawParts(g);
+		drawFans(g);
 		drawClouds(g);
 		drawTrees(g);
 		drawTextBoxes(g);
@@ -2182,6 +2208,47 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		g.setStroke(oldStroke);
 	}
 
+	private void drawFans(Graphics2D g) {
+		List<Fan> fans = model.getFans();
+		if (fans.isEmpty())
+			return;
+		Stroke oldStroke = g.getStroke();
+		g.setStroke(moderateStroke);
+		synchronized (fans) {
+			for (Fan f : fans) {
+				if (f.isVisible()) {
+					Shape s = f.getShape();
+					if (s instanceof Rectangle2D.Float) {
+						Rectangle2D.Float r = (Rectangle2D.Float) s;
+						int x = convertPointToPixelX(r.x);
+						int y = convertPointToPixelY(r.y);
+						int w = convertLengthToPixelX(r.width);
+						int h = convertLengthToPixelY(r.height);
+						String label = f.getLabel();
+						if (label != null) {
+							drawLabelWithLineBreaks(g, label, x + 0.5f * w, y + 0.5f * h, w < h * 0.25f);
+						}
+					}
+					Color bgColor = g.getColor().darker();
+					bgColor = new Color(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(), 128);
+					Color fgColor = MiscUtil.getContrastColor(bgColor, 255);
+					float rotation = f.getSpeed() * model.getTime();
+					Rectangle2D r = f.getShape().getBounds2D();
+					int x = convertPointToPixelX((float) r.getX());
+					int y = convertPointToPixelY((float) r.getY());
+					int w = convertLengthToPixelX((float) r.getWidth());
+					int h = convertLengthToPixelY((float) r.getHeight());
+					Area a = Fan.getShape(new Rectangle2D.Float(x, y, w, h), f.getSpeed(), f.getAngle(), (float) Math.abs(Math.sin(rotation)));
+					g.setColor(bgColor);
+					g.fill(a);
+					g.setColor(f == selectedManipulable ? Color.YELLOW : fgColor);
+					g.draw(a);
+				}
+			}
+		}
+		g.setStroke(oldStroke);
+	}
+
 	private void drawLabelWithLineBreaks(Graphics2D g, String label, float x0, float y0, boolean vertical) {
 		g.setFont(labelFont);
 		FontMetrics fm = g.getFontMetrics();
@@ -2429,6 +2496,18 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					TextBox t = textBoxes.get(i);
 					if (t.contains(rx, ry)) {
 						setSelectedManipulable(t);
+						return;
+					}
+				}
+			}
+		}
+		n = model.getFans().size();
+		if (n > 0) {
+			synchronized (model.getFans()) {
+				for (int i = n - 1; i >= 0; i--) { // later added, higher priority
+					Fan f = model.getFans().get(i);
+					if (f.contains(rx, ry)) {
+						setSelectedManipulable(f);
 						return;
 					}
 				}
@@ -3148,7 +3227,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 								translateManipulableTo(selectedManipulable, x2, y2);
 								setSelectedManipulable(selectedManipulable);
 							} else {
-								if (selectedManipulable instanceof Part) {
+								if (selectedManipulable instanceof Part || selectedManipulable instanceof Fan) {
 									RectangularShape r = (RectangularShape) shape;
 									float x2 = convertPixelToPointX((int) r.getX());
 									float y2 = convertPixelToPointY((int) r.getY());
@@ -3775,6 +3854,20 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				setAnchorPointForRectangularShape(selectedSpot, x, y, r.width, r.height);
 			movingShape = new MovingTree(r, ((Tree) selectedManipulable).getType());
 			((MovingTree) movingShape).setLocation(x, y);
+		} else if (selectedManipulable instanceof Fan) {
+			Fan f = (Fan) selectedManipulable;
+			Shape shape = f.getShape();
+			if (shape instanceof Rectangle2D.Float) {
+				Rectangle2D.Float r = (Rectangle2D.Float) shape;
+				int a = convertPointToPixelX(r.x);
+				int b = convertPointToPixelY(r.y);
+				int c = convertLengthToPixelX(r.width);
+				int d = convertLengthToPixelY(r.height);
+				if (anchor)
+					setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
+				float rotation = f.getSpeed() * model.getTime();
+				movingShape = new MovingFan(new Rectangle2D.Float(a, b, c, d), f.getSpeed(), f.getAngle(), (float) Math.abs(Math.sin(rotation)));
+			}
 		}
 	}
 

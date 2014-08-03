@@ -1,5 +1,8 @@
 package org.concord.energy2d.model;
+
 import java.awt.Shape;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -56,32 +59,42 @@ public class Fan extends Manipulable {
 		return angle;
 	}
 
+	public static Area getShape(Rectangle2D.Float r, float speed, float angle, float delta) {
+		if (r.height > r.width) {
+			float d1 = 0.5f * r.height * delta;
+			float d2 = d1 * 2;
+			float deg = Math.round(Math.toDegrees(0.5 * Math.asin(r.height / Math.hypot(r.width, r.height))));
+			Area a = new Area(new Arc2D.Float(r.x + r.width / 4, r.y + d1, r.width / 2, r.height - d2, deg, 180 - 2 * deg, Arc2D.PIE));
+			a.add(new Area(new Arc2D.Float(r.x + r.width / 4, r.y + d1, r.width / 2, r.height - d2, -deg, 2 * deg - 180, Arc2D.PIE)));
+			a.add(new Area(new Rectangle2D.Float(speed * Math.cos(angle) >= 0 ? r.x : r.x + r.width * 0.5f, r.y + r.height * (0.5f - 0.025f), r.width * 0.5f, 0.05f * r.height)));
+			return a;
+		}
+		float d1 = 0.5f * r.width * delta;
+		float d2 = d1 * 2;
+		float deg = Math.round(Math.toDegrees(0.5 * Math.asin(r.width / Math.hypot(r.width, r.height))));
+		Area a = new Area(new Arc2D.Float(r.x + d1, r.y + r.height / 4, r.width - d2, r.height / 2, deg, -2 * deg, Arc2D.PIE));
+		a.add(new Area(new Arc2D.Float(r.x + d1, r.y + r.height / 4, r.width - d2, r.height / 2, 180 - deg, 2 * deg, Arc2D.PIE)));
+		a.add(new Area(new Rectangle2D.Float(r.x + r.width * (0.5f - 0.025f), speed * Math.sin(angle) > 0 ? r.y : r.y + r.height * 0.5f, 0.05f * r.width, r.height * 0.5f)));
+		return a;
+	}
+
 	public String toXml() {
-		String xml = "<part>\n";
+		String xml = "<fan";
+		String uid = getUid();
+		if (uid != null && !uid.trim().equals(""))
+			xml += " uid=\"" + uid + "\"";
+		String label = getLabel();
+		if (label != null && !label.trim().equals(""))
+			xml += " label=\"" + label + "\"";
 		if (getShape() instanceof Rectangle2D.Float) {
 			Rectangle2D.Float r = (Rectangle2D.Float) getShape();
-			xml += "<rectangle";
 			xml += " x=\"" + r.x + "\"";
 			xml += " y=\"" + r.y + "\"";
 			xml += " width=\"" + r.width + "\"";
-			xml += " height=\"" + r.height + "\"/>";
+			xml += " height=\"" + r.height + "\"";
 		}
-		if (speed != 0) {
-			xml += "<speed>" + speed + "</speed>\n";
-		}
-		if (angle != 0) {
-			xml += "<angle>" + angle + "</angle>\n";
-		}
-		if (getUid() != null && !getUid().trim().equals(""))
-			xml += "<uid>" + getUid() + "</uid>\n";
-		String label = getLabel();
-		if (label != null && !label.trim().equals(""))
-			xml += "<label>" + label + "</label>\n";
-		if (!isVisible())
-			xml += "<visible>false</visible>\n";
-		if (!isDraggable())
-			xml += "<draggable>false</draggable>\n";
-		xml += "</part>\n";
+		xml += " speed=\"" + speed + "\"";
+		xml += " angle=\"" + angle + "\"/>";
 		return xml;
 	}
 

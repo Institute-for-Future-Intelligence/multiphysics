@@ -10,6 +10,7 @@ import org.concord.energy2d.model.Boundary;
 import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Constants;
 import org.concord.energy2d.model.DirichletThermalBoundary;
+import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.MassBoundary;
 import org.concord.energy2d.model.Particle;
@@ -113,8 +114,8 @@ class XmlDecoder extends DefaultHandler {
 	private boolean partScatteringVisible = true;
 	private float partTransmission = Float.NaN;
 	private float temperature = Float.NaN;
-	private float partWindSpeed;
-	private float partWindAngle;
+	private float fanSpeed;
+	private float fanAngle;
 	private boolean partConstantTemperature = false;
 	private float partPower = Float.NaN;
 	private float partTemperatureCoefficient = 0;
@@ -749,6 +750,42 @@ class XmlDecoder extends DefaultHandler {
 					box.view.repaint();
 				}
 			}
+		} else if (qName == "fan") {
+			if (attrib != null) {
+				float x = Float.NaN, y = Float.NaN, w = Float.NaN, h = Float.NaN;
+				String label = null, uid = null;
+				float speed = 0;
+				float angle = 0;
+				for (int i = 0, n = attrib.getLength(); i < n; i++) {
+					attribName = attrib.getQName(i).intern();
+					attribValue = attrib.getValue(i);
+					if (attribName == "x") {
+						x = Float.parseFloat(attribValue);
+					} else if (attribName == "y") {
+						y = Float.parseFloat(attribValue);
+					} else if (attribName == "width") {
+						w = Float.parseFloat(attribValue);
+					} else if (attribName == "height") {
+						h = Float.parseFloat(attribValue);
+					} else if (attribName == "speed") {
+						speed = Float.parseFloat(attribValue);
+					} else if (attribName == "angle") {
+						angle = Float.parseFloat(attribValue);
+					} else if (attribName == "uid") {
+						uid = attribValue;
+					} else if (attribName == "label") {
+						label = attribValue;
+					}
+				}
+				if (!Float.isNaN(x) && !Float.isNaN(y) && !Float.isNaN(w) && !Float.isNaN(h)) {
+					Fan f = new Fan(new Rectangle2D.Float(x, y, w, h));
+					f.setUid(uid);
+					f.setLabel(label);
+					f.setSpeed(speed);
+					f.setAngle(angle);
+					box.model.addFan(f);
+				}
+			}
 		}
 
 	}
@@ -900,9 +937,9 @@ class XmlDecoder extends DefaultHandler {
 		} else if (qName == "temperature_coefficient") {
 			partTemperatureCoefficient = Float.parseFloat(str);
 		} else if (qName == "wind_speed") {
-			partWindSpeed = Float.parseFloat(str);
+			fanSpeed = Float.parseFloat(str);
 		} else if (qName == "wind_angle") {
-			partWindAngle = Float.parseFloat(str);
+			fanAngle = Float.parseFloat(str);
 		} else if (qName == "texture_style") {
 			partTextureStyle = Byte.parseByte(str);
 		} else if (qName == "texture_width") {
@@ -973,8 +1010,8 @@ class XmlDecoder extends DefaultHandler {
 				part.setScattering(partScattering);
 				part.setScatteringVisible(partScatteringVisible);
 				part.setThermistorTemperatureCoefficient(partTemperatureCoefficient);
-				part.setWindAngle(partWindAngle);
-				part.setWindSpeed(partWindSpeed);
+				part.setWindAngle(fanAngle);
+				part.setWindSpeed(fanSpeed);
 				part.setConstantTemperature(partConstantTemperature);
 				part.setDraggable(draggable);
 				part.setVisible(partVisible);
@@ -1036,8 +1073,8 @@ class XmlDecoder extends DefaultHandler {
 		partTransmission = Float.NaN;
 		partScattering = false;
 		partScatteringVisible = true;
-		partWindSpeed = 0;
-		partWindAngle = 0;
+		fanSpeed = 0;
+		fanAngle = 0;
 		partVisible = true;
 		partFilled = true;
 		partTextureStyle = 0;
