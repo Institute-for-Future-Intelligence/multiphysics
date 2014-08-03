@@ -86,6 +86,7 @@ public class Model2D {
 	private List<Photon> photons;
 	private List<Cloud> clouds;
 	private List<Tree> trees;
+	private List<Fan> fans;
 
 	private RaySolver2D raySolver;
 	private RadiositySolver2D radiositySolver;
@@ -146,6 +147,7 @@ public class Model2D {
 		photons = Collections.synchronizedList(new ArrayList<Photon>());
 		clouds = Collections.synchronizedList(new ArrayList<Cloud>());
 		trees = Collections.synchronizedList(new ArrayList<Tree>());
+		fans = Collections.synchronizedList(new ArrayList<Fan>());
 
 		init();
 
@@ -426,6 +428,8 @@ public class Model2D {
 			p.translateBy(dx, dy);
 		for (Particle p : particles)
 			p.translateBy(dx, dy);
+		for (Fan f : fans)
+			f.translateBy(dx, dy);
 	}
 
 	public boolean scaleAll(float scale) {
@@ -516,6 +520,18 @@ public class Model2D {
 					h.y = ly - scale * (ly - h.y);
 				}
 				if (!bound.intersects(b.getBounds2D()))
+					out = true;
+			}
+		}
+		for (Fan f : fans) {
+			Shape s = f.getShape();
+			if (s instanceof Rectangle2D.Float) {
+				Rectangle2D.Float r = (Rectangle2D.Float) s;
+				r.x = scale * r.x;
+				r.y = ly - scale * (ly - r.y);
+				r.width *= scale;
+				r.height *= scale;
+				if (!bound.intersects(r))
 					out = true;
 			}
 		}
@@ -877,6 +893,12 @@ public class Model2D {
 		return null; // no sensor
 	}
 
+	public Fan addFan(float x, float y, float w, float h) {
+		Fan f = new Fan(new Rectangle2D.Float(x, y, w, h));
+		addFan(f);
+		return f;
+	}
+
 	public Part addRectangularPart(float x, float y, float w, float h) {
 		Part p = new Part(new Rectangle2D.Float(x, y, w, h), this);
 		addPart(p);
@@ -1015,6 +1037,12 @@ public class Model2D {
 					return true;
 			}
 		}
+		synchronized (fans) {
+			for (Fan f : fans) {
+				if (uid.equals(f.getUid()))
+					return true;
+			}
+		}
 		return false;
 	}
 
@@ -1060,6 +1088,16 @@ public class Model2D {
 
 	public void removeParticle(Particle p) {
 		particles.remove(p);
+	}
+
+	public void addFan(Fan f) {
+		if (!fans.contains(f)) {
+			fans.add(f);
+		}
+	}
+
+	public void removeFan(Fan f) {
+		fans.remove(f);
 	}
 
 	public List<Segment> getPerimeterSegments() {
@@ -1257,6 +1295,7 @@ public class Model2D {
 		thermostats.clear();
 		clouds.clear();
 		trees.clear();
+		fans.clear();
 		maximumHeatCapacity = -1;
 	}
 
