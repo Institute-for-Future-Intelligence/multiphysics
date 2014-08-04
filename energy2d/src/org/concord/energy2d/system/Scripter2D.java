@@ -27,6 +27,7 @@ import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Boundary;
 import org.concord.energy2d.model.DirichletThermalBoundary;
+import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.MassBoundary;
 import org.concord.energy2d.model.Particle;
@@ -59,6 +60,7 @@ class Scripter2D extends Scripter {
 	private final static Pattern BOUNDARY = compile("(^(?i)boundary\\b){1}");
 	private final static Pattern PART_FIELD = compile("^%?((?i)part){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern PARTICLE_FIELD = compile("^%?((?i)particle){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
+	private final static Pattern FAN_FIELD = compile("^%?((?i)fan){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern TASK_FIELD = compile("^%?((?i)task){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern ANEMOMETER_FIELD = compile("^%?((?i)anemometer){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern THERMOMETER_FIELD = compile("^%?((?i)thermometer){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
@@ -1063,6 +1065,20 @@ class Scripter2D extends Scripter {
 						setParticleField(s1, s2, s3);
 						return;
 					}
+					// fan field
+					matcher = FAN_FIELD.matcher(s);
+					if (matcher.find()) {
+						int end = matcher.end();
+						String s1 = s.substring(end).trim();
+						int i = s1.indexOf(" ");
+						if (i < 0)
+							return;
+						String s2 = s1.substring(0, i).trim();
+						String s3 = s1.substring(i + 1).trim();
+						s1 = s.substring(0, end - 1);
+						setFanField(s1, s2, s3);
+						return;
+					}
 					// thermometer field
 					matcher = THERMOMETER_FIELD.matcher(s);
 					if (matcher.find()) {
@@ -1414,6 +1430,68 @@ class Scripter2D extends Scripter {
 			particle.setMovable(z > 0);
 		} else if (s == "draggable") {
 			particle.setDraggable(z > 0);
+		}
+	}
+
+	private void setFanField(String str1, String str2, String str3) {
+		Fan fan = null;
+		int lb = str1.indexOf("[");
+		int rb = str1.indexOf("]");
+		String s = str1.substring(lb + 1, rb).trim();
+		float z = Float.NaN;
+		try {
+			z = Float.parseFloat(s);
+		} catch (Exception e) {
+			z = Float.NaN;
+		}
+		fan = Float.isNaN(z) ? s2d.model.getFan(s) : s2d.model.getFan((int) Math.round(z));
+		if (fan == null) {
+			showError(str1, "Fan " + s + " not found");
+			return;
+		}
+		s = str2.toLowerCase().intern();
+		if (str3.equalsIgnoreCase("true")) {
+			z = 1;
+		} else if (str3.equalsIgnoreCase("false")) {
+			z = 0;
+		} else {
+			if (s == "label") {
+				fan.setLabel(str3);
+				return;
+			}
+			if (s == "uid") {
+				fan.setUid(str3);
+				return;
+			}
+			try {
+				z = Float.parseFloat(str3);
+			} catch (Exception e) {
+				showException(str3, e);
+				return;
+			}
+		}
+		if (s == "x") {
+			Shape shape = fan.getShape();
+			if (shape instanceof Rectangle2D.Float)
+				((Rectangle2D.Float) shape).x = z;
+		} else if (s == "y") {
+			Shape shape = fan.getShape();
+			if (shape instanceof Rectangle2D.Float)
+				((Rectangle2D.Float) shape).y = s2d.model.getLy() - z;
+		} else if (s == "width") {
+			Shape shape = fan.getShape();
+			if (shape instanceof Rectangle2D.Float)
+				((Rectangle2D.Float) shape).width = z;
+		} else if (s == "height") {
+			Shape shape = fan.getShape();
+			if (shape instanceof Rectangle2D.Float)
+				((Rectangle2D.Float) shape).height = z;
+		} else if (s == "speed") {
+			fan.setSpeed(z);
+		} else if (s == "angle") {
+			fan.setAngle(z);
+		} else if (s == "draggable") {
+			fan.setDraggable(z > 0);
 		}
 	}
 

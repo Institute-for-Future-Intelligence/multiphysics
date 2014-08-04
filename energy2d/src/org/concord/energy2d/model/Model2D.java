@@ -1104,6 +1104,24 @@ public class Model2D {
 		return fans;
 	}
 
+	public Fan getFan(int i) {
+		if (i < 0 || i >= fans.size())
+			return null;
+		return fans.get(i);
+	}
+
+	public Fan getFan(String uid) {
+		if (uid == null)
+			return null;
+		synchronized (fans) {
+			for (Fan f : fans) {
+				if (uid.equals(f.getUid()))
+					return f;
+			}
+		}
+		return null;
+	}
+
 	public List<Segment> getPerimeterSegments() {
 		return radiositySolver.getSegments();
 	}

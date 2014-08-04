@@ -2,13 +2,17 @@ package org.concord.energy2d.view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Shape;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -29,6 +33,12 @@ class FanDialog extends JDialog {
 
 	private final static DecimalFormat FORMAT = new DecimalFormat("####.######");
 
+	private JTextField xField;
+	private JTextField yField;
+	private JTextField wField;
+	private JTextField hField;
+	private JTextField uidField;
+	private JTextField labelField;
 	private JTextField speedField;
 	private JTextField angleField;
 	private JCheckBox draggableCheckBox;
@@ -51,12 +61,41 @@ class FanDialog extends JDialog {
 
 		okListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				float x = parse(xField.getText());
+				if (Float.isNaN(x))
+					return;
+				float y = parse(yField.getText());
+				if (Float.isNaN(y))
+					return;
+				float w = parse(wField.getText());
+				if (Float.isNaN(w))
+					return;
+				float h = parse(hField.getText());
+				if (Float.isNaN(h))
+					return;
 				float speed = parse(speedField.getText());
 				if (Float.isNaN(speed))
 					return;
 				float angle = parse(angleField.getText());
 				if (Float.isNaN(angle))
 					return;
+				Shape s = fan.getShape();
+				if (s instanceof Rectangle2D.Float) {
+					Rectangle2D.Float r = (Rectangle2D.Float) s;
+					r.setRect(x, y, w, h);
+				}
+				String uid = uidField.getText();
+				if (uid != null) {
+					uid = uid.trim();
+					if (!uid.equals("") && !uid.equals(fan.getUid())) {
+						if (view.isUidUsed(uid)) {
+							JOptionPane.showMessageDialog(owner, "UID: " + uid + " has been taken.", "Error", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}
+				}
+				fan.setUid(uid);
+				fan.setLabel(labelField.getText());
 				fan.setSpeed(speed);
 				fan.setAngle(angle);
 				fan.setDraggable(draggableCheckBox.isSelected());
@@ -88,20 +127,49 @@ class FanDialog extends JDialog {
 		});
 		buttonPanel.add(button);
 
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel p = new JPanel(new GridLayout(8, 2, 8, 8));
+		p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.add(p, BorderLayout.CENTER);
 
-		p.add(new JLabel("Speed:"));
-		speedField = new JTextField(FORMAT.format(fan.getSpeed()), 6);
+		p.add(new JLabel("Unique ID:"));
+		uidField = new JTextField(fan.getUid(), 10);
+		uidField.addActionListener(okListener);
+		p.add(uidField);
+
+		p.add(new JLabel("Label:"));
+		labelField = new JTextField(fan.getLabel(), 10);
+		labelField.addActionListener(okListener);
+		p.add(labelField);
+
+		p.add(new JLabel("X (m):"));
+		xField = new JTextField(FORMAT.format(fan.getShape().getBounds2D().getX()), 10);
+		xField.addActionListener(okListener);
+		p.add(xField);
+
+		p.add(new JLabel("Y (m):"));
+		yField = new JTextField(FORMAT.format(fan.getShape().getBounds2D().getY()), 10);
+		yField.addActionListener(okListener);
+		p.add(yField);
+
+		p.add(new JLabel("Width (m):"));
+		wField = new JTextField(FORMAT.format(fan.getShape().getBounds2D().getWidth()), 10);
+		wField.addActionListener(okListener);
+		p.add(wField);
+
+		p.add(new JLabel("Height (m):"));
+		hField = new JTextField(FORMAT.format(fan.getShape().getBounds2D().getHeight()), 10);
+		hField.addActionListener(okListener);
+		p.add(hField);
+
+		p.add(new JLabel("Speed (m/s):"));
+		speedField = new JTextField(FORMAT.format(fan.getSpeed()));
 		speedField.addActionListener(okListener);
 		p.add(speedField);
-		p.add(new JLabel("<html><i>m/s</i></html>"));
 
-		p.add(new JLabel("Angle:"));
-		angleField = new JTextField(FORMAT.format(Math.toDegrees(fan.getAngle())), 6);
+		p.add(new JLabel("Angle (\u00B0):"));
+		angleField = new JTextField(FORMAT.format(Math.toDegrees(fan.getAngle())));
 		angleField.addActionListener(okListener);
 		p.add(angleField);
-		p.add(new JLabel("Degrees"));
 
 		pack();
 		setLocationRelativeTo(view);
@@ -111,4 +179,5 @@ class FanDialog extends JDialog {
 	private float parse(String s) {
 		return MiscUtil.parse(owner, s);
 	}
+
 }

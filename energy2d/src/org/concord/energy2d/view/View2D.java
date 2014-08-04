@@ -2217,18 +2217,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		synchronized (fans) {
 			for (Fan f : fans) {
 				if (f.isVisible()) {
-					Shape s = f.getShape();
-					if (s instanceof Rectangle2D.Float) {
-						Rectangle2D.Float r = (Rectangle2D.Float) s;
-						int x = convertPointToPixelX(r.x);
-						int y = convertPointToPixelY(r.y);
-						int w = convertLengthToPixelX(r.width);
-						int h = convertLengthToPixelY(r.height);
-						String label = f.getLabel();
-						if (label != null) {
-							drawLabelWithLineBreaks(g, label, x + 0.5f * w, y + 0.5f * h, w < h * 0.25f);
-						}
-					}
 					Color bgColor = g.getColor().darker();
 					bgColor = new Color(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(), 128);
 					Color fgColor = MiscUtil.getContrastColor(bgColor, 255);
@@ -2243,6 +2231,18 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					g.fill(a);
 					g.setColor(f == selectedManipulable ? Color.YELLOW : fgColor);
 					g.draw(a);
+					Shape s = f.getShape();
+					if (s instanceof Rectangle2D.Float) {
+						Rectangle2D.Float r2 = (Rectangle2D.Float) s;
+						x = convertPointToPixelX(r2.x);
+						y = convertPointToPixelY(r2.y);
+						w = convertLengthToPixelX(r2.width);
+						h = convertLengthToPixelY(r2.height);
+						String label = f.getLabel();
+						if (label != null) {
+							drawLabelWithLineBreaks(g, label, x + 0.5f * w, y + 0.5f * h, w < h * 0.25f);
+						}
+					}
 				}
 			}
 		}
