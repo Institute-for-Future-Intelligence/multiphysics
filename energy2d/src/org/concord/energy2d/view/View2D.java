@@ -1138,6 +1138,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			model.addCloud(((Cloud) copiedManipulable).duplicate(x, y));
 		} else if (copiedManipulable instanceof Tree) {
 			model.addTree(((Tree) copiedManipulable).duplicate(x, y));
+		} else if (copiedManipulable instanceof Fan) {
+			model.addFan(((Fan) copiedManipulable).duplicate(x, y));
 		}
 		notifyManipulationListeners(copiedManipulable, ManipulationEvent.PROPERTY_CHANGE);
 		repaint();
@@ -2197,7 +2199,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					int y = convertPointToPixelY((float) r.getY());
 					int w = convertLengthToPixelX((float) r.getWidth());
 					int h = convertLengthToPixelY((float) r.getHeight());
-					Area a = Fan.getShape(new Rectangle2D.Float(x, y, w, h), p.getWindSpeed(), p.getWindAngle(), (float) Math.abs(Math.sin(rotation)));
+					Area a = Fan.getShapeForPart(new Rectangle2D.Float(x, y, w, h), p.getWindSpeed(), p.getWindAngle(), (float) Math.abs(Math.sin(rotation)));
 					g.setColor(bgColor);
 					g.fill(a);
 					g.setColor(fgColor);
@@ -2678,7 +2680,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		Shape s = m.getShape();
 		if (s instanceof Rectangle2D.Float) {
 			Rectangle2D.Float r = (Rectangle2D.Float) s;
-			r.setFrame(x, y, w, h);
+			r.setRect(x, y, w, h);
 		} else if (s instanceof Ellipse2D.Float) {
 			Ellipse2D.Float r = (Ellipse2D.Float) s;
 			r.setFrame(x, y, w, h);
@@ -3086,7 +3088,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 							int yc = (int) (y - pressedPointRelative.y - r.getCenterY());
 							mf.setLocation(xc, yc);
 						} else {
-							float[] a = new float[] { (float) r.getX() + mf.getX(), (float) r.getY() + mf.getY(), (float) r.getWidth(), (float) r.getHeight() };
+							float[] a = new float[] { (float) r.getX(), (float) r.getY(), (float) r.getWidth(), (float) r.getHeight() };
 							Fan f = (Fan) selectedManipulable;
 							float rotation = f.getSpeed() * model.getTime();
 							movingShape = new MovingFan(setMovingRect(a, x, y), f.getSpeed(), f.getAngle(), (float) Math.abs(Math.sin(rotation)));

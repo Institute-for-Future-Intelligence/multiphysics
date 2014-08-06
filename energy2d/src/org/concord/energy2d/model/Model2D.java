@@ -1091,7 +1091,7 @@ public class Model2D {
 	}
 
 	public void addFan(Fan f) {
-		if (!fans.contains(f)) {
+		if (f != null && !fans.contains(f)) {
 			fans.add(f);
 		}
 	}
