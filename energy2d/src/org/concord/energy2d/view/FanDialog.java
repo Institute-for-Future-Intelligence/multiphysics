@@ -97,7 +97,7 @@ class FanDialog extends JDialog {
 				fan.setUid(uid);
 				fan.setLabel(labelField.getText());
 				fan.setSpeed(speed);
-				fan.setAngle(angle);
+				fan.setAngle((float) Math.toRadians(angle));
 				fan.setDraggable(draggableCheckBox.isSelected());
 				view.notifyManipulationListeners(fan, ManipulationEvent.PROPERTY_CHANGE);
 				view.setSelectedManipulable(view.getSelectedManipulable());

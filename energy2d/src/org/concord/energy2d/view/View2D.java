@@ -2213,13 +2213,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		if (fans.isEmpty())
 			return;
 		Stroke oldStroke = g.getStroke();
+		Color oldColor = g.getColor();
 		g.setStroke(moderateStroke);
+		Color bgColor = new Color(127, 127, 127, 127);
 		synchronized (fans) {
 			for (Fan f : fans) {
 				if (f.isVisible()) {
-					Color bgColor = g.getColor().darker();
-					bgColor = new Color(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(), 128);
-					Color fgColor = MiscUtil.getContrastColor(bgColor, 255);
 					float rotation = f.getSpeed() * model.getTime();
 					Rectangle2D r = f.getShape().getBounds2D();
 					int x = convertPointToPixelX((float) r.getX());
@@ -2229,7 +2228,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					Area a = Fan.getShape(new Rectangle2D.Float(x, y, w, h), f.getSpeed(), f.getAngle(), (float) Math.abs(Math.sin(rotation)));
 					g.setColor(bgColor);
 					g.fill(a);
-					g.setColor(f == selectedManipulable ? Color.YELLOW : fgColor);
+					g.setColor(f == selectedManipulable ? Color.YELLOW : Color.BLACK);
 					g.draw(a);
 					Shape s = f.getShape();
 					if (s instanceof Rectangle2D.Float) {
@@ -2247,6 +2246,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			}
 		}
 		g.setStroke(oldStroke);
+		g.setColor(oldColor);
 	}
 
 	private void drawLabelWithLineBreaks(Graphics2D g, String label, float x0, float y0, boolean vertical) {
