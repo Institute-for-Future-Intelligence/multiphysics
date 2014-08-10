@@ -10,8 +10,15 @@ import org.concord.energy2d.model.Fan;
  */
 class MovingFan extends ComplexMovingShape {
 
+	private Rectangle2D.Float boundingBox;
+
 	MovingFan(Rectangle2D.Float boundingBox, float speed, float angle, float delta) {
 		area = Fan.getShape(boundingBox, speed, angle, delta);
+		this.boundingBox = boundingBox;
+	}
+
+	Rectangle2D.Float getBoundingBox() {
+		return boundingBox;
 	}
 
 }

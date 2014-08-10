@@ -3082,7 +3082,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						}
 					} else if (selectedManipulable instanceof Fan && movingShape instanceof MovingFan) {
 						MovingFan mf = (MovingFan) movingShape;
-						Rectangle r = mf.getShape().getBounds();
+						Rectangle2D.Float r = mf.getBoundingBox();
 						if (selectedSpot == -1) {
 							int xc = (int) (x - pressedPointRelative.x - r.getCenterX());
 							int yc = (int) (y - pressedPointRelative.y - r.getCenterY());
@@ -3243,7 +3243,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 								translateManipulableTo(selectedManipulable, x2, y2);
 								setSelectedManipulable(selectedManipulable);
 							} else {
-								if (selectedManipulable instanceof Part || selectedManipulable instanceof Fan) {
+								if (selectedManipulable instanceof Part) {
 									RectangularShape r = (RectangularShape) shape;
 									float x2 = convertPixelToPointX((int) r.getX());
 									float y2 = convertPixelToPointY((int) r.getY());
@@ -3318,7 +3318,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 									resizeManipulableTo(selectedManipulable, x2, y2, w2, h2, convertPixelToPointX(p.x), convertPixelToPointY(p.y));
 									setSelectedManipulable(selectedManipulable);
 								} else if (selectedManipulable instanceof Fan && movingShape instanceof MovingFan) {
-									Rectangle2D r = shape.getBounds2D();
+									Rectangle2D r = ((MovingFan) movingShape).getBoundingBox();
 									float x2 = convertPixelToPointX((int) r.getX());
 									float y2 = convertPixelToPointY((int) r.getY());
 									float w2 = convertPixelToLengthX((int) r.getWidth());
