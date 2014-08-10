@@ -1510,15 +1510,17 @@ public class Model2D {
 
 	private void applyFans() {
 		float x, y;
-		for (int i = 0; i < nx; i++) {
-			x = i * deltaX;
-			for (int j = 0; j < ny; j++) {
-				y = j * deltaY;
-				for (Fan f : fans) {
-					if (f.getShape().contains(x, y)) {
-						if (f.getSpeed() != 0) {
-							u[i][j] = uWind[i][j];
-							v[i][j] = vWind[i][j];
+		synchronized (fans) {
+			for (int i = 0; i < nx; i++) {
+				x = i * deltaX;
+				for (int j = 0; j < ny; j++) {
+					y = j * deltaY;
+					for (Fan f : fans) {
+						if (f.getShape().contains(x, y)) {
+							if (f.getSpeed() != 0) {
+								u[i][j] = uWind[i][j];
+								v[i][j] = vWind[i][j];
+							}
 						}
 					}
 				}

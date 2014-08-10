@@ -168,6 +168,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private static Stroke moderateStroke = new BasicStroke(2);
 	private static Stroke thickStroke = new BasicStroke(4);
 	private static Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 2 }, 0);
+	private static Stroke longDashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 5 }, 0);
 	private final static Color TRANSLUCENT_GRAY = new Color(128, 128, 128, 128);
 	private float xmin, xmax, ymin, ymax;
 	private int nx, ny;
@@ -2216,8 +2217,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			return;
 		Stroke oldStroke = g.getStroke();
 		Color oldColor = g.getColor();
-		g.setStroke(moderateStroke);
-		Color bgColor = new Color(127, 127, 127, 127);
 		synchronized (fans) {
 			for (Fan f : fans) {
 				if (f.isVisible()) {
@@ -2228,9 +2227,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					int w = convertLengthToPixelX((float) r.getWidth());
 					int h = convertLengthToPixelY((float) r.getHeight());
 					Area a = Fan.getShape(new Rectangle2D.Float(x, y, w, h), f.getSpeed(), f.getAngle(), (float) Math.abs(Math.sin(rotation)));
-					g.setColor(bgColor);
+					g.setColor(Color.GRAY);
 					g.fill(a);
 					g.setColor(f == selectedManipulable ? Color.YELLOW : Color.BLACK);
+					g.setStroke(moderateStroke);
 					g.draw(a);
 					Shape s = f.getShape();
 					if (s instanceof Rectangle2D.Float) {
@@ -2242,6 +2242,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						String label = f.getLabel();
 						if (label != null) {
 							drawLabelWithLineBreaks(g, label, x + 0.5f * w, y + 0.5f * h, w < h * 0.25f);
+						}
+						if (selectedManipulable == f) {
+							g.setStroke(longDashed);
+							g.drawRect(x, y, w, h);
 						}
 					}
 				}
