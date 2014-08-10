@@ -1516,7 +1516,7 @@ public class Model2D {
 				y = j * deltaY;
 				for (Fan f : fans) {
 					if (f.getShape().contains(x, y)) {
-						if (f.getSpeed() > 0) {
+						if (f.getSpeed() != 0) {
 							u[i][j] = uWind[i][j];
 							v[i][j] = vWind[i][j];
 						}

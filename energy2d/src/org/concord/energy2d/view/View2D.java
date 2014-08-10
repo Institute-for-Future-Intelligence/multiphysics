@@ -2199,7 +2199,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					int y = convertPointToPixelY((float) r.getY());
 					int w = convertLengthToPixelX((float) r.getWidth());
 					int h = convertLengthToPixelY((float) r.getHeight());
-					Area a = Fan.getShapeForPart(new Rectangle2D.Float(x, y, w, h), p.getWindSpeed(), p.getWindAngle(), (float) Math.abs(Math.sin(rotation)));
+					Area a = Fan.getShape(new Rectangle2D.Float(x, y, w, h), p.getWindSpeed(), p.getWindAngle(), (float) Math.abs(Math.sin(rotation)));
 					g.setColor(bgColor);
 					g.fill(a);
 					g.setColor(fgColor);
@@ -3323,6 +3323,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 									float y2 = convertPixelToPointY((int) r.getY());
 									float w2 = convertPixelToLengthX((int) r.getWidth());
 									float h2 = convertPixelToLengthY((int) r.getHeight());
+									((Fan) selectedManipulable).setAngle(w2 < h2 ? 0 : (float) (0.5 * Math.PI));
 									Point p = ((MovingFan) movingShape).getLocation();
 									resizeManipulableTo(selectedManipulable, x2, y2, w2, h2, convertPixelToPointX(p.x), convertPixelToPointY(p.y));
 									setSelectedManipulable(selectedManipulable);

@@ -39,8 +39,7 @@ class FanDialog extends JDialog {
 	private JTextField hField;
 	private JTextField uidField;
 	private JTextField labelField;
-	private JTextField speedField;
-	private JTextField angleField;
+	private JTextField velocityField;
 	private JCheckBox draggableCheckBox;
 	private Window owner;
 	private ActionListener okListener;
@@ -73,16 +72,16 @@ class FanDialog extends JDialog {
 				float h = parse(hField.getText());
 				if (Float.isNaN(h))
 					return;
-				float speed = parse(speedField.getText());
+				float speed = parse(velocityField.getText());
 				if (Float.isNaN(speed))
 					return;
-				float angle = parse(angleField.getText());
-				if (Float.isNaN(angle))
-					return;
+				float angle = 0;
 				Shape s = fan.getShape();
 				if (s instanceof Rectangle2D.Float) {
 					Rectangle2D.Float r = (Rectangle2D.Float) s;
 					r.setRect(x, y, w, h);
+					if (w > h)
+						angle = 90;
 				}
 				String uid = uidField.getText();
 				if (uid != null) {
@@ -127,7 +126,7 @@ class FanDialog extends JDialog {
 		});
 		buttonPanel.add(button);
 
-		JPanel p = new JPanel(new GridLayout(8, 2, 8, 8));
+		JPanel p = new JPanel(new GridLayout(7, 2, 8, 8));
 		p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.add(p, BorderLayout.CENTER);
 
@@ -161,15 +160,10 @@ class FanDialog extends JDialog {
 		hField.addActionListener(okListener);
 		p.add(hField);
 
-		p.add(new JLabel("Speed (m/s):"));
-		speedField = new JTextField(FORMAT.format(fan.getSpeed()));
-		speedField.addActionListener(okListener);
-		p.add(speedField);
-
-		p.add(new JLabel("Angle (\u00B0):"));
-		angleField = new JTextField(FORMAT.format(Math.toDegrees(fan.getAngle())));
-		angleField.addActionListener(okListener);
-		p.add(angleField);
+		p.add(new JLabel("Velocity (m/s):"));
+		velocityField = new JTextField(FORMAT.format(fan.getSpeed()));
+		velocityField.addActionListener(okListener);
+		p.add(velocityField);
 
 		pack();
 		setLocationRelativeTo(view);
