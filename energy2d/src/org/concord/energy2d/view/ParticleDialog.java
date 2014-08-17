@@ -97,7 +97,8 @@ class ParticleDialog extends JDialog {
 						}
 					}
 				}
-				float temperature = parse(temperatureField.getText());
+				String tempText = temperatureField.getText();
+				float temperature = "NaN".equals(tempText) ? Float.NaN : parse(tempText);
 				String label = labelField.getText();
 				particle.setUid(uid);
 				particle.setLabel(label);
@@ -105,9 +106,9 @@ class ParticleDialog extends JDialog {
 				particle.setRadius(radius);
 				particle.setTemperature(temperature);
 				particle.setRx(rx);
-				particle.setRy(ry);
+				particle.setRy(view.model.getLy() - ry);
 				particle.setVx(vx);
-				particle.setVy(vy);
+				particle.setVy(-vy);
 				particle.setTheta((float) Math.toRadians(theta));
 				particle.setOmega((float) Math.toRadians(omega));
 				particle.setDraggable(draggableComboBox.getSelectedItem() == Boolean.TRUE);
@@ -175,7 +176,7 @@ class ParticleDialog extends JDialog {
 		p.add(rxField);
 
 		p.add(new JLabel("Ry (m):"));
-		ryField = new JTextField(FORMAT.format(particle.getRy()), 10);
+		ryField = new JTextField(FORMAT.format(view.model.getLy() - particle.getRy()), 10);
 		ryField.addActionListener(okListener);
 		p.add(ryField);
 
@@ -185,7 +186,7 @@ class ParticleDialog extends JDialog {
 		p.add(vxField);
 
 		p.add(new JLabel("Vy (m/s):"));
-		vyField = new JTextField(FORMAT.format(particle.getVy()), 10);
+		vyField = new JTextField(FORMAT.format(-particle.getVy()), 10);
 		vyField.addActionListener(okListener);
 		p.add(vyField);
 

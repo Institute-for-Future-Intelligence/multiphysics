@@ -95,7 +95,7 @@ class FanDialog extends JDialog {
 				}
 				fan.setUid(uid);
 				fan.setLabel(labelField.getText());
-				fan.setSpeed(speed);
+				fan.setSpeed(angle == 0 ? speed : -speed);
 				fan.setAngle((float) Math.toRadians(angle));
 				fan.setDraggable(draggableCheckBox.isSelected());
 				view.notifyManipulationListeners(fan, ManipulationEvent.PROPERTY_CHANGE);
@@ -161,7 +161,7 @@ class FanDialog extends JDialog {
 		p.add(hField);
 
 		p.add(new JLabel("Velocity (m/s):"));
-		velocityField = new JTextField(FORMAT.format(fan.getSpeed()));
+		velocityField = new JTextField(FORMAT.format(fan.getShape().getBounds().getWidth() < fan.getShape().getBounds().getHeight() ? fan.getSpeed() : -fan.getSpeed()));
 		velocityField.addActionListener(okListener);
 		p.add(velocityField);
 

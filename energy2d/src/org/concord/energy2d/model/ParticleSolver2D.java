@@ -165,6 +165,9 @@ class ParticleSolver2D {
 				case MassBoundary.STOP:
 					p.vx = 0;
 					break;
+				case MassBoundary.PERIODIC:
+					p.rx -= lx - p.radius;
+					break;
 				case MassBoundary.THROUGH:
 					return true;
 				}
@@ -175,6 +178,9 @@ class ParticleSolver2D {
 					break;
 				case MassBoundary.STOP:
 					p.vx = 0;
+					break;
+				case MassBoundary.PERIODIC:
+					p.rx += lx - p.radius;
 					break;
 				case MassBoundary.THROUGH:
 					return true;
@@ -188,6 +194,9 @@ class ParticleSolver2D {
 				case MassBoundary.STOP:
 					p.vy = 0;
 					break;
+				case MassBoundary.PERIODIC:
+					p.ry -= ly - p.radius;
+					break;
 				case MassBoundary.THROUGH:
 					return true;
 				}
@@ -198,6 +207,9 @@ class ParticleSolver2D {
 					break;
 				case MassBoundary.STOP:
 					p.vy = 0;
+					break;
+				case MassBoundary.PERIODIC:
+					p.ry += ly - p.radius;
 					break;
 				case MassBoundary.THROUGH:
 					return true;
