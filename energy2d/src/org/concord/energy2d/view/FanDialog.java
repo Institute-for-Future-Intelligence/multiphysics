@@ -161,7 +161,7 @@ class FanDialog extends JDialog {
 		p.add(hField);
 
 		p.add(new JLabel("Velocity (m/s):"));
-		velocityField = new JTextField(FORMAT.format(fan.getShape().getBounds().getWidth() < fan.getShape().getBounds().getHeight() ? fan.getSpeed() : -fan.getSpeed()));
+		velocityField = new JTextField(FORMAT.format(fan.getShape().getBounds2D().getWidth() < fan.getShape().getBounds2D().getHeight() ? fan.getSpeed() : -fan.getSpeed()));
 		velocityField.addActionListener(okListener);
 		p.add(velocityField);
 
