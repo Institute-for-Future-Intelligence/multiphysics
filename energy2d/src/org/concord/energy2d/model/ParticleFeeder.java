@@ -26,6 +26,10 @@ public class ParticleFeeder extends Manipulable {
 		return new ParticleFeeder(x, y);
 	}
 
+	public void feed(Model2D model) {
+
+	}
+
 	public void translateBy(float dx, float dy) {
 		Shape s = getShape();
 		if (s instanceof Rectangle2D.Float) {

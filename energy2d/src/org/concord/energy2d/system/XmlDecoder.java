@@ -14,6 +14,7 @@ import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.MassBoundary;
 import org.concord.energy2d.model.Particle;
+import org.concord.energy2d.model.ParticleFeeder;
 import org.concord.energy2d.model.SimpleMassBoundary;
 import org.concord.energy2d.model.ThermalBoundary;
 import org.concord.energy2d.model.Model2D;
@@ -784,6 +785,34 @@ class XmlDecoder extends DefaultHandler {
 					f.setSpeed(speed);
 					f.setAngle(angle);
 					box.model.addFan(f);
+				}
+			}
+		} else if (qName == "particle_feeder") {
+			if (attrib != null) {
+				float x = Float.NaN, y = Float.NaN;
+				String label = null, uid = null;
+				float rate = 0;
+				for (int i = 0, n = attrib.getLength(); i < n; i++) {
+					attribName = attrib.getQName(i).intern();
+					attribValue = attrib.getValue(i);
+					if (attribName == "x") {
+						x = Float.parseFloat(attribValue);
+					} else if (attribName == "y") {
+						y = Float.parseFloat(attribValue);
+					} else if (attribName == "rate") {
+						rate = Float.parseFloat(attribValue);
+					} else if (attribName == "uid") {
+						uid = attribValue;
+					} else if (attribName == "label") {
+						label = attribValue;
+					}
+				}
+				if (!Float.isNaN(x) && !Float.isNaN(y)) {
+					ParticleFeeder pf = new ParticleFeeder(x, y);
+					pf.setUid(uid);
+					pf.setLabel(label);
+					pf.setRate(rate);
+					box.model.addParticleFeeder(pf);
 				}
 			}
 		}

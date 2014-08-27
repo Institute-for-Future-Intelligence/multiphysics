@@ -11,6 +11,7 @@ import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
 import org.concord.energy2d.model.Particle;
+import org.concord.energy2d.model.ParticleFeeder;
 import org.concord.energy2d.model.Thermometer;
 import org.concord.energy2d.model.Thermostat;
 import org.concord.energy2d.model.Tree;
@@ -152,6 +153,12 @@ class XmlEncoder {
 		if (!fans.isEmpty()) {
 			for (Fan f : fans) {
 				sb.append(f.toXml());
+			}
+		}
+		List<ParticleFeeder> particleFeeders = box.model.getParticleFeeders();
+		if (!particleFeeders.isEmpty()) {
+			for (ParticleFeeder pf : particleFeeders) {
+				sb.append(pf.toXml());
 			}
 		}
 		sb.append("</environment>\n");

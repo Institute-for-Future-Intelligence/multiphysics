@@ -87,6 +87,7 @@ public class Model2D {
 	private List<Cloud> clouds;
 	private List<Tree> trees;
 	private List<Fan> fans;
+	private List<ParticleFeeder> particleFeeders;
 
 	private RaySolver2D raySolver;
 	private RadiositySolver2D radiositySolver;
@@ -96,6 +97,7 @@ public class Model2D {
 
 	private boolean sunny;
 	private int photonEmissionInterval = 20;
+	private int particleFeedingInterval = 50;
 	private int radiosityInterval = 20;
 
 	private int nx = 100;
@@ -148,6 +150,7 @@ public class Model2D {
 		clouds = Collections.synchronizedList(new ArrayList<Cloud>());
 		trees = Collections.synchronizedList(new ArrayList<Tree>());
 		fans = Collections.synchronizedList(new ArrayList<Fan>());
+		particleFeeders = Collections.synchronizedList(new ArrayList<ParticleFeeder>());
 
 		init();
 
@@ -991,6 +994,42 @@ public class Model2D {
 		return null;
 	}
 
+	// particle feeder
+
+	public void addParticleFeeder(ParticleFeeder pf) {
+		particleFeeders.add(pf);
+	}
+
+	public void addParticleFeeder(float x, float y) {
+		particleFeeders.add(new ParticleFeeder(x, y));
+	}
+
+	public void removeParticleFeeder(ParticleFeeder pf) {
+		particleFeeders.remove(pf);
+	}
+
+	public List<ParticleFeeder> getParticleFeeders() {
+		return particleFeeders;
+	}
+
+	public ParticleFeeder getParticleFeeder(String uid) {
+		if (uid == null)
+			return null;
+		synchronized (particleFeeders) {
+			for (ParticleFeeder pf : particleFeeders) {
+				if (uid.equals(pf.getUid()))
+					return pf;
+			}
+		}
+		return null;
+	}
+
+	public ParticleFeeder getParticleFeeder(int i) {
+		if (i < 0 || i >= particleFeeders.size())
+			return null;
+		return particleFeeders.get(i);
+	}
+
 	/** Every manipulable has a UID. To avoid confusion, two objects of different types cannot have the same UID. */
 	public boolean isUidUsed(String uid) {
 		if (uid == null || uid.trim().equals(""))
@@ -1505,6 +1544,11 @@ public class Model2D {
 					c.move(heatSolver.getTimeStep(), lx);
 			}
 		}
+		if (!particleFeeders.isEmpty()) {
+			if (indexOfStep % particleFeedingInterval == 0) {
+				feedParticles();
+			}
+		}
 		indexOfStep++;
 	}
 
@@ -1524,6 +1568,14 @@ public class Model2D {
 						}
 					}
 				}
+			}
+		}
+	}
+
+	private void feedParticles() {
+		synchronized (particleFeeders) {
+			for (ParticleFeeder pf : particleFeeders) {
+				pf.feed(this);
 			}
 		}
 	}
