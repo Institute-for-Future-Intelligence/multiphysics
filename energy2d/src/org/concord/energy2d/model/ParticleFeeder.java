@@ -2,19 +2,21 @@ package org.concord.energy2d.model;
 
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 /**
- * Feed particles at a given rate
+ * Feed particles at a given rate, stop when the number of particles in the model reaches the specified maximum
  * 
  * @author Charles Xie
  * 
  */
 public class ParticleFeeder extends Manipulable {
 
-	public final static float RELATIVE_WIDTH = 0.05f;
-	public final static float RELATIVE_HEIGHT = 0.05f;
+	public final static float RELATIVE_WIDTH = 0.02f;
+	public final static float RELATIVE_HEIGHT = 0.02f;
 
-	private float rate;
+	private float period = 100; // feed a particle every $period seconds
+	private int maximum = 100;
 
 	public ParticleFeeder(float x, float y) {
 		super(new Rectangle2D.Float());
@@ -23,11 +25,20 @@ public class ParticleFeeder extends Manipulable {
 
 	@Override
 	public ParticleFeeder duplicate(float x, float y) {
-		return new ParticleFeeder(x, y);
+		ParticleFeeder pf = new ParticleFeeder(x, y);
+		pf.period = period;
+		pf.maximum = maximum;
+		return pf;
 	}
 
 	public void feed(Model2D model) {
-
+		List<Particle> particles = model.getParticles();
+		if (particles.size() >= maximum)
+			return;
+		Particle p = new Particle(getX(), getY());
+		p.setVx((float) ((Math.random() - 0.5) * 0.01));
+		p.setVy((float) ((Math.random() - 0.5) * 0.01));
+		model.addParticle(p);
 	}
 
 	public void translateBy(float dx, float dy) {
@@ -84,12 +95,20 @@ public class ParticleFeeder extends Manipulable {
 		return (float) s.getBounds2D().getCenterY();
 	}
 
-	public void setRate(float rate) {
-		this.rate = rate;
+	public void setPeriod(float period) {
+		this.period = period;
 	}
 
-	public float getRate() {
-		return rate;
+	public float getPeriod() {
+		return period;
+	}
+
+	public void setMaximum(int maximum) {
+		this.maximum = maximum;
+	}
+
+	public int getMaximum() {
+		return maximum;
 	}
 
 	public String toXml() {
@@ -102,7 +121,8 @@ public class ParticleFeeder extends Manipulable {
 			xml += " label=\"" + label + "\"";
 		xml += " x=\"" + getX() + "\"";
 		xml += " y=\"" + getY() + "\"";
-		xml += " rate=\"" + rate + "\"/>";
+		xml += " maximum=\"" + maximum + "\"";
+		xml += " period=\"" + period + "\"/>";
 		return xml;
 	}
 

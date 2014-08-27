@@ -135,6 +135,8 @@ public abstract class Symbol implements Icon {
 			return Anemometer.sharedInstance();
 		if ("Heat Flux Sensor".equals(s))
 			return HeatFluxSensor.sharedInstance();
+		if ("Particle Feeder".equals(s))
+			return ParticleFeederIcon.sharedInstance();
 		if ("Sun".equals(s))
 			return new Sun(Color.yellow, 16, 16);
 		if ("Moon".equals(s))
@@ -298,6 +300,7 @@ public abstract class Symbol implements Icon {
 			g2.drawLine(x, y, x + w, y);
 			g2.drawLine(x, y + h, x + w, y + h);
 		}
+
 	}
 
 	static class Anemometer extends Symbol {
@@ -354,6 +357,28 @@ public abstract class Symbol implements Icon {
 
 			g2.rotate(-angle - 2 * theta, xc, yc);
 
+		}
+
+	}
+
+	static class ParticleFeederIcon extends Symbol {
+
+		private final static ParticleFeederIcon instance = new ParticleFeederIcon();
+
+		public static ParticleFeederIcon sharedInstance() {
+			return instance;
+		}
+
+		public ParticleFeederIcon() {
+		}
+
+		public void paintIcon(Component c, Graphics g, int x, int y) {
+			super.paintIcon(c, g, x, y);
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setColor(Color.GRAY);
+			g2.fillRect(x, y, w, h);
+			g2.setColor(Color.WHITE);
+			g2.drawRect(x, y, w, h);
 		}
 
 	}

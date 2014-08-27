@@ -791,7 +791,8 @@ class XmlDecoder extends DefaultHandler {
 			if (attrib != null) {
 				float x = Float.NaN, y = Float.NaN;
 				String label = null, uid = null;
-				float rate = 0;
+				float period = Float.NaN;
+				int maximum = 0;
 				for (int i = 0, n = attrib.getLength(); i < n; i++) {
 					attribName = attrib.getQName(i).intern();
 					attribValue = attrib.getValue(i);
@@ -800,7 +801,9 @@ class XmlDecoder extends DefaultHandler {
 					} else if (attribName == "y") {
 						y = Float.parseFloat(attribValue);
 					} else if (attribName == "rate") {
-						rate = Float.parseFloat(attribValue);
+						period = Float.parseFloat(attribValue);
+					} else if (attribName == "maximum") {
+						maximum = Integer.parseInt(attribValue);
 					} else if (attribName == "uid") {
 						uid = attribValue;
 					} else if (attribName == "label") {
@@ -811,7 +814,10 @@ class XmlDecoder extends DefaultHandler {
 					ParticleFeeder pf = new ParticleFeeder(x, y);
 					pf.setUid(uid);
 					pf.setLabel(label);
-					pf.setRate(rate);
+					if (!Float.isNaN(period))
+						pf.setPeriod(period);
+					if (maximum > 0)
+						pf.setMaximum(maximum);
 					box.model.addParticleFeeder(pf);
 				}
 			}

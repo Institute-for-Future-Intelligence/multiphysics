@@ -97,7 +97,6 @@ public class Model2D {
 
 	private boolean sunny;
 	private int photonEmissionInterval = 20;
-	private int particleFeedingInterval = 50;
 	private int radiosityInterval = 20;
 
 	private int nx = 100;
@@ -178,6 +177,8 @@ public class Model2D {
 
 		propertyChangeListeners = new ArrayList<PropertyChangeListener>();
 		manipulationListeners = new ArrayList<ManipulationListener>();
+		
+		addParticleFeeder(new ParticleFeeder(lx/2, ly/2));
 
 	}
 
@@ -1545,8 +1546,12 @@ public class Model2D {
 			}
 		}
 		if (!particleFeeders.isEmpty()) {
-			if (indexOfStep % particleFeedingInterval == 0) {
-				feedParticles();
+			synchronized (particleFeeders) {
+				for (ParticleFeeder pf : particleFeeders) {
+					if (indexOfStep % Math.round(pf.getPeriod() / getTimeStep()) == 0) {
+						pf.feed(this);
+					}
+				}
 			}
 		}
 		indexOfStep++;
@@ -1568,14 +1573,6 @@ public class Model2D {
 						}
 					}
 				}
-			}
-		}
-	}
-
-	private void feedParticles() {
-		synchronized (particleFeeders) {
-			for (ParticleFeeder pf : particleFeeders) {
-				pf.feed(this);
 			}
 		}
 	}

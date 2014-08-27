@@ -69,6 +69,7 @@ import org.concord.energy2d.model.Manipulable;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
 import org.concord.energy2d.model.Particle;
+import org.concord.energy2d.model.ParticleFeeder;
 import org.concord.energy2d.model.Photon;
 import org.concord.energy2d.model.Segment;
 import org.concord.energy2d.model.Sensor;
@@ -1310,6 +1311,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		}
 		drawParts(g);
 		drawFans(g);
+		drawParticleFeeders(g);
 		drawClouds(g);
 		drawTrees(g);
 		drawTextBoxes(g);
@@ -2248,6 +2250,40 @@ public class View2D extends JPanel implements PropertyChangeListener {
 							g.drawRect(x, y, w, h);
 						}
 					}
+				}
+			}
+		}
+		g.setStroke(oldStroke);
+		g.setColor(oldColor);
+	}
+
+	private void drawParticleFeeders(Graphics2D g) {
+		List<ParticleFeeder> particleFeeders = model.getParticleFeeders();
+		if (particleFeeders.isEmpty())
+			return;
+		Stroke oldStroke = g.getStroke();
+		Color oldColor = g.getColor();
+		g.setStroke(thinStroke);
+		Symbol.ParticleFeederIcon s = (Symbol.ParticleFeederIcon) Symbol.get("Particle Feeder");
+		float w = ParticleFeeder.RELATIVE_WIDTH * model.getLx();
+		float h = ParticleFeeder.RELATIVE_HEIGHT * model.getLy();
+		s.setIconWidth((int) (w * getHeight() / (xmax - xmin))); // use view height to set icon dimension so that the icon doesn't get distorted
+		s.setIconHeight((int) (h * getHeight() / (ymax - ymin)));
+		int x, y;
+		float rx, ry;
+		synchronized (particleFeeders) {
+			for (ParticleFeeder pf : particleFeeders) {
+				Rectangle2D.Float r = (Rectangle2D.Float) pf.getShape();
+				r.width = w;
+				r.height = h;
+				rx = (pf.getX() - xmin) / (xmax - xmin);
+				ry = (pf.getY() - ymin) / (ymax - ymin);
+				if (rx >= 0 && rx < 1 && ry >= 0 && ry < 1) {
+					x = (int) (rx * getWidth() - s.getIconWidth());
+					y = (int) (ry * getHeight() - s.getIconHeight());
+					if (pf.getLabel() != null)
+						centerString(pf.getLabel(), g, x, y, false);
+					s.paintIcon(this, g, x, y);
 				}
 			}
 		}
