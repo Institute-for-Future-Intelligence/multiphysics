@@ -406,6 +406,7 @@ class MenuBar extends JMenuBar {
 		menu.add(box.view.getActionMap().get("Insert Anemometer"));
 		menu.addSeparator();
 		menu.add(box.view.getActionMap().get("Insert Particle"));
+		menu.add(box.view.getActionMap().get("Insert Particle Feeder"));
 		menu.addSeparator();
 		menu.add(box.view.getActionMap().get("Insert Fan"));
 		menu.add(box.view.getActionMap().get("Insert Cloud"));
@@ -463,6 +464,21 @@ class MenuBar extends JMenuBar {
 					box.model.refreshPowerArray();
 					box.model.refreshTemperatureBoundaryArray();
 					box.view.clear();
+					box.view.repaint();
+				}
+			}
+		});
+		menu.add(mi);
+
+		mi = new JMenuItem("Clear All Particles");
+		mi.setToolTipText("Remove all particles");
+		mi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.showConfirmDialog(JOptionPane.getFrameForComponent(box.view), "Are you sure you want to remove all particles?", "Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					box.model.getParticles().clear();
+					box.model.refreshMaterialPropertyArrays();
+					box.model.refreshPowerArray();
+					box.model.refreshTemperatureBoundaryArray();
 					box.view.repaint();
 				}
 			}

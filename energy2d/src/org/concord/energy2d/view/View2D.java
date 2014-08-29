@@ -428,6 +428,19 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 		a = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
+				float x = mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.025f;
+				float y = mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.05f;
+				setSelectedManipulable(addParticleFeeder(x, y));
+				notifyManipulationListeners(null, ManipulationEvent.OBJECT_ADDED);
+				repaint();
+			}
+		};
+		a.putValue(Action.NAME, "Particle Feeder");
+		a.putValue(Action.SHORT_DESCRIPTION, "Insert a particle feeder where the mouse last clicked");
+		getActionMap().put("Insert Particle Feeder", a);
+
+		a = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(View2D.this, "Undo is not supported yet.");
 			}
 		};
@@ -660,6 +673,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public Particle addParticle(float x, float y) {
 		Particle p = new Particle(x, y);
 		model.addParticle(p);
+		return p;
+	}
+
+	public ParticleFeeder addParticleFeeder(float x, float y) {
+		ParticleFeeder p = new ParticleFeeder(x, y);
+		model.addParticleFeeder(p);
 		return p;
 	}
 
@@ -1142,6 +1161,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			model.addTree(((Tree) copiedManipulable).duplicate(x, y));
 		} else if (copiedManipulable instanceof Fan) {
 			model.addFan(((Fan) copiedManipulable).duplicate(x, y));
+		} else if (copiedManipulable instanceof ParticleFeeder) {
+			model.addParticleFeeder(((ParticleFeeder) copiedManipulable).duplicate(x, y));
 		}
 		notifyManipulationListeners(copiedManipulable, ManipulationEvent.PROPERTY_CHANGE);
 		repaint();
@@ -2274,15 +2295,18 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		synchronized (particleFeeders) {
 			for (ParticleFeeder pf : particleFeeders) {
 				Rectangle2D.Float r = (Rectangle2D.Float) pf.getShape();
+				r.x = pf.getX() - w * 0.5f;
+				r.y = pf.getY() - h * 0.5f;
 				r.width = w;
 				r.height = h;
 				rx = (pf.getX() - xmin) / (xmax - xmin);
 				ry = (pf.getY() - ymin) / (ymax - ymin);
 				if (rx >= 0 && rx < 1 && ry >= 0 && ry < 1) {
-					x = (int) (rx * getWidth() - s.getIconWidth());
-					y = (int) (ry * getHeight() - s.getIconHeight());
+					x = (int) (rx * getWidth() - 0.5f * s.getIconWidth());
+					y = (int) (ry * getHeight() - 0.5f * s.getIconHeight());
 					if (pf.getLabel() != null)
 						centerString(pf.getLabel(), g, x, y, false);
+					s.setColor(pf.getColor());
 					s.paintIcon(this, g, x, y);
 				}
 			}
@@ -2548,6 +2572,18 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			synchronized (model.getFans()) {
 				for (int i = n - 1; i >= 0; i--) { // later added, higher priority
 					Fan f = model.getFans().get(i);
+					if (f.contains(rx, ry)) {
+						setSelectedManipulable(f);
+						return;
+					}
+				}
+			}
+		}
+		n = model.getParticleFeeders().size();
+		if (n > 0) {
+			synchronized (model.getParticleFeeders()) {
+				for (int i = n - 1; i >= 0; i--) { // later added, higher priority
+					ParticleFeeder f = model.getParticleFeeders().get(i);
 					if (f.contains(rx, ry)) {
 						setSelectedManipulable(f);
 						return;
@@ -3933,6 +3969,19 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
 				float rotation = f.getSpeed() * model.getTime();
 				movingShape = new MovingFan(new Rectangle2D.Float(a, b, c, d), f.getSpeed(), f.getAngle(), (float) Math.abs(Math.sin(rotation)));
+			}
+		} else if (selectedManipulable instanceof ParticleFeeder) {
+			ParticleFeeder f = (ParticleFeeder) selectedManipulable;
+			Shape shape = f.getShape();
+			if (shape instanceof Rectangle2D.Float) {
+				Rectangle2D.Float r = (Rectangle2D.Float) shape;
+				int a = convertPointToPixelX(r.x);
+				int b = convertPointToPixelY(r.y);
+				int c = convertLengthToPixelX(r.width);
+				int d = convertLengthToPixelY(r.height);
+				if (anchor)
+					setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
+				movingShape = new MovingParticleFeeder(new Rectangle2D.Float(a, b, c, d));
 			}
 		}
 	}

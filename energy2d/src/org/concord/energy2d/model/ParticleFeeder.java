@@ -1,5 +1,6 @@
 package org.concord.energy2d.model;
 
+import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
@@ -17,6 +18,9 @@ public class ParticleFeeder extends Manipulable {
 
 	private float period = 100; // feed a particle every $period seconds
 	private int maximum = 100;
+	private Color color = Color.WHITE;
+	private Color velocityColor = Color.BLACK;
+	private float randomSpeed = 0.01f;
 
 	public ParticleFeeder(float x, float y) {
 		super(new Rectangle2D.Float());
@@ -36,8 +40,10 @@ public class ParticleFeeder extends Manipulable {
 		if (particles.size() >= maximum)
 			return;
 		Particle p = new Particle(getX(), getY());
-		p.setVx((float) ((Math.random() - 0.5) * 0.01));
-		p.setVy((float) ((Math.random() - 0.5) * 0.01));
+		p.setVx((float) ((Math.random() - 0.5) * randomSpeed));
+		p.setVy((float) ((Math.random() - 0.5) * randomSpeed));
+		p.setColor(color);
+		p.setVelocityColor(velocityColor);
 		model.addParticle(p);
 	}
 
@@ -111,6 +117,22 @@ public class ParticleFeeder extends Manipulable {
 		return maximum;
 	}
 
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setVelocityColor(Color color) {
+		velocityColor = color;
+	}
+
+	public Color getVelocityColor() {
+		return velocityColor;
+	}
+
 	public String toXml() {
 		String xml = "<particle_feeder";
 		String uid = getUid();
@@ -119,6 +141,10 @@ public class ParticleFeeder extends Manipulable {
 		String label = getLabel();
 		if (label != null && !label.trim().equals(""))
 			xml += " label=\"" + label + "\"";
+		if (!Color.WHITE.equals(color))
+			xml += " color=\"" + Integer.toHexString(0x00ffffff & color.getRGB()) + "\"";
+		if (!Color.BLACK.equals(color))
+			xml += " velocity_color=\"" + Integer.toHexString(0x00ffffff & velocityColor.getRGB()) + "\"";
 		xml += " x=\"" + getX() + "\"";
 		xml += " y=\"" + getY() + "\"";
 		xml += " maximum=\"" + maximum + "\"";

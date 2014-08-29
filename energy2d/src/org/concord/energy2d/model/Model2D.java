@@ -177,8 +177,6 @@ public class Model2D {
 
 		propertyChangeListeners = new ArrayList<PropertyChangeListener>();
 		manipulationListeners = new ArrayList<ManipulationListener>();
-		
-		addParticleFeeder(new ParticleFeeder(lx/2, ly/2));
 
 	}
 
@@ -1360,6 +1358,7 @@ public class Model2D {
 	public void clear() {
 		parts.clear();
 		particles.clear();
+		particleFeeders.clear();
 		photons.clear();
 		anemometers.clear();
 		thermometers.clear();

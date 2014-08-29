@@ -136,25 +136,25 @@ public abstract class Symbol implements Icon {
 		if ("Heat Flux Sensor".equals(s))
 			return HeatFluxSensor.sharedInstance();
 		if ("Particle Feeder".equals(s))
-			return ParticleFeederIcon.sharedInstance();
+			return new ParticleFeederIcon(Color.WHITE);
 		if ("Sun".equals(s))
-			return new Sun(Color.yellow, 16, 16);
+			return new Sun(Color.YELLOW, 16, 16);
 		if ("Moon".equals(s))
-			return new Moon(Color.white, 16, 16);
+			return new Moon(Color.WHITE, 16, 16);
 		if ("Switch".equals(s))
-			return new SwitchIcon(Color.white, 32, 32);
+			return new SwitchIcon(Color.WHITE, 32, 32);
 		if ("Start".equals(s))
-			return new StartIcon(Color.white, 32, 32);
+			return new StartIcon(Color.WHITE, 32, 32);
 		if ("Reset".equals(s))
-			return new ResetIcon(Color.white, 32, 32);
+			return new ResetIcon(Color.WHITE, 32, 32);
 		if ("Next".equals(s))
-			return new NextIcon(Color.white, 32, 32);
+			return new NextIcon(Color.WHITE, 32, 32);
 		if ("Prev".equals(s))
-			return new PrevIcon(Color.white, 32, 32);
+			return new PrevIcon(Color.WHITE, 32, 32);
 		if ("Mode".equals(s))
-			return new ModeIcon(Color.white, 32, 32);
+			return new ModeIcon(Color.WHITE, 32, 32);
 		if ("Graph".equals(s))
-			return new GraphIcon(Color.white, 32, 32);
+			return new GraphIcon(Color.WHITE, 32, 32);
 		if ("Brand".equals(s))
 			return new BrandIcon();
 		return null;
@@ -363,13 +363,14 @@ public abstract class Symbol implements Icon {
 
 	static class ParticleFeederIcon extends Symbol {
 
-		private final static ParticleFeederIcon instance = new ParticleFeederIcon();
+		private Color borderColor;
 
-		public static ParticleFeederIcon sharedInstance() {
-			return instance;
+		public ParticleFeederIcon(Color color) {
+			setColor(color);
 		}
 
-		public ParticleFeederIcon() {
+		public void setColor(Color color) {
+			this.borderColor = color;
 		}
 
 		public void paintIcon(Component c, Graphics g, int x, int y) {
@@ -377,7 +378,7 @@ public abstract class Symbol implements Icon {
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setColor(Color.GRAY);
 			g2.fillRect(x, y, w, h);
-			g2.setColor(Color.WHITE);
+			g2.setColor(borderColor);
 			g2.drawRect(x, y, w, h);
 		}
 

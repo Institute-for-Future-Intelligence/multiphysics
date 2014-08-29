@@ -79,7 +79,7 @@ class FanDialog extends JDialog {
 				Shape s = fan.getShape();
 				if (s instanceof Rectangle2D.Float) {
 					Rectangle2D.Float r = (Rectangle2D.Float) s;
-					r.setRect(x, y, w, h);
+					r.setRect(x, view.model.getLy() - y, w, h);
 					if (w > h)
 						angle = 90;
 				}
@@ -146,7 +146,7 @@ class FanDialog extends JDialog {
 		p.add(xField);
 
 		p.add(new JLabel("Y (m):"));
-		yField = new JTextField(FORMAT.format(fan.getShape().getBounds2D().getY()), 10);
+		yField = new JTextField(FORMAT.format(view.model.getLy() - fan.getShape().getBounds2D().getY()), 10);
 		yField.addActionListener(okListener);
 		p.add(yField);
 

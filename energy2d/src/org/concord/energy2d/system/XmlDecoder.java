@@ -793,6 +793,8 @@ class XmlDecoder extends DefaultHandler {
 				String label = null, uid = null;
 				float period = Float.NaN;
 				int maximum = 0;
+				Color color = Color.WHITE;
+				Color velocityColor = Color.BLACK;
 				for (int i = 0, n = attrib.getLength(); i < n; i++) {
 					attribName = attrib.getQName(i).intern();
 					attribValue = attrib.getValue(i);
@@ -800,7 +802,7 @@ class XmlDecoder extends DefaultHandler {
 						x = Float.parseFloat(attribValue);
 					} else if (attribName == "y") {
 						y = Float.parseFloat(attribValue);
-					} else if (attribName == "rate") {
+					} else if (attribName == "period") {
 						period = Float.parseFloat(attribValue);
 					} else if (attribName == "maximum") {
 						maximum = Integer.parseInt(attribValue);
@@ -808,12 +810,18 @@ class XmlDecoder extends DefaultHandler {
 						uid = attribValue;
 					} else if (attribName == "label") {
 						label = attribValue;
+					} else if (attribName == "color") {
+						color = new Color(Integer.parseInt(attribValue, 16));
+					} else if (attribName == "velocity_color") {
+						velocityColor = new Color(Integer.parseInt(attribValue, 16));
 					}
 				}
 				if (!Float.isNaN(x) && !Float.isNaN(y)) {
 					ParticleFeeder pf = new ParticleFeeder(x, y);
 					pf.setUid(uid);
 					pf.setLabel(label);
+					pf.setColor(color);
+					pf.setVelocityColor(velocityColor);
 					if (!Float.isNaN(period))
 						pf.setPeriod(period);
 					if (maximum > 0)
