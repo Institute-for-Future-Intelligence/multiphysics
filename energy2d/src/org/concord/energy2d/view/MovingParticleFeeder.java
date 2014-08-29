@@ -2,7 +2,7 @@ package org.concord.energy2d.view;
 
 import java.awt.Graphics2D;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 /**
  * @author Charles Xie
@@ -10,9 +10,9 @@ import java.awt.geom.Rectangle2D;
  */
 class MovingParticleFeeder implements MovingShape {
 
-	private Rectangle2D.Float rectangle;
+	private RoundRectangle2D.Float rectangle;
 
-	MovingParticleFeeder(Rectangle2D.Float rectangle) {
+	MovingParticleFeeder(RoundRectangle2D.Float rectangle) {
 		this.rectangle = rectangle;
 	}
 

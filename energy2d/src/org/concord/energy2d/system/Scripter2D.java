@@ -31,6 +31,7 @@ import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.MassBoundary;
 import org.concord.energy2d.model.Particle;
+import org.concord.energy2d.model.ParticleFeeder;
 import org.concord.energy2d.model.SimpleMassBoundary;
 import org.concord.energy2d.model.ThermalBoundary;
 import org.concord.energy2d.model.NeumannThermalBoundary;
@@ -60,6 +61,7 @@ class Scripter2D extends Scripter {
 	private final static Pattern BOUNDARY = compile("(^(?i)boundary\\b){1}");
 	private final static Pattern PART_FIELD = compile("^%?((?i)part){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern PARTICLE_FIELD = compile("^%?((?i)particle){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
+	private final static Pattern PARTICLE_FEEDER_FIELD = compile("^%?((?i)particlefeeder){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern FAN_FIELD = compile("^%?((?i)fan){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern TASK_FIELD = compile("^%?((?i)task){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
 	private final static Pattern ANEMOMETER_FIELD = compile("^%?((?i)anemometer){1}(\\[){1}" + REGEX_WHITESPACE + "*\\w+" + REGEX_WHITESPACE + "*(\\]){1}\\.");
@@ -1065,6 +1067,20 @@ class Scripter2D extends Scripter {
 						setParticleField(s1, s2, s3);
 						return;
 					}
+					// particle feeder field
+					matcher = PARTICLE_FEEDER_FIELD.matcher(s);
+					if (matcher.find()) {
+						int end = matcher.end();
+						String s1 = s.substring(end).trim();
+						int i = s1.indexOf(" ");
+						if (i < 0)
+							return;
+						String s2 = s1.substring(0, i).trim();
+						String s3 = s1.substring(i + 1).trim();
+						s1 = s.substring(0, end - 1);
+						setParticleFeederField(s1, s2, s3);
+						return;
+					}
 					// fan field
 					matcher = FAN_FIELD.matcher(s);
 					if (matcher.find()) {
@@ -1430,6 +1446,74 @@ class Scripter2D extends Scripter {
 			particle.setMovable(z > 0);
 		} else if (s == "draggable") {
 			particle.setDraggable(z > 0);
+		}
+	}
+
+	private void setParticleFeederField(String str1, String str2, String str3) {
+		ParticleFeeder feeder = null;
+		int lb = str1.indexOf("[");
+		int rb = str1.indexOf("]");
+		String s = str1.substring(lb + 1, rb).trim();
+		float z = Float.NaN;
+		try {
+			z = Float.parseFloat(s);
+		} catch (Exception e) {
+			z = Float.NaN;
+		}
+		feeder = Float.isNaN(z) ? s2d.model.getParticleFeeder(s) : s2d.model.getParticleFeeder((int) Math.round(z));
+		if (feeder == null) {
+			showError(str1, "Particle feeder " + s + " not found");
+			return;
+		}
+		s = str2.toLowerCase().intern();
+		if (str3.startsWith("#")) {
+			try {
+				z = Integer.parseInt(str3.substring(1), 16);
+			} catch (Exception e) {
+				showException(str3, e);
+				return;
+			}
+		} else if (str3.startsWith("0X") || str3.startsWith("0x")) {
+			try {
+				z = Integer.parseInt(str3.substring(2), 16);
+			} catch (Exception e) {
+				showException(str3, e);
+				return;
+			}
+		} else if (str3.equalsIgnoreCase("true")) {
+			z = 1;
+		} else if (str3.equalsIgnoreCase("false")) {
+			z = 0;
+		} else {
+			if (s == "label") {
+				feeder.setLabel(str3);
+				return;
+			}
+			if (s == "uid") {
+				feeder.setUid(str3);
+				return;
+			}
+			try {
+				z = Float.parseFloat(str3);
+			} catch (Exception e) {
+				showException(str3, e);
+				return;
+			}
+		}
+		if (s == "x") {
+			feeder.setX(z);
+		} else if (s == "y") {
+			feeder.setY(z);
+		} else if (s == "period") {
+			feeder.setPeriod(z);
+		} else if (s == "maximum") {
+			feeder.setMaximum(Math.round(z));
+		} else if (s == "color") {
+			feeder.setColor(new Color((int) z));
+		} else if (s == "velocitycolor") {
+			feeder.setVelocityColor(new Color((int) z));
+		} else if (s == "draggable") {
+			feeder.setDraggable(z > 0);
 		}
 	}
 

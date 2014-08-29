@@ -1332,12 +1332,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		}
 		drawParts(g);
 		drawFans(g);
-		drawParticleFeeders(g);
 		drawClouds(g);
 		drawTrees(g);
 		drawTextBoxes(g);
 		drawPictures(g);
 		drawParticles(g);
+		drawParticleFeeders(g);
 		if (showViewFactorLines)
 			drawViewFactorMesh(g);
 		if (showGrid && gridRenderer != null)
@@ -2284,8 +2284,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			return;
 		Stroke oldStroke = g.getStroke();
 		Color oldColor = g.getColor();
-		g.setStroke(thinStroke);
 		Symbol.ParticleFeederIcon s = (Symbol.ParticleFeederIcon) Symbol.get("Particle Feeder");
+		s.setStroke(thickStroke);
 		float w = ParticleFeeder.RELATIVE_WIDTH * model.getLx();
 		float h = ParticleFeeder.RELATIVE_HEIGHT * model.getLy();
 		s.setIconWidth((int) (w * getHeight() / (xmax - xmin))); // use view height to set icon dimension so that the icon doesn't get distorted
@@ -3981,7 +3981,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				int d = convertLengthToPixelY(r.height);
 				if (anchor)
 					setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
-				movingShape = new MovingParticleFeeder(new Rectangle2D.Float(a, b, c, d));
+				movingShape = new MovingParticleFeeder(new RoundRectangle2D.Float(a, b, c, d, 8, 8));
 			}
 		}
 	}

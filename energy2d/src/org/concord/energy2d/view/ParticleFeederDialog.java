@@ -45,6 +45,8 @@ class ParticleFeederDialog extends JDialog {
 	private JTextField labelField;
 	private JTextField periodField;
 	private JTextField maximumField;
+	private JTextField massField;
+	private JTextField radiusField;
 	private JCheckBox draggableCheckBox;
 	private Window owner;
 	private ActionListener okListener;
@@ -71,6 +73,12 @@ class ParticleFeederDialog extends JDialog {
 				float y = parse(yField.getText());
 				if (Float.isNaN(y))
 					return;
+				float mass = parse(massField.getText());
+				if (Float.isNaN(mass))
+					return;
+				float radius = parse(radiusField.getText());
+				if (Float.isNaN(radius))
+					return;
 				float period = parse(periodField.getText());
 				if (Float.isNaN(period))
 					return;
@@ -89,6 +97,8 @@ class ParticleFeederDialog extends JDialog {
 				}
 				particleFeeder.setUid(uid);
 				particleFeeder.setLabel(labelField.getText());
+				particleFeeder.setMass(mass);
+				particleFeeder.setRadius(radius);
 				particleFeeder.setCenter(x, view.model.getLy() - y);
 				particleFeeder.setPeriod(period);
 				particleFeeder.setMaximum(Math.round(maximum));
@@ -121,7 +131,7 @@ class ParticleFeederDialog extends JDialog {
 		});
 		buttonPanel.add(button);
 
-		JPanel p = new JPanel(new GridLayout(8, 2, 8, 8));
+		JPanel p = new JPanel(new GridLayout(10, 2, 8, 8));
 		p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.add(p, BorderLayout.CENTER);
 
@@ -144,6 +154,16 @@ class ParticleFeederDialog extends JDialog {
 		yField = new JTextField(FORMAT.format(view.model.getLy() - particleFeeder.getY()), 10);
 		yField.addActionListener(okListener);
 		p.add(yField);
+
+		p.add(new JLabel("Mass (kg):"));
+		massField = new JTextField(particleFeeder.getMass() + "", 10);
+		massField.addActionListener(okListener);
+		p.add(massField);
+
+		p.add(new JLabel("Radius (m):"));
+		radiusField = new JTextField(particleFeeder.getRadius() + "", 10);
+		radiusField.addActionListener(okListener);
+		p.add(radiusField);
 
 		p.add(new JLabel("Feeding period (s):"));
 		periodField = new JTextField(FORMAT.format(particleFeeder.getPeriod()), 10);

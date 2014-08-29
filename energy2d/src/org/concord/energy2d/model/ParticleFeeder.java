@@ -18,6 +18,8 @@ public class ParticleFeeder extends Manipulable {
 
 	private float period = 100; // feed a particle every $period seconds
 	private int maximum = 100;
+	private float mass = 0.1f;
+	private float radius = 0.04f;
 	private Color color = Color.WHITE;
 	private Color velocityColor = Color.BLACK;
 	private float randomSpeed = 0.01f;
@@ -30,8 +32,12 @@ public class ParticleFeeder extends Manipulable {
 	@Override
 	public ParticleFeeder duplicate(float x, float y) {
 		ParticleFeeder pf = new ParticleFeeder(x, y);
+		pf.mass = mass;
+		pf.radius = radius;
 		pf.period = period;
 		pf.maximum = maximum;
+		pf.color = color;
+		pf.velocityColor = velocityColor;
 		return pf;
 	}
 
@@ -39,7 +45,17 @@ public class ParticleFeeder extends Manipulable {
 		List<Particle> particles = model.getParticles();
 		if (particles.size() >= maximum)
 			return;
-		Particle p = new Particle(getX(), getY());
+		float x = getX();
+		float y = getY();
+		synchronized (particles) {
+			for (Particle p : particles) {
+				if (p.distanceSq(x, y) <= 4 * p.radius * radius)
+					return;
+			}
+		}
+		Particle p = new Particle(x, y);
+		p.setMass(mass);
+		p.setRadius(radius);
 		p.setVx((float) ((Math.random() - 0.5) * randomSpeed));
 		p.setVy((float) ((Math.random() - 0.5) * randomSpeed));
 		p.setColor(color);
@@ -133,6 +149,22 @@ public class ParticleFeeder extends Manipulable {
 		return velocityColor;
 	}
 
+	public void setRadius(float radius) {
+		this.radius = radius;
+	}
+
+	public float getRadius() {
+		return radius;
+	}
+
+	public void setMass(float mass) {
+		this.mass = mass;
+	}
+
+	public float getMass() {
+		return mass;
+	}
+
 	public String toXml() {
 		String xml = "<particle_feeder";
 		String uid = getUid();
@@ -145,6 +177,8 @@ public class ParticleFeeder extends Manipulable {
 			xml += " color=\"" + Integer.toHexString(0x00ffffff & color.getRGB()) + "\"";
 		if (!Color.BLACK.equals(color))
 			xml += " velocity_color=\"" + Integer.toHexString(0x00ffffff & velocityColor.getRGB()) + "\"";
+		xml += " radius=\"" + radius + "\"";
+		xml += " mass=\"" + mass + "\"";
 		xml += " x=\"" + getX() + "\"";
 		xml += " y=\"" + getY() + "\"";
 		xml += " maximum=\"" + maximum + "\"";

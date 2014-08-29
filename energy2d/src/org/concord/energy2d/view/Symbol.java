@@ -377,9 +377,10 @@ public abstract class Symbol implements Icon {
 			super.paintIcon(c, g, x, y);
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setColor(Color.GRAY);
-			g2.fillRect(x, y, w, h);
+			g2.fillRoundRect(x, y, w, h, 8, 8);
 			g2.setColor(borderColor);
-			g2.drawRect(x, y, w, h);
+			g2.drawRoundRect(x, y, w, h, 8, 8);
+			g2.fillOval(Math.round(x + 0.5f * w - 2), Math.round(y + 0.5f * h - 2), 4, 4);
 		}
 
 	}

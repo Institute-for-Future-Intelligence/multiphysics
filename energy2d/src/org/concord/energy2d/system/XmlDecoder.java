@@ -789,7 +789,7 @@ class XmlDecoder extends DefaultHandler {
 			}
 		} else if (qName == "particle_feeder") {
 			if (attrib != null) {
-				float x = Float.NaN, y = Float.NaN;
+				float x = Float.NaN, y = Float.NaN, mass = Float.NaN, radius = Float.NaN;
 				String label = null, uid = null;
 				float period = Float.NaN;
 				int maximum = 0;
@@ -802,6 +802,10 @@ class XmlDecoder extends DefaultHandler {
 						x = Float.parseFloat(attribValue);
 					} else if (attribName == "y") {
 						y = Float.parseFloat(attribValue);
+					} else if (attribName == "mass") {
+						mass = Float.parseFloat(attribValue);
+					} else if (attribName == "radius") {
+						radius = Float.parseFloat(attribValue);
 					} else if (attribName == "period") {
 						period = Float.parseFloat(attribValue);
 					} else if (attribName == "maximum") {
@@ -822,6 +826,10 @@ class XmlDecoder extends DefaultHandler {
 					pf.setLabel(label);
 					pf.setColor(color);
 					pf.setVelocityColor(velocityColor);
+					if (!Float.isNaN(mass))
+						pf.setMass(mass);
+					if (!Float.isNaN(radius))
+						pf.setRadius(radius);
 					if (!Float.isNaN(period))
 						pf.setPeriod(period);
 					if (maximum > 0)

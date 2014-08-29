@@ -58,6 +58,12 @@ public class Particle extends Manipulable implements Discrete {
 		return p;
 	}
 
+	public float distanceSq(float x, float y) {
+		float dx = rx - x;
+		float dy = ry - y;
+		return dx * dx + dy * dy;
+	}
+
 	public void setLocation(float rx, float ry) {
 		this.rx = rx;
 		this.ry = ry;
