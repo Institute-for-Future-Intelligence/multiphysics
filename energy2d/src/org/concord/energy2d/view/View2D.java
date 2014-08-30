@@ -1711,7 +1711,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				if (model.isRunning() && p == selectedManipulable) {
 					HandleSetter.setRects(this, selectedManipulable, handle);
 				}
-				if (showVelocity) {
+				if (showVelocity || showStreamLines) {
 					g.setColor(p.getVelocityColor());
 					float r = e.width * 0.5f;
 					VectorRenderer.drawVector(g, e.x + e.width * 0.5f, e.y + e.height * 0.5f, r, p.getVx(), p.getVy(), VectorRenderer.getDefaultScale(), (BasicStroke) thinStroke);

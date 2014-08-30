@@ -39,7 +39,7 @@
 </part>
 </structure>
 <environment>
-<fan x="0.0" y="0.0" width="0.5" height="6.3" speed="0.1" angle="0.0"/><particle_feeder color="ffff00" velocity_color="0" x="7.6" y="4.0" maximum="100" period="50.0"/><particle_feeder velocity_color="0" x="1.6" y="1.8999996" maximum="100" period="20.0"/></environment>
+<fan x="0.0" y="0.0" width="0.5" height="6.3" speed="0.1" angle="0.0"/><particle_feeder color="ffff80" velocity_color="ffff80" radius="0.04" mass="0.1" x="7.6" y="4.0" maximum="100" period="50.0"/><particle_feeder color="80ffff" velocity_color="80ffff" radius="0.04" mass="0.1" x="1.6" y="1.8999996" maximum="100" period="20.0"/></environment>
 <sensor>
 </sensor>
 <controller>
