@@ -60,6 +60,10 @@ class ViewDialog extends JDialog {
 				x = parse(fanRotationSpeedScaleField.getText());
 				if (Float.isNaN(x))
 					return;
+				if (x <= 0) {
+					JOptionPane.showMessageDialog(owner, "Fan rotation speed scale must be positive.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				view.setFanRotationSpeedScaleFactor(x);
 				view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 				view.repaint();

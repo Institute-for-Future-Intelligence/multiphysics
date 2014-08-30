@@ -398,14 +398,9 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 	}
 
 	private void loadStateApp(Reader reader) throws IOException {
-		stop();
+		// stop();
 		reset();
 		clear();
-		loadState(reader);
-	}
-
-	private void loadState(Reader reader) throws IOException {
-		stop();
 		if (reader == null)
 			return;
 		try {
@@ -425,14 +420,14 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 	}
 
 	private void loadStateApp(InputStream is) throws IOException {
-		stop();
+		// stop();
 		reset();
 		clear();
 		loadState(is);
 	}
 
 	public void loadState(InputStream is) throws IOException {
-		stop();
+		// stop();
 		if (is == null)
 			return;
 		try {
@@ -868,7 +863,6 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 		buttonReload.setToolTipText("Reload the initial configurations");
 		buttonReload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				stop();
 				if (!askSaveBeforeLoading())
 					return;
 				reload();

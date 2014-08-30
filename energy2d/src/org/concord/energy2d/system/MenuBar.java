@@ -142,7 +142,6 @@ class MenuBar extends JMenuBar {
 							final File rf = new File(recentFiles[i]);
 							x.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
-									box.stop();
 									if (!box.askSaveBeforeLoading())
 										return;
 									box.loadFile(rf);
@@ -200,7 +199,6 @@ class MenuBar extends JMenuBar {
 
 		openAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				box.stop();
 				if (!box.askSaveBeforeLoading())
 					return;
 				e2dFileChooser.setAcceptAllFileFilterUsed(false);

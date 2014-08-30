@@ -274,8 +274,11 @@ class ParticleSolver2D {
 
 	void reset() {
 		synchronized (particles) {
-			for (Particle p : particles)
-				p.restoreState();
+			for (Iterator<Particle> it = particles.iterator(); it.hasNext();) {
+				Particle p = it.next();
+				if (!p.restoreState())
+					it.remove();
+			}
 		}
 	}
 

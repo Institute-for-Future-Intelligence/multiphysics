@@ -79,24 +79,43 @@ public class Particle extends Manipulable implements Discrete {
 		omega0 = omega;
 	}
 
-	public void restoreState() {
-		if (!Float.isNaN(rx0))
+	public boolean restoreState() {
+		if (Float.isNaN(rx0)) {
+			return false;
+		} else {
 			rx = rx0;
-		if (!Float.isNaN(ry0))
+		}
+		if (Float.isNaN(ry0)) {
+			return false;
+		} else {
 			ry = ry0;
-		if (!Float.isNaN(vx0))
+		}
+		if (Float.isNaN(vx0)) {
+			return false;
+		} else {
 			vx = vx0;
-		if (!Float.isNaN(vy0))
+		}
+		if (Float.isNaN(vy0)) {
+			return false;
+		} else {
 			vy = vy0;
-		if (!Float.isNaN(theta0))
+		}
+		if (Float.isNaN(theta0)) {
+			return false;
+		} else {
 			theta = theta0;
-		if (!Float.isNaN(omega0))
+		}
+		if (Float.isNaN(omega0)) {
+			return false;
+		} else {
 			omega = omega0;
+		}
 		ax = 0;
 		ay = 0;
 		fx = 0;
 		fy = 0;
 		updateShape();
+		return true;
 	}
 
 	public void translateBy(float deltaX, float deltaY) {
