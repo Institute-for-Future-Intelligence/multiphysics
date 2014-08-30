@@ -914,6 +914,7 @@ class MenuBar extends JMenuBar {
 		examples.put("Elasticity", "models/compare-elasticity.e2d");
 		examples.put("Inelastic Collisions", "models/inelastic-collision.e2d");
 		examples.put("Fireballs", "models/fireballs.e2d");
+		examples.put("Advection", "models/advect1.e2d");
 		examples.put("Convective Lift", "models/particles.e2d");
 		examples.put("Thermophoresis", "models/thermophoresis.e2d");
 		createMenu(box, subMenu, examples);
