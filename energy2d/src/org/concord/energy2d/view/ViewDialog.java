@@ -38,7 +38,7 @@ import org.concord.energy2d.util.MiscUtil;
 class ViewDialog extends JDialog {
 
 	private Window owner;
-	private JTextField lowerTempField, upperTempField;
+	private JTextField lowerTempField, upperTempField, fanRotationSpeedScaleField;
 	private JLabel nameLabel1, nameLabel2, unitLabel1, unitLabel2;
 
 	ViewDialog(final View2D view, boolean modal) {
@@ -57,6 +57,10 @@ class ViewDialog extends JDialog {
 				if (Float.isNaN(x))
 					return;
 				view.setMaximumTemperature(x);
+				x = parse(fanRotationSpeedScaleField.getText());
+				if (Float.isNaN(x))
+					return;
+				view.setFanRotationSpeedScaleFactor(x);
 				view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 				view.repaint();
 				dispose();
@@ -358,6 +362,14 @@ class ViewDialog extends JDialog {
 		p.add(upperTempField);
 		unitLabel2 = new JLabel("\u00B0C");
 		p.add(unitLabel2);
+		count++;
+
+		p.add(new JLabel("Fan rotation speed scale"));
+
+		fanRotationSpeedScaleField = new JTextField(view.getFanRotationSpeedScaleFactor() + "", 8);
+		fanRotationSpeedScaleField.addActionListener(okListener);
+		p.add(fanRotationSpeedScaleField);
+		p.add(new JLabel("Dimensionless"));
 		count++;
 
 		p.add(new JLabel("Mouse reading"));

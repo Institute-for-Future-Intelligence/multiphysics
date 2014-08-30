@@ -157,6 +157,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private boolean showGrid;
 	private boolean showViewFactorLines;
 	private boolean snapToGrid = true;
+	private float fanRotationSpeedScaleFactor = 1;
 	private boolean clockOn = true;
 	private boolean frankOn = true;
 	private boolean showControlPanel;
@@ -682,6 +683,11 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		return p;
 	}
 
+	public void removeParticleFeeder(ParticleFeeder f) {
+		model.removeParticleFeeder(f);
+		repaint();
+	}
+
 	public void addManipulationListener(ManipulationListener l) {
 		if (!manipulationListeners.contains(l))
 			manipulationListeners.add(l);
@@ -867,6 +873,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		if (gridRenderer == null)
 			return 10;
 		return gridRenderer.getGridSize();
+	}
+
+	public void setFanRotationSpeedScaleFactor(float fanRotationSpeedScaleFactor) {
+		this.fanRotationSpeedScaleFactor = fanRotationSpeedScaleFactor;
+	}
+
+	public float getFanRotationSpeedScaleFactor() {
+		return fanRotationSpeedScaleFactor;
 	}
 
 	public void setColorPaletteOn(boolean b) {
@@ -2216,7 +2230,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					bgColor = bgColor.darker();
 					bgColor = new Color(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(), 128);
 					Color fgColor = MiscUtil.getContrastColor(bgColor, 255);
-					float rotation = p.getWindSpeed() * model.getTime();
+					float rotation = fanRotationSpeedScaleFactor * p.getWindSpeed() * model.getTime();
 					// float rotation = (float) (Math.PI / 12.0);
 					Rectangle2D r = p.getShape().getBounds2D();
 					int x = convertPointToPixelX((float) r.getX());
@@ -2243,7 +2257,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		synchronized (fans) {
 			for (Fan f : fans) {
 				if (f.isVisible()) {
-					float rotation = f.getSpeed() * model.getTime();
+					float rotation = fanRotationSpeedScaleFactor * f.getSpeed() * model.getTime();
 					Rectangle2D r = f.getShape().getBounds2D();
 					int x = convertPointToPixelX((float) r.getX());
 					int y = convertPointToPixelY((float) r.getY());

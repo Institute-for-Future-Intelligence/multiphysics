@@ -474,12 +474,15 @@ class MenuBar extends JMenuBar {
 		mi.setToolTipText("Remove all particles");
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (box.model.getParticles().isEmpty())
+					return;
 				if (JOptionPane.showConfirmDialog(JOptionPane.getFrameForComponent(box.view), "Are you sure you want to remove all particles?", "Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					box.model.getParticles().clear();
 					box.model.refreshMaterialPropertyArrays();
 					box.model.refreshPowerArray();
 					box.model.refreshTemperatureBoundaryArray();
 					box.view.repaint();
+					box.setSaved(false);
 				}
 			}
 		});

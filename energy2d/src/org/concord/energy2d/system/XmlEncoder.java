@@ -238,6 +238,7 @@ class XmlEncoder {
 		sb.append("<color_palette_h>" + colorPalette.height + "</color_palette_h>");
 		sb.append("<minimum_temperature>" + box.view.getMinimumTemperature() + "</minimum_temperature>\n");
 		sb.append("<maximum_temperature>" + box.view.getMaximumTemperature() + "</maximum_temperature>\n");
+		sb.append("<fan_rotation_speed_scale_factor>" + box.view.getFanRotationSpeedScaleFactor() + "</fan_rotation_speed_scale_factor>");
 		if (box.view.isVelocityOn()) {
 			sb.append("<velocity>true</velocity>\n");
 		}

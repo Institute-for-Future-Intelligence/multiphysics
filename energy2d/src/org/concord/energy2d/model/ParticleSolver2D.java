@@ -226,51 +226,57 @@ class ParticleSolver2D {
 		if (n <= 0)
 			return;
 
-		for (int i = 0; i < n - 1; i++) {
+		synchronized (particles) {
 
-			Particle pi = particles.get(i);
-			fxi = pi.fx;
-			fyi = pi.fy;
+			for (int i = 0; i < n - 1; i++) {
 
-			for (int j = i + 1; j < n; j++) {
+				Particle pi = particles.get(i);
+				fxi = pi.fx;
+				fyi = pi.fy;
 
-				Particle pj = particles.get(j);
-				rxij = pi.rx - pj.rx;
-				ryij = pi.ry - pj.ry;
-				rijsq = rxij * rxij + ryij * ryij;
+				for (int j = i + 1; j < n; j++) {
 
-				if (rijsq < rCutOffSquare * 4.0f * pi.radius * pj.radius) {
-					sigma = pi.radius + pj.radius;
-					sigma *= sigma;
-					sr2 = sigma / rijsq;
-					/* check if this pair gets too close */
-					if (sr2 > 10.0f) {
-						sr2 = 10.0f;
-						rijsq = sigma * sigma;
+					Particle pj = particles.get(j);
+					rxij = pi.rx - pj.rx;
+					ryij = pi.ry - pj.ry;
+					rijsq = rxij * rxij + ryij * ryij;
+
+					if (rijsq < rCutOffSquare * 4.0f * pi.radius * pj.radius) {
+						sigma = pi.radius + pj.radius;
+						sigma *= sigma;
+						sr2 = sigma / rijsq;
+						/* check if this pair gets too close */
+						if (sr2 > 10.0f) {
+							sr2 = 10.0f;
+							rijsq = sigma * sigma;
+						}
+						sr6 = sr2 * sr2 * sr2;
+						sr12 = sr6 * sr6;
+						fij = 6f * epsilon / rijsq * (2f * sr12 - attractive * sr6);
+						fxij = fij * rxij;
+						fyij = fij * ryij;
+						fxi += fxij;
+						fyi += fyij;
+						pj.fx -= fxij;
+						pj.fy -= fyij;
 					}
-					sr6 = sr2 * sr2 * sr2;
-					sr12 = sr6 * sr6;
-					fij = 6f * epsilon / rijsq * (2f * sr12 - attractive * sr6);
-					fxij = fij * rxij;
-					fyij = fij * ryij;
-					fxi += fxij;
-					fyi += fyij;
-					pj.fx -= fxij;
-					pj.fy -= fyij;
+
 				}
 
-			}
+				pi.fx = fxi;
+				pi.fy = fyi;
 
-			pi.fx = fxi;
-			pi.fy = fyi;
+			}
 
 		}
 
 	}
 
 	void reset() {
-		for (Particle p : particles)
-			p.restoreState();
+		synchronized (particles) {
+			for (Particle p : particles)
+				p.restoreState();
+		}
 	}
 
 }

@@ -96,6 +96,7 @@ class XmlDecoder extends DefaultHandler {
 	private boolean smooth = true;
 	private float minimumTemperature;
 	private float maximumTemperature = 50;
+	private float fanRotationSpeedScaleFactor = 1;
 	private String graphXLabel, graphYLabel;
 	private float graphYmin = 0, graphYmax = 50;
 
@@ -221,6 +222,7 @@ class XmlDecoder extends DefaultHandler {
 		box.view.setColorPaletteRectangle(xColorPalette, yColorPalette, wColorPalette, hColorPalette);
 		box.view.setMinimumTemperature(minimumTemperature);
 		box.view.setMaximumTemperature(maximumTemperature);
+		box.view.setFanRotationSpeedScaleFactor(fanRotationSpeedScaleFactor);
 		box.view.setClockOn(clock);
 		box.view.setSmooth(smooth);
 		box.view.setGraphOn(graphOn);
@@ -905,6 +907,8 @@ class XmlDecoder extends DefaultHandler {
 			minimumTemperature = Float.parseFloat(str);
 		} else if (qName == "maximum_temperature") {
 			maximumTemperature = Float.parseFloat(str);
+		} else if (qName == "fan_rotation_speed_scale_factor") {
+			fanRotationSpeedScaleFactor = Float.parseFloat(str);
 		} else if (qName == "graph_data_type") {
 			graphDataType = Byte.parseByte(str);
 		} else if (qName == "view_factor_lines") {
@@ -1213,6 +1217,7 @@ class XmlDecoder extends DefaultHandler {
 		smooth = true;
 		minimumTemperature = 0;
 		maximumTemperature = 50;
+		fanRotationSpeedScaleFactor = 1;
 		graphXLabel = null;
 		graphYLabel = null;
 		graphYmin = 0;

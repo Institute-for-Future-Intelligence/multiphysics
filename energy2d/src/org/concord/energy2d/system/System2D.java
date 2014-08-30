@@ -57,6 +57,7 @@ import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
 import org.concord.energy2d.model.Particle;
+import org.concord.energy2d.model.ParticleFeeder;
 import org.concord.energy2d.model.Sensor;
 import org.concord.energy2d.model.Thermometer;
 import org.concord.energy2d.model.Tree;
@@ -747,6 +748,8 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 				view.removeTree((Tree) target);
 			else if (target instanceof Fan)
 				view.removeFan((Fan) target);
+			else if (target instanceof ParticleFeeder)
+				view.removeParticleFeeder((ParticleFeeder) target);
 			setSaved(false);
 			break;
 		case ManipulationEvent.RUN:
