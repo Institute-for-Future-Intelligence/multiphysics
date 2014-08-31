@@ -430,6 +430,8 @@ public class Model2D {
 			p.translateBy(dx, dy);
 		for (Particle p : particles)
 			p.translateBy(dx, dy);
+		for (ParticleFeeder p : particleFeeders)
+			p.translateBy(dx, dy);
 		for (Fan f : fans)
 			f.translateBy(dx, dy);
 	}
@@ -473,6 +475,12 @@ public class Model2D {
 			for (Particle p : particles) {
 				p.setLocation(scale * p.getRx(), ly - scale * (ly - p.getRy()));
 				p.setRadius(p.getRadius() * scale);
+				if (!bound.intersects(p.getShape().getBounds2D()))
+					out = true;
+			}
+		if (!particleFeeders.isEmpty())
+			for (ParticleFeeder p : particleFeeders) {
+				p.setCenter(scale * p.getX(), ly - scale * (ly - p.getY()));
 				if (!bound.intersects(p.getShape().getBounds2D()))
 					out = true;
 			}
