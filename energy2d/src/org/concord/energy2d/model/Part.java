@@ -39,6 +39,7 @@ public class Part extends Manipulable {
 
 	// http://en.wikipedia.org/wiki/Temperature_coefficient
 	private float thermistorTemperatureCoefficient = 0;
+	private float thermistorReferenceTemperature = 0;
 
 	// a fixed or initial temperature for this part
 	private float temperature;
@@ -137,6 +138,7 @@ public class Part extends Manipulable {
 		p.power = power;
 		p.elasticity = elasticity;
 		p.thermistorTemperatureCoefficient = thermistorTemperatureCoefficient;
+		p.thermistorReferenceTemperature = thermistorReferenceTemperature;
 		p.temperature = temperature;
 		p.constantTemperature = constantTemperature;
 		p.thermalConductivity = thermalConductivity;
@@ -284,6 +286,14 @@ public class Part extends Manipulable {
 
 	public float getThermistorTemperatureCoefficient() {
 		return thermistorTemperatureCoefficient;
+	}
+
+	public void setThermistorReferenceTemperature(float referenceTemperature) {
+		thermistorReferenceTemperature = referenceTemperature;
+	}
+
+	public float getThermistorReferenceTemperature() {
+		return thermistorReferenceTemperature;
 	}
 
 	public void setThermalConductivity(float thermalConductivity) {
@@ -763,6 +773,8 @@ public class Part extends Manipulable {
 			xml += "<power>" + power + "</power>\n";
 		if (thermistorTemperatureCoefficient != 0)
 			xml += "<temperature_coefficient>" + thermistorTemperatureCoefficient + "</temperature_coefficient>\n";
+		if (thermistorReferenceTemperature != 0)
+			xml += "<reference_temperature>" + thermistorReferenceTemperature + "</reference_temperature>\n";
 		if (windSpeed != 0) {
 			xml += "<wind_speed>" + windSpeed + "</wind_speed>\n";
 		}

@@ -1274,7 +1274,7 @@ public class Model2D {
 							if (p.getPower() != 0 && p.getPowerSwitch() && p.getShape().contains(x, y)) {
 								power = p.getPower();
 								if (p.getThermistorTemperatureCoefficient() != 0) {
-									power *= 1f + p.getThermistorTemperatureCoefficient() * t[i][j];
+									power *= 1f + p.getThermistorTemperatureCoefficient() * (t[i][j] - p.getThermistorReferenceTemperature());
 								}
 								q[i][j] += power;
 								count++;

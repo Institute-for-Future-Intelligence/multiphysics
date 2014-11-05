@@ -59,6 +59,7 @@ class PartModelDialog extends JDialog {
 	private JLabel powerLabel;
 	private JTextField powerField;
 	private JTextField temperatureCoefficientField;
+	private JTextField referenceTemperatureField;
 	private JLabel temperatureLabel;
 	private JTextField temperatureField;
 	private JTextField windSpeedField;
@@ -261,6 +262,10 @@ class PartModelDialog extends JDialog {
 				if (Float.isNaN(temperatureCoefficient))
 					return;
 				part.setThermistorTemperatureCoefficient(temperatureCoefficient);
+				float referenceTemperature = parse(referenceTemperatureField.getText());
+				if (Float.isNaN(referenceTemperature))
+					return;
+				part.setThermistorReferenceTemperature(referenceTemperature);
 				part.setConstantTemperature(constantTemperatureRadioButton.isSelected());
 
 				Shape shape = part.getShape();
@@ -565,6 +570,13 @@ class PartModelDialog extends JDialog {
 		temperatureCoefficientField.addActionListener(okListener);
 		p.add(temperatureCoefficientField);
 		p.add(new JLabel("<html><i>1/&deg;C</i></html>"));
+		count++;
+
+		p.add(new JLabel("Reference Temperature"));
+		referenceTemperatureField = new JTextField(part.getThermistorReferenceTemperature() + "", 16);
+		referenceTemperatureField.addActionListener(okListener);
+		p.add(referenceTemperatureField);
+		p.add(new JLabel("<html><i>&deg;C</i></html>"));
 		count++;
 
 		p.add(new JLabel("Wind speed"));
