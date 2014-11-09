@@ -172,6 +172,8 @@ class RadiositySolver2D {
 		segments.clear();
 		patchSize = model.getLx() * patchSizePercentage;
 		for (Part part : model.getParts()) {
+			if (part.getTransmissivity() == 1)
+				continue;
 			segmentizePerimeter(part);
 		}
 		int n = segments.size();
@@ -363,6 +365,8 @@ class RadiositySolver2D {
 	// can the two segments see each other?
 	boolean isVisible(Segment s1, Segment s2) {
 		for (Part part : model.getParts()) {
+			if (part.getTransmissivity() == 1) // TODO: We just handle the complete transparent case here
+				continue;
 			if (part.intersectsLine(s1, s2))
 				return false;
 		}

@@ -279,6 +279,8 @@ class XmlDecoder extends DefaultHandler {
 		box.model.refreshTemperatureBoundaryArray();
 		box.model.refreshMaterialPropertyArrays();
 		box.model.setInitialTemperature();
+		if (box.model.isRadiative())
+			box.model.generateViewFactorMesh();
 		box.view.repaint();
 
 		resetGlobalVariables();
