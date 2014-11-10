@@ -177,7 +177,7 @@ class RaySolver2D {
 	private static boolean isContained(float x, float y, List<Part> parts) {
 		synchronized (parts) {
 			for (Part p : parts) {
-				if (p.getTransmissivity() < 0.99 && p.contains(x, y)) {
+				if (p.getTransmissivity() < 0.9999 && p.contains(x, y)) {
 					return true;
 				}
 			}

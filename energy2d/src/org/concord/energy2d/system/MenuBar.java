@@ -894,6 +894,7 @@ class MenuBar extends JMenuBar {
 		examples.put("Radiation in a Box", "models/radiation-box.e2d");
 		examples.put("Radiation to a Ring", "models/radiation-ring.e2d");
 		examples.put("Concave Radiators", "models/concave.e2d");
+		examples.put("Reflective Radiation Heat Transfer", "models/radiation-reflection.e2d");
 		createMenu(box, subMenu, examples);
 
 		subMenu = new JMenu("Fluid Dynamics");

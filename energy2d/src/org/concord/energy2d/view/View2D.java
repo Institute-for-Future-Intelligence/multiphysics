@@ -2648,7 +2648,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		model.translateAllBy(dx, dy);
 		if (!textBoxes.isEmpty()) {
 			for (TextBox t : textBoxes) {
-				t.translateBy(dx, dy);
+				t.translateBy(dx, -dy);
 			}
 		}
 		if (!model.getParts().isEmpty())
