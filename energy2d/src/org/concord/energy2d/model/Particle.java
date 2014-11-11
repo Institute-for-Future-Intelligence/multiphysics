@@ -3,6 +3,8 @@ package org.concord.energy2d.model;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 
+import org.concord.energy2d.util.XmlCharacterEncoder;
+
 /**
  * A particle in the Lagrangian frame.
  * 
@@ -281,6 +283,7 @@ public class Particle extends Manipulable implements Discrete {
 	}
 
 	public String toXml() {
+		XmlCharacterEncoder xce = new XmlCharacterEncoder();
 		String xml = "<particle>\n";
 		xml += "<rx>" + rx + "</rx>\n";
 		xml += "<ry>" + ry + "</ry>\n";
@@ -296,10 +299,10 @@ public class Particle extends Manipulable implements Discrete {
 		xml += "<mass>" + mass + "</mass>\n";
 		String uid = getUid();
 		if (uid != null && !uid.trim().equals(""))
-			xml += "<uid>" + uid + "</uid>\n";
+			xml += "<uid>" + xce.encode(uid) + "</uid>\n";
 		String label = getLabel();
 		if (label != null && !label.trim().equals(""))
-			xml += "<label>" + label + "</label>\n";
+			xml += "<label>" + xce.encode(label) + "</label>\n";
 		if (!Color.WHITE.equals(color))
 			xml += "<color>" + Integer.toHexString(0x00ffffff & color.getRGB()) + "</color>\n";
 		if (!Color.BLACK.equals(color))

@@ -2,6 +2,8 @@ package org.concord.energy2d.model;
 
 import java.awt.geom.Rectangle2D;
 
+import org.concord.energy2d.util.XmlCharacterEncoder;
+
 /**
  * Measure both conductive and radiative heat fluxes.
  * 
@@ -54,15 +56,16 @@ public class HeatFluxSensor extends Sensor {
 
 	@Override
 	public String toXml() {
+		XmlCharacterEncoder xce = new XmlCharacterEncoder();
 		String xml = "<heat_flux_sensor";
 		String uid = getUid();
 		if (uid != null && !uid.trim().equals(""))
-			xml += " uid=\"" + uid + "\"";
+			xml += " uid=\"" + xce.encode(uid) + "\"";
 		if (attachID != null && !attachID.trim().equals(""))
-			xml += " attach=\"" + attachID + "\"";
+			xml += " attach=\"" + xce.encode(attachID) + "\"";
 		String label = getLabel();
 		if (label != null && !label.trim().equals(""))
-			xml += " label=\"" + label + "\"";
+			xml += " label=\"" + xce.encode(label) + "\"";
 		xml += " angle=\"" + angle + "\"";
 		xml += " x=\"" + getX() + "\"";
 		xml += " y=\"" + getY() + "\"/>";

@@ -5,6 +5,8 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import org.concord.energy2d.util.XmlCharacterEncoder;
+
 /**
  * Feed particles at a given rate, stop when the number of particles in the model reaches the specified maximum
  * 
@@ -166,13 +168,14 @@ public class ParticleFeeder extends Manipulable {
 	}
 
 	public String toXml() {
+		XmlCharacterEncoder xce = new XmlCharacterEncoder();
 		String xml = "<particle_feeder";
 		String uid = getUid();
 		if (uid != null && !uid.trim().equals(""))
-			xml += " uid=\"" + uid + "\"";
+			xml += " uid=\"" + xce.encode(uid) + "\"";
 		String label = getLabel();
 		if (label != null && !label.trim().equals(""))
-			xml += " label=\"" + label + "\"";
+			xml += " label=\"" + xce.encode(label) + "\"";
 		if (!Color.WHITE.equals(color))
 			xml += " color=\"" + Integer.toHexString(0x00ffffff & color.getRGB()) + "\"";
 		if (!Color.BLACK.equals(color))

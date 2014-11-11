@@ -22,6 +22,7 @@ import org.concord.energy2d.math.TransformableShape;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.FillPattern;
 import org.concord.energy2d.util.Texture;
+import org.concord.energy2d.util.XmlCharacterEncoder;
 
 /**
  * Default properties set to be that of polystyrene. See http://en.wikipedia.org/wiki/Polystyrene
@@ -711,6 +712,7 @@ public class Part extends Manipulable {
 	}
 
 	public String toXml() {
+		XmlCharacterEncoder xce = new XmlCharacterEncoder();
 		String xml = "<part>\n";
 		if (getShape() instanceof Rectangle2D.Float) {
 			Rectangle2D.Float r = (Rectangle2D.Float) getShape();
@@ -775,14 +777,12 @@ public class Part extends Manipulable {
 			xml += "<temperature_coefficient>" + thermistorTemperatureCoefficient + "</temperature_coefficient>\n";
 		if (thermistorReferenceTemperature != 0)
 			xml += "<reference_temperature>" + thermistorReferenceTemperature + "</reference_temperature>\n";
-		if (windSpeed != 0) {
+		if (windSpeed != 0)
 			xml += "<wind_speed>" + windSpeed + "</wind_speed>\n";
-		}
-		if (windAngle != 0) {
+		if (windAngle != 0)
 			xml += "<wind_angle>" + windAngle + "</wind_angle>\n";
-		}
 		if (getUid() != null && !getUid().trim().equals(""))
-			xml += "<uid>" + getUid() + "</uid>\n";
+			xml += "<uid>" + xce.encode(getUid()) + "</uid>\n";
 		if (fillPattern instanceof ColorFill) {
 			Color color = ((ColorFill) fillPattern).getColor();
 			if (!color.equals(Color.gray)) {
@@ -807,7 +807,7 @@ public class Part extends Manipulable {
 			xml += "<filled>false</filled>\n";
 		String label = getLabel();
 		if (label != null && !label.trim().equals(""))
-			xml += "<label>" + label + "</label>\n";
+			xml += "<label>" + xce.encode(label) + "</label>\n";
 		if (!isVisible())
 			xml += "<visible>false</visible>\n";
 		if (!isDraggable())

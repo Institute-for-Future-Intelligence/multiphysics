@@ -14,6 +14,8 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import org.concord.energy2d.util.XmlCharacterEncoder;
+
 /**
  * Trees are expensive to calculate. So we use additional variables (x, y) for setting locations and avoiding recalculation of shapes when moving them.
  * 
@@ -150,13 +152,14 @@ public class Tree extends Manipulable {
 	}
 
 	public String toXml() {
+		XmlCharacterEncoder xce = new XmlCharacterEncoder();
 		String xml = "<tree";
 		String uid = getUid();
 		if (uid != null && !uid.trim().equals(""))
-			xml += " uid=\"" + uid + "\"";
+			xml += " uid=\"" + xce.encode(uid) + "\"";
 		String label = getLabel();
 		if (label != null && !label.trim().equals(""))
-			xml += " label=\"" + label + "\"";
+			xml += " label=\"" + xce.encode(label) + "\"";
 		if (!Color.GREEN.darker().equals(color))
 			xml += " color=\"" + Integer.toHexString(0x00ffffff & color.getRGB()) + "\"";
 		xml += " x=\"" + x + "\"";

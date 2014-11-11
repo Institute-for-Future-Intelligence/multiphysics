@@ -2,6 +2,8 @@ package org.concord.energy2d.model;
 
 import java.awt.geom.Rectangle2D;
 
+import org.concord.energy2d.util.XmlCharacterEncoder;
+
 /**
  * @author Charles Xie
  * 
@@ -36,17 +38,18 @@ public class Thermometer extends Sensor {
 
 	@Override
 	public String toXml() {
+		XmlCharacterEncoder xce = new XmlCharacterEncoder();
 		String xml = "<thermometer";
 		if (stencil != ONE_POINT)
 			xml += " stencil=\"" + stencil + "\"";
 		String uid = getUid();
 		if (uid != null && !uid.trim().equals(""))
-			xml += " uid=\"" + uid + "\"";
+			xml += " uid=\"" + xce.encode(uid) + "\"";
 		if (attachID != null && !attachID.trim().equals(""))
 			xml += " attach=\"" + attachID + "\"";
 		String label = getLabel();
 		if (label != null && !label.trim().equals(""))
-			xml += " label=\"" + label + "\"";
+			xml += " label=\"" + xce.encode(label) + "\"";
 		xml += " x=\"" + getX() + "\"";
 		xml += " y=\"" + getY() + "\"/>";
 		return xml;

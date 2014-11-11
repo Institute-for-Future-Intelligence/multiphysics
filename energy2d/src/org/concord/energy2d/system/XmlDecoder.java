@@ -289,6 +289,8 @@ class XmlDecoder extends DefaultHandler {
 
 	public void startElement(String uri, String localName, String qName, Attributes attrib) {
 
+		str = null;
+
 		String attribName, attribValue;
 
 		if (qName == "task") {
@@ -1233,8 +1235,12 @@ class XmlDecoder extends DefaultHandler {
 
 	}
 
-	public void characters(char[] ch, int start, int length) {
-		str = new String(ch, start, length);
+	public void characters(char[] ch, int start, int length) { // SAX parse breaks from entitiy characters
+		if (str == null) {
+			str = new String(ch, start, length);
+		} else {
+			str += new String(ch, start, length);
+		}
 	}
 
 	public void warning(SAXParseException e) {

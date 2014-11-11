@@ -5,6 +5,8 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
+import org.concord.energy2d.util.XmlCharacterEncoder;
+
 /**
  * A fan that increases the speed of fluid flowing through it.
  * 
@@ -79,13 +81,14 @@ public class Fan extends Manipulable {
 	}
 
 	public String toXml() {
+		XmlCharacterEncoder xce = new XmlCharacterEncoder();
 		String xml = "<fan";
 		String uid = getUid();
 		if (uid != null && !uid.trim().equals(""))
-			xml += " uid=\"" + uid + "\"";
+			xml += " uid=\"" + xce.encode(uid) + "\"";
 		String label = getLabel();
 		if (label != null && !label.trim().equals(""))
-			xml += " label=\"" + label + "\"";
+			xml += " label=\"" + xce.encode(label) + "\"";
 		if (getShape() instanceof Rectangle2D.Float) {
 			Rectangle2D.Float r = (Rectangle2D.Float) getShape();
 			xml += " x=\"" + r.x + "\"";
