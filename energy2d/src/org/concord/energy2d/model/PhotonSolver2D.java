@@ -1,20 +1,15 @@
-/*
- *   Copyright (C) 2009  The Concord Consortium, Inc.,
- *   25 Love Lane, Concord, MA 01742
- */
-
 package org.concord.energy2d.model;
 
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * This solver models the ray optics of sunlight. Reflection, refraction, and absorption are included.
+ * This solver models the ray optics of sunlight using a photon model.
  * 
  * @author Charles Xie
  * 
  */
-class RaySolver2D {
+class PhotonSolver2D {
 
 	private final static int DEFAULT_RAY_COUNT = 24;
 
@@ -28,7 +23,7 @@ class RaySolver2D {
 	// the speed of the particle that carries light energy. Note that this is NOT the speed of light. This is just an artificial parameter.
 	private float raySpeed = .1f;
 
-	RaySolver2D(float lx, float ly) {
+	PhotonSolver2D(float lx, float ly) {
 		setLx(lx);
 		setLy(ly);
 	}

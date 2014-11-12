@@ -89,7 +89,7 @@ public class Model2D {
 	private List<Fan> fans;
 	private List<ParticleFeeder> particleFeeders;
 
-	private RaySolver2D raySolver;
+	private PhotonSolver2D photonSolver;
 	private RadiositySolver2D radiositySolver;
 	private FluidSolver2D fluidSolver;
 	private HeatSolver2D heatSolver;
@@ -167,8 +167,8 @@ public class Model2D {
 		fluidSolver.setTemperature(t);
 		fluidSolver.setWindSpeed(uWind, vWind);
 
-		raySolver = new RaySolver2D(lx, ly);
-		raySolver.setPower(q);
+		photonSolver = new PhotonSolver2D(lx, ly);
+		photonSolver.setPower(q);
 		radiositySolver = new RadiositySolver2D(this);
 
 		particleSolver = new ParticleSolver2D(this);
@@ -293,46 +293,46 @@ public class Model2D {
 		float hour = getTime() / 3600f;
 		int i = (int) hour;
 		hour += (i % 24) - i;
-		raySolver.setSunAngle((hour - sunrise) / (sunset - sunrise) * (float) Math.PI);
+		photonSolver.setSunAngle((hour - sunrise) / (sunset - sunrise) * (float) Math.PI);
 		refreshPowerArray();
 	}
 
 	public void setSunAngle(float sunAngle) {
-		if (Math.abs(sunAngle - raySolver.getSunAngle()) < 0.001f)
+		if (Math.abs(sunAngle - photonSolver.getSunAngle()) < 0.001f)
 			return;
 		photons.clear();
-		raySolver.setSunAngle(sunAngle);
+		photonSolver.setSunAngle(sunAngle);
 	}
 
 	public float getSunAngle() {
-		return raySolver.getSunAngle();
+		return photonSolver.getSunAngle();
 	}
 
 	public void setSolarPowerDensity(float solarPowerDensity) {
-		raySolver.setSolarPowerDensity(solarPowerDensity);
+		photonSolver.setSolarPowerDensity(solarPowerDensity);
 	}
 
 	public float getSolarPowerDensity() {
-		return raySolver.getSolarPowerDensity();
+		return photonSolver.getSolarPowerDensity();
 	}
 
 	public void setSolarRayCount(int solarRayCount) {
-		if (solarRayCount == raySolver.getSolarRayCount())
+		if (solarRayCount == photonSolver.getSolarRayCount())
 			return;
 		photons.clear();
-		raySolver.setSolarRayCount(solarRayCount);
+		photonSolver.setSolarRayCount(solarRayCount);
 	}
 
 	public int getSolarRayCount() {
-		return raySolver.getSolarRayCount();
+		return photonSolver.getSolarRayCount();
 	}
 
 	public void setSolarRaySpeed(float raySpeed) {
-		raySolver.setSolarRaySpeed(raySpeed);
+		photonSolver.setSolarRaySpeed(raySpeed);
 	}
 
 	public float getSolarRaySpeed() {
-		return raySolver.getSolarRaySpeed();
+		return photonSolver.getSolarRaySpeed();
 	}
 
 	public void setPhotonEmissionInterval(int photonEmissionInterval) {
@@ -385,14 +385,14 @@ public class Model2D {
 	private void setGridCellSize() {
 		heatSolver.setGridCellSize(deltaX, deltaY);
 		fluidSolver.setGridCellSize(deltaX, deltaY);
-		raySolver.setGridCellSize(deltaX, deltaY);
+		photonSolver.setGridCellSize(deltaX, deltaY);
 	}
 
 	public void setLx(float lx) {
 		this.lx = lx;
 		deltaX = lx / nx;
 		setGridCellSize();
-		raySolver.setLx(lx);
+		photonSolver.setLx(lx);
 	}
 
 	public float getLx() {
@@ -403,7 +403,7 @@ public class Model2D {
 		this.ly = ly;
 		deltaY = ly / ny;
 		setGridCellSize();
-		raySolver.setLy(ly);
+		photonSolver.setLy(ly);
 	}
 
 	public float getLy() {
@@ -1513,45 +1513,49 @@ public class Model2D {
 	}
 
 	private void checkPartRadiation() {
-		radiative = sunny;
-		if (!radiative) {
-			synchronized (parts) {
-				for (Part p : parts) {
-					if (p.getEmissivity() > 0) {
-						radiative = true;
-						break;
-					}
+		radiative = false;
+		synchronized (parts) {
+			for (Part p : parts) {
+				if (p.getEmissivity() > 0) {
+					radiative = true;
+					break;
 				}
 			}
 		}
 	}
 
 	private void nextStep() {
-		if (radiative) {
+
+		// photon simulation of solar inputs
+		if (sunny) {
 			if (indexOfStep % photonEmissionInterval == 0) {
+				photonSolver.sunShine(photons, parts);
 				refreshPowerArray();
-				if (sunny)
-					raySolver.sunShine(photons, parts);
 			}
-			raySolver.solve(this);
+		}
+		photonSolver.solve(this);
+
+		// radiation solver
+		if (radiative) {
 			if (indexOfStep % radiosityInterval == 0) {
+				refreshPowerArray();
 				radiositySolver.solve();
 			}
 		}
+
+		// convection solver
 		if (convective) {
 			fluidSolver.solve(u, v);
 			if (!fans.isEmpty())
 				applyFans();
 		}
+
+		// conduction solver
 		heatSolver.solve(convective, t);
+
+		// particle solver
 		if (!particles.isEmpty())
 			particleSolver.move(this);
-		if (!clouds.isEmpty()) {
-			synchronized (clouds) {
-				for (Cloud c : clouds)
-					c.move(heatSolver.getTimeStep(), lx);
-			}
-		}
 		if (!particleFeeders.isEmpty()) {
 			synchronized (particleFeeders) {
 				for (ParticleFeeder pf : particleFeeders) {
@@ -1561,7 +1565,17 @@ public class Model2D {
 				}
 			}
 		}
+
+		// other animations
+		if (!clouds.isEmpty()) {
+			synchronized (clouds) {
+				for (Cloud c : clouds)
+					c.move(heatSolver.getTimeStep(), lx);
+			}
+		}
+
 		indexOfStep++;
+
 	}
 
 	private void applyFans() {

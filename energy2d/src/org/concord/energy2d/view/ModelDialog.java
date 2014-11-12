@@ -524,7 +524,8 @@ class ModelDialog extends JDialog {
 		p = new JPanel(new SpringLayout());
 		pp = new JPanel(new BorderLayout());
 		pp.add(p, BorderLayout.NORTH);
-		tabbedPane.add(pp, "Light");
+		pp.add(new JLabel("<html><br><hr align=left width=100>* The above parameters set up a photon (light particle) simulation of sunlight.</html>"), BorderLayout.CENTER);
+		tabbedPane.add(pp, "Sunlight");
 		count = 0;
 
 		rayNumberLabel = new JLabel("Ray number");
