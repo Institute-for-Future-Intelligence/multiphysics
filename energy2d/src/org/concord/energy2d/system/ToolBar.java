@@ -1,21 +1,20 @@
-/*
- *   Copyright (C) 2010  The Concord Consortium, Inc.,
- *   25 Love Lane, Concord, MA 01742
- *
- */
-
 package org.concord.energy2d.system;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
@@ -24,6 +23,7 @@ import org.concord.energy2d.event.GraphListener;
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.event.ManipulationListener;
 import org.concord.energy2d.util.MiscUtil;
+import org.concord.energy2d.view.Symbol;
 import org.concord.energy2d.view.View2D;
 
 /**
@@ -36,9 +36,12 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 	private JToggleButton selectButton;
 	private JToggleButton heatingButton;
 
+	private JPopupMenu sensorMenu;
+	private JToggleButton sensorButton;
+
 	private System2D box;
 
-	ToolBar(System2D s2d) {
+	ToolBar(final System2D s2d) {
 
 		super(HORIZONTAL);
 		setFloatable(false);
@@ -135,21 +138,96 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		add(heatingButton);
 		bg.add(heatingButton);
 
-		x = new JToggleButton(new ImageIcon(ToolBar.class.getResource("resources/thermometer.png")));
-		x.setToolTipText("Add a thermometer");
-		x.addItemListener(new ItemListener() {
+		// create sensor button and its associated popup menu
+		Symbol thermometerIcon = Symbol.get("Thermometer");
+		thermometerIcon.setIconWidth(5);
+		thermometerIcon.setIconHeight(25);
+		thermometerIcon.setMarginX(13);
+		thermometerIcon.setMarginY(3);
+		thermometerIcon.setOffsetX(13);
+		thermometerIcon.setOffsetY(2);
+		sensorButton = new JToggleButton(thermometerIcon);
+		final JRadioButtonMenuItem rbmiThermometer = new JRadioButtonMenuItem("Thermometer", thermometerIcon, true);
+		Symbol heatFluxSensorIcon = Symbol.get("Heat Flux Sensor");
+		heatFluxSensorIcon.setIconWidth(24);
+		heatFluxSensorIcon.setIconHeight(10);
+		heatFluxSensorIcon.setMarginX(4);
+		heatFluxSensorIcon.setMarginY(11);
+		heatFluxSensorIcon.setOffsetX(4);
+		heatFluxSensorIcon.setOffsetY(11);
+		final JRadioButtonMenuItem rbmiHeatFluxSensor = new JRadioButtonMenuItem("Heat Flux Sensor", heatFluxSensorIcon, false);
+		Symbol anemometerIcon = Symbol.get("Anemometer");
+		anemometerIcon.setIconWidth(24);
+		anemometerIcon.setIconHeight(24);
+		anemometerIcon.setMarginX(4);
+		anemometerIcon.setMarginY(4);
+		anemometerIcon.setOffsetX(4);
+		anemometerIcon.setOffsetY(4);
+		final JRadioButtonMenuItem rbmiAnemometer = new JRadioButtonMenuItem("Anemometer", anemometerIcon, false);
+		ActionListener sensorChoiceAction = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JRadioButtonMenuItem selected = (JRadioButtonMenuItem) e.getSource();
+				sensorButton.setIcon(selected.getIcon());
+				if (selected == rbmiThermometer) {
+					box.view.setActionMode(View2D.THERMOMETER_MODE);
+					sensorButton.setToolTipText("Drop a thermometer");
+				} else if (selected == rbmiHeatFluxSensor) {
+					box.view.setActionMode(View2D.HEAT_FLUX_SENSOR_MODE);
+					sensorButton.setToolTipText("Drop a heat flux sensor");
+				} else if (selected == rbmiAnemometer) {
+					box.view.setActionMode(View2D.ANEMOMETER_MODE);
+					sensorButton.setToolTipText("Drop an anemometer");
+				}
+				sensorButton.setSelected(true);
+				s2d.view.requestFocusInWindow();
+			}
+		};
+		rbmiThermometer.addActionListener(sensorChoiceAction);
+		rbmiHeatFluxSensor.addActionListener(sensorChoiceAction);
+		rbmiAnemometer.addActionListener(sensorChoiceAction);
+		sensorMenu = new JPopupMenu();
+		sensorMenu.add(rbmiThermometer);
+		sensorMenu.add(rbmiHeatFluxSensor);
+		sensorMenu.add(rbmiAnemometer);
+		ButtonGroup bgSensor = new ButtonGroup();
+		bgSensor.add(rbmiThermometer);
+		bgSensor.add(rbmiHeatFluxSensor);
+		bgSensor.add(rbmiAnemometer);
+
+		sensorButton.setToolTipText("Drop a thermometer");
+		sensorButton.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				box.view.setActionMode(View2D.THERMOMETER_MODE);
+				if (rbmiThermometer.isSelected())
+					box.view.setActionMode(View2D.THERMOMETER_MODE);
+				else if (rbmiHeatFluxSensor.isSelected())
+					box.view.setActionMode(View2D.HEAT_FLUX_SENSOR_MODE);
+				else if (rbmiAnemometer.isSelected())
+					box.view.setActionMode(View2D.ANEMOMETER_MODE);
 				graphButton.setEnabled(true);
 			}
 		});
-		x.addActionListener(new ActionListener() {
+		sensorButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MiscUtil.setSelectedSilently(graphButton, false);
 			}
 		});
-		add(x);
-		bg.add(x);
+		add(sensorButton);
+		bg.add(sensorButton);
+
+		JButton arrowButton = new JButton();
+		Dimension d = new Dimension(12, x.getMaximumSize().height);
+		arrowButton.setMaximumSize(d);
+		arrowButton.setIcon(new Symbol.ArrowHead(Color.BLACK, d.width, d.height));
+		arrowButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(final ActionEvent e) {
+				sensorMenu.show(sensorButton, 0, sensorButton.getHeight());
+			}
+		});
+		arrowButton.setBorder(BorderFactory.createEmptyBorder());
+		arrowButton.setFocusPainted(false);
+		add(arrowButton);
 
 		graphButton = new JToggleButton(new ImageIcon(ToolBar.class.getResource("resources/graph.png")));
 		graphButton.setEnabled(false);

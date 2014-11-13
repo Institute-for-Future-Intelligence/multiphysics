@@ -99,6 +99,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public final static byte POLYGON_MODE = 3;
 	public final static byte BLOB_MODE = 4;
 	public final static byte THERMOMETER_MODE = 11;
+	public final static byte HEAT_FLUX_SENSOR_MODE = 12;
+	public final static byte ANEMOMETER_MODE = 13;
 	public final static byte HEATING_MODE = 21;
 
 	public final static byte HEATMAP_NONE = 0;
@@ -519,6 +521,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 			break;
 		case THERMOMETER_MODE:
+		case HEAT_FLUX_SENSOR_MODE:
+		case ANEMOMETER_MODE:
 			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			break;
 		case HEATING_MODE:
@@ -1672,9 +1676,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		int stringWidth = g.getFontMetrics().stringWidth(s);
 		g.setStroke(thinStroke);
 		g.setColor(Color.black);
-		g.fillRoundRect(button.x + (button.w - stringWidth) / 2 - 5, button.y - 24, stringWidth + 10, 20, 8, 8);
+		g.fillRoundRect(button.xSymbol + (button.wSymbol - stringWidth) / 2 - 5, button.ySymbol - 24, stringWidth + 10, 20, 8, 8);
 		g.setColor(Color.white);
-		g.drawString(s, button.x + (button.w - stringWidth) / 2, button.y - 12);
+		g.drawString(s, button.xSymbol + (button.wSymbol - stringWidth) / 2, button.ySymbol - 12);
 	}
 
 	private void drawMouseReadString(Graphics2D g, String s) {
@@ -1957,13 +1961,13 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					y = (int) (ry * getHeight() - iconH2);
 					str = HEAT_FLUX_FORMAT.format(f.getValue()) + "W/m" + '\u00B2';
 					if (f.getAngle() != 0)
-						g.rotate(f.getAngle(), x + s.w / 2, y + s.h / 2);
+						g.rotate(f.getAngle(), x + s.wSymbol / 2, y + s.hSymbol / 2);
 					centerString(str, g, (int) (x + iconW2), y - 5, true);
 					if (f.getLabel() != null)
 						centerString(f.getLabel(), g, (int) (x + iconW2), y + s.getIconHeight() + 12, false);
 					s.paintIcon(this, g, x, y);
 					if (f.getAngle() != 0)
-						g.rotate(-f.getAngle(), x + s.w / 2, y + s.h / 2);
+						g.rotate(-f.getAngle(), x + s.wSymbol / 2, y + s.hSymbol / 2);
 				}
 			}
 		}
@@ -3511,6 +3515,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		case THERMOMETER_MODE:
 			addThermometer(convertPixelToPointX(x), convertPixelToPointY(y));
 			notifyManipulationListeners(model.getThermometers().get(model.getThermometers().size() - 1), ManipulationEvent.OBJECT_ADDED);
+			break;
+		case HEAT_FLUX_SENSOR_MODE:
+			addHeatFluxSensor(convertPixelToPointX(x), convertPixelToPointY(y));
+			notifyManipulationListeners(model.getHeatFluxSensors().get(model.getHeatFluxSensors().size() - 1), ManipulationEvent.OBJECT_ADDED);
+			break;
+		case ANEMOMETER_MODE:
+			addAnemometer(convertPixelToPointX(x), convertPixelToPointY(y));
+			notifyManipulationListeners(model.getAnemometers().get(model.getAnemometers().size() - 1), ManipulationEvent.OBJECT_ADDED);
 			break;
 		}
 		repaint();
