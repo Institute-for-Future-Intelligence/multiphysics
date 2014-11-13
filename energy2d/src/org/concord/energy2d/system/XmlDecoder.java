@@ -76,7 +76,7 @@ class XmlDecoder extends DefaultHandler {
 	private byte graphDataType;
 	private boolean fahrenheitUsed;
 	private boolean viewFactorLines;
-	private boolean ruler;
+	private boolean borderTickmarks;
 	private boolean grid;
 	private boolean snapToGrid = true;
 	private boolean isotherm;
@@ -203,7 +203,7 @@ class XmlDecoder extends DefaultHandler {
 		box.view.setGraphDataType(graphDataType);
 		box.view.setFahrenheitUsed(fahrenheitUsed);
 		box.view.setViewFactorLinesOn(viewFactorLines);
-		box.view.setRulerOn(ruler);
+		box.view.setBorderTickmarksOn(borderTickmarks);
 		box.view.setGridOn(grid);
 		box.view.setSnapToGrid(snapToGrid);
 		box.view.setGridSize(gridSize);
@@ -918,8 +918,8 @@ class XmlDecoder extends DefaultHandler {
 			graphDataType = Byte.parseByte(str);
 		} else if (qName == "view_factor_lines") {
 			viewFactorLines = Boolean.parseBoolean(str);
-		} else if (qName == "ruler") {
-			ruler = Boolean.parseBoolean(str);
+		} else if (qName == "ruler" || qName == "border_tickmarks") {
+			borderTickmarks = Boolean.parseBoolean(str);
 		} else if (qName == "fahrenheit_used") {
 			fahrenheitUsed = Boolean.parseBoolean(str);
 		} else if (qName == "isotherm") {
@@ -1208,7 +1208,7 @@ class XmlDecoder extends DefaultHandler {
 		graphDataType = 0;
 		fahrenheitUsed = false;
 		viewFactorLines = false;
-		ruler = false;
+		borderTickmarks = false;
 		grid = false;
 		snapToGrid = true;
 		gridSize = 10;

@@ -269,7 +269,7 @@ public abstract class Symbol implements Icon {
 			int y2 = ySymbol + hSymbol - ballDiameter + 2;
 			if (value != 0) {
 				g2.setColor(Color.red);
-				BasicStroke bs = new BasicStroke(getIconWidth() * 0.3f);
+				BasicStroke bs = new BasicStroke(wSymbol * 0.3f);
 				g2.setStroke(bs);
 				g2.drawLine(x2, y2 - value, x2, y2);
 			}

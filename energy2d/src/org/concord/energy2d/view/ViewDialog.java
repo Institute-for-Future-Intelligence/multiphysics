@@ -156,11 +156,11 @@ class ViewDialog extends JDialog {
 		p.add(checkBox);
 
 		checkBox = new JCheckBox("Ruler");
-		checkBox.setSelected(view.isRulerOn());
+		checkBox.setSelected(view.isBorderTickmarksOn());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				JCheckBox src = (JCheckBox) e.getSource();
-				view.setRulerOn(src.isSelected());
+				view.setBorderTickmarksOn(src.isSelected());
 				view.repaint();
 			}
 		});

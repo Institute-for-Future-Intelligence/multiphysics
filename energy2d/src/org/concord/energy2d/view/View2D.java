@@ -139,7 +139,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private Font labelFont = new Font("Arial", Font.PLAIN | Font.BOLD, 14);
 
 	private BufferedImage bimg;
-	private RulerRenderer rulerRenderer;
+	private TickmarksRenderer borderTickmarksRenderer;
 	private GridRenderer gridRenderer;
 	private ColorPalette colorPalette;
 	private GraphRenderer graphRenderer;
@@ -839,14 +839,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		return showViewFactorLines;
 	}
 
-	public void setRulerOn(boolean b) {
-		rulerRenderer = b ? new RulerRenderer() : null;
+	public void setBorderTickmarksOn(boolean b) {
+		borderTickmarksRenderer = b ? new TickmarksRenderer() : null;
 		if (b)
-			rulerRenderer.setSize(xmin, xmax, ymin, ymax);
+			borderTickmarksRenderer.setSize(xmin, xmax, ymin, ymax);
 	}
 
-	public boolean isRulerOn() {
-		return rulerRenderer != null;
+	public boolean isBorderTickmarksOn() {
+		return borderTickmarksRenderer != null;
 	}
 
 	public void setGridOn(boolean b) {
@@ -1292,8 +1292,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		this.xmax = xmax;
 		this.ymin = ymin;
 		this.ymax = ymax;
-		if (rulerRenderer != null)
-			rulerRenderer.setSize(xmin, xmax, ymin, ymax);
+		if (borderTickmarksRenderer != null)
+			borderTickmarksRenderer.setSize(xmin, xmax, ymin, ymax);
 	}
 
 	private Graphics2D createGraphics2D() {
@@ -1360,8 +1360,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			drawViewFactorMesh(g);
 		if (showGrid && gridRenderer != null)
 			gridRenderer.render(this, g);
-		if (rulerRenderer != null)
-			rulerRenderer.render(this, g);
+		if (borderTickmarksRenderer != null)
+			borderTickmarksRenderer.render(this, g);
 		if (showColorPalette && heatMapType != HEATMAP_NONE) {
 			colorPalette.setUseFahrenheit(fahrenheitUsed);
 			g.setStroke(thinStroke);
@@ -1593,10 +1593,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		g.setStroke(stroke);
 		if (frankOn) {
 			brand.setColor(heatMapType != HEATMAP_NONE ? Color.lightGray : Color.black);
-			brand.paintIcon(this, g, getWidth() - 84, getHeight() - (rulerRenderer != null ? 30 : 15));
+			brand.paintIcon(this, g, getWidth() - 84, getHeight() - (borderTickmarksRenderer != null ? 30 : 15));
 		}
 		if (showControlPanel)
-			drawControlPanel(g, getWidth() / 2, getHeight() - (rulerRenderer != null ? 50 : 36));
+			drawControlPanel(g, getWidth() / 2, getHeight() - (borderTickmarksRenderer != null ? 50 : 36));
 
 		if (actionMode == SELECT_MODE || actionMode == HEATING_MODE) { // draw field reader last
 			if (mouseMovedPoint.x >= 0 && mouseMovedPoint.y >= 0 && mouseMovedPoint.x < getWidth() && mouseMovedPoint.y < getHeight()) {

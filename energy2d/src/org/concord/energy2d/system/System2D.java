@@ -81,7 +81,7 @@ import com.apple.eawt.ApplicationEvent;
  */
 public class System2D extends JApplet implements MwService, ManipulationListener {
 
-	final static String BRAND_NAME = "Energy2D V2.0";
+	final static String BRAND_NAME = "Energy2D V2.1";
 
 	Model2D model;
 	View2D view;
@@ -994,7 +994,7 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 		final System2D box = new System2D();
 		box.view.setPreferredSize(new Dimension(w, w));
 		box.view.setGridOn(true);
-		box.view.setRulerOn(true);
+		box.view.setBorderTickmarksOn(true);
 		// new org.concord.energy2d.model.PartFactory(box.model).addBlob();
 		final JFrame frame = new JFrame();
 		frame.setIconImage(new ImageIcon(System2D.class.getResource("resources/frame.png")).getImage());

@@ -1,9 +1,3 @@
-/*
- *   Copyright (C) 2010  The Concord Consortium, Inc.,
- *   25 Love Lane, Concord, MA 01742
- *
- */
-
 package org.concord.energy2d.system;
 
 import java.awt.Component;
@@ -188,7 +182,7 @@ class MenuBar extends JMenuBar {
 				x.startDocument();
 				x.endDocument();
 				box.view.setGridOn(true);
-				box.view.setRulerOn(true);
+				box.view.setBorderTickmarksOn(true);
 				box.view.repaint();
 				box.notifyToolBarListener(new ToolBarEvent(ToolBarEvent.NEW_FILE, MenuBar.this));
 				box.setSaved(true);
@@ -559,7 +553,7 @@ class MenuBar extends JMenuBar {
 		final JCheckBoxMenuItem miHeatFluxLine = new JCheckBoxMenuItem("Heat Flux Lines");
 		final JCheckBoxMenuItem miColorPalette = new JCheckBoxMenuItem("Color Palette");
 		final JCheckBoxMenuItem miViewFactorLines = new JCheckBoxMenuItem("View Factor Lines");
-		final JCheckBoxMenuItem miRuler = new JCheckBoxMenuItem("Ruler");
+		final JCheckBoxMenuItem miTickmarks = new JCheckBoxMenuItem("Border Tickmarks");
 		final JCheckBoxMenuItem miGrid = new JCheckBoxMenuItem("Grid");
 		final JMenuItem miIncrGrid = new JMenuItem("Increase Grid Lines");
 		final JMenuItem miDecrGrid = new JMenuItem("Decrease Grid Lines");
@@ -577,7 +571,7 @@ class MenuBar extends JMenuBar {
 				MiscUtil.setSelectedSilently(miHeatFluxLine, box.view.isHeatFluxLinesOn());
 				MiscUtil.setSelectedSilently(miColorPalette, box.view.isColorPaletteOn());
 				MiscUtil.setSelectedSilently(miViewFactorLines, box.view.isViewFactorLinesOn());
-				MiscUtil.setSelectedSilently(miRuler, box.view.isRulerOn());
+				MiscUtil.setSelectedSilently(miTickmarks, box.view.isBorderTickmarksOn());
 				MiscUtil.setSelectedSilently(miGrid, box.view.isGridOn());
 				miIncrGrid.setEnabled(box.view.isGridOn());
 				miDecrGrid.setEnabled(box.view.isGridOn());
@@ -602,7 +596,7 @@ class MenuBar extends JMenuBar {
 				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 			}
 		});
-		miSeeThrough.setToolTipText("Check if you wish to make all parts transparent to see heat flows inside them");
+		miSeeThrough.setToolTipText("Make all parts transparent to see heat flows inside them");
 		menu.add(miSeeThrough);
 
 		miIsotherm.addItemListener(new ItemListener() {
@@ -613,7 +607,7 @@ class MenuBar extends JMenuBar {
 				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 			}
 		});
-		miIsotherm.setToolTipText("Check if you wish to show isotherm lines");
+		miIsotherm.setToolTipText("Show isotherm lines");
 		menu.add(miIsotherm);
 
 		miHeatFluxLine.addItemListener(new ItemListener() {
@@ -624,7 +618,7 @@ class MenuBar extends JMenuBar {
 				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 			}
 		});
-		miHeatFluxLine.setToolTipText("Check if you wish to show heat flux lines");
+		miHeatFluxLine.setToolTipText("Show heat flux lines");
 		menu.add(miHeatFluxLine);
 
 		miHeatFluxArrow.addItemListener(new ItemListener() {
@@ -635,7 +629,7 @@ class MenuBar extends JMenuBar {
 				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 			}
 		});
-		miHeatFluxArrow.setToolTipText("Check if you wish to show heat flux arrows");
+		miHeatFluxArrow.setToolTipText("Show heat flux arrows");
 		menu.add(miHeatFluxArrow);
 
 		miVelocity.addItemListener(new ItemListener() {
@@ -646,7 +640,7 @@ class MenuBar extends JMenuBar {
 				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 			}
 		});
-		miVelocity.setToolTipText("Check if you wish to show velocity vectors");
+		miVelocity.setToolTipText("Show velocity vectors");
 		menu.add(miVelocity);
 
 		miStreamline.addItemListener(new ItemListener() {
@@ -657,8 +651,19 @@ class MenuBar extends JMenuBar {
 				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 			}
 		});
-		miStreamline.setToolTipText("Check if you wish to show streamlines");
+		miStreamline.setToolTipText("Show streamlines");
 		menu.add(miStreamline);
+
+		miViewFactorLines.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
+				box.view.setViewFactorLinesOn(src.isSelected());
+				box.view.repaint();
+				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
+			}
+		});
+		miViewFactorLines.setToolTipText("Show the view factor lines");
+		menu.add(miViewFactorLines);
 
 		final JRadioButtonMenuItem miMouseDefafult = new JRadioButtonMenuItem("Default");
 		final JRadioButtonMenuItem miMouseTemperature = new JRadioButtonMenuItem("Temperature");
@@ -756,7 +761,7 @@ class MenuBar extends JMenuBar {
 				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 			}
 		});
-		miColorPalette.setToolTipText("Check if you wish to show the Color Palette");
+		miColorPalette.setToolTipText("Show the Color Palette");
 		menu.add(miColorPalette);
 
 		miControlPanel.addItemListener(new ItemListener() {
@@ -767,32 +772,21 @@ class MenuBar extends JMenuBar {
 				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 			}
 		});
-		miControlPanel.setToolTipText("Check if you wish to show the built-in control panel");
+		miControlPanel.setToolTipText("Show the built-in control panel");
 		menu.add(miControlPanel);
 
 		menu.addSeparator();
 
-		miViewFactorLines.addItemListener(new ItemListener() {
+		miTickmarks.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
-				box.view.setViewFactorLinesOn(src.isSelected());
+				box.view.setBorderTickmarksOn(src.isSelected());
 				box.view.repaint();
 				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 			}
 		});
-		miViewFactorLines.setToolTipText("Check if you wish to show the view factor lines");
-		menu.add(miViewFactorLines);
-
-		miRuler.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
-				box.view.setRulerOn(src.isSelected());
-				box.view.repaint();
-				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
-			}
-		});
-		miRuler.setToolTipText("Check if you wish to show the Ruler");
-		menu.add(miRuler);
+		miTickmarks.setToolTipText("Show the tickmarks on borders");
+		menu.add(miTickmarks);
 
 		miGrid.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -802,7 +796,7 @@ class MenuBar extends JMenuBar {
 				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 			}
 		});
-		miGrid.setToolTipText("Check if you wish to show grid lines");
+		miGrid.setToolTipText("Show grid lines");
 		menu.add(miGrid);
 
 		ks = KeyStroke.getKeyStroke('[', KeyEvent.ALT_MASK);

@@ -714,7 +714,7 @@ class Scripter2D extends Scripter {
 					s2d.view.setFahrenheitUsed("true".equalsIgnoreCase(t[1]));
 					s2d.view.repaint();
 				} else if (t[0].equalsIgnoreCase("ruler")) {
-					s2d.view.setRulerOn("true".equalsIgnoreCase(t[1]));
+					s2d.view.setBorderTickmarksOn("true".equalsIgnoreCase(t[1]));
 					s2d.view.repaint();
 				} else if (t[0].equalsIgnoreCase("graph")) {
 					s2d.view.setGraphOn("true".equalsIgnoreCase(t[1]));

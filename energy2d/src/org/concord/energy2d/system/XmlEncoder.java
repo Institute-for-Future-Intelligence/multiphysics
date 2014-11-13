@@ -215,8 +215,8 @@ class XmlEncoder {
 			sb.append("<view_factor_lines>true</view_factor_lines>\n");
 		}
 		sb.append("<perimeter_step_size>" + box.model.getPerimeterStepSize() + "</perimeter_step_size>\n");
-		if (box.view.isRulerOn()) {
-			sb.append("<ruler>true</ruler>\n");
+		if (box.view.isBorderTickmarksOn()) {
+			sb.append("<border_tickmarks>true</border_tickmarks>\n");
 		}
 		if (box.view.isIsothermOn()) {
 			sb.append("<isotherm>true</isotherm>\n");

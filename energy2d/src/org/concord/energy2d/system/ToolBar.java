@@ -139,11 +139,12 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		bg.add(heatingButton);
 
 		// create sensor button and its associated popup menu
-		Symbol thermometerIcon = Symbol.get("Thermometer");
-		thermometerIcon.setIconWidth(5);
-		thermometerIcon.setIconHeight(25);
+		Symbol.Thermometer thermometerIcon = new Symbol.Thermometer();
+		thermometerIcon.setValue(5);
+		thermometerIcon.setIconWidth(4);
+		thermometerIcon.setIconHeight(24);
 		thermometerIcon.setMarginX(13);
-		thermometerIcon.setMarginY(3);
+		thermometerIcon.setMarginY(2);
 		thermometerIcon.setOffsetX(13);
 		thermometerIcon.setOffsetY(2);
 		sensorButton = new JToggleButton(thermometerIcon);
@@ -219,6 +220,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		Dimension d = new Dimension(12, x.getMaximumSize().height);
 		arrowButton.setMaximumSize(d);
 		arrowButton.setIcon(new Symbol.ArrowHead(Color.BLACK, d.width, d.height));
+		arrowButton.setToolTipText("Click to select the sensor type to add using the button to the left");
 		arrowButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
