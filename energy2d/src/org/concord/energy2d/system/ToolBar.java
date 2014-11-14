@@ -1,5 +1,6 @@
 package org.concord.energy2d.system;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -35,9 +36,6 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 	private JToggleButton graphButton;
 	private JToggleButton selectButton;
 	private JToggleButton heatingButton;
-
-	private JPopupMenu sensorMenu;
-	private JToggleButton sensorButton;
 
 	private System2D box;
 
@@ -123,31 +121,81 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		add(x);
 		bg.add(x);
 
-		heatingButton = new JToggleButton(new ImageIcon(ToolBar.class.getResource("resources/heat.png")));
-		heatingButton.setToolTipText("Click to heat, shift-click to cool");
-		heatingButton.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				box.view.setActionMode(View2D.HEATING_MODE);
-			}
-		});
-		heatingButton.addActionListener(new ActionListener() {
+		// create particle button and its associated popup menu
+		ImageIcon particleIcon = new ImageIcon(ToolBar.class.getResource("resources/particle.png"));
+		final JToggleButton particleButton = new JToggleButton(particleIcon);
+		final JRadioButtonMenuItem rbmiParticle = new JRadioButtonMenuItem("Particle", particleIcon, true);
+		Symbol.ParticleFeederIcon particleFeederIcon = new Symbol.ParticleFeederIcon(Color.WHITE, Color.GRAY);
+		particleFeederIcon.setStroke(new BasicStroke(3));
+		particleFeederIcon.setIconWidth(19);
+		particleFeederIcon.setIconHeight(19);
+		particleFeederIcon.setMarginX(7);
+		particleFeederIcon.setMarginY(7);
+		particleFeederIcon.setOffsetX(7);
+		particleFeederIcon.setOffsetY(7);
+		final JRadioButtonMenuItem rbmiParticleFeeder = new JRadioButtonMenuItem("Particle Feeder", particleFeederIcon, false);
+		ActionListener particleChoiceAction = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				MiscUtil.setSelectedSilently(graphButton, false);
+				JRadioButtonMenuItem selected = (JRadioButtonMenuItem) e.getSource();
+				particleButton.setIcon(selected.getIcon());
+				if (selected == rbmiParticle) {
+					box.view.setActionMode(View2D.PARTICLE_MODE);
+					particleButton.setToolTipText("Drop a particle");
+				} else if (selected == rbmiParticleFeeder) {
+					box.view.setActionMode(View2D.PARTICLE_FEEDER_MODE);
+					particleButton.setToolTipText("Drop a particle feeder");
+				}
+				particleButton.setSelected(true);
+				s2d.view.requestFocusInWindow();
+			}
+		};
+		rbmiParticle.addActionListener(particleChoiceAction);
+		rbmiParticleFeeder.addActionListener(particleChoiceAction);
+		final JPopupMenu particleMenu = new JPopupMenu();
+		particleMenu.add(rbmiParticle);
+		particleMenu.add(rbmiParticleFeeder);
+		ButtonGroup bgParticle = new ButtonGroup();
+		bgParticle.add(rbmiParticle);
+		bgParticle.add(rbmiParticleFeeder);
+
+		particleButton.setToolTipText("Drop a particle");
+		particleButton.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (rbmiParticle.isSelected())
+					box.view.setActionMode(View2D.PARTICLE_MODE);
+				else if (rbmiParticleFeeder.isSelected())
+					box.view.setActionMode(View2D.PARTICLE_FEEDER_MODE);
 			}
 		});
-		add(heatingButton);
-		bg.add(heatingButton);
+		add(particleButton);
+		bg.add(particleButton);
+
+		JButton arrowButton = new JButton();
+		Dimension d = new Dimension(12, x.getMaximumSize().height);
+		arrowButton.setMaximumSize(d);
+		arrowButton.setIcon(new Symbol.ArrowHead(Color.BLACK, d.width, d.height));
+		arrowButton.setToolTipText("Click to select the particle action using the button to the left");
+		arrowButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				particleMenu.show(particleButton, 0, particleButton.getHeight());
+			}
+		});
+		arrowButton.setBorder(BorderFactory.createEmptyBorder());
+		arrowButton.setFocusPainted(false);
+		add(arrowButton);
 
 		// create sensor button and its associated popup menu
 		Symbol.Thermometer thermometerIcon = new Symbol.Thermometer();
 		thermometerIcon.setValue(5);
 		thermometerIcon.setIconWidth(4);
 		thermometerIcon.setIconHeight(24);
-		thermometerIcon.setMarginX(13);
-		thermometerIcon.setMarginY(2);
-		thermometerIcon.setOffsetX(13);
-		thermometerIcon.setOffsetY(2);
-		sensorButton = new JToggleButton(thermometerIcon);
+		thermometerIcon.setMarginX(14);
+		thermometerIcon.setMarginY(4);
+		thermometerIcon.setOffsetX(14);
+		thermometerIcon.setOffsetY(4);
+		final JToggleButton sensorButton = new JToggleButton(thermometerIcon);
 		final JRadioButtonMenuItem rbmiThermometer = new JRadioButtonMenuItem("Thermometer", thermometerIcon, true);
 		Symbol heatFluxSensorIcon = Symbol.get("Heat Flux Sensor");
 		heatFluxSensorIcon.setIconWidth(24);
@@ -187,7 +235,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		rbmiThermometer.addActionListener(sensorChoiceAction);
 		rbmiHeatFluxSensor.addActionListener(sensorChoiceAction);
 		rbmiAnemometer.addActionListener(sensorChoiceAction);
-		sensorMenu = new JPopupMenu();
+		final JPopupMenu sensorMenu = new JPopupMenu();
 		sensorMenu.add(rbmiThermometer);
 		sensorMenu.add(rbmiHeatFluxSensor);
 		sensorMenu.add(rbmiAnemometer);
@@ -216,14 +264,13 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		add(sensorButton);
 		bg.add(sensorButton);
 
-		JButton arrowButton = new JButton();
-		Dimension d = new Dimension(12, x.getMaximumSize().height);
+		arrowButton = new JButton();
 		arrowButton.setMaximumSize(d);
 		arrowButton.setIcon(new Symbol.ArrowHead(Color.BLACK, d.width, d.height));
 		arrowButton.setToolTipText("Click to select the sensor type to add using the button to the left");
 		arrowButton.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				sensorMenu.show(sensorButton, 0, sensorButton.getHeight());
 			}
 		});
@@ -243,6 +290,21 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 			}
 		});
 		add(graphButton);
+
+		heatingButton = new JToggleButton(new ImageIcon(ToolBar.class.getResource("resources/heat.png")));
+		heatingButton.setToolTipText("Click to heat, shift-click to cool");
+		heatingButton.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				box.view.setActionMode(View2D.HEATING_MODE);
+			}
+		});
+		heatingButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MiscUtil.setSelectedSilently(graphButton, false);
+			}
+		});
+		add(heatingButton);
+		bg.add(heatingButton);
 
 		JButton button = new JButton(new ImageIcon(ToolBar.class.getResource("resources/zoomin.png")));
 		button.setToolTipText("Halve the size of the simulation box");

@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Polygon;
+import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
@@ -170,7 +171,7 @@ public abstract class Symbol implements Icon {
 		if ("Heat Flux Sensor".equals(s))
 			return new HeatFluxSensor();
 		if ("Particle Feeder".equals(s))
-			return new ParticleFeederIcon(Color.WHITE);
+			return new ParticleFeederIcon(Color.GRAY, Color.WHITE);
 		if ("Sun".equals(s))
 			return new Sun(Color.YELLOW, 16, 16);
 		if ("Moon".equals(s))
@@ -262,6 +263,8 @@ public abstract class Symbol implements Icon {
 		public void paintIcon(Component c, Graphics g, int x, int y) {
 			super.paintIcon(c, g, x, y);
 			Graphics2D g2 = (Graphics2D) g;
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 			g2.setColor(Color.white);
 			g2.fillRect(xSymbol, ySymbol, wSymbol, hSymbol);
 			ballDiameter = Math.round(wSymbol * 1.45f);
@@ -302,6 +305,8 @@ public abstract class Symbol implements Icon {
 			super.paintIcon(c, g, x, y);
 			int y2 = Math.round(ySymbol + hSymbol * 0.5f);
 			Graphics2D g2 = (Graphics2D) g;
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 			g2.setColor(Color.white);
 			g2.fillRect(xSymbol, ySymbol, wSymbol, hSymbol);
 			g2.fillOval(xSymbol - 7, y2 - 3, 6, 6);
@@ -339,6 +344,8 @@ public abstract class Symbol implements Icon {
 			super.paintIcon(c, g, x, y);
 
 			Graphics2D g2 = (Graphics2D) g;
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 			double xc = xSymbol + wSymbol * 0.5;
 			double yc = ySymbol + hSymbol * 0.5;
 			g2.setColor(Color.white);
@@ -374,22 +381,23 @@ public abstract class Symbol implements Icon {
 
 	}
 
-	static class ParticleFeederIcon extends Symbol {
+	public static class ParticleFeederIcon extends Symbol {
 
 		private Color borderColor;
+		private Color color;
 
-		public ParticleFeederIcon(Color color) {
-			setColor(color);
-		}
-
-		public void setColor(Color color) {
-			this.borderColor = color;
+		public ParticleFeederIcon(Color color, Color borderColor) {
+			this.color = color;
+			this.borderColor = borderColor;
 		}
 
 		public void paintIcon(Component c, Graphics g, int x, int y) {
 			super.paintIcon(c, g, x, y);
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setColor(Color.GRAY);
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			g2.setStroke(stroke);
+			g2.setColor(color);
 			g2.fillRoundRect(xSymbol, ySymbol, wSymbol, hSymbol, 8, 8);
 			g2.setColor(borderColor);
 			g2.drawRoundRect(xSymbol, ySymbol, wSymbol, hSymbol, 8, 8);

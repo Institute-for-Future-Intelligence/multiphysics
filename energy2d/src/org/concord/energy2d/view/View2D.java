@@ -102,6 +102,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public final static byte HEAT_FLUX_SENSOR_MODE = 12;
 	public final static byte ANEMOMETER_MODE = 13;
 	public final static byte HEATING_MODE = 21;
+	public final static byte PARTICLE_MODE = 31;
+	public final static byte PARTICLE_FEEDER_MODE = 32;
 
 	public final static byte HEATMAP_NONE = 0;
 	public final static byte HEATMAP_TEMPERATURE = 1;
@@ -523,6 +525,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		case THERMOMETER_MODE:
 		case HEAT_FLUX_SENSOR_MODE:
 		case ANEMOMETER_MODE:
+		case PARTICLE_MODE:
+		case PARTICLE_FEEDER_MODE:
 			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			break;
 		case HEATING_MODE:
@@ -3513,16 +3517,24 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			cooling = false;
 			break;
 		case THERMOMETER_MODE:
-			addThermometer(convertPixelToPointX(x), convertPixelToPointY(y));
+			setSelectedManipulable(addThermometer(convertPixelToPointX(x), convertPixelToPointY(y)));
 			notifyManipulationListeners(model.getThermometers().get(model.getThermometers().size() - 1), ManipulationEvent.OBJECT_ADDED);
 			break;
 		case HEAT_FLUX_SENSOR_MODE:
-			addHeatFluxSensor(convertPixelToPointX(x), convertPixelToPointY(y));
+			setSelectedManipulable(addHeatFluxSensor(convertPixelToPointX(x), convertPixelToPointY(y)));
 			notifyManipulationListeners(model.getHeatFluxSensors().get(model.getHeatFluxSensors().size() - 1), ManipulationEvent.OBJECT_ADDED);
 			break;
 		case ANEMOMETER_MODE:
-			addAnemometer(convertPixelToPointX(x), convertPixelToPointY(y));
+			setSelectedManipulable(addAnemometer(convertPixelToPointX(x), convertPixelToPointY(y)));
 			notifyManipulationListeners(model.getAnemometers().get(model.getAnemometers().size() - 1), ManipulationEvent.OBJECT_ADDED);
+			break;
+		case PARTICLE_MODE:
+			setSelectedManipulable(addParticle(convertPixelToPointX(x), convertPixelToPointY(y)));
+			notifyManipulationListeners(model.getParticles().get(model.getParticles().size() - 1), ManipulationEvent.OBJECT_ADDED);
+			break;
+		case PARTICLE_FEEDER_MODE:
+			setSelectedManipulable(addParticleFeeder(convertPixelToPointX(x), convertPixelToPointY(y)));
+			notifyManipulationListeners(model.getParticleFeeders().get(model.getParticleFeeders().size() - 1), ManipulationEvent.OBJECT_ADDED);
 			break;
 		}
 		repaint();
