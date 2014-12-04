@@ -307,6 +307,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		bg.add(heatingButton);
 
 		JButton button = new JButton(new ImageIcon(ToolBar.class.getResource("resources/zoomin.png")));
+		button.setBorderPainted(false);
 		button.setToolTipText("Halve the size of the simulation box");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -330,6 +331,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		add(button);
 
 		button = new JButton(new ImageIcon(ToolBar.class.getResource("resources/zoomout.png")));
+		button.setBorderPainted(false);
 		button.setToolTipText("Double the size of the simulation box");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -384,10 +384,13 @@ public abstract class Symbol implements Icon {
 	public static class ParticleFeederIcon extends Symbol {
 
 		private Color borderColor;
-		private Color color;
 
 		public ParticleFeederIcon(Color color, Color borderColor) {
-			this.color = color;
+			setColor(color);
+			setBorderColor(borderColor);
+		}
+
+		public void setBorderColor(Color borderColor) {
 			this.borderColor = borderColor;
 		}
 

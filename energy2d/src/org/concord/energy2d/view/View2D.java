@@ -2307,7 +2307,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		Stroke oldStroke = g.getStroke();
 		Color oldColor = g.getColor();
 		Symbol.ParticleFeederIcon s = (Symbol.ParticleFeederIcon) Symbol.get("Particle Feeder");
-		s.setStroke(thickStroke);
+		s.setStroke(moderateStroke);
 		float w = ParticleFeeder.RELATIVE_WIDTH * model.getLx();
 		float h = ParticleFeeder.RELATIVE_HEIGHT * model.getLy();
 		s.setIconWidth((int) (w * getHeight() / (xmax - xmin))); // use view height to set icon dimension so that the icon doesn't get distorted
