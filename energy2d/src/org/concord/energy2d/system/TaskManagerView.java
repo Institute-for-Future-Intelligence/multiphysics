@@ -1,8 +1,3 @@
-/*
- *   Copyright (C) 2012  The Concord Consortium, Inc.,
- *   25 Love Lane, Concord, MA 01742
- */
-
 package org.concord.energy2d.system;
 
 import java.awt.BorderLayout;
