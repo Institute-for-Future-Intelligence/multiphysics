@@ -1535,14 +1535,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			g.draw(ellipse);
 			break;
 		case POLYGON_MODE:
-			g.setColor(Color.YELLOW);
-			g.setFont(smallFont);
-			g.drawString("Double-click to finalize the shape", 30, 30);
 			g.setColor(TRANSLUCENT_GRAY);
 			g.fill(polygon);
 			g.setColor(Color.WHITE);
 			g.draw(polygon);
 			if (mouseMovedPoint.x >= 0 && mouseMovedPoint.y >= 0 && mouseReleasedPoint.x >= 0 && mouseReleasedPoint.y >= 0) {
+				g.setColor(Color.YELLOW);
+				g.setFont(smallFont);
+				g.drawString("Double-click to finalize the shape", 30, 30);
 				g.setColor(Color.GREEN);
 				g.drawLine(mouseMovedPoint.x, mouseMovedPoint.y, mouseReleasedPoint.x, mouseReleasedPoint.y);
 				int np = polygon.npoints;
@@ -1559,10 +1559,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			}
 			break;
 		case BLOB_MODE:
-			g.setColor(Color.YELLOW);
-			g.setFont(smallFont);
-			g.drawString("Double-click to finalize the shape", 30, 30);
 			if (mouseMovedPoint.x >= 0 && mouseMovedPoint.y >= 0 && mouseReleasedPoint.x >= 0 && mouseReleasedPoint.y >= 0) {
+				g.setColor(Color.YELLOW);
+				g.setFont(smallFont);
+				g.drawString("Double-click to finalize the shape", 30, 30);
 				if (polygon.npoints == 1) {
 					g.setColor(Color.WHITE);
 					g.drawLine(mouseMovedPoint.x, mouseMovedPoint.y, polygon.xpoints[0], polygon.ypoints[0]);
