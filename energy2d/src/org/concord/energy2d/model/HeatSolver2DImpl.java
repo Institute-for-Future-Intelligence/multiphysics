@@ -3,6 +3,12 @@ package org.concord.energy2d.model;
 import org.concord.energy2d.util.MiscUtil;
 
 /**
+ * By default, we use an implicit solver, which is unconditionally stable. While it finds the equilibrium state more quickly, the numeric diffusion that stablizes it causes the transient state to be inaccurate.
+ * 
+ * A smaller time step will need to be used, compared with an explicit solver.
+ * 
+ * We should also implement an explicit solver as an option. It makes no sense to use an implicit method when we need transient accuracy.
+ * 
  * @author Charles Xie
  * 
  */

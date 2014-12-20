@@ -1535,6 +1535,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			g.draw(ellipse);
 			break;
 		case POLYGON_MODE:
+			g.setColor(Color.YELLOW);
+			g.setFont(smallFont);
+			g.drawString("Double-click to finalize the shape", 30, 30);
 			g.setColor(TRANSLUCENT_GRAY);
 			g.fill(polygon);
 			g.setColor(Color.WHITE);
@@ -1556,6 +1559,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			}
 			break;
 		case BLOB_MODE:
+			g.setColor(Color.YELLOW);
+			g.setFont(smallFont);
+			g.drawString("Double-click to finalize the shape", 30, 30);
 			if (mouseMovedPoint.x >= 0 && mouseMovedPoint.y >= 0 && mouseReleasedPoint.x >= 0 && mouseReleasedPoint.y >= 0) {
 				if (polygon.npoints == 1) {
 					g.setColor(Color.WHITE);
@@ -1724,6 +1730,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			for (Particle p : model.getParticles()) {
 				e.width = convertLengthToPixelX(p.getRadius() * 2.0f);
 				e.height = convertLengthToPixelY(p.getRadius() * 2.0f);
+				if (e.height > e.width)
+					e.height = e.width;
+				else
+					e.width = e.height;
 				e.x = convertPointToPixelX(p.getRx()) - e.width * 0.5f;
 				e.y = convertPointToPixelY(p.getRy()) - e.height * 0.5f;
 				g.setColor(p.getColor());
@@ -2307,7 +2317,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		Stroke oldStroke = g.getStroke();
 		Color oldColor = g.getColor();
 		Symbol.ParticleFeederIcon s = (Symbol.ParticleFeederIcon) Symbol.get("Particle Feeder");
-		s.setStroke(moderateStroke);
+		s.setStroke(thickStroke);
 		float w = ParticleFeeder.RELATIVE_WIDTH * model.getLx();
 		float h = ParticleFeeder.RELATIVE_HEIGHT * model.getLy();
 		s.setIconWidth((int) (w * getHeight() / (xmax - xmin))); // use view height to set icon dimension so that the icon doesn't get distorted
