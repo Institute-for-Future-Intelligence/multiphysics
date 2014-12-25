@@ -180,7 +180,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private int nx, ny;
 	private float time;
 	private JPopupMenu popupMenu;
-	private Rectangle[] handle = new Rectangle[16];
+	private Rectangle[] handle = new Rectangle[64]; // max 64 points for a polygon, enough?
 	private boolean mouseBeingDragged;
 	private MovingShape movingShape;
 	private Point pressedPointRelative = new Point();
