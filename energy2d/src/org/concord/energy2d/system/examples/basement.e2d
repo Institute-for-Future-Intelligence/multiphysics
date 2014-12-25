@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+</links>
+<model>
+<timestep>1.0</timestep>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<gravitational_acceleration>0.0</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.0</particle_drag><particle_hardness>0.001</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<background_density>1.0</background_density>
+<background_temperature>-5.0</background_temperature>
+<thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
+<buoyancy_approximation>1</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part>
+<polygon count="8" vertices="6.1878304, 3.5925932, 5.3878303, 3.5925932, 5.3878303, 3.3925934, 5.5878305, 3.3925934, 5.5878305, -0.0074071884, 5.98783, -0.0074071884, 5.98783, 3.3925934, 6.1878304, 3.3925934"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>0.01</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>9</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+</part>
+<part>
+<rectangle x="6.0" y="3.2000003" width="4.0" height="0.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+</part>
+<part>
+<rectangle x="6.0" y="3.5762787E-7" width="4.0" height="3.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>true</constant_temperature>
+</part>
+<part>
+<polygon count="10" vertices="9.996508, 10.076033, 9.996508, 3.3760314, 6.1965084, 3.3760314, 6.1965084, 3.5760314, 5.396508, 3.5760314, 5.396508, 3.3760314, 5.596508, 3.3760314, 5.596508, 0.87603134, -0.0034918785, 0.87603134, -0.0034918785, 9.976032"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>0.5</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>5.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>23</texture_style>
+<texture_width>36</texture_width>
+<texture_height>36</texture_height>
+</texture>
+<filled>false</filled>
+</part>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer x="7.1" y="5.3"/>
+<thermometer x="0.7" y="3.0"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<perimeter_step_size>0.05</perimeter_step_size>
+<border_tickmarks>true</border_tickmarks>
+<isotherm>true</isotherm>
+<color_palette_type>0</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>-5.0</minimum_temperature>
+<maximum_temperature>20.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Heat loss through a basement" face="Arial" size="14" style="0" color="ffffff" x="0.24999997" y="9.8"/>
+<text string="Ground" face="Arial" size="20" style="1" color="ffffff" x="4.2000003" y="4.2999997"/>
+<text string="Building 20°C" face="Arial" size="14" style="1" color="0" x="6.65" y="9.5"/>
+</view>
+</state>
