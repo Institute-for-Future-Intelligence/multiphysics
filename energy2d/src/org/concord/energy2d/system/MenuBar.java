@@ -901,6 +901,7 @@ class MenuBar extends JMenuBar {
 		examples.put("Von Kármán Vortex Street", "examples/vortex-street.e2d");
 		examples.put("Double Vortex Streets", "examples/double-vortex-streets.e2d");
 		examples.put("Eddy", "examples/eddy1.e2d");
+		examples.put("Nozzle", "examples/nozzle.e2d");
 		createMenu(box, subMenu, examples);
 
 		subMenu = new JMenu("Particle Coupling");
@@ -963,6 +964,7 @@ class MenuBar extends JMenuBar {
 		subMenu = new JMenu("Miscellaneous");
 		menu.add(subMenu);
 
+		examples.put("Complex Shapes", "examples/frigate.e2d");
 		examples.put("Collision Detection", "examples/collision.e2d");
 		examples.put("Ray Optics", "examples/ray-optics.e2d");
 		examples.put("Natural Daylighting", "examples/natural-daylighting.e2d");

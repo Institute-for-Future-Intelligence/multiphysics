@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+<next_sim>eddy2.e2d</next_sim>
+</links>
+<model>
+<model_width>40.0</model_width>
+<model_height>40.0</model_height>
+<timestep>0.05</timestep>
+<viewupdate_interval>10</viewupdate_interval>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.1</particle_drag><particle_hardness>1.0E-5</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>5.0</background_conductivity>
+<background_density>1.0</background_density>
+<background_specific_heat>100.0</background_specific_heat>
+<background_viscosity>0.01</background_viscosity>
+<thermal_expansion_coefficient>0.01</thermal_expansion_coefficient>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="1" lower="1" left="1" right="1"/>
+</boundary>
+<structure>
+<part>
+<polygon count="12" vertices="6.0, 32.800003, 34.0, 32.800003, 34.0, 30.0, 22.800001, 30.0, 22.800001, 26.0, 16.0, 26.0, 16.0, 21.199997, 13.6, 21.199997, 12.400001, 26.0, 10.400001, 26.0, 9.6, 30.0, 3.2, 30.0"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>1.0E-9</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>aaaaaa</color>
+</part>
+<part>
+<rectangle x="0.0" y="32.800003" width="40.0" height="7.2000003"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>99ff</color>
+</part>
+<part>
+<rectangle x="14.0" y="20.399994" width="2.0" height="0.8"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>100.0</temperature>
+<constant_temperature>true</constant_temperature>
+<visible>false</visible>
+</part>
+<part>
+<polygon count="8" vertices="6.2113757, 28.447617, 7.8113756, 28.447617, 7.8113756, 30.047623, 5.8113756, 30.047623, 5.8113756, 29.24762, 4.611376, 28.847626, 4.611376, 28.447617, 5.8113756, 28.847626"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>aaaaaa</color>
+</part>
+<part>
+<polygon count="24" vertices="27.62262, 28.07724, 25.02262, 28.07724, 25.02262, 28.277252, 27.222618, 28.277252, 27.422619, 28.677246, 26.222618, 29.07724, 26.02262, 29.877243, 27.02262, 30.07724, 28.222618, 30.07724, 29.222618, 29.877243, 29.422619, 29.07724, 32.022617, 28.677246, 32.22262, 29.07724, 32.42262, 28.877243, 32.22262, 28.47725, 32.42262, 27.877243, 32.22262, 27.677246, 32.022617, 28.277252, 29.422619, 28.677246, 28.62262, 28.47725, 27.62262, 28.47725, 27.822618, 28.277252, 29.822618, 28.07724, 29.822618, 27.877243"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>aaaaaa</color>
+</part>
+</structure>
+<environment>
+<cloud x="20.596647" y="0.8" width="8.0" height="1.6" speed="0.01"/>
+<cloud x="17.195057" y="1.5999999" width="6.4" height="2.4" speed="0.015"/>
+<cloud x="8.696927" y="2.4" width="12.0" height="4.0" speed="0.02"/>
+<fan x="0.0" y="0.0" width="2.0" height="32.8" speed="0.3" angle="0.0"/></environment>
+<sensor>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<perimeter_step_size>0.05</perimeter_step_size>
+<color_palette_type>2</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>50.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
+</view>
+</state>

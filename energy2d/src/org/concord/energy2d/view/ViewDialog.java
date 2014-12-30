@@ -116,7 +116,7 @@ class ViewDialog extends JDialog {
 		});
 		p.add(checkBox);
 
-		checkBox = new JCheckBox("Streamline");
+		checkBox = new JCheckBox("Streamlines");
 		checkBox.setSelected(view.isStreamlineOn());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -150,7 +150,7 @@ class ViewDialog extends JDialog {
 		});
 		p.add(checkBox);
 
-		checkBox = new JCheckBox("Ruler");
+		checkBox = new JCheckBox("Tickmarks");
 		checkBox.setSelected(view.isBorderTickmarksOn());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
