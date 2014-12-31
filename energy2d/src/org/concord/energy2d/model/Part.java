@@ -514,6 +514,9 @@ public class Part extends Manipulable {
 		} else if (shape instanceof Ellipse2D.Float) {
 			if (predictedToBeInShape)
 				return reflect((Ellipse2D.Float) shape, p, predictedX, predictedY, scatter);
+		} else if (shape instanceof Ring2D) {
+			if (predictedToBeInShape)
+				return reflect((Ring2D) shape, p, predictedX, predictedY, scatter);
 		}
 		return false;
 	}
@@ -631,6 +634,35 @@ public class Part extends Manipulable {
 		}
 		line.setLine(vx[polygonize - 1], vy[polygonize - 1], vx[0], vy[0]);
 		if (reflectFromLine(p, line, predictedX, predictedY, scatter, true))
+			return true;
+		return false;
+	}
+
+	private boolean reflect(Ring2D e, Discrete p, float predictedX, float predictedY, boolean scatter) {
+		float rInner = e.getInnerDiameter() * 0.5f;
+		float rOuter = e.getOuterDiameter() * 0.5f;
+		float x = e.getX();
+		float y = e.getY();
+		boolean inside = new Ellipse2D.Float(x - rInner, y - rInner, 2 * rInner, 2 * rInner).contains(p.getRx(), p.getRy());
+		float a = inside ? rInner : rOuter;
+		int polygonize = 50;
+		float[] vx = new float[polygonize];
+		float[] vy = new float[polygonize];
+		float theta;
+		float delta = (float) (2 * Math.PI / polygonize);
+		for (int i = 0; i < polygonize; i++) {
+			theta = -delta * i;
+			vx[i] = (float) (x + a * Math.cos(theta));
+			vy[i] = (float) (y + a * Math.sin(theta));
+		}
+		Line2D.Float line = new Line2D.Float();
+		for (int i = 0; i < polygonize - 1; i++) {
+			line.setLine(vx[i], vy[i], vx[i + 1], vy[i + 1]);
+			if (reflectFromLine(p, line, predictedX, predictedY, scatter, !inside))
+				return true;
+		}
+		line.setLine(vx[polygonize - 1], vy[polygonize - 1], vx[0], vy[0]);
+		if (reflectFromLine(p, line, predictedX, predictedY, scatter, !inside))
 			return true;
 		return false;
 	}
