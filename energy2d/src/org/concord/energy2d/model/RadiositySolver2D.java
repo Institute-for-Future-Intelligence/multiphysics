@@ -245,6 +245,8 @@ class RadiositySolver2D {
 			h *= h;
 			double perimeter = Math.PI * (a + b) * (1 + 3 * h / (10 + Math.sqrt(4 - 3 * h)));
 			int n = (int) (perimeter / patchSize);
+			if (n <= 0)
+				return;
 			float[] vx = new float[n];
 			float[] vy = new float[n];
 			float theta;
@@ -305,6 +307,8 @@ class RadiositySolver2D {
 			Ring2D r = (Ring2D) shape;
 			double perimeter = Math.PI * r.getInnerDiameter();
 			int n = (int) (perimeter / patchSize);
+			if (n <= 0)
+				return;
 			float[] vx = new float[n];
 			float[] vy = new float[n];
 			float theta;

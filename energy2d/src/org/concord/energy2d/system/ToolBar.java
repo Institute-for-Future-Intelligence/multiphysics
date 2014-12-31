@@ -324,6 +324,8 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 				box.model.refreshPowerArray();
 				box.model.refreshTemperatureBoundaryArray();
 				box.model.refreshMaterialPropertyArrays();
+				if (box.view.isViewFactorLinesOn())
+					box.model.generateViewFactorMesh();
 				box.view.repaint();
 				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 			}
@@ -348,6 +350,8 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 				box.model.refreshPowerArray();
 				box.model.refreshTemperatureBoundaryArray();
 				box.model.refreshMaterialPropertyArrays();
+				if (box.view.isViewFactorLinesOn())
+					box.model.generateViewFactorMesh();
 				box.view.repaint();
 				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 			}

@@ -419,20 +419,22 @@ public class Part extends Manipulable {
 			double perimeter = Math.PI * (a + b) * (1 + 3 * h / (10 + Math.sqrt(4 - 3 * h)));
 			float patchSize = model.getLx() * model.getPerimeterStepSize();
 			int n = (int) (perimeter / patchSize);
-			float[] vx = new float[n];
-			float[] vy = new float[n];
-			float theta;
-			float delta = (float) (2 * Math.PI / n);
-			for (int i = 0; i < n; i++) {
-				theta = delta * i;
-				vx[i] = (float) (x + a * Math.cos(theta));
-				vy[i] = (float) (y + b * Math.sin(theta));
-			}
-			for (int i = 0; i < n - 1; i++)
-				if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[i], vy[i], vx[i + 1], vy[i + 1]))
+			if (n > 0) {
+				float[] vx = new float[n];
+				float[] vy = new float[n];
+				float theta;
+				float delta = (float) (2 * Math.PI / n);
+				for (int i = 0; i < n; i++) {
+					theta = delta * i;
+					vx[i] = (float) (x + a * Math.cos(theta));
+					vy[i] = (float) (y + b * Math.sin(theta));
+				}
+				for (int i = 0; i < n - 1; i++)
+					if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[i], vy[i], vx[i + 1], vy[i + 1]))
+						return true;
+				if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[n - 1], vy[n - 1], vx[0], vy[0]))
 					return true;
-			if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[n - 1], vy[n - 1], vx[0], vy[0]))
-				return true;
+			}
 
 		} else if (shape instanceof Ring2D) {
 
@@ -445,39 +447,41 @@ public class Part extends Manipulable {
 			double perimeter = Math.PI * d;
 			float patchSize = model.getLx() * model.getPerimeterStepSize();
 			int n = (int) (perimeter / patchSize);
-			float[] vx = new float[n];
-			float[] vy = new float[n];
-			float theta;
-			float delta = (float) (2 * Math.PI / n);
-			d /= 2;
-			for (int i = 0; i < n; i++) {
-				theta = delta * i;
-				vx[i] = (float) (x + d * Math.cos(theta));
-				vy[i] = (float) (y + d * Math.sin(theta));
-			}
-			for (int i = 0; i < n - 1; i++)
-				if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[i], vy[i], vx[i + 1], vy[i + 1]))
+			if (n > 0) {
+				float[] vx = new float[n];
+				float[] vy = new float[n];
+				float theta;
+				float delta = (float) (2 * Math.PI / n);
+				d /= 2;
+				for (int i = 0; i < n; i++) {
+					theta = delta * i;
+					vx[i] = (float) (x + d * Math.cos(theta));
+					vy[i] = (float) (y + d * Math.sin(theta));
+				}
+				for (int i = 0; i < n - 1; i++)
+					if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[i], vy[i], vx[i + 1], vy[i + 1]))
+						return true;
+				if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[n - 1], vy[n - 1], vx[0], vy[0]))
 					return true;
-			if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[n - 1], vy[n - 1], vx[0], vy[0]))
-				return true;
-			// expand it a bit to ensure that it intersects with this inner line
-			d = r0.getInnerDiameter() * (1 + indent);
-			perimeter = Math.PI * d;
-			n = (int) (perimeter / patchSize);
-			vx = new float[n];
-			vy = new float[n];
-			delta = (float) (2 * Math.PI / n);
-			d /= 2;
-			for (int i = 0; i < n; i++) {
-				theta = delta * i;
-				vx[i] = (float) (x + d * Math.cos(theta));
-				vy[i] = (float) (y + d * Math.sin(theta));
-			}
-			for (int i = 0; i < n - 1; i++)
-				if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[i], vy[i], vx[i + 1], vy[i + 1]))
+				// expand it a bit to ensure that it intersects with this inner line
+				d = r0.getInnerDiameter() * (1 + indent);
+				perimeter = Math.PI * d;
+				n = (int) (perimeter / patchSize);
+				vx = new float[n];
+				vy = new float[n];
+				delta = (float) (2 * Math.PI / n);
+				d /= 2;
+				for (int i = 0; i < n; i++) {
+					theta = delta * i;
+					vx[i] = (float) (x + d * Math.cos(theta));
+					vy[i] = (float) (y + d * Math.sin(theta));
+				}
+				for (int i = 0; i < n - 1; i++)
+					if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[i], vy[i], vx[i + 1], vy[i + 1]))
+						return true;
+				if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[n - 1], vy[n - 1], vx[0], vy[0]))
 					return true;
-			if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[n - 1], vy[n - 1], vx[0], vy[0]))
-				return true;
+			}
 
 		}
 
