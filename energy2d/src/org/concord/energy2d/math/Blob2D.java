@@ -86,6 +86,60 @@ public class Blob2D implements TransformableShape {
 		return new Blob2D(x, y);
 	}
 
+	public Blob2D insertPointBefore(int k) {
+		int n = points.length;
+		float[] x = new float[n + 1];
+		float[] y = new float[n + 1];
+		if (k > 0 && k < n) {
+			for (int i = 0; i < k; i++) {
+				x[i] = points[i].x;
+				y[i] = points[i].y;
+			}
+			x[k] = 0.5f * (points[k].x + points[k - 1].x);
+			y[k] = 0.5f * (points[k].y + points[k - 1].y);
+			for (int i = k + 1; i < n + 1; i++) {
+				x[i] = points[i - 1].x;
+				y[i] = points[i - 1].y;
+			}
+		} else if (k == 0) {
+			x[0] = 0.5f * (points[0].x + points[n - 1].x);
+			y[0] = 0.5f * (points[0].y + points[n - 1].y);
+			for (int i = 1; i < n + 1; i++) {
+				x[i] = points[i - 1].x;
+				y[i] = points[i - 1].y;
+			}
+		} else {
+			return this;
+		}
+		return new Blob2D(x, y);
+	}
+
+	public Blob2D deletePointBefore(int k) {
+		int n = points.length;
+		if (n < 4)
+			return this;
+		float[] x = new float[n - 1];
+		float[] y = new float[n - 1];
+		if (k > 0 && k < n) {
+			for (int i = 0; i < k; i++) {
+				x[i] = points[i].x;
+				y[i] = points[i].y;
+			}
+			for (int i = k + 1; i < n; i++) {
+				x[i - 1] = points[i].x;
+				y[i - 1] = points[i].y;
+			}
+		} else if (k == 0) {
+			for (int i = 1; i < n; i++) {
+				x[i - 1] = points[i - 1].x;
+				y[i - 1] = points[i - 1].y;
+			}
+		} else {
+			return this;
+		}
+		return new Blob2D(x, y);
+	}
+
 	public GeneralPath getPath() {
 		return path;
 	}

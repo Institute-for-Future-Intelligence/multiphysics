@@ -3449,19 +3449,32 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					// handle double-click events
 					if (e.getClickCount() > 1) {
 						if (selectedManipulable instanceof Part) {
-							Part selectedPart = (Part) selectedManipulable;
-							Shape s = selectedPart.getShape();
-							if (s instanceof Polygon2D && selectedSpot != -1) {
-								model.removePart(selectedPart);
-								Polygon2D p = (Polygon2D) s;
-								int vertexCount = p.getVertexCount();
-								int i = selectedSpot;
-								if (vertexCount > handle.length)
-									i = (int) ((float) selectedSpot * (float) vertexCount / (float) handle.length);
-								Part newPart = model.addPolygonPart(e.isShiftDown() ? p.deleteVertexBefore(i) : p.insertVertexBefore(i));
-								selectedPart.copyPropertiesTo(newPart);
-								newPart.setUid(selectedPart.getUid());
-								setSelectedManipulable(newPart);
+							if (selectedSpot != -1) {
+								Part selectedPart = (Part) selectedManipulable;
+								Shape s = selectedPart.getShape();
+								if (s instanceof Polygon2D) {
+									model.removePart(selectedPart);
+									Polygon2D p = (Polygon2D) s;
+									int vertexCount = p.getVertexCount();
+									int i = selectedSpot;
+									if (vertexCount > handle.length)
+										i = (int) ((float) selectedSpot * (float) vertexCount / (float) handle.length);
+									Part newPart = model.addPolygonPart(e.isShiftDown() ? p.deleteVertexBefore(i) : p.insertVertexBefore(i));
+									selectedPart.copyPropertiesTo(newPart);
+									newPart.setUid(selectedPart.getUid());
+									setSelectedManipulable(newPart);
+								} else if (s instanceof Blob2D) {
+									model.removePart(selectedPart);
+									Blob2D p = (Blob2D) s;
+									int pointCount = p.getPointCount();
+									int i = selectedSpot;
+									if (pointCount > handle.length)
+										i = (int) ((float) selectedSpot * (float) pointCount / (float) handle.length);
+									Part newPart = model.addBlobPart(e.isShiftDown() ? p.deletePointBefore(i) : p.insertPointBefore(i));
+									selectedPart.copyPropertiesTo(newPart);
+									newPart.setUid(selectedPart.getUid());
+									setSelectedManipulable(newPart);
+								}
 								notifyManipulationListeners(selectedManipulable, ManipulationEvent.PROPERTY_CHANGE);
 							}
 						}
@@ -3756,7 +3769,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						}
 					} else {
 						setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-						if (shape instanceof Polygon2D) {
+						if (shape instanceof Polygon2D || shape instanceof Blob2D) {
 							tipText = "Drag to resize; double-click to insert a point; shift + double-click to remove this point";
 						}
 					}

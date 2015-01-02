@@ -955,10 +955,14 @@ public class Model2D {
 		return p;
 	}
 
-	public Part addBlobPart(float[] x, float[] y) {
-		Part p = new Part(new Blob2D(x, y), this);
+	public Part addBlobPart(Blob2D blob) {
+		Part p = new Part(blob, this);
 		addPart(p);
 		return p;
+	}
+
+	public Part addBlobPart(float[] x, float[] y) {
+		return addBlobPart(new Blob2D(x, y));
 	}
 
 	public Part addBlobPart(float[] x, float[] y, float t) {
