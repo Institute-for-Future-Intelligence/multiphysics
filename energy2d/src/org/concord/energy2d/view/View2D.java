@@ -180,12 +180,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private int nx, ny;
 	private float time;
 	private JPopupMenu popupMenu;
-	private Rectangle[] handle = new Rectangle[64]; // max 64 points for a polygon, enough?
+	private Rectangle[] handle = new Rectangle[256];
 	private boolean mouseBeingDragged;
 	private MovingShape movingShape;
 	private Point pressedPointRelative = new Point();
 	private long mousePressedTime;
-	private byte selectedSpot = -1;
+	private int selectedSpot = -1;
 	private Point anchorPoint = new Point();
 	private AffineTransform scale;
 	private ContourMap isotherms;
@@ -207,6 +207,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private Symbol brand;
 	private Symbol moon, sun;
 	private Symbol startIcon, resetIcon, graphIcon, switchIcon, nextIcon, prevIcon, modeIcon; // control panel to support touch screen
+	private String tipText;
+	private Point tipTextLocation = new Point(30, 30);
 
 	Model2D model;
 	private Manipulable selectedManipulable, copiedManipulable;
@@ -1540,9 +1542,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			g.setColor(Color.WHITE);
 			g.draw(polygon);
 			if (mouseMovedPoint.x >= 0 && mouseMovedPoint.y >= 0 && mouseReleasedPoint.x >= 0 && mouseReleasedPoint.y >= 0) {
-				g.setColor(Color.YELLOW);
-				g.setFont(smallFont);
-				g.drawString("Double-click to finalize the shape", 30, 30);
 				g.setColor(Color.GREEN);
 				g.drawLine(mouseMovedPoint.x, mouseMovedPoint.y, mouseReleasedPoint.x, mouseReleasedPoint.y);
 				int np = polygon.npoints;
@@ -1560,9 +1559,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			break;
 		case BLOB_MODE:
 			if (mouseMovedPoint.x >= 0 && mouseMovedPoint.y >= 0 && mouseReleasedPoint.x >= 0 && mouseReleasedPoint.y >= 0) {
-				g.setColor(Color.YELLOW);
-				g.setFont(smallFont);
-				g.drawString("Double-click to finalize the shape", 30, 30);
 				if (polygon.npoints == 1) {
 					g.setColor(Color.WHITE);
 					g.drawLine(mouseMovedPoint.x, mouseMovedPoint.y, polygon.xpoints[0], polygon.ypoints[0]);
@@ -1669,6 +1665,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			g.setFont(new Font("Arial", Font.BOLD, 30));
 			FontMetrics fm = g.getFontMetrics();
 			g.drawString(errorMessage, w / 2 - fm.stringWidth(errorMessage) / 2, h / 2);
+		}
+
+		if (tipText != null) {
+			g.setColor(Color.YELLOW);
+			g.setFont(smallFont);
+			g.drawString(tipText, tipTextLocation.x, tipTextLocation.y);
 		}
 
 	}
@@ -2481,7 +2483,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		thermalEnergyRenderer.render(this, g, distribution);
 	}
 
-	private void setAnchorPointForRectangularShape(byte i, float x, float y, float w, float h) {
+	private void setAnchorPointForRectangularShape(int i, float x, float y, float w, float h) {
 		switch (i) {
 		case UPPER_LEFT:
 			anchorPoint.setLocation(x + w, y + h);
@@ -2996,7 +2998,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		case SELECT_MODE:
 			if (selectedManipulable != null) {
 				selectedSpot = -1;
-				for (byte i = 0; i < handle.length; i++) {
+				for (int i = 0; i < handle.length; i++) {
 					if (handle[i].x < -10 || handle[i].y < -10)
 						continue;
 					if (handle[i].contains(x, y)) {
@@ -3031,6 +3033,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			}
 			break;
 		case POLYGON_MODE:
+			tipText = "Double-click to finalize the shape";
 			if (showGraph) {
 				e.consume();
 				return;
@@ -3039,6 +3042,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				addPolygonPoint(x, y);
 			break;
 		case BLOB_MODE:
+			tipText = "Double-click to finalize the shape";
 			if (showGraph) {
 				e.consume();
 				return;
@@ -3215,7 +3219,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						}
 					}
 				} else {
-					showTip("<html><font color=red>The selected object is not draggable!</font></html>", x, y, 500);
+					showTipPopupMenu("<html><font color=red>The selected object is not draggable!</font></html>", x, y, 500);
 				}
 				if (e.isAltDown()) {
 					// TODO: move everything if nothing is selected
@@ -3439,7 +3443,28 @@ public class View2D extends JPanel implements PropertyChangeListener {
 							}
 						}
 					} else {
-						showTip("<html><font color=red>The selected object is not draggable!</font></html>", x, y, 500);
+						showTipPopupMenu("<html><font color=red>The selected object is not draggable!</font></html>", x, y, 500);
+					}
+				} else {
+					// handle double-click events
+					if (e.getClickCount() > 1) {
+						if (selectedManipulable instanceof Part) {
+							Part selectedPart = (Part) selectedManipulable;
+							Shape s = selectedPart.getShape();
+							if (s instanceof Polygon2D && selectedSpot != -1) {
+								model.removePart(selectedPart);
+								Polygon2D p = (Polygon2D) s;
+								int vertexCount = p.getVertexCount();
+								int i = selectedSpot;
+								if (vertexCount > handle.length)
+									i = (int) ((float) selectedSpot * (float) vertexCount / (float) handle.length);
+								Part newPart = model.addPolygonPart(e.isShiftDown() ? p.deleteVertexBefore(i) : p.insertVertexBefore(i));
+								selectedPart.copyPropertiesTo(newPart);
+								newPart.setUid(selectedPart.getUid());
+								setSelectedManipulable(newPart);
+								notifyManipulationListeners(selectedManipulable, ManipulationEvent.PROPERTY_CHANGE);
+							}
+						}
 					}
 				}
 			}
@@ -3497,6 +3522,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "The polygon must be at least a triangle!", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				polygon.reset();
+				tipText = null;
 			}
 			break;
 		case BLOB_MODE:
@@ -3520,6 +3546,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "The blob must contain at least three points!", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				polygon.reset();
+				tipText = null;
 			}
 			break;
 		case HEATING_MODE:
@@ -3687,6 +3714,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		}
 		switch (actionMode) {
 		case SELECT_MODE:
+			tipText = null;
 			int iSpot = -1;
 			if (!showGraph && (selectedManipulable instanceof Part || selectedManipulable instanceof Cloud || selectedManipulable instanceof Tree || selectedManipulable instanceof Fan)) {
 				for (int i = 0; i < handle.length; i++) {
@@ -3698,7 +3726,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					}
 				}
 				if (iSpot >= 0) {
-					if (selectedManipulable.getShape() instanceof RectangularShape || selectedManipulable.getShape() instanceof Area) {
+					Shape shape = selectedManipulable.getShape();
+					if (shape instanceof RectangularShape || shape instanceof Area) {
 						switch (iSpot) {
 						case UPPER_LEFT:
 							setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
@@ -3727,6 +3756,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						}
 					} else {
 						setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+						if (shape instanceof Polygon2D) {
+							tipText = "Drag to resize; double-click to insert a point; shift + double-click to remove this point";
+						}
 					}
 				}
 			}
@@ -4114,7 +4146,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		return Math.round(l / (ymax - ymin) * h);
 	}
 
-	private void showTip(String msg, int x, int y, int time) {
+	private void showTipPopupMenu(String msg, int x, int y, int time) {
 		if (tipPopupMenu == null) {
 			tipPopupMenu = new JPopupMenu("Tip");
 			tipPopupMenu.setBorder(BorderFactory.createLineBorder(Color.black));

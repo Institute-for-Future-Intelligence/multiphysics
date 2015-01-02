@@ -939,10 +939,14 @@ public class Model2D {
 		return p;
 	}
 
-	public Part addPolygonPart(float[] x, float[] y) {
-		Part p = new Part(new Polygon2D(x, y), this);
+	public Part addPolygonPart(Polygon2D polygon) {
+		Part p = new Part(polygon, this);
 		addPart(p);
 		return p;
+	}
+
+	public Part addPolygonPart(float[] x, float[] y) {
+		return addPolygonPart(new Polygon2D(x, y));
 	}
 
 	public Part addPolygonPart(float[] x, float[] y, float t) {

@@ -129,6 +129,11 @@ public class Part extends Manipulable {
 			((Blob2D) s).update();
 		}
 		Part p = new Part(s, model);
+		copyPropertiesTo(p);
+		return p;
+	}
+
+	public void copyPropertiesTo(Part p) {
 		p.filled = filled;
 		p.fillPattern = fillPattern;
 		p.power = power;
@@ -149,7 +154,6 @@ public class Part extends Manipulable {
 		p.windAngle = windAngle;
 		p.windSpeed = windSpeed;
 		p.setLabel(getLabel());
-		return p;
 	}
 
 	public void translateBy(float dx, float dy) {

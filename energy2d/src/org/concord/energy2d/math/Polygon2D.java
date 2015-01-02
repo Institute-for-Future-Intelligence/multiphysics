@@ -41,6 +41,60 @@ public class Polygon2D implements TransformableShape {
 		return new Polygon2D(x, y);
 	}
 
+	public Polygon2D insertVertexBefore(int k) {
+		int n = vertex.length;
+		float[] x = new float[n + 1];
+		float[] y = new float[n + 1];
+		if (k > 0 && k < n) {
+			for (int i = 0; i < k; i++) {
+				x[i] = vertex[i].x;
+				y[i] = vertex[i].y;
+			}
+			x[k] = 0.5f * (vertex[k].x + vertex[k - 1].x);
+			y[k] = 0.5f * (vertex[k].y + vertex[k - 1].y);
+			for (int i = k + 1; i < n + 1; i++) {
+				x[i] = vertex[i - 1].x;
+				y[i] = vertex[i - 1].y;
+			}
+		} else if (k == 0) {
+			x[0] = 0.5f * (vertex[0].x + vertex[n - 1].x);
+			y[0] = 0.5f * (vertex[0].y + vertex[n - 1].y);
+			for (int i = 1; i < n + 1; i++) {
+				x[i] = vertex[i - 1].x;
+				y[i] = vertex[i - 1].y;
+			}
+		} else {
+			return this;
+		}
+		return new Polygon2D(x, y);
+	}
+
+	public Polygon2D deleteVertexBefore(int k) {
+		int n = vertex.length;
+		if (n < 4)
+			return this;
+		float[] x = new float[n - 1];
+		float[] y = new float[n - 1];
+		if (k > 0 && k < n) {
+			for (int i = 0; i < k; i++) {
+				x[i] = vertex[i].x;
+				y[i] = vertex[i].y;
+			}
+			for (int i = k + 1; i < n; i++) {
+				x[i - 1] = vertex[i].x;
+				y[i - 1] = vertex[i].y;
+			}
+		} else if (k == 0) {
+			for (int i = 1; i < n; i++) {
+				x[i - 1] = vertex[i - 1].x;
+				y[i - 1] = vertex[i - 1].y;
+			}
+		} else {
+			return this;
+		}
+		return new Polygon2D(x, y);
+	}
+
 	public boolean isClockwise() {
 		float sum = 0;
 		int n = vertex.length;

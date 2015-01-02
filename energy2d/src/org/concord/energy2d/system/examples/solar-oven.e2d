@@ -67,14 +67,14 @@
 </model>
 <view>
 <grid>true</grid>
-<snap_to_grid>true</snap_to_grid>
+<snap_to_grid>false</snap_to_grid>
 <grid_size>10</grid_size>
-<perimeter_step_size>0.05</perimeter_step_size>
+<perimeter_step_size>0.049999997</perimeter_step_size>
 <color_palette_type>0</color_palette_type>
 <control_panel>true</control_panel>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>100.0</maximum_temperature>
-<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
 <text string="Solar oven-linebreak-Press &apos;Q&apos; or &apos;W&apos; to change the sun angle" face="Arial" size="14" style="0" color="ffffff" x="0.463" y="9.6098"/>
 </view>
 </state>
