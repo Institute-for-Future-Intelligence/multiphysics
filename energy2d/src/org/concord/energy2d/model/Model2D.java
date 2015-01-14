@@ -1279,7 +1279,7 @@ public class Model2D {
 					count = 0;
 					synchronized (parts) {
 						for (Part p : parts) {
-							if (p.getPower() != 0 && p.getPowerSwitch() && p.getShape().contains(x, y)) {
+							if (p.getPower() != 0 && p.getPowerSwitch() && contains(p.getShape(), x, y)) {
 								power = p.getPower();
 								if (p.getThermistorTemperatureCoefficient() != 0) {
 									power *= 1f + p.getThermistorTemperatureCoefficient() * (t[i][j] - p.getThermistorReferenceTemperature());
@@ -1294,6 +1294,14 @@ public class Model2D {
 				}
 			}
 		}
+	}
+
+	// avoid round-off error in detecting if a point falls within a shape
+	private boolean contains(Shape shape, float x, float y) {
+		float tol = 0.001f;
+		if (shape.contains(x, y) || shape.contains(x - deltaX * tol, y) || shape.contains(x + deltaX * tol, y) || shape.contains(x, y - deltaY * tol) || shape.contains(x, y + deltaY * tol))
+			return true;
+		return false;
 	}
 
 	public void refreshTemperatureBoundaryArray() {
