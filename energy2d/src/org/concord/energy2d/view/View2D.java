@@ -53,6 +53,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 import org.concord.energy2d.event.GraphEvent;
 import org.concord.energy2d.event.GraphListener;
@@ -179,7 +181,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private float xmin, xmax, ymin, ymax;
 	private int nx, ny;
 	private float time;
-	private JPopupMenu popupMenu;
+	private JPopupMenu modelPopupMenu, partPopupMenu;
 	private Rectangle[] handle = new Rectangle[256];
 	private boolean mouseBeingDragged;
 	private MovingShape movingShape;
@@ -281,7 +283,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		});
 		textBoxes = Collections.synchronizedList(new ArrayList<TextBox>());
 		createActions();
-		createPopupMenu();
+		createModelPopupMenu();
 		setColorPaletteType(colorPaletteType);
 		dialogFactory = new DialogFactory(this);
 		graphRenderer = new GraphRenderer(50, 50, 200, 200);
@@ -1143,7 +1145,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	}
 
 	public JPopupMenu getPopupMenu() {
-		return popupMenu;
+		return modelPopupMenu;
 	}
 
 	private void cut() {
@@ -1192,18 +1194,37 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		repaint();
 	}
 
-	private void createPopupMenu() {
+	private void createModelPopupMenu() {
 
-		if (popupMenu != null)
+		if (modelPopupMenu != null)
 			return;
 
-		popupMenu = new JPopupMenu();
-		popupMenu.setInvoker(this);
+		modelPopupMenu = new JPopupMenu();
+		modelPopupMenu.setInvoker(this);
+		modelPopupMenu.addPopupMenuListener(new PopupMenuListener() {
 
-		popupMenu.add(copyAction);
-		popupMenu.add(cutAction);
-		popupMenu.add(pasteAction);
-		popupMenu.addSeparator();
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				boolean b = selectedManipulable != null;
+				copyAction.setEnabled(b);
+				cutAction.setEnabled(b);
+				pasteAction.setEnabled(copiedManipulable != null);
+			}
+
+			@Override
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+			}
+
+			@Override
+			public void popupMenuCanceled(PopupMenuEvent e) {
+			}
+
+		});
+
+		modelPopupMenu.add(copyAction);
+		modelPopupMenu.add(cutAction);
+		modelPopupMenu.add(pasteAction);
+		modelPopupMenu.addSeparator();
 
 		JMenuItem mi = new JMenuItem("Properties...");
 		mi.addActionListener(new ActionListener() {
@@ -1211,7 +1232,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				createDialog(selectedManipulable != null ? selectedManipulable : model, true);
 			}
 		});
-		popupMenu.add(mi);
+		modelPopupMenu.add(mi);
 
 		mi = new JMenuItem("View Options...");
 		mi.addActionListener(new ActionListener() {
@@ -1219,7 +1240,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				createDialog(selectedManipulable != null ? selectedManipulable : View2D.this, false);
 			}
 		});
-		popupMenu.add(mi);
+		modelPopupMenu.add(mi);
 
 		mi = new JMenuItem("View Data...");
 		mi.addActionListener(new ActionListener() {
@@ -1233,7 +1254,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				}
 			}
 		});
-		popupMenu.add(mi);
+		modelPopupMenu.add(mi);
 
 		mi = new JMenuItem("Task Manager...");
 		mi.addActionListener(new ActionListener() {
@@ -1243,7 +1264,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					a.actionPerformed(e);
 			}
 		});
-		popupMenu.add(mi);
+		modelPopupMenu.add(mi);
 
 		mi = new JMenuItem("Preferences...");
 		mi.addActionListener(new ActionListener() {
@@ -1253,11 +1274,11 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					a.actionPerformed(e);
 			}
 		});
-		popupMenu.add(mi);
-		popupMenu.addSeparator();
+		modelPopupMenu.add(mi);
+		modelPopupMenu.addSeparator();
 
 		JMenu subMenu = new JMenu("Help");
-		popupMenu.add(subMenu);
+		modelPopupMenu.add(subMenu);
 
 		mi = new JMenuItem("Script Console...");
 		mi.addActionListener(new ActionListener() {
@@ -1284,6 +1305,48 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			}
 		});
 		subMenu.add(mi);
+
+	}
+
+	private void createPartPopupMenu() {
+
+		if (partPopupMenu != null)
+			return;
+
+		partPopupMenu = new JPopupMenu();
+		partPopupMenu.setInvoker(this);
+		partPopupMenu.addPopupMenuListener(new PopupMenuListener() {
+
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				boolean b = selectedManipulable != null;
+				copyAction.setEnabled(b);
+				cutAction.setEnabled(b);
+				pasteAction.setEnabled(copiedManipulable != null);
+			}
+
+			@Override
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+			}
+
+			@Override
+			public void popupMenuCanceled(PopupMenuEvent e) {
+			}
+
+		});
+
+		partPopupMenu.add(copyAction);
+		partPopupMenu.add(cutAction);
+		partPopupMenu.add(pasteAction);
+		partPopupMenu.addSeparator();
+
+		JMenuItem mi = new JMenuItem("Properties...");
+		mi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createDialog(selectedManipulable != null ? selectedManipulable : model, true);
+			}
+		});
+		partPopupMenu.add(mi);
 
 	}
 
@@ -3340,8 +3403,13 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		case SELECT_MODE:
 			if (MiscUtil.isRightClick(e)) {
 				selectManipulable(x, y);
-				createPopupMenu();
-				popupMenu.show(this, x, y);
+				if (selectedManipulable == null) {
+					createModelPopupMenu();
+					modelPopupMenu.show(this, x, y);
+				} else {
+					createPartPopupMenu();
+					partPopupMenu.show(this, x, y);
+				}
 				repaint();
 				return;
 			} else {
