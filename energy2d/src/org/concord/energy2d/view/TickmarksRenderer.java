@@ -12,7 +12,7 @@ import java.text.DecimalFormat;
  */
 class TickmarksRenderer {
 
-	private final static DecimalFormat SIZE_FORMAT = new DecimalFormat("##.##");
+	private final static DecimalFormat SIZE_FORMAT = new DecimalFormat("####.####");
 	private Stroke stroke = new BasicStroke(1);
 	private Font smallFont = new Font(null, Font.PLAIN, 9);
 	private int nx = 100, ny = 100;

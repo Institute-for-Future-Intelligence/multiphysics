@@ -150,12 +150,20 @@ class PartModelDialog extends JDialog {
 				float conductivity = parse(thermalConductivityField.getText());
 				if (Float.isNaN(conductivity))
 					return;
-				float capacity = parse(specificHeatField.getText());
-				if (Float.isNaN(capacity))
+				float specificHeat = parse(specificHeatField.getText());
+				if (Float.isNaN(specificHeat))
 					return;
+				if (specificHeat <= 0) {
+					JOptionPane.showMessageDialog(owner, "Specific heat must be greater than zero.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				float density = parse(densityField.getText());
 				if (Float.isNaN(density))
 					return;
+				if (density <= 0) {
+					JOptionPane.showMessageDialog(owner, "Density must be greater than zero.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				float windSpeed = parse(windSpeedField.getText());
 				if (Float.isNaN(windSpeed))
 					return;
@@ -325,7 +333,7 @@ class PartModelDialog extends JDialog {
 				part.setWindAngle((float) Math.toRadians(windAngle));
 				part.setWindSpeed(windSpeed);
 				part.setThermalConductivity(Math.max(conductivity, 0.000000001f));
-				part.setSpecificHeat(capacity);
+				part.setSpecificHeat(specificHeat);
 				part.setDensity(density);
 				part.setAbsorptivity(absorptivity);
 				part.setReflectivity(reflectivity);

@@ -48,7 +48,7 @@ class ModelDialog extends JDialog {
 	private JTextField steplengthField;
 	private JTextField bgTemperatureField;
 	private JTextField conductivityField;
-	private JTextField capacityField;
+	private JTextField specificHeatField;
 	private JTextField densityField;
 	private JLabel viscosityLabel;
 	private JTextField viscosityField;
@@ -120,8 +120,8 @@ class ModelDialog extends JDialog {
 				float conductivity = parse(conductivityField.getText());
 				if (Float.isNaN(conductivity))
 					return;
-				float capacity = parse(capacityField.getText());
-				if (Float.isNaN(capacity))
+				float specificHeat = parse(specificHeatField.getText());
+				if (Float.isNaN(specificHeat))
 					return;
 				float density = parse(densityField.getText());
 				if (Float.isNaN(density))
@@ -185,6 +185,14 @@ class ModelDialog extends JDialog {
 					JOptionPane.showMessageDialog(ModelDialog.this, "Time step must be greater than zero!", "Time step input error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
+				if (density <= 0) {
+					JOptionPane.showMessageDialog(ModelDialog.this, "Medium density must be greater than zero!", "Density input error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (specificHeat <= 0) {
+					JOptionPane.showMessageDialog(ModelDialog.this, "Medium specific heat must be greater than zero!", "Specific heat input error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				if (thermophoreticCoefficient < 0) {
 					JOptionPane.showMessageDialog(ModelDialog.this, "Thermophoretic coefficient cannot be negative!", "Thermophoretic cofficient input error", JOptionPane.ERROR_MESSAGE);
 					return;
@@ -201,7 +209,7 @@ class ModelDialog extends JDialog {
 				model.setTimeStep(steplength);
 				model.setBackgroundTemperature(bgTemperature);
 				model.setBackgroundConductivity(Math.max(conductivity, 0.000000001f));
-				model.setBackgroundSpecificHeat(capacity);
+				model.setBackgroundSpecificHeat(specificHeat);
 				model.setBackgroundDensity(density);
 				model.setBackgroundViscosity(viscosity);
 				model.setThermalExpansionCoefficient(thermalExpansionCoefficient);
@@ -454,9 +462,9 @@ class ModelDialog extends JDialog {
 
 		label = new JLabel("Specific heat");
 		p.add(label);
-		capacityField = new JTextField(FORMAT.format(model.getBackgroundSpecificHeat()), 16);
-		capacityField.addActionListener(okListener);
-		p.add(capacityField);
+		specificHeatField = new JTextField(FORMAT.format(model.getBackgroundSpecificHeat()), 16);
+		specificHeatField.addActionListener(okListener);
+		p.add(specificHeatField);
 		label = new JLabel("<html><i>J/(kg\u00b7\u2103)</i></html>");
 		p.add(label);
 		count++;

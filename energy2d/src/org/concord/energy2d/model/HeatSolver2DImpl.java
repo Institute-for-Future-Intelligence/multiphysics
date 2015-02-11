@@ -38,6 +38,7 @@ class HeatSolver2DImpl extends HeatSolver2D {
 			for (int i = 1; i < nx1; i++) {
 				for (int j = 1; j < ny1; j++) {
 					if (Float.isNaN(tb[i][j])) {
+						// how do we deal with vacuum? if(density[i][j]==0 || density[i-1][j]==0||density[i+1][j]==0||density[i][j-1]==0||density[i][j+1]==0) continue;
 						sij = specificHeat[i][j] * density[i][j] * invTimeStep;
 						rij = conductivity[i][j];
 						axij = hx * (rij + conductivity[i - 1][j]);
