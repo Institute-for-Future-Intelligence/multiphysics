@@ -838,9 +838,25 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	}
 
 	public void setViewFactorLinesOn(boolean b) {
-		showViewFactorLines = b;
-		if (b)
+		if (b) { // if a polygon has too many points, it will be too slow
+			List<Part> parts = model.getParts();
+			synchronized (parts) {
+				for (Part p : parts) {
+					Shape shape = p.getShape();
+					if (shape instanceof Polygon2D) {
+						Polygon2D r = (Polygon2D) shape;
+						int n = r.getVertexCount();
+						if (n > 50) {
+							if (JOptionPane.showConfirmDialog(JOptionPane.getFrameForComponent(this), "This model has many points. Radiation calculation can be very slow. Do you want to continue?", "Too Many Points", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.NO_OPTION)
+								return;
+							break;
+						}
+					}
+				}
+			}
 			model.generateViewFactorMesh();
+		}
+		showViewFactorLines = b;
 	}
 
 	public boolean isViewFactorLinesOn() {
