@@ -182,6 +182,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private int nx, ny;
 	private float time;
 	private JPopupMenu modelPopupMenu, partPopupMenu;
+	private JMenuItem partViewOptionsMenuItem;
 	private Rectangle[] handle = new Rectangle[256];
 	private boolean mouseBeingDragged;
 	private MovingShape movingShape;
@@ -1245,7 +1246,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		JMenuItem mi = new JMenuItem("Properties...");
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				createDialog(selectedManipulable != null ? selectedManipulable : model, true);
+				createDialog(model, true);
 			}
 		});
 		modelPopupMenu.add(mi);
@@ -1253,7 +1254,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		mi = new JMenuItem("View Options...");
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				createDialog(selectedManipulable != null ? selectedManipulable : View2D.this, false);
+				createDialog(View2D.this, false);
 			}
 		});
 		modelPopupMenu.add(mi);
@@ -1326,8 +1327,13 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 	private void createPartPopupMenu() {
 
-		if (partPopupMenu != null)
+		if (partPopupMenu != null) {
+			if (selectedManipulable instanceof Part)
+				partPopupMenu.add(partViewOptionsMenuItem);
+			else
+				partPopupMenu.remove(partViewOptionsMenuItem);
 			return;
+		}
 
 		partPopupMenu = new JPopupMenu();
 		partPopupMenu.setInvoker(this);
@@ -1359,10 +1365,19 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		JMenuItem mi = new JMenuItem("Properties...");
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				createDialog(selectedManipulable != null ? selectedManipulable : model, true);
+				createDialog(selectedManipulable, true);
 			}
 		});
 		partPopupMenu.add(mi);
+
+		partViewOptionsMenuItem = new JMenuItem("View Options...");
+		partViewOptionsMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createDialog(selectedManipulable, false);
+			}
+		});
+		if (selectedManipulable instanceof Part)
+			partPopupMenu.add(partViewOptionsMenuItem);
 
 	}
 
