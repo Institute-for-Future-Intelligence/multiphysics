@@ -5,7 +5,7 @@
       <vendor>Concord Consortium, Inc.</vendor>
       <homepage href="index.html"/>
       <description>Energy2D: Interactive Heat Transfer Simulations for Everyone</description>
-      <icon href="icon.png"/>
+      <icon href="icon.png" width="64" height="64"/>
       <icon kind="splash" href="splash.png"/> 
       <offline-allowed/>
       <shortcut online="true">
