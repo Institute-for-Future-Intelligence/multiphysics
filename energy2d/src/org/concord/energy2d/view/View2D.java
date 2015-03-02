@@ -2739,14 +2739,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		selectedManipulable = m;
 		if (selectedManipulable != null) {
 			selectedManipulable.setSelected(true);
-			Shape shape = selectedManipulable.getShape();
-			boolean b = false;
-			if (!(selectedManipulable instanceof Particle) && shape instanceof Ellipse2D.Float) {
-				Ellipse2D.Float e = (Ellipse2D.Float) shape;
-				b = e.width < (xmax - xmin) / nx + 0.01f * model.getLx() || e.height < (ymax - ymin) / ny + 0.01f * model.getLy();
-			}
-			if (!b)
-				HandleSetter.setRects(this, selectedManipulable, handle);
+			HandleSetter.setRects(this, selectedManipulable, handle);
 		}
 	}
 
