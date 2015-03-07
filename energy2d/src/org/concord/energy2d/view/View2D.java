@@ -2874,6 +2874,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 	// (x0, y0) is the coordinate of the upper-left corner of an Area (if shape is an Area). If the shape is a ring2D, w = inner diameter and h = outer diameter
 	void resizeManipulableTo(Manipulable m, float x, float y, float w, float h, float x0, float y0) {
+		w = Math.max(model.getLx() / nx, w);
+		h = Math.max(model.getLy() / ny, h);
 		Shape s = m.getShape();
 		if (s instanceof Rectangle2D.Float) {
 			Rectangle2D.Float r = (Rectangle2D.Float) s;

@@ -35,7 +35,7 @@ class GraphRenderer {
 	private byte dataType = 0;
 	private String xLabel = "Time (hr)";
 	private String yLabel = DATA_TYPES[0];
-	private final static DecimalFormat FORMAT = new DecimalFormat("##.##");
+	private final static DecimalFormat FORMAT = new DecimalFormat("##.####");
 	private Font smallFont = new Font(null, Font.PLAIN, 9);
 	private Font labelFont = new Font(null, Font.PLAIN | Font.BOLD, 12);
 	private Stroke frameStroke = new BasicStroke(2);
@@ -364,7 +364,7 @@ class GraphRenderer {
 				g.drawLine(k, y + h, k, y + h - 2);
 			}
 		}
-		centerString(xLabel, g, x + w - 10, y + h - 4, null);
+		centerString(xLabel, g, x + w - 20, y + h - 4, null);
 
 		for (int i = 1; i < 10; i++) {
 			k = y + Math.round(i * h * 0.1f);
