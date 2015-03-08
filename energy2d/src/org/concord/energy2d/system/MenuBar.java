@@ -37,11 +37,17 @@ import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
 
 import org.concord.energy2d.event.ManipulationEvent;
+import org.concord.energy2d.undo.UndoColorPalette;
+import org.concord.energy2d.undo.UndoControlPanel;
+import org.concord.energy2d.undo.UndoGridLines;
+import org.concord.energy2d.undo.UndoGridSize;
 import org.concord.energy2d.undo.UndoHeatFluxArrows;
 import org.concord.energy2d.undo.UndoHeatFluxLines;
 import org.concord.energy2d.undo.UndoIsotherm;
+import org.concord.energy2d.undo.UndoMouseReadType;
 import org.concord.energy2d.undo.UndoSeeThrough;
 import org.concord.energy2d.undo.UndoStreamlines;
+import org.concord.energy2d.undo.UndoTickmarks;
 import org.concord.energy2d.undo.UndoVelocity;
 import org.concord.energy2d.undo.UndoViewFactorLines;
 import org.concord.energy2d.util.FileChooser;
@@ -725,6 +731,7 @@ class MenuBar extends JMenuBar {
 		miMouseDefafult.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
+					box.view.getUndoManager().addEdit(new UndoMouseReadType(box.view));
 					box.view.setMouseReadType((byte) 0);
 				}
 			}
@@ -734,6 +741,7 @@ class MenuBar extends JMenuBar {
 		miMouseTemperature.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
+					box.view.getUndoManager().addEdit(new UndoMouseReadType(box.view));
 					box.view.setMouseReadType((byte) 1);
 				}
 			}
@@ -743,6 +751,7 @@ class MenuBar extends JMenuBar {
 		miMouseEnergy.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
+					box.view.getUndoManager().addEdit(new UndoMouseReadType(box.view));
 					box.view.setMouseReadType((byte) 2);
 				}
 			}
@@ -752,6 +761,7 @@ class MenuBar extends JMenuBar {
 		miMouseVelocity.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
+					box.view.getUndoManager().addEdit(new UndoMouseReadType(box.view));
 					box.view.setMouseReadType((byte) 3);
 				}
 			}
@@ -761,6 +771,7 @@ class MenuBar extends JMenuBar {
 		miMouseHeatFlux.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
+					box.view.getUndoManager().addEdit(new UndoMouseReadType(box.view));
 					box.view.setMouseReadType((byte) 4);
 				}
 			}
@@ -770,6 +781,7 @@ class MenuBar extends JMenuBar {
 		miMouseCoordinates.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
+					box.view.getUndoManager().addEdit(new UndoMouseReadType(box.view));
 					box.view.setMouseReadType((byte) 5);
 				}
 			}
@@ -778,6 +790,7 @@ class MenuBar extends JMenuBar {
 
 		miColorPalette.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				box.view.getUndoManager().addEdit(new UndoColorPalette(box.view));
 				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
 				box.view.setColorPaletteOn(src.isSelected());
 				box.view.repaint();
@@ -789,6 +802,7 @@ class MenuBar extends JMenuBar {
 
 		miControlPanel.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				box.view.getUndoManager().addEdit(new UndoControlPanel(box.view));
 				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
 				box.view.setControlPanelVisible(src.isSelected());
 				box.view.repaint();
@@ -802,6 +816,7 @@ class MenuBar extends JMenuBar {
 
 		miTickmarks.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				box.view.getUndoManager().addEdit(new UndoTickmarks(box.view));
 				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
 				box.view.setBorderTickmarksOn(src.isSelected());
 				box.view.repaint();
@@ -813,6 +828,7 @@ class MenuBar extends JMenuBar {
 
 		miGrid.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				box.view.getUndoManager().addEdit(new UndoGridLines(box.view));
 				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
 				box.view.setGridOn(src.isSelected());
 				box.view.repaint();
@@ -826,6 +842,7 @@ class MenuBar extends JMenuBar {
 		miIncrGrid.setAccelerator(ks);
 		miIncrGrid.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				box.view.getUndoManager().addEdit(new UndoGridSize(box.view));
 				int gridSize = box.view.getGridSize();
 				if (gridSize > 2)
 					box.view.setGridSize(--gridSize);
@@ -840,6 +857,7 @@ class MenuBar extends JMenuBar {
 		miDecrGrid.setAccelerator(ks);
 		miDecrGrid.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				box.view.getUndoManager().addEdit(new UndoGridSize(box.view));
 				int gridSize = box.view.getGridSize();
 				if (gridSize < 25)
 					box.view.setGridSize(++gridSize);

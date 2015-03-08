@@ -6,35 +6,35 @@ import javax.swing.undo.CannotUndoException;
 
 import org.concord.energy2d.view.View2D;
 
-public class UndoIsotherm extends AbstractUndoableEdit {
+public class UndoColoringStyle extends AbstractUndoableEdit {
 
 	private static final long serialVersionUID = 1L;
-	private boolean oldValue, newValue;
+	private byte oldValue, newValue;
 	private View2D view;
 
-	public UndoIsotherm(View2D view) {
-		oldValue = view.isIsothermOn();
+	public UndoColoringStyle(View2D view) {
+		oldValue = view.getColorPaletteType();
 		this.view = view;
 	}
 
 	@Override
 	public void undo() throws CannotUndoException {
 		super.undo();
-		newValue = view.isIsothermOn();
-		view.setIsothermOn(oldValue);
+		newValue = view.getColorPaletteType();
+		view.setColorPaletteType(oldValue);
 		view.repaint();
 	}
 
 	@Override
 	public void redo() throws CannotRedoException {
 		super.redo();
-		view.setIsothermOn(newValue);
+		view.setColorPaletteType(newValue);
 		view.repaint();
 	}
 
 	@Override
 	public String getPresentationName() {
-		return "Isotherm Lines";
+		return "Coloring Style Change";
 	}
 
 }

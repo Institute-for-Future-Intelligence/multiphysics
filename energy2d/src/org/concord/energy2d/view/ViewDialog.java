@@ -24,6 +24,21 @@ import javax.swing.SpringLayout;
 
 import org.concord.energy2d.event.GraphEvent;
 import org.concord.energy2d.event.ManipulationEvent;
+import org.concord.energy2d.undo.UndoClock;
+import org.concord.energy2d.undo.UndoColoringStyle;
+import org.concord.energy2d.undo.UndoColorPalette;
+import org.concord.energy2d.undo.UndoControlPanel;
+import org.concord.energy2d.undo.UndoGridLines;
+import org.concord.energy2d.undo.UndoHeatFluxArrows;
+import org.concord.energy2d.undo.UndoHeatFluxLines;
+import org.concord.energy2d.undo.UndoIsotherm;
+import org.concord.energy2d.undo.UndoMouseReadType;
+import org.concord.energy2d.undo.UndoSeeThrough;
+import org.concord.energy2d.undo.UndoSmooth;
+import org.concord.energy2d.undo.UndoStreamlines;
+import org.concord.energy2d.undo.UndoTickmarks;
+import org.concord.energy2d.undo.UndoVelocity;
+import org.concord.energy2d.undo.UndoViewFactorLines;
 import org.concord.energy2d.util.MiscUtil;
 
 /**
@@ -98,6 +113,7 @@ class ViewDialog extends JDialog {
 		checkBox.setSelected(view.isIsothermOn());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				view.getUndoManager().addEdit(new UndoIsotherm(view));
 				JCheckBox src = (JCheckBox) e.getSource();
 				view.setIsothermOn(src.isSelected());
 				view.repaint();
@@ -109,6 +125,7 @@ class ViewDialog extends JDialog {
 		checkBox.setSelected(view.isVelocityOn());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				view.getUndoManager().addEdit(new UndoVelocity(view));
 				JCheckBox src = (JCheckBox) e.getSource();
 				view.setVelocityOn(src.isSelected());
 				view.repaint();
@@ -120,6 +137,7 @@ class ViewDialog extends JDialog {
 		checkBox.setSelected(view.isStreamlineOn());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				view.getUndoManager().addEdit(new UndoStreamlines(view));
 				JCheckBox src = (JCheckBox) e.getSource();
 				view.setStreamlineOn(src.isSelected());
 				view.repaint();
@@ -131,6 +149,7 @@ class ViewDialog extends JDialog {
 		checkBox.setSelected(view.isHeatFluxLinesOn());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				view.getUndoManager().addEdit(new UndoHeatFluxLines(view));
 				JCheckBox src = (JCheckBox) e.getSource();
 				view.setHeatFluxLinesOn(src.isSelected());
 				view.repaint();
@@ -143,6 +162,7 @@ class ViewDialog extends JDialog {
 		checkBox.setSelected(view.isHeatFluxArrowsOn());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				view.getUndoManager().addEdit(new UndoHeatFluxArrows(view));
 				JCheckBox src = (JCheckBox) e.getSource();
 				view.setHeatFluxArrowsOn(src.isSelected());
 				view.repaint();
@@ -154,6 +174,7 @@ class ViewDialog extends JDialog {
 		checkBox.setSelected(view.isBorderTickmarksOn());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				view.getUndoManager().addEdit(new UndoTickmarks(view));
 				JCheckBox src = (JCheckBox) e.getSource();
 				view.setBorderTickmarksOn(src.isSelected());
 				view.repaint();
@@ -177,6 +198,7 @@ class ViewDialog extends JDialog {
 		checkBox.setSelected(view.getSeeThrough());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				view.getUndoManager().addEdit(new UndoSeeThrough(view));
 				JCheckBox src = (JCheckBox) e.getSource();
 				view.setSeeThrough(src.isSelected());
 				view.repaint();
@@ -189,6 +211,7 @@ class ViewDialog extends JDialog {
 		checkBox.setSelected(view.isSmooth());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				view.getUndoManager().addEdit(new UndoSmooth(view));
 				JCheckBox src = (JCheckBox) e.getSource();
 				view.setSmooth(src.isSelected());
 				view.repaint();
@@ -200,6 +223,7 @@ class ViewDialog extends JDialog {
 		checkBox.setSelected(view.isClockOn());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				view.getUndoManager().addEdit(new UndoClock(view));
 				JCheckBox src = (JCheckBox) e.getSource();
 				view.setClockOn(src.isSelected());
 				view.repaint();
@@ -211,6 +235,7 @@ class ViewDialog extends JDialog {
 		checkBox.setSelected(view.isGridOn());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				view.getUndoManager().addEdit(new UndoGridLines(view));
 				JCheckBox src = (JCheckBox) e.getSource();
 				view.setGridOn(src.isSelected());
 				view.repaint();
@@ -222,6 +247,7 @@ class ViewDialog extends JDialog {
 		checkBox.setSelected(view.isViewFactorLinesOn());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				view.getUndoManager().addEdit(new UndoViewFactorLines(view));
 				JCheckBox src = (JCheckBox) e.getSource();
 				view.setViewFactorLinesOn(src.isSelected());
 				view.repaint();
@@ -233,6 +259,7 @@ class ViewDialog extends JDialog {
 		checkBox.setSelected(view.isColorPaletteOn());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				view.getUndoManager().addEdit(new UndoColorPalette(view));
 				JCheckBox src = (JCheckBox) e.getSource();
 				view.setColorPaletteOn(src.isSelected());
 				view.repaint();
@@ -256,6 +283,7 @@ class ViewDialog extends JDialog {
 		checkBox.setSelected(view.isControlPanelVisible());
 		checkBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				view.getUndoManager().addEdit(new UndoControlPanel(view));
 				JCheckBox src = (JCheckBox) e.getSource();
 				view.setControlPanelVisible(src.isSelected());
 				view.repaint();
@@ -284,39 +312,41 @@ class ViewDialog extends JDialog {
 		coloringComboBox.setSelectedIndex(view.getHeatMapType() - View2D.HEATMAP_NONE);
 		coloringComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				int i = coloringComboBox.getSelectedIndex();
-				nameLabel1.setEnabled(i > 0);
-				nameLabel2.setEnabled(i > 0);
-				unitLabel1.setEnabled(i > 0);
-				unitLabel2.setEnabled(i > 0);
-				switch (i) {
-				case 0:
-					lowerTempField.setEnabled(false);
-					upperTempField.setEnabled(false);
-					nameLabel1.setText(null);
-					nameLabel2.setText(null);
-					unitLabel1.setText(null);
-					unitLabel2.setText(null);
-					break;
-				case 1:
-					lowerTempField.setEnabled(true);
-					upperTempField.setEnabled(true);
-					nameLabel1.setText("Lowest temperature");
-					nameLabel2.setText("Highest temperature");
-					unitLabel1.setText("\u00B0C");
-					unitLabel2.setText("\u00B0C");
-					break;
-				case 2:
-					lowerTempField.setEnabled(true);
-					upperTempField.setEnabled(true);
-					nameLabel1.setText("Lowest energy");
-					nameLabel2.setText("Highest energy");
-					unitLabel1.setText("J");
-					unitLabel2.setText("J");
-					break;
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					int i = coloringComboBox.getSelectedIndex();
+					nameLabel1.setEnabled(i > 0);
+					nameLabel2.setEnabled(i > 0);
+					unitLabel1.setEnabled(i > 0);
+					unitLabel2.setEnabled(i > 0);
+					switch (i) {
+					case 0:
+						lowerTempField.setEnabled(false);
+						upperTempField.setEnabled(false);
+						nameLabel1.setText(null);
+						nameLabel2.setText(null);
+						unitLabel1.setText(null);
+						unitLabel2.setText(null);
+						break;
+					case 1:
+						lowerTempField.setEnabled(true);
+						upperTempField.setEnabled(true);
+						nameLabel1.setText("Lowest temperature");
+						nameLabel2.setText("Highest temperature");
+						unitLabel1.setText("\u00B0C");
+						unitLabel2.setText("\u00B0C");
+						break;
+					case 2:
+						lowerTempField.setEnabled(true);
+						upperTempField.setEnabled(true);
+						nameLabel1.setText("Lowest energy");
+						nameLabel2.setText("Highest energy");
+						unitLabel1.setText("J");
+						unitLabel2.setText("J");
+						break;
+					}
+					view.setHeatMapType((byte) (i + View2D.HEATMAP_NONE));
+					view.repaint();
 				}
-				view.setHeatMapType((byte) (i - View2D.HEATMAP_NONE));
-				view.repaint();
 			}
 		});
 		p.add(coloringComboBox);
@@ -324,21 +354,24 @@ class ViewDialog extends JDialog {
 		p.add(new JPanel());
 		count++;
 
-		p.add(new JLabel("Color palette"));
+		p.add(new JLabel("Coloring style"));
 
-		final JComboBox<String> paletteComboBox = new JComboBox<String>();
-		paletteComboBox.addItem("Rainbow");
-		paletteComboBox.addItem("Iron");
-		paletteComboBox.addItem("Gray");
-		paletteComboBox.setSelectedIndex(view.getColorPaletteType() - View2D.RAINBOW);
-		paletteComboBox.addItemListener(new ItemListener() {
+		final JComboBox<String> coloringStyleComboBox = new JComboBox<String>();
+		coloringStyleComboBox.addItem("Rainbow");
+		coloringStyleComboBox.addItem("Iron");
+		coloringStyleComboBox.addItem("Gray");
+		coloringStyleComboBox.setSelectedIndex(view.getColorPaletteType() - View2D.RAINBOW);
+		coloringStyleComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				int i = paletteComboBox.getSelectedIndex();
-				view.setColorPaletteType((byte) (i - View2D.RAINBOW));
-				view.repaint();
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					view.getUndoManager().addEdit(new UndoColoringStyle(view));
+					int i = coloringStyleComboBox.getSelectedIndex();
+					view.setColorPaletteType((byte) (i + View2D.RAINBOW));
+					view.repaint();
+				}
 			}
 		});
-		p.add(paletteComboBox);
+		p.add(coloringStyleComboBox);
 
 		p.add(new JPanel());
 		count++;
@@ -383,9 +416,12 @@ class ViewDialog extends JDialog {
 		mouseReadingComboBox.setSelectedIndex(view.getMouseReadType());
 		mouseReadingComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				view.setMouseReadType((byte) mouseReadingComboBox.getSelectedIndex());
-				view.repaint();
-				view.notifyManipulationListeners(null, ManipulationEvent.MOUSE_READ_CHANGED);
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					view.getUndoManager().addEdit(new UndoMouseReadType(view));
+					view.setMouseReadType((byte) mouseReadingComboBox.getSelectedIndex());
+					view.repaint();
+					view.notifyManipulationListeners(null, ManipulationEvent.MOUSE_READ_CHANGED);
+				}
 			}
 		});
 		p.add(mouseReadingComboBox);

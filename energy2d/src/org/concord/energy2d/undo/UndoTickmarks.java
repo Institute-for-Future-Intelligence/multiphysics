@@ -6,35 +6,35 @@ import javax.swing.undo.CannotUndoException;
 
 import org.concord.energy2d.view.View2D;
 
-public class UndoIsotherm extends AbstractUndoableEdit {
+public class UndoTickmarks extends AbstractUndoableEdit {
 
 	private static final long serialVersionUID = 1L;
 	private boolean oldValue, newValue;
 	private View2D view;
 
-	public UndoIsotherm(View2D view) {
-		oldValue = view.isIsothermOn();
+	public UndoTickmarks(View2D view) {
+		oldValue = view.isBorderTickmarksOn();
 		this.view = view;
 	}
 
 	@Override
 	public void undo() throws CannotUndoException {
 		super.undo();
-		newValue = view.isIsothermOn();
-		view.setIsothermOn(oldValue);
+		newValue = view.isBorderTickmarksOn();
+		view.setBorderTickmarksOn(oldValue);
 		view.repaint();
 	}
 
 	@Override
 	public void redo() throws CannotRedoException {
 		super.redo();
-		view.setIsothermOn(newValue);
+		view.setBorderTickmarksOn(newValue);
 		view.repaint();
 	}
 
 	@Override
 	public String getPresentationName() {
-		return "Isotherm Lines";
+		return "Border Tickmarks";
 	}
 
 }
