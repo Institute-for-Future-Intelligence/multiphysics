@@ -32,6 +32,8 @@ import org.concord.energy2d.undo.UndoGridLines;
 import org.concord.energy2d.undo.UndoHeatFluxArrows;
 import org.concord.energy2d.undo.UndoHeatFluxLines;
 import org.concord.energy2d.undo.UndoIsotherm;
+import org.concord.energy2d.undo.UndoMaximumTemperature;
+import org.concord.energy2d.undo.UndoMinimumTemperature;
 import org.concord.energy2d.undo.UndoMouseReadType;
 import org.concord.energy2d.undo.UndoSeeThrough;
 import org.concord.energy2d.undo.UndoSmooth;
@@ -62,11 +64,17 @@ class ViewDialog extends JDialog {
 				float x = parse(lowerTempField.getText());
 				if (Float.isNaN(x))
 					return;
-				view.setMinimumTemperature(x);
+				if (Math.abs(x - view.getMinimumTemperature()) > 0.001) {
+					view.getUndoManager().addEdit(new UndoMinimumTemperature(view));
+					view.setMinimumTemperature(x);
+				}
 				x = parse(upperTempField.getText());
 				if (Float.isNaN(x))
 					return;
-				view.setMaximumTemperature(x);
+				if (Math.abs(x - view.getMaximumTemperature()) > 0.001) {
+					view.getUndoManager().addEdit(new UndoMaximumTemperature(view));
+					view.setMaximumTemperature(x);
+				}
 				x = parse(fanRotationSpeedScaleField.getText());
 				if (Float.isNaN(x))
 					return;
@@ -74,7 +82,9 @@ class ViewDialog extends JDialog {
 					JOptionPane.showMessageDialog(owner, "Fan rotation speed scale must be positive.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				view.setFanRotationSpeedScaleFactor(x);
+				if (Math.abs(x - view.getFanRotationSpeedScaleFactor()) > 0.001) {
+					view.setFanRotationSpeedScaleFactor(x);
+				}
 				view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 				view.repaint();
 				dispose();

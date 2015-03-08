@@ -81,6 +81,7 @@ import org.concord.energy2d.model.Thermometer;
 import org.concord.energy2d.model.Thermostat;
 import org.concord.energy2d.model.Tree;
 import org.concord.energy2d.system.Helper;
+import org.concord.energy2d.undo.UndoAddPart;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.ContourMap;
 import org.concord.energy2d.util.FieldLines;
@@ -764,6 +765,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		this.model = model;
 		nx = model.getTemperature().length;
 		ny = model.getTemperature()[0].length;
+	}
+
+	public Model2D getModel() {
+		return model;
 	}
 
 	public void reset() {
@@ -3600,6 +3605,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				model.refreshMaterialPropertyArrays();
 				model.setInitialTemperature();
 				notifyManipulationListeners(model.getPart(model.getPartCount() - 1), ManipulationEvent.OBJECT_ADDED);
+				undoManager.addEdit(new UndoAddPart(this));
 			} else {
 				if (rectangle.width > 0 && rectangle.height > 0) // ignore the quick click
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "The rectangle you tried to add was too small!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -3618,6 +3624,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				model.refreshMaterialPropertyArrays();
 				model.setInitialTemperature();
 				notifyManipulationListeners(model.getPart(model.getPartCount() - 1), ManipulationEvent.OBJECT_ADDED);
+				undoManager.addEdit(new UndoAddPart(this));
 			} else {
 				if (ellipse.width > 0 || ellipse.height > 0)// ignore the quick click
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "The ellipse you tried to add was too small!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -3641,6 +3648,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					model.refreshMaterialPropertyArrays();
 					model.setInitialTemperature();
 					notifyManipulationListeners(model.getPart(model.getPartCount() - 1), ManipulationEvent.OBJECT_ADDED);
+					undoManager.addEdit(new UndoAddPart(this));
 				} else {
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "The polygon must be at least a triangle!", "Error", JOptionPane.ERROR_MESSAGE);
 				}
@@ -3665,6 +3673,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					model.refreshMaterialPropertyArrays();
 					model.setInitialTemperature();
 					notifyManipulationListeners(model.getPart(model.getPartCount() - 1), ManipulationEvent.OBJECT_ADDED);
+					undoManager.addEdit(new UndoAddPart(this));
 				} else {
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "The blob must contain at least three points!", "Error", JOptionPane.ERROR_MESSAGE);
 				}
