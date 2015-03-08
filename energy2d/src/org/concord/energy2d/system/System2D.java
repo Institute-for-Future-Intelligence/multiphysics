@@ -44,8 +44,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
 import javax.swing.UIManager;
-import javax.swing.undo.UndoManager;
-import javax.swing.undo.UndoableEdit;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -93,7 +91,6 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 	private ExecutorService threadService;
 	private static boolean isApplet = true;
 
-	private UndoManager undoManager;
 	private SAXParser saxParser;
 	private DefaultHandler saxHandler;
 	private XmlEncoder encoder;
@@ -119,8 +116,6 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		undoManager = new UndoManager();
 
 		propertyChangeListeners = new ArrayList<PropertyChangeListener>();
 
@@ -176,10 +171,6 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 
 	public static boolean isApplet() {
 		return isApplet;
-	}
-
-	public void addUndoableEdit(UndoableEdit edit) {
-		undoManager.addEdit(edit);
 	}
 
 	public void addTask(Task t) {
@@ -524,6 +515,7 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 		currentModel = null;
 		currentURL = null;
 		setFrameTitle();
+		view.getUndoManager().die();
 	}
 
 	void loadModel(String name) {
@@ -543,6 +535,7 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 		currentFile = null;
 		currentURL = null;
 		setFrameTitle();
+		view.getUndoManager().die();
 	}
 
 	public void loadURL(URL url) throws IOException {
@@ -557,6 +550,7 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 		currentFile = null;
 		currentModel = null;
 		setFrameTitle();
+		view.getUndoManager().die();
 	}
 
 	public void reload() {

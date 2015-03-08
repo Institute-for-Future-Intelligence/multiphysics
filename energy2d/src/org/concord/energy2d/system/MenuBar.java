@@ -29,7 +29,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
@@ -38,6 +37,7 @@ import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
 
 import org.concord.energy2d.event.ManipulationEvent;
+import org.concord.energy2d.undo.UndoSeeThrough;
 import org.concord.energy2d.util.FileChooser;
 import org.concord.energy2d.util.MiscUtil;
 import org.concord.energy2d.util.ScreenshotSaver;
@@ -186,6 +186,7 @@ class MenuBar extends JMenuBar {
 				box.view.repaint();
 				box.notifyToolBarListener(new ToolBarEvent(ToolBarEvent.NEW_FILE, MenuBar.this));
 				box.setSaved(true);
+				box.view.getUndoManager().die();
 			}
 		});
 		fileMenu.add(mi);
@@ -412,20 +413,26 @@ class MenuBar extends JMenuBar {
 		menu.addMenuListener(new MenuListener() {
 			@Override
 			public void menuSelected(MenuEvent e) {
-				Object src = e.getSource();
-				if (src instanceof JPopupMenu) {
-					JPopupMenu m = (JPopupMenu) src;
-					int n = m.getComponentCount();
-					Component c;
-					for (int i = 0; i < n; i++) {
-						c = m.getComponent(i);
-						if (c instanceof JMenuItem) {
-							JMenuItem mi = (JMenuItem) c;
-							if (mi.getText().equals("Cut") || mi.getText().equals("Copy")) {
-								mi.setEnabled(box.view.getSelectedManipulable() != null);
-							} else if (mi.getText().equals("Paste")) {
-								mi.setEnabled(box.view.getBufferedManipulable() != null);
-							}
+				JMenu src = (JMenu) e.getSource();
+				int n = src.getMenuComponentCount();
+				Component c;
+				for (int i = 0; i < n; i++) {
+					c = src.getMenuComponent(i);
+					if (c instanceof JMenuItem) {
+						JMenuItem mi = (JMenuItem) c;
+						String text = mi.getText();
+						if (text.equals("Cut") || text.equals("Copy")) {
+							mi.setEnabled(box.view.getSelectedManipulable() != null);
+						} else if (text.equals("Paste")) {
+							mi.setEnabled(box.view.getBufferedManipulable() != null);
+						}
+						if (text.startsWith("Undo")) {
+							mi.setEnabled(box.view.getUndoManager().canUndo());
+							mi.setText(box.view.getUndoManager().getUndoPresentationName());
+						}
+						if (text.startsWith("Redo")) {
+							mi.setEnabled(box.view.getUndoManager().canRedo());
+							mi.setText(box.view.getUndoManager().getRedoPresentationName());
 						}
 					}
 				}
@@ -441,6 +448,9 @@ class MenuBar extends JMenuBar {
 		});
 		add(menu);
 
+		menu.add(box.view.getActionMap().get("Undo"));
+		menu.add(box.view.getActionMap().get("Redo"));
+		menu.addSeparator();
 		menu.add(box.view.getActionMap().get("Cut"));
 		menu.add(box.view.getActionMap().get("Copy"));
 		menu.add(box.view.getActionMap().get("Paste"));
@@ -590,6 +600,7 @@ class MenuBar extends JMenuBar {
 
 		miSeeThrough.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				box.view.getUndoManager().addEdit(new UndoSeeThrough(box.view));
 				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
 				box.view.setSeeThrough(src.isSelected());
 				box.view.repaint();

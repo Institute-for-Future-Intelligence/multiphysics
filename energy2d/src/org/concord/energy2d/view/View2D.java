@@ -55,6 +55,8 @@ import javax.swing.KeyStroke;
 import javax.swing.Timer;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import javax.swing.undo.UndoManager;
+import javax.swing.undo.UndoableEdit;
 
 import org.concord.energy2d.event.GraphEvent;
 import org.concord.energy2d.event.GraphListener;
@@ -214,6 +216,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private Point tipTextLocation = new Point(30, 30);
 
 	Model2D model;
+	private UndoManager undoManager;
 	private Manipulable selectedManipulable, copiedManipulable;
 	private List<TextBox> textBoxes;
 	private List<Picture> pictures;
@@ -294,6 +297,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		graphListeners = new ArrayList<GraphListener>();
 		brand = Symbol.get("Brand");
 		brand.setStroke(moderateStroke);
+		undoManager = new UndoManager();
 	}
 
 	@SuppressWarnings("serial")
@@ -451,7 +455,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 		a = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(View2D.this, "Undo is not supported yet.");
+				if (undoManager.canUndo())
+					undoManager.undo();
+				// JOptionPane.showMessageDialog(View2D.this, "Undo is not supported yet.");
 			}
 		};
 		ks = IS_MAC ? KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.META_MASK) : KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_MASK);
@@ -462,7 +468,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 		a = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(View2D.this, "Redo is not supported yet.");
+				if (undoManager.canRedo())
+					undoManager.redo();
+				// JOptionPane.showMessageDialog(View2D.this, "Redo is not supported yet.");
 			}
 		};
 		ks = IS_MAC ? KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.META_MASK) : KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.CTRL_MASK);
@@ -471,6 +479,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		getInputMap().put(ks, "Redo");
 		getActionMap().put("Redo", a);
 
+	}
+
+	public UndoManager getUndoManager() {
+		return undoManager;
+	}
+
+	public void addUndoableEdit(UndoableEdit edit) {
+		undoManager.addEdit(edit);
 	}
 
 	public void setMouseReadType(byte mouseReadType) {
