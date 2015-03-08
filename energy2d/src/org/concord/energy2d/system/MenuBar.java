@@ -37,7 +37,13 @@ import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
 
 import org.concord.energy2d.event.ManipulationEvent;
+import org.concord.energy2d.undo.UndoHeatFluxArrows;
+import org.concord.energy2d.undo.UndoHeatFluxLines;
+import org.concord.energy2d.undo.UndoIsotherm;
 import org.concord.energy2d.undo.UndoSeeThrough;
+import org.concord.energy2d.undo.UndoStreamlines;
+import org.concord.energy2d.undo.UndoVelocity;
+import org.concord.energy2d.undo.UndoViewFactorLines;
 import org.concord.energy2d.util.FileChooser;
 import org.concord.energy2d.util.MiscUtil;
 import org.concord.energy2d.util.ScreenshotSaver;
@@ -612,6 +618,7 @@ class MenuBar extends JMenuBar {
 
 		miIsotherm.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				box.view.getUndoManager().addEdit(new UndoIsotherm(box.view));
 				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
 				box.view.setIsothermOn(src.isSelected());
 				box.view.repaint();
@@ -623,6 +630,7 @@ class MenuBar extends JMenuBar {
 
 		miHeatFluxLine.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				box.view.getUndoManager().addEdit(new UndoHeatFluxLines(box.view));
 				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
 				box.view.setHeatFluxLinesOn(src.isSelected());
 				box.view.repaint();
@@ -634,6 +642,7 @@ class MenuBar extends JMenuBar {
 
 		miHeatFluxArrow.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				box.view.getUndoManager().addEdit(new UndoHeatFluxArrows(box.view));
 				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
 				box.view.setHeatFluxArrowsOn(src.isSelected());
 				box.view.repaint();
@@ -645,6 +654,7 @@ class MenuBar extends JMenuBar {
 
 		miVelocity.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				box.view.getUndoManager().addEdit(new UndoVelocity(box.view));
 				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
 				box.view.setVelocityOn(src.isSelected());
 				box.view.repaint();
@@ -656,6 +666,7 @@ class MenuBar extends JMenuBar {
 
 		miStreamline.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				box.view.getUndoManager().addEdit(new UndoStreamlines(box.view));
 				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
 				box.view.setStreamlineOn(src.isSelected());
 				box.view.repaint();
@@ -667,6 +678,7 @@ class MenuBar extends JMenuBar {
 
 		miViewFactorLines.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				box.view.getUndoManager().addEdit(new UndoViewFactorLines(box.view));
 				JCheckBoxMenuItem src = (JCheckBoxMenuItem) e.getSource();
 				box.view.setViewFactorLinesOn(src.isSelected());
 				box.view.repaint();
