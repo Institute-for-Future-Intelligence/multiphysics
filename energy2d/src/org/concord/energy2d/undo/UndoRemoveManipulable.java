@@ -9,6 +9,7 @@ import org.concord.energy2d.model.Manipulable;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
 import org.concord.energy2d.model.Particle;
+import org.concord.energy2d.model.ParticleFeeder;
 import org.concord.energy2d.view.View2D;
 
 public class UndoRemoveManipulable extends AbstractUndoableEdit {
@@ -27,6 +28,8 @@ public class UndoRemoveManipulable extends AbstractUndoableEdit {
 			index = model.getParts().indexOf(selectedManipulable);
 		} else if (selectedManipulable instanceof Particle) {
 			index = model.getParticles().indexOf(selectedManipulable);
+		} else if (selectedManipulable instanceof ParticleFeeder) {
+			index = model.getParticleFeeders().indexOf(selectedManipulable);
 		}
 	}
 
@@ -40,6 +43,8 @@ public class UndoRemoveManipulable extends AbstractUndoableEdit {
 			model.refreshMaterialPropertyArrays();
 		} else if (selectedManipulable instanceof Particle) {
 			model.addParticle((Particle) selectedManipulable, index);
+		} else if (selectedManipulable instanceof ParticleFeeder) {
+			model.addParticleFeeder((ParticleFeeder) selectedManipulable, index);
 		}
 		view.repaint();
 	}

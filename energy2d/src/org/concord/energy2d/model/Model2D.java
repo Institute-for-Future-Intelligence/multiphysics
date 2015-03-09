@@ -903,148 +903,6 @@ public class Model2D {
 		return null; // no sensor
 	}
 
-	public Fan addFan(float x, float y, float w, float h) {
-		Fan f = new Fan(new Rectangle2D.Float(x, y, w, h));
-		addFan(f);
-		return f;
-	}
-
-	public Part addRectangularPart(float x, float y, float w, float h) {
-		Part p = new Part(new Rectangle2D.Float(x, y, w, h), this);
-		addPart(p);
-		return p;
-	}
-
-	public Part addRectangularPart(float x, float y, float w, float h, float t) {
-		Part p = addRectangularPart(x, y, w, h);
-		p.setTemperature(t);
-		return p;
-	}
-
-	public Part addEllipticalPart(float x, float y, float a, float b) {
-		Part p = new Part(new Ellipse2D.Float(x - 0.5f * a, y - 0.5f * b, a, b), this);
-		addPart(p);
-		return p;
-	}
-
-	public Part addEllipticalPart(float x, float y, float a, float b, float t) {
-		Part p = addEllipticalPart(x, y, a, b);
-		p.setTemperature(t);
-		return p;
-	}
-
-	public Part addRingPart(float x, float y, float inner, float outer) {
-		Part p = new Part(new Ring2D(x, y, inner, outer), this);
-		addPart(p);
-		return p;
-	}
-
-	public Part addPolygonPart(Polygon2D polygon) {
-		Part p = new Part(polygon, this);
-		addPart(p);
-		return p;
-	}
-
-	public Part addPolygonPart(float[] x, float[] y) {
-		return addPolygonPart(new Polygon2D(x, y));
-	}
-
-	public Part addPolygonPart(float[] x, float[] y, float t) {
-		Part p = addPolygonPart(x, y);
-		p.setTemperature(t);
-		return p;
-	}
-
-	public Part addBlobPart(Blob2D blob) {
-		Part p = new Part(blob, this);
-		addPart(p);
-		return p;
-	}
-
-	public Part addBlobPart(float[] x, float[] y) {
-		return addBlobPart(new Blob2D(x, y));
-	}
-
-	public Part addBlobPart(float[] x, float[] y, float t) {
-		Part p = addBlobPart(x, y);
-		p.setTemperature(t);
-		return p;
-	}
-
-	public List<Part> getParts() {
-		return parts;
-	}
-
-	public Part getPart(String uid) {
-		if (uid == null)
-			return null;
-		synchronized (parts) {
-			for (Part p : parts) {
-				if (uid.equals(p.getUid()))
-					return p;
-			}
-		}
-		return null;
-	}
-
-	public List<Particle> getParticles() {
-		return particles;
-	}
-
-	public Particle getParticle(int i) {
-		if (i < 0 || i >= particles.size())
-			return null;
-		return particles.get(i);
-	}
-
-	public Particle getParticle(String uid) {
-		if (uid == null)
-			return null;
-		synchronized (particles) {
-			for (Particle p : particles) {
-				if (uid.equals(p.getUid()))
-					return p;
-			}
-		}
-		return null;
-	}
-
-	// particle feeder
-
-	public void addParticleFeeder(ParticleFeeder pf) {
-		particleFeeders.add(pf);
-	}
-
-	public void addParticleFeeder(float x, float y) {
-		particleFeeders.add(new ParticleFeeder(x, y));
-	}
-
-	public void removeParticleFeeder(ParticleFeeder pf) {
-		particleFeeders.remove(pf);
-	}
-
-	public List<ParticleFeeder> getParticleFeeders() {
-		return particleFeeders;
-	}
-
-	public ParticleFeeder getParticleFeeder(String uid) {
-		if (uid == null)
-			return null;
-		synchronized (particleFeeders) {
-			for (ParticleFeeder pf : particleFeeders) {
-				if (uid.equals(pf.getUid()))
-					return pf;
-			}
-		}
-		return null;
-	}
-
-	public ParticleFeeder getParticleFeeder(int i) {
-		if (i < 0 || i >= particleFeeders.size())
-			return null;
-		return particleFeeders.get(i);
-	}
-
 	/** Every manipulable has a UID. To avoid confusion, two objects of different types cannot have the same UID. */
 	public boolean isUidUsed(String uid) {
 		if (uid == null || uid.trim().equals(""))
@@ -1100,6 +958,86 @@ public class Model2D {
 		return false;
 	}
 
+	// parts
+
+	public Part addRectangularPart(float x, float y, float w, float h) {
+		Part p = new Part(new Rectangle2D.Float(x, y, w, h), this);
+		addPart(p);
+		return p;
+	}
+
+	public Part addRectangularPart(float x, float y, float w, float h, float temperature) {
+		Part p = addRectangularPart(x, y, w, h);
+		p.setTemperature(temperature);
+		return p;
+	}
+
+	public Part addEllipticalPart(float x, float y, float a, float b) {
+		Part p = new Part(new Ellipse2D.Float(x - 0.5f * a, y - 0.5f * b, a, b), this);
+		addPart(p);
+		return p;
+	}
+
+	public Part addEllipticalPart(float x, float y, float a, float b, float temperature) {
+		Part p = addEllipticalPart(x, y, a, b);
+		p.setTemperature(temperature);
+		return p;
+	}
+
+	public Part addRingPart(float x, float y, float inner, float outer) {
+		Part p = new Part(new Ring2D(x, y, inner, outer), this);
+		addPart(p);
+		return p;
+	}
+
+	public Part addPolygonPart(Polygon2D polygon) {
+		Part p = new Part(polygon, this);
+		addPart(p);
+		return p;
+	}
+
+	public Part addPolygonPart(float[] x, float[] y) {
+		return addPolygonPart(new Polygon2D(x, y));
+	}
+
+	public Part addPolygonPart(float[] x, float[] y, float temperature) {
+		Part p = addPolygonPart(x, y);
+		p.setTemperature(temperature);
+		return p;
+	}
+
+	public Part addBlobPart(Blob2D blob) {
+		Part p = new Part(blob, this);
+		addPart(p);
+		return p;
+	}
+
+	public Part addBlobPart(float[] x, float[] y) {
+		return addBlobPart(new Blob2D(x, y));
+	}
+
+	public Part addBlobPart(float[] x, float[] y, float temperature) {
+		Part p = addBlobPart(x, y);
+		p.setTemperature(temperature);
+		return p;
+	}
+
+	public List<Part> getParts() {
+		return parts;
+	}
+
+	public Part getPart(String uid) {
+		if (uid == null)
+			return null;
+		synchronized (parts) {
+			for (Part p : parts) {
+				if (uid.equals(p.getUid()))
+					return p;
+			}
+		}
+		return null;
+	}
+
 	public Part getPart(int i) {
 		if (i < 0 || i >= parts.size())
 			return null;
@@ -1144,6 +1082,30 @@ public class Model2D {
 		checkPartRadiation();
 	}
 
+	// particles
+
+	public List<Particle> getParticles() {
+		return particles;
+	}
+
+	public Particle getParticle(int i) {
+		if (i < 0 || i >= particles.size())
+			return null;
+		return particles.get(i);
+	}
+
+	public Particle getParticle(String uid) {
+		if (uid == null)
+			return null;
+		synchronized (particles) {
+			for (Particle p : particles) {
+				if (uid.equals(p.getUid()))
+					return p;
+			}
+		}
+		return null;
+	}
+
 	public void addParticle(Particle p) {
 		if (!particles.contains(p)) {
 			particles.add(p);
@@ -1158,6 +1120,54 @@ public class Model2D {
 
 	public void removeParticle(Particle p) {
 		particles.remove(p);
+	}
+
+	// particle feeder
+
+	public void addParticleFeeder(ParticleFeeder pf) {
+		particleFeeders.add(pf);
+	}
+
+	public void addParticleFeeder(ParticleFeeder pf, int index) {
+		particleFeeders.add(index, pf);
+	}
+
+	public void addParticleFeeder(float x, float y) {
+		particleFeeders.add(new ParticleFeeder(x, y));
+	}
+
+	public void removeParticleFeeder(ParticleFeeder pf) {
+		particleFeeders.remove(pf);
+	}
+
+	public List<ParticleFeeder> getParticleFeeders() {
+		return particleFeeders;
+	}
+
+	public ParticleFeeder getParticleFeeder(String uid) {
+		if (uid == null)
+			return null;
+		synchronized (particleFeeders) {
+			for (ParticleFeeder pf : particleFeeders) {
+				if (uid.equals(pf.getUid()))
+					return pf;
+			}
+		}
+		return null;
+	}
+
+	public ParticleFeeder getParticleFeeder(int i) {
+		if (i < 0 || i >= particleFeeders.size())
+			return null;
+		return particleFeeders.get(i);
+	}
+
+	// fans
+
+	public Fan addFan(float x, float y, float w, float h) {
+		Fan f = new Fan(new Rectangle2D.Float(x, y, w, h));
+		addFan(f);
+		return f;
 	}
 
 	public void addFan(Fan f) {

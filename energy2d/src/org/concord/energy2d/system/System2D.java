@@ -732,6 +732,8 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 				model.removePart((Part) target);
 			else if (target instanceof Particle)
 				model.removeParticle((Particle) target);
+			else if (target instanceof ParticleFeeder)
+				view.removeParticleFeeder((ParticleFeeder) target);
 			else if (target instanceof Anemometer)
 				model.removeAnemometer((Anemometer) target);
 			else if (target instanceof Thermometer)
@@ -746,8 +748,6 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 				view.removeTree((Tree) target);
 			else if (target instanceof Fan)
 				view.removeFan((Fan) target);
-			else if (target instanceof ParticleFeeder)
-				view.removeParticleFeeder((ParticleFeeder) target);
 			setSaved(false);
 			break;
 		case ManipulationEvent.RUN:
