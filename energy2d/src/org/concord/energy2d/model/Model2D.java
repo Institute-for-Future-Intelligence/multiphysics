@@ -1120,6 +1120,16 @@ public class Model2D {
 		}
 	}
 
+	public void addPart(Part p, int index) {
+		if (!parts.contains(p)) {
+			parts.add(index, p);
+			if (p.getPower() != 0)
+				hasPartPower = true;
+			if (p.getEmissivity() > 0)
+				radiative = true;
+		}
+	}
+
 	public void removePart(Part p) {
 		parts.remove(p);
 		if (!thermostats.isEmpty()) {
@@ -1137,6 +1147,12 @@ public class Model2D {
 	public void addParticle(Particle p) {
 		if (!particles.contains(p)) {
 			particles.add(p);
+		}
+	}
+
+	public void addParticle(Particle p, int index) {
+		if (!particles.contains(p)) {
+			particles.add(index, p);
 		}
 	}
 

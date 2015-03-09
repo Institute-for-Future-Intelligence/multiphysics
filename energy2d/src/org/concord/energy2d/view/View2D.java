@@ -82,6 +82,7 @@ import org.concord.energy2d.model.Thermostat;
 import org.concord.energy2d.model.Tree;
 import org.concord.energy2d.system.Helper;
 import org.concord.energy2d.undo.UndoAddPart;
+import org.concord.energy2d.undo.UndoRemoveManipulable;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.ContourMap;
 import org.concord.energy2d.util.FieldLines;
@@ -2993,6 +2994,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			// this is different than cut() in that it doesn't create a copy for pasting
 			if (selectedManipulable != null) {
 				if (JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the selected object?", "Delete Object", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					undoManager.addEdit(new UndoRemoveManipulable(this));
 					notifyManipulationListeners(selectedManipulable, ManipulationEvent.DELETE);
 					setSelectedManipulable(null);
 				}
