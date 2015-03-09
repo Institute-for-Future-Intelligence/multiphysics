@@ -356,32 +356,6 @@ public class Model2D {
 		return photons;
 	}
 
-	public void addCloud(Cloud c) {
-		if (c != null && !clouds.contains(c))
-			clouds.add(c);
-	}
-
-	public void removeCloud(Cloud c) {
-		clouds.remove(c);
-	}
-
-	public List<Cloud> getClouds() {
-		return clouds;
-	}
-
-	public void addTree(Tree t) {
-		if (t != null && !trees.contains(t))
-			trees.add(t);
-	}
-
-	public void removeTree(Tree t) {
-		trees.remove(t);
-	}
-
-	public List<Tree> getTrees() {
-		return trees;
-	}
-
 	private void setGridCellSize() {
 		heatSolver.setGridCellSize(deltaX, deltaY);
 		fluidSolver.setGridCellSize(deltaX, deltaY);
@@ -677,6 +651,10 @@ public class Model2D {
 		thermometers.add(t);
 	}
 
+	public void addThermometer(Thermometer t, int index) {
+		thermometers.add(index, t);
+	}
+
 	public void addThermometer(float x, float y) {
 		thermometers.add(new Thermometer(x, y));
 	}
@@ -730,6 +708,10 @@ public class Model2D {
 		anemometers.add(a);
 	}
 
+	public void addAnemometer(Anemometer a, int index) {
+		anemometers.add(index, a);
+	}
+
 	public void addAnemometer(float x, float y) {
 		anemometers.add(new Anemometer(x, y));
 	}
@@ -773,6 +755,10 @@ public class Model2D {
 
 	public void addHeatFluxSensor(HeatFluxSensor h) {
 		heatFluxSensors.add(h);
+	}
+
+	public void addHeatFluxSensor(HeatFluxSensor h, int index) {
+		heatFluxSensors.add(index, h);
 	}
 
 	public void addHeatFluxSensor(float x, float y) {
@@ -1164,15 +1150,15 @@ public class Model2D {
 
 	// fans
 
-	public Fan addFan(float x, float y, float w, float h) {
-		Fan f = new Fan(new Rectangle2D.Float(x, y, w, h));
-		addFan(f);
-		return f;
-	}
-
 	public void addFan(Fan f) {
 		if (f != null && !fans.contains(f)) {
 			fans.add(f);
+		}
+	}
+
+	public void addFan(Fan f, int index) {
+		if (f != null && !fans.contains(f)) {
+			fans.add(index, f);
 		}
 	}
 
@@ -1200,6 +1186,46 @@ public class Model2D {
 			}
 		}
 		return null;
+	}
+
+	// cloud
+
+	public void addCloud(Cloud c) {
+		if (c != null && !clouds.contains(c))
+			clouds.add(c);
+	}
+
+	public void addCloud(Cloud c, int index) {
+		if (c != null && !clouds.contains(c))
+			clouds.add(index, c);
+	}
+
+	public void removeCloud(Cloud c) {
+		clouds.remove(c);
+	}
+
+	public List<Cloud> getClouds() {
+		return clouds;
+	}
+
+	// trees
+
+	public void addTree(Tree t) {
+		if (t != null && !trees.contains(t))
+			trees.add(t);
+	}
+
+	public void addTree(Tree t, int index) {
+		if (t != null && !trees.contains(t))
+			trees.add(index, t);
+	}
+
+	public void removeTree(Tree t) {
+		trees.remove(t);
+	}
+
+	public List<Tree> getTrees() {
+		return trees;
 	}
 
 	public List<Segment> getPerimeterSegments() {

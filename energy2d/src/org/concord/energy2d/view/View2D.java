@@ -599,6 +599,11 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		repaint();
 	}
 
+	public void addTextBox(TextBox t, int index) {
+		textBoxes.add(index, t);
+		repaint();
+	}
+
 	public void removeTextBox(TextBox t) {
 		textBoxes.remove(t);
 		repaint();
@@ -608,6 +613,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		TextBox t = new TextBox(new Rectangle2D.Float(), text, x, y);
 		addTextBox(t);
 		return t;
+	}
+
+	public List<TextBox> getTextBoxes() {
+		return textBoxes;
 	}
 
 	public int getTextBoxCount() {
