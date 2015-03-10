@@ -82,6 +82,7 @@ import org.concord.energy2d.model.Thermostat;
 import org.concord.energy2d.model.Tree;
 import org.concord.energy2d.system.Helper;
 import org.concord.energy2d.undo.UndoAddManipulable;
+import org.concord.energy2d.undo.UndoPaste;
 import org.concord.energy2d.undo.UndoRemoveManipulable;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.ContourMap;
@@ -1240,32 +1241,43 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private void paste() {
 		float x = convertPixelToPointX(mouseReleasedPoint.x);
 		float y = convertPixelToPointY(mouseReleasedPoint.y);
+		Manipulable pastedManipulable = null;
 		if (copiedManipulable instanceof Part) {
-			model.addPart(((Part) copiedManipulable).duplicate(x, y));
+			pastedManipulable = ((Part) copiedManipulable).duplicate(x, y);
+			model.addPart((Part) pastedManipulable);
 			model.refreshPowerArray();
 			model.refreshTemperatureBoundaryArray();
 			model.refreshMaterialPropertyArrays();
 			model.setInitialTemperature();
-		} else if (copiedManipulable instanceof Particle) {
-			model.addParticle(((Particle) copiedManipulable).duplicate(x, y));
-		} else if (copiedManipulable instanceof Thermometer) {
-			addThermometer(x, y);
-		} else if (copiedManipulable instanceof HeatFluxSensor) {
-			addHeatFluxSensor(x, y).setAngle(((HeatFluxSensor) copiedManipulable).getAngle());
-		} else if (copiedManipulable instanceof Anemometer) {
-			addAnemometer(x, y);
-		} else if (copiedManipulable instanceof TextBox) {
-			addTextBox(((TextBox) copiedManipulable).duplicate(x, model.getLy() - y));
-		} else if (copiedManipulable instanceof Cloud) {
-			model.addCloud(((Cloud) copiedManipulable).duplicate(x, y));
-		} else if (copiedManipulable instanceof Tree) {
-			model.addTree(((Tree) copiedManipulable).duplicate(x, y));
 		} else if (copiedManipulable instanceof Fan) {
-			model.addFan(((Fan) copiedManipulable).duplicate(x, y));
+			pastedManipulable = ((Fan) copiedManipulable).duplicate(x, y);
+			model.addFan((Fan) pastedManipulable);
+			model.refreshMaterialPropertyArrays();
+		} else if (copiedManipulable instanceof Particle) {
+			pastedManipulable = ((Particle) copiedManipulable).duplicate(x, y);
+			model.addParticle((Particle) pastedManipulable);
+		} else if (copiedManipulable instanceof Thermometer) {
+			pastedManipulable = addThermometer(x, y);
+		} else if (copiedManipulable instanceof HeatFluxSensor) {
+			pastedManipulable = addHeatFluxSensor(x, y);
+			((HeatFluxSensor) pastedManipulable).setAngle(((HeatFluxSensor) copiedManipulable).getAngle());
+		} else if (copiedManipulable instanceof Anemometer) {
+			pastedManipulable = addAnemometer(x, y);
+		} else if (copiedManipulable instanceof TextBox) {
+			pastedManipulable = ((TextBox) copiedManipulable).duplicate(x, model.getLy() - y);
+			addTextBox((TextBox) pastedManipulable);
+		} else if (copiedManipulable instanceof Cloud) {
+			pastedManipulable = ((Cloud) copiedManipulable).duplicate(x, y);
+			model.addCloud((Cloud) pastedManipulable);
+		} else if (copiedManipulable instanceof Tree) {
+			pastedManipulable = ((Tree) copiedManipulable).duplicate(x, y);
+			model.addTree((Tree) pastedManipulable);
 		} else if (copiedManipulable instanceof ParticleFeeder) {
-			model.addParticleFeeder(((ParticleFeeder) copiedManipulable).duplicate(x, y));
+			pastedManipulable = ((ParticleFeeder) copiedManipulable).duplicate(x, y);
+			model.addParticleFeeder((ParticleFeeder) pastedManipulable);
 		}
-		notifyManipulationListeners(copiedManipulable, ManipulationEvent.PROPERTY_CHANGE);
+		notifyManipulationListeners(pastedManipulable, ManipulationEvent.PROPERTY_CHANGE);
+		undoManager.addEdit(new UndoPaste(pastedManipulable, this));
 		repaint();
 	}
 
