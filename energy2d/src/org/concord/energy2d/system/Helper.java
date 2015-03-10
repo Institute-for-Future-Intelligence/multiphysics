@@ -68,7 +68,7 @@ public class Helper {
 	public final static void showAbout(Frame frame) {
 		String s = "<html><h2>" + System2D.BRAND_NAME + "</h2>";
 		s += "<h4><i>Interactive Heat Transfer Simulations for Everyone</i></h4>";
-		s += "http://energy.concord.org/energy2d<br>The Intelligent Learning Environments Laboratory, The Concord Consortium, 2011-2015";
+		s += "http://energy.concord.org/energy2d<br>The Intelligent Learning Environments Laboratory, Concord Consortium, Copyright 2011-2015";
 		s += "<hr>";
 		s += "<h4>Attribution & Acknowledgement:</h4>This program is being created by Dr. Charles Xie. Funding is provided by the National Science Foundation<br>under grants 0918449, 1124281, and 1304485 for which Dr. Xie also serves as the Principal Investigator.";
 		s += "<h4>License:</h4>GNU Lesser General Public License V3.0";

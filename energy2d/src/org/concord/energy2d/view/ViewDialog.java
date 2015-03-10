@@ -25,6 +25,7 @@ import javax.swing.SpringLayout;
 import org.concord.energy2d.event.GraphEvent;
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.undo.UndoClock;
+import org.concord.energy2d.undo.UndoColoringProperty;
 import org.concord.energy2d.undo.UndoColoringStyle;
 import org.concord.energy2d.undo.UndoColorPalette;
 import org.concord.energy2d.undo.UndoControlPanel;
@@ -354,6 +355,7 @@ class ViewDialog extends JDialog {
 						unitLabel2.setText("J");
 						break;
 					}
+					view.getUndoManager().addEdit(new UndoColoringProperty(view));
 					view.setHeatMapType((byte) (i + View2D.HEATMAP_NONE));
 					view.repaint();
 				}

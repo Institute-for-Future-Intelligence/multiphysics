@@ -37,6 +37,8 @@ import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
 
 import org.concord.energy2d.event.ManipulationEvent;
+import org.concord.energy2d.undo.UndoClearAll;
+import org.concord.energy2d.undo.UndoClearAllParticles;
 import org.concord.energy2d.undo.UndoColorPalette;
 import org.concord.energy2d.undo.UndoControlPanel;
 import org.concord.energy2d.undo.UndoGridLines;
@@ -45,6 +47,7 @@ import org.concord.energy2d.undo.UndoHeatFluxArrows;
 import org.concord.energy2d.undo.UndoHeatFluxLines;
 import org.concord.energy2d.undo.UndoIsotherm;
 import org.concord.energy2d.undo.UndoMouseReadType;
+import org.concord.energy2d.undo.UndoScaleAll;
 import org.concord.energy2d.undo.UndoSeeThrough;
 import org.concord.energy2d.undo.UndoStreamlines;
 import org.concord.energy2d.undo.UndoTickmarks;
@@ -473,6 +476,7 @@ class MenuBar extends JMenuBar {
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (JOptionPane.showConfirmDialog(JOptionPane.getFrameForComponent(box.view), "Are you sure you want to remove all objects?", "Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					box.view.getUndoManager().addEdit(new UndoClearAll(box.view));
 					box.model.clear();
 					box.model.refreshMaterialPropertyArrays();
 					box.model.refreshPowerArray();
@@ -491,6 +495,7 @@ class MenuBar extends JMenuBar {
 				if (box.model.getParticles().isEmpty())
 					return;
 				if (JOptionPane.showConfirmDialog(JOptionPane.getFrameForComponent(box.view), "Are you sure you want to remove all particles?", "Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					box.view.getUndoManager().addEdit(new UndoClearAllParticles(box.view));
 					box.model.getParticles().clear();
 					box.model.refreshMaterialPropertyArrays();
 					box.model.refreshPowerArray();
@@ -528,17 +533,8 @@ class MenuBar extends JMenuBar {
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(box.view), "Scale factor must be a positive number.", "Scale factor error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if (box.model.scaleAll(x)) {
-					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(box.view), "Your scale factor is too large -- some objects are out of the window.", "Warning", JOptionPane.WARNING_MESSAGE);
-				}
-				if (box.model.getPartCount() > 0) {
-					box.model.refreshMaterialPropertyArrays();
-					box.model.refreshPowerArray();
-					box.model.refreshTemperatureBoundaryArray();
-				}
-				box.view.setSelectedManipulable(box.view.getSelectedManipulable());
-				box.view.repaint();
-				box.view.notifyManipulationListeners(null, ManipulationEvent.RESIZE);
+				box.view.scaleAll(x);
+				box.view.getUndoManager().addEdit(new UndoScaleAll(box.view, x));
 			}
 		});
 		menu.add(mi);

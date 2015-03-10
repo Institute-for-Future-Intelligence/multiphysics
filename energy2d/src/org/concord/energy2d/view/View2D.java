@@ -2821,6 +2821,20 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		return copiedManipulable;
 	}
 
+	public void scaleAll(float scaleFactor) {
+		if (model.scaleAll(scaleFactor)) {
+			JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "Your scale factor is too large -- some objects are out of the window.", "Warning", JOptionPane.WARNING_MESSAGE);
+		}
+		if (model.getPartCount() > 0) {
+			model.refreshMaterialPropertyArrays();
+			model.refreshPowerArray();
+			model.refreshTemperatureBoundaryArray();
+		}
+		setSelectedManipulable(getSelectedManipulable());
+		repaint();
+		notifyManipulationListeners(null, ManipulationEvent.RESIZE);
+	}
+
 	private void translateAllBy(float dx, float dy) {
 		model.translateAllBy(dx, dy);
 		if (!textBoxes.isEmpty()) {
