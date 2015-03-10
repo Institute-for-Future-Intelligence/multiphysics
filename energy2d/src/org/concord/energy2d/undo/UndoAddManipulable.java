@@ -6,6 +6,8 @@ import javax.swing.undo.CannotUndoException;
 
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.model.Anemometer;
+import org.concord.energy2d.model.Cloud;
+import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.Manipulable;
 import org.concord.energy2d.model.Model2D;
@@ -13,6 +15,8 @@ import org.concord.energy2d.model.Part;
 import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.ParticleFeeder;
 import org.concord.energy2d.model.Thermometer;
+import org.concord.energy2d.model.Tree;
+import org.concord.energy2d.view.TextBox;
 import org.concord.energy2d.view.View2D;
 
 public class UndoAddManipulable extends AbstractUndoableEdit {
@@ -39,6 +43,14 @@ public class UndoAddManipulable extends AbstractUndoableEdit {
 			name = "Particle";
 		} else if (addedManipulable instanceof ParticleFeeder) {
 			name = "Particle Feeder";
+		} else if (addedManipulable instanceof Fan) {
+			name = "Fan";
+		} else if (addedManipulable instanceof Cloud) {
+			name = "Cloud";
+		} else if (addedManipulable instanceof Tree) {
+			name = "Tree";
+		} else if (addedManipulable instanceof TextBox) {
+			name = "Text Box";
 		}
 	}
 
@@ -69,7 +81,17 @@ public class UndoAddManipulable extends AbstractUndoableEdit {
 			model.addParticle((Particle) addedManipulable);
 		} else if (addedManipulable instanceof ParticleFeeder) {
 			model.addParticleFeeder((ParticleFeeder) addedManipulable);
+		} else if (addedManipulable instanceof Fan) {
+			model.addFan((Fan) addedManipulable);
+			model.refreshMaterialPropertyArrays();
+		} else if (addedManipulable instanceof Cloud) {
+			model.addCloud((Cloud) addedManipulable);
+		} else if (addedManipulable instanceof Tree) {
+			model.addTree((Tree) addedManipulable);
+		} else if (addedManipulable instanceof TextBox) {
+			view.addTextBox((TextBox) addedManipulable);
 		}
+		view.setSelectedManipulable(addedManipulable);
 		view.repaint();
 	}
 

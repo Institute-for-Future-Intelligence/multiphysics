@@ -349,7 +349,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				if (tbp.isCancelled() || t.getLabel() == null || t.getLabel().trim().equals("")) {
 					removeTextBox(t);
 				} else {
+					notifyManipulationListeners(t, ManipulationEvent.OBJECT_ADDED);
 					setSelectedManipulable(t);
+					undoManager.addEdit(new UndoAddManipulable(t, View2D.this));
 				}
 			}
 		};
@@ -361,8 +363,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			public void actionPerformed(ActionEvent e) {
 				float x = mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.05f;
 				float y = mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.025f;
-				setSelectedManipulable(addFan(x, y, model.getLx() * 0.3f, model.getLy() * 0.1f));
-				notifyManipulationListeners(null, ManipulationEvent.OBJECT_ADDED);
+				Fan fan = addFan(x, y, model.getLx() * 0.3f, model.getLy() * 0.1f);
+				notifyManipulationListeners(fan, ManipulationEvent.OBJECT_ADDED);
+				setSelectedManipulable(fan);
+				undoManager.addEdit(new UndoAddManipulable(fan, View2D.this));
 				repaint();
 			}
 		};
@@ -374,8 +378,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			public void actionPerformed(ActionEvent e) {
 				float x = mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.05f;
 				float y = mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.025f;
-				setSelectedManipulable(addCloud(x, y, model.getLx() * 0.3f, model.getLy() * 0.1f, 0));
-				notifyManipulationListeners(null, ManipulationEvent.OBJECT_ADDED);
+				Cloud cloud = addCloud(x, y, model.getLx() * 0.3f, model.getLy() * 0.1f, 0);
+				notifyManipulationListeners(cloud, ManipulationEvent.OBJECT_ADDED);
+				setSelectedManipulable(cloud);
+				undoManager.addEdit(new UndoAddManipulable(cloud, View2D.this));
 				repaint();
 			}
 		};
@@ -387,8 +393,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			public void actionPerformed(ActionEvent e) {
 				float x = mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.025f;
 				float y = mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.05f;
-				setSelectedManipulable(addTree(x, y, model.getLx() * 0.1f, model.getLy() * 0.2f, Tree.PINE));
-				notifyManipulationListeners(null, ManipulationEvent.OBJECT_ADDED);
+				Tree tree = addTree(x, y, model.getLx() * 0.1f, model.getLy() * 0.2f, Tree.PINE);
+				notifyManipulationListeners(tree, ManipulationEvent.OBJECT_ADDED);
+				setSelectedManipulable(tree);
+				undoManager.addEdit(new UndoAddManipulable(tree, View2D.this));
 				repaint();
 			}
 		};
@@ -398,8 +406,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 		a = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				setSelectedManipulable(addThermometer(mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.5f, mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.5f));
-				notifyManipulationListeners(null, ManipulationEvent.SENSOR_ADDED);
+				float x = mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.5f;
+				float y = mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.5f;
+				Thermometer thermometer = addThermometer(x, y);
+				notifyManipulationListeners(thermometer, ManipulationEvent.SENSOR_ADDED);
+				setSelectedManipulable(thermometer);
+				undoManager.addEdit(new UndoAddManipulable(thermometer, View2D.this));
 				repaint();
 			}
 		};
@@ -409,8 +421,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 		a = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				setSelectedManipulable(addHeatFluxSensor(mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.5f, mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.5f));
-				notifyManipulationListeners(null, ManipulationEvent.SENSOR_ADDED);
+				float x = mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.5f;
+				float y = mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.5f;
+				HeatFluxSensor heatFluxSensor = addHeatFluxSensor(x, y);
+				notifyManipulationListeners(heatFluxSensor, ManipulationEvent.SENSOR_ADDED);
+				setSelectedManipulable(heatFluxSensor);
+				undoManager.addEdit(new UndoAddManipulable(heatFluxSensor, View2D.this));
 				repaint();
 			}
 		};
@@ -420,8 +436,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 		a = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				setSelectedManipulable(addAnemometer(mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.5f, mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.5f));
-				notifyManipulationListeners(null, ManipulationEvent.SENSOR_ADDED);
+				float x = mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.5f;
+				float y = mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.5f;
+				Anemometer anemometer = addAnemometer(x, y);
+				notifyManipulationListeners(anemometer, ManipulationEvent.SENSOR_ADDED);
+				setSelectedManipulable(anemometer);
+				undoManager.addEdit(new UndoAddManipulable(anemometer, View2D.this));
 				repaint();
 			}
 		};
@@ -433,8 +453,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			public void actionPerformed(ActionEvent e) {
 				float x = mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.025f;
 				float y = mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.05f;
-				setSelectedManipulable(addParticle(x, y));
-				notifyManipulationListeners(null, ManipulationEvent.OBJECT_ADDED);
+				Particle particle = addParticle(x, y);
+				notifyManipulationListeners(particle, ManipulationEvent.OBJECT_ADDED);
+				setSelectedManipulable(particle);
+				undoManager.addEdit(new UndoAddManipulable(particle, View2D.this));
 				repaint();
 			}
 		};
@@ -446,8 +468,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			public void actionPerformed(ActionEvent e) {
 				float x = mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.025f;
 				float y = mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.05f;
-				setSelectedManipulable(addParticleFeeder(x, y));
-				notifyManipulationListeners(null, ManipulationEvent.OBJECT_ADDED);
+				ParticleFeeder particleFeeder = addParticleFeeder(x, y);
+				notifyManipulationListeners(particleFeeder, ManipulationEvent.OBJECT_ADDED);
+				setSelectedManipulable(particleFeeder);
+				undoManager.addEdit(new UndoAddManipulable(particleFeeder, View2D.this));
 				repaint();
 			}
 		};
@@ -459,7 +483,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			public void actionPerformed(ActionEvent e) {
 				if (undoManager.canUndo())
 					undoManager.undo();
-				// JOptionPane.showMessageDialog(View2D.this, "Undo is not supported yet.");
 			}
 		};
 		ks = IS_MAC ? KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.META_MASK) : KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_MASK);
@@ -472,7 +495,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			public void actionPerformed(ActionEvent e) {
 				if (undoManager.canRedo())
 					undoManager.redo();
-				// JOptionPane.showMessageDialog(View2D.this, "Redo is not supported yet.");
 			}
 		};
 		ks = IS_MAC ? KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.META_MASK) : KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.CTRL_MASK);
