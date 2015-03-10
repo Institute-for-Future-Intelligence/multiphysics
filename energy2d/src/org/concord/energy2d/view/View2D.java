@@ -84,6 +84,7 @@ import org.concord.energy2d.system.Helper;
 import org.concord.energy2d.undo.UndoAddManipulable;
 import org.concord.energy2d.undo.UndoPaste;
 import org.concord.energy2d.undo.UndoRemoveManipulable;
+import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.ContourMap;
 import org.concord.energy2d.util.FieldLines;
@@ -2894,6 +2895,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	}
 
 	private void translateManipulableTo(Manipulable m, float x, float y) {
+		undoManager.addEdit(new UndoTranslateManipulable(this));
 		Shape s = m.getShape();
 		if (s instanceof Rectangle2D.Float) {
 			Rectangle2D.Float r = (Rectangle2D.Float) s;
