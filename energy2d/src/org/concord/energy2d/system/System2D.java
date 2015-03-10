@@ -748,6 +748,10 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 				view.removeTree((Tree) target);
 			else if (target instanceof Fan)
 				view.removeFan((Fan) target);
+			if (view.getSelectedManipulable() == target) {
+				view.hideHandles();
+				view.repaint();
+			}
 			setSaved(false);
 			break;
 		case ManipulationEvent.RUN:

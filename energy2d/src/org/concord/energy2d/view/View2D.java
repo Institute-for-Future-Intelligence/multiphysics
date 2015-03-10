@@ -81,7 +81,7 @@ import org.concord.energy2d.model.Thermometer;
 import org.concord.energy2d.model.Thermostat;
 import org.concord.energy2d.model.Tree;
 import org.concord.energy2d.system.Helper;
-import org.concord.energy2d.undo.UndoAddPart;
+import org.concord.energy2d.undo.UndoAddManipulable;
 import org.concord.energy2d.undo.UndoRemoveManipulable;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.ContourMap;
@@ -589,9 +589,13 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		textBoxes.clear();
 		if (pictures != null)
 			pictures.clear();
+		selectedSpot = -1;
+		hideHandles();
+	}
+
+	public void hideHandles() {
 		for (Rectangle h : handle)
 			h.x = h.y = 0;
-		selectedSpot = -1;
 	}
 
 	public void addTextBox(TextBox t) {
@@ -1200,6 +1204,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		if (selectedManipulable != null) {
 			copiedManipulable = selectedManipulable;
 			if (JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the selected object?", "Delete Object", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+				undoManager.addEdit(new UndoRemoveManipulable(this));
 				notifyManipulationListeners(selectedManipulable, ManipulationEvent.DELETE);
 				setSelectedManipulable(null);
 			}
@@ -3610,13 +3615,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			break;
 		case RECTANGLE_MODE:
 			if (rectangle.width > (float) getWidth() / (float) nx && rectangle.height > (float) getHeight() / (float) ny) {
-				model.addRectangularPart(convertPixelToPointX(rectangle.x), convertPixelToPointY(rectangle.y), convertPixelToLengthX(rectangle.width), convertPixelToLengthY(rectangle.height), model.getBackgroundTemperature() + 20);
+				Part addedPart = model.addRectangularPart(convertPixelToPointX(rectangle.x), convertPixelToPointY(rectangle.y), convertPixelToLengthX(rectangle.width), convertPixelToLengthY(rectangle.height), model.getBackgroundTemperature() + 20);
 				model.refreshPowerArray();
 				model.refreshTemperatureBoundaryArray();
 				model.refreshMaterialPropertyArrays();
 				model.setInitialTemperature();
-				notifyManipulationListeners(model.getPart(model.getPartCount() - 1), ManipulationEvent.OBJECT_ADDED);
-				undoManager.addEdit(new UndoAddPart(this));
+				notifyManipulationListeners(addedPart, ManipulationEvent.OBJECT_ADDED);
+				setSelectedManipulable(addedPart);
+				undoManager.addEdit(new UndoAddManipulable(addedPart, this));
 			} else {
 				if (rectangle.width > 0 && rectangle.height > 0) // ignore the quick click
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "The rectangle you tried to add was too small!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -3629,13 +3635,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				float ey = convertPixelToPointY((int) ellipse.y);
 				float ew = convertPixelToLengthX((int) ellipse.width);
 				float eh = convertPixelToLengthY((int) ellipse.height);
-				model.addEllipticalPart(ex + 0.5f * ew, ey + 0.5f * eh, ew, eh, model.getBackgroundTemperature() + 20);
+				Part addedPart = model.addEllipticalPart(ex + 0.5f * ew, ey + 0.5f * eh, ew, eh, model.getBackgroundTemperature() + 20);
 				model.refreshPowerArray();
 				model.refreshTemperatureBoundaryArray();
 				model.refreshMaterialPropertyArrays();
 				model.setInitialTemperature();
-				notifyManipulationListeners(model.getPart(model.getPartCount() - 1), ManipulationEvent.OBJECT_ADDED);
-				undoManager.addEdit(new UndoAddPart(this));
+				notifyManipulationListeners(addedPart, ManipulationEvent.OBJECT_ADDED);
+				setSelectedManipulable(addedPart);
+				undoManager.addEdit(new UndoAddManipulable(addedPart, this));
 			} else {
 				if (ellipse.width > 0 || ellipse.height > 0)// ignore the quick click
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "The ellipse you tried to add was too small!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -3653,13 +3660,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						px[i] = convertPixelToPointX(polygon.xpoints[i]);
 						py[i] = convertPixelToPointY(polygon.ypoints[i]);
 					}
-					model.addPolygonPart(px, py, model.getBackgroundTemperature() + 20);
+					Part addedPart = model.addPolygonPart(px, py, model.getBackgroundTemperature() + 20);
 					model.refreshPowerArray();
 					model.refreshTemperatureBoundaryArray();
 					model.refreshMaterialPropertyArrays();
 					model.setInitialTemperature();
-					notifyManipulationListeners(model.getPart(model.getPartCount() - 1), ManipulationEvent.OBJECT_ADDED);
-					undoManager.addEdit(new UndoAddPart(this));
+					notifyManipulationListeners(addedPart, ManipulationEvent.OBJECT_ADDED);
+					setSelectedManipulable(addedPart);
+					undoManager.addEdit(new UndoAddManipulable(addedPart, this));
 				} else {
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "The polygon must be at least a triangle!", "Error", JOptionPane.ERROR_MESSAGE);
 				}
@@ -3678,13 +3686,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						px[i] = convertPixelToPointX(polygon.xpoints[i]);
 						py[i] = convertPixelToPointY(polygon.ypoints[i]);
 					}
-					model.addBlobPart(px, py, model.getBackgroundTemperature() + 20);
+					Part addedPart = model.addBlobPart(px, py, model.getBackgroundTemperature() + 20);
 					model.refreshPowerArray();
 					model.refreshTemperatureBoundaryArray();
 					model.refreshMaterialPropertyArrays();
 					model.setInitialTemperature();
-					notifyManipulationListeners(model.getPart(model.getPartCount() - 1), ManipulationEvent.OBJECT_ADDED);
-					undoManager.addEdit(new UndoAddPart(this));
+					notifyManipulationListeners(addedPart, ManipulationEvent.OBJECT_ADDED);
+					setSelectedManipulable(addedPart);
+					undoManager.addEdit(new UndoAddManipulable(addedPart, this));
 				} else {
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "The blob must contain at least three points!", "Error", JOptionPane.ERROR_MESSAGE);
 				}
@@ -3697,24 +3706,34 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			cooling = false;
 			break;
 		case THERMOMETER_MODE:
-			setSelectedManipulable(addThermometer(convertPixelToPointX(x), convertPixelToPointY(y)));
-			notifyManipulationListeners(model.getThermometers().get(model.getThermometers().size() - 1), ManipulationEvent.OBJECT_ADDED);
+			Thermometer thermometer = addThermometer(convertPixelToPointX(x), convertPixelToPointY(y));
+			notifyManipulationListeners(thermometer, ManipulationEvent.OBJECT_ADDED);
+			setSelectedManipulable(thermometer);
+			undoManager.addEdit(new UndoAddManipulable(thermometer, this));
 			break;
 		case HEAT_FLUX_SENSOR_MODE:
-			setSelectedManipulable(addHeatFluxSensor(convertPixelToPointX(x), convertPixelToPointY(y)));
-			notifyManipulationListeners(model.getHeatFluxSensors().get(model.getHeatFluxSensors().size() - 1), ManipulationEvent.OBJECT_ADDED);
+			HeatFluxSensor heatFluxSensor = addHeatFluxSensor(convertPixelToPointX(x), convertPixelToPointY(y));
+			notifyManipulationListeners(heatFluxSensor, ManipulationEvent.OBJECT_ADDED);
+			setSelectedManipulable(heatFluxSensor);
+			undoManager.addEdit(new UndoAddManipulable(heatFluxSensor, this));
 			break;
 		case ANEMOMETER_MODE:
-			setSelectedManipulable(addAnemometer(convertPixelToPointX(x), convertPixelToPointY(y)));
-			notifyManipulationListeners(model.getAnemometers().get(model.getAnemometers().size() - 1), ManipulationEvent.OBJECT_ADDED);
+			Anemometer anemometer = addAnemometer(convertPixelToPointX(x), convertPixelToPointY(y));
+			notifyManipulationListeners(anemometer, ManipulationEvent.OBJECT_ADDED);
+			setSelectedManipulable(anemometer);
+			undoManager.addEdit(new UndoAddManipulable(anemometer, this));
 			break;
 		case PARTICLE_MODE:
-			setSelectedManipulable(addParticle(convertPixelToPointX(x), convertPixelToPointY(y)));
-			notifyManipulationListeners(model.getParticles().get(model.getParticles().size() - 1), ManipulationEvent.OBJECT_ADDED);
+			Particle particle = addParticle(convertPixelToPointX(x), convertPixelToPointY(y));
+			notifyManipulationListeners(particle, ManipulationEvent.OBJECT_ADDED);
+			setSelectedManipulable(particle);
+			undoManager.addEdit(new UndoAddManipulable(particle, this));
 			break;
 		case PARTICLE_FEEDER_MODE:
-			setSelectedManipulable(addParticleFeeder(convertPixelToPointX(x), convertPixelToPointY(y)));
-			notifyManipulationListeners(model.getParticleFeeders().get(model.getParticleFeeders().size() - 1), ManipulationEvent.OBJECT_ADDED);
+			ParticleFeeder particleFeeder = addParticleFeeder(convertPixelToPointX(x), convertPixelToPointY(y));
+			notifyManipulationListeners(particleFeeder, ManipulationEvent.OBJECT_ADDED);
+			setSelectedManipulable(particleFeeder);
+			undoManager.addEdit(new UndoAddManipulable(particleFeeder, this));
 			break;
 		}
 		repaint();
