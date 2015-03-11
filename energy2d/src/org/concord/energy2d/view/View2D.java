@@ -84,6 +84,7 @@ import org.concord.energy2d.system.Helper;
 import org.concord.energy2d.undo.UndoAddManipulable;
 import org.concord.energy2d.undo.UndoPaste;
 import org.concord.energy2d.undo.UndoRemoveManipulable;
+import org.concord.energy2d.undo.UndoResizeManipulable;
 import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.ContourMap;
@@ -2981,6 +2982,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 	// (x0, y0) is the coordinate of the upper-left corner of an Area (if shape is an Area). If the shape is a ring2D, w = inner diameter and h = outer diameter
 	void resizeManipulableTo(Manipulable m, float x, float y, float w, float h, float x0, float y0) {
+		undoManager.addEdit(new UndoResizeManipulable(this));
 		w = Math.max(model.getLx() / nx, w);
 		h = Math.max(model.getLy() / ny, h);
 		Shape s = m.getShape();
