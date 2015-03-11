@@ -2836,6 +2836,26 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		notifyManipulationListeners(null, ManipulationEvent.RESIZE);
 	}
 
+	public void zoom(float extent) {
+		if (model.getTime() > 0) {
+			JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "Sorry, the simulation must be reset before this action can be taken.", "Cannot zoom now", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		float lx = model.getLx();
+		float ly = model.getLy();
+		model.setLx(extent * lx);
+		model.setLy(extent * ly);
+		model.translateAllBy(0, extent > 1 ? ly : -ly * 0.5f); // fix the y-flip problem
+		setArea(0, extent * lx, 0, extent * ly);
+		model.refreshPowerArray();
+		model.refreshTemperatureBoundaryArray();
+		model.refreshMaterialPropertyArrays();
+		if (isViewFactorLinesOn())
+			model.generateViewFactorMesh();
+		repaint();
+		notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
+	}
+
 	private void translateAllBy(float dx, float dy) {
 		model.translateAllBy(dx, dy);
 		if (!textBoxes.isEmpty()) {
@@ -2848,50 +2868,51 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	}
 
 	private void translateManipulableBy(Manipulable m, float dx, float dy) {
-		if (m != null && m.isDraggable()) {
-			Shape s = m.getShape();
-			if (s instanceof Rectangle2D.Float) {
-				Rectangle2D.Float r = (Rectangle2D.Float) s;
-				r.x += dx;
-				r.y += dy;
-				if (m instanceof Thermometer || m instanceof Anemometer || m instanceof HeatFluxSensor) {
-					if (r.x + r.width / 2 < xmin + dx)
-						r.x = xmin + dx - r.width / 2;
-					else if (r.x + r.width / 2 > xmax - dx)
-						r.x = xmax - dx - r.width / 2;
-					if (r.y + r.height / 2 < ymin + dy)
-						r.y = ymin + dy - r.height / 2;
-					else if (r.y + r.height / 2 > ymax - dy)
-						r.y = ymax - dy - r.height / 2;
-				} else if (m instanceof TextBox) {
-					((TextBox) m).translateBy(dx, -dy);
-				}
-			} else if (s instanceof Ellipse2D.Float) {
-				Ellipse2D.Float r = (Ellipse2D.Float) s;
-				r.x += dx;
-				r.y += dy;
-				if (m instanceof Particle) {
-					((Particle) m).translateBy(dx, dy);
-				}
-			} else if (s instanceof Ring2D) {
-				((Ring2D) s).translateBy(dx, dy);
-			} else if (s instanceof Area) {
-				if (m instanceof Cloud) {
-					((Cloud) m).translateBy(dx, dy);
-				} else if (m instanceof Tree) {
-					((Tree) m).translateBy(dx, dy);
-				}
-			} else if (s instanceof Polygon2D) {
-				((Polygon2D) s).translateBy(dx, dy);
-			} else if (s instanceof Blob2D) {
-				Blob2D b = (Blob2D) s;
-				b.translateBy(dx, dy);
-				b.update();
+		if (m == null || !m.isDraggable())
+			return;
+		undoManager.addEdit(new UndoTranslateManipulable(this));
+		Shape s = m.getShape();
+		if (s instanceof Rectangle2D.Float) {
+			Rectangle2D.Float r = (Rectangle2D.Float) s;
+			r.x += dx;
+			r.y += dy;
+			if (m instanceof Thermometer || m instanceof Anemometer || m instanceof HeatFluxSensor) {
+				if (r.x + r.width / 2 < xmin + dx)
+					r.x = xmin + dx - r.width / 2;
+				else if (r.x + r.width / 2 > xmax - dx)
+					r.x = xmax - dx - r.width / 2;
+				if (r.y + r.height / 2 < ymin + dy)
+					r.y = ymin + dy - r.height / 2;
+				else if (r.y + r.height / 2 > ymax - dy)
+					r.y = ymax - dy - r.height / 2;
+			} else if (m instanceof TextBox) {
+				((TextBox) m).translateBy(dx, -dy);
 			}
-			if (!model.getParticles().isEmpty())
-				model.attachSensors();
-			notifyManipulationListeners(m, ManipulationEvent.TRANSLATE);
+		} else if (s instanceof Ellipse2D.Float) {
+			Ellipse2D.Float r = (Ellipse2D.Float) s;
+			r.x += dx;
+			r.y += dy;
+			if (m instanceof Particle) {
+				((Particle) m).translateBy(dx, dy);
+			}
+		} else if (s instanceof Ring2D) {
+			((Ring2D) s).translateBy(dx, dy);
+		} else if (s instanceof Area) {
+			if (m instanceof Cloud) {
+				((Cloud) m).translateBy(dx, dy);
+			} else if (m instanceof Tree) {
+				((Tree) m).translateBy(dx, dy);
+			}
+		} else if (s instanceof Polygon2D) {
+			((Polygon2D) s).translateBy(dx, dy);
+		} else if (s instanceof Blob2D) {
+			Blob2D b = (Blob2D) s;
+			b.translateBy(dx, dy);
+			b.update();
 		}
+		if (!model.getParticles().isEmpty())
+			model.attachSensors();
+		notifyManipulationListeners(m, ManipulationEvent.TRANSLATE);
 	}
 
 	private void translateManipulableTo(Manipulable m, float x, float y) {

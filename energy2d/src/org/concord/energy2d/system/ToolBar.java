@@ -13,7 +13,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JToggleButton;
@@ -23,6 +22,7 @@ import org.concord.energy2d.event.GraphEvent;
 import org.concord.energy2d.event.GraphListener;
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.event.ManipulationListener;
+import org.concord.energy2d.undo.UndoZoom;
 import org.concord.energy2d.util.MiscUtil;
 import org.concord.energy2d.view.Symbol;
 import org.concord.energy2d.view.View2D;
@@ -311,23 +311,8 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		button.setToolTipText("Halve the size of the simulation box");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (box.model.getTime() > 0) {
-					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(box.view), "Sorry, the simulation must be reset before this action can be taken.", "Cannot zoom now", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				float lx = box.model.getLx();
-				float ly = box.model.getLy();
-				box.model.setLx(lx * 0.5f);
-				box.model.setLy(ly * 0.5f);
-				box.model.translateAllBy(0, -ly * 0.5f); // fix the y-flip problem
-				box.view.setArea(0, lx * 0.5f, 0, ly * 0.5f);
-				box.model.refreshPowerArray();
-				box.model.refreshTemperatureBoundaryArray();
-				box.model.refreshMaterialPropertyArrays();
-				if (box.view.isViewFactorLinesOn())
-					box.model.generateViewFactorMesh();
-				box.view.repaint();
-				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
+				box.view.zoom(0.5f);
+				box.view.getUndoManager().addEdit(new UndoZoom(box.view, 0.5f));
 			}
 		});
 		add(button);
@@ -337,23 +322,8 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		button.setToolTipText("Double the size of the simulation box");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (box.model.getTime() > 0) {
-					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(box.view), "Sorry, the simulation must be reset before this action can be taken.", "Cannot zoom now", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				float lx = box.model.getLx();
-				float ly = box.model.getLy();
-				box.model.setLx(2 * lx);
-				box.model.setLy(2 * ly);
-				box.model.translateAllBy(0, ly); // fix the y-flip problem
-				box.view.setArea(0, 2 * lx, 0, 2 * ly);
-				box.model.refreshPowerArray();
-				box.model.refreshTemperatureBoundaryArray();
-				box.model.refreshMaterialPropertyArrays();
-				if (box.view.isViewFactorLinesOn())
-					box.model.generateViewFactorMesh();
-				box.view.repaint();
-				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
+				box.view.zoom(2);
+				box.view.getUndoManager().addEdit(new UndoZoom(box.view, 2));
 			}
 		});
 		add(button);
