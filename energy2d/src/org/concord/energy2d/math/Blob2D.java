@@ -323,6 +323,11 @@ public class Blob2D implements TransformableShape {
 		return new Point2D.Float((float) r.getCenterX(), (float) r.getCenterY());
 	}
 
+	public void translateCenterTo(float x, float y) {
+		Point2D.Float center = getCenter();
+		translateBy(x - center.x, y - center.y);
+	}
+
 	public Point2D.Float getCenter() {
 		float xc = 0;
 		float yc = 0;

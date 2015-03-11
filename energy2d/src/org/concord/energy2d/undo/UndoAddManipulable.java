@@ -71,6 +71,8 @@ public class UndoAddManipulable extends AbstractUndoableEdit {
 			model.refreshTemperatureBoundaryArray();
 			model.refreshMaterialPropertyArrays();
 			model.setInitialTemperature();
+			if (view.isViewFactorLinesOn())
+				model.generateViewFactorMesh();
 		} else if (addedManipulable instanceof Thermometer) {
 			model.addThermometer((Thermometer) addedManipulable);
 		} else if (addedManipulable instanceof HeatFluxSensor) {

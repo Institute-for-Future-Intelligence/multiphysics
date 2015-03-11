@@ -31,6 +31,10 @@ public class Ring2D extends Area {
 		y += dy;
 	}
 
+	public void translateTo(float x, float y) {
+		translateBy(x - this.x, y - this.y);
+	}
+
 	public void setRing(float x, float y, float innerDiameter, float outerDiameter) {
 		reset();
 		add(new Area(new Ellipse2D.Float(x - 0.5f * outerDiameter, y - 0.5f * outerDiameter, outerDiameter, outerDiameter)));
