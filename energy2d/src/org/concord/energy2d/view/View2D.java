@@ -83,6 +83,7 @@ import org.concord.energy2d.model.Tree;
 import org.concord.energy2d.system.Helper;
 import org.concord.energy2d.undo.UndoAddManipulable;
 import org.concord.energy2d.undo.UndoEditBlob;
+import org.concord.energy2d.undo.UndoEditBlobOrPolygon;
 import org.concord.energy2d.undo.UndoEditPolygon;
 import org.concord.energy2d.undo.UndoPaste;
 import org.concord.energy2d.undo.UndoRemoveManipulable;
@@ -3671,6 +3672,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 									selectedPart.copyPropertiesTo(newPart);
 									newPart.setUid(selectedPart.getUid());
 									setSelectedManipulable(newPart);
+									undoManager.addEdit(new UndoEditBlobOrPolygon(this, selectedPart, newPart));
 								} else if (s instanceof Blob2D) {
 									model.removePart(selectedPart);
 									Blob2D p = (Blob2D) s;
@@ -3682,6 +3684,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 									selectedPart.copyPropertiesTo(newPart);
 									newPart.setUid(selectedPart.getUid());
 									setSelectedManipulable(newPart);
+									undoManager.addEdit(new UndoEditBlobOrPolygon(this, selectedPart, newPart));
 								}
 								notifyManipulationListeners(selectedManipulable, ManipulationEvent.PROPERTY_CHANGE);
 							}
