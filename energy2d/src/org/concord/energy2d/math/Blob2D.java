@@ -203,6 +203,19 @@ public class Blob2D implements TransformableShape {
 		return pathPoints.get(i);
 	}
 
+	public void setPoints(List<Point2D.Float> p) {
+		if (p.size() < 3)
+			throw new IllegalArgumentException("the number of points must be no less than 3.");
+		if (points == null || p.size() != points.length)
+			path = new GeneralPath();
+		points = new Point2D.Float[p.size()];
+		for (int i = 0; i < points.length; i++) {
+			Point2D.Float pi = p.get(i);
+			setPoint(i, pi.x, pi.y);
+		}
+		update();
+	}
+
 	public void setPoint(int i, float x, float y) {
 		if (i < 0 || i >= points.length)
 			throw new IllegalArgumentException("index is out of bound.");

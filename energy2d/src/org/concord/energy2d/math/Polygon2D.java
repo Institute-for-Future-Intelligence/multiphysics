@@ -6,6 +6,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 /**
  * Mutatable implementation of polygon (GeneralPath is immutatable).
@@ -111,6 +112,18 @@ public class Polygon2D implements TransformableShape {
 			for (int i = 1; i < vertex.length; i++)
 				path.lineTo(vertex[i].x, vertex[i].y);
 			path.closePath();
+		}
+	}
+
+	public void setVertices(List<Point2D.Float> points) {
+		if (points.size() < 3)
+			throw new IllegalArgumentException("the number of vertices must be no less than 3.");
+		if (vertex == null || points.size() != vertex.length)
+			path = new GeneralPath();
+		vertex = new Point2D.Float[points.size()];
+		for (int i = 0; i < vertex.length; i++) {
+			Point2D.Float pi = points.get(i);
+			setVertex(i, pi.x, pi.y);
 		}
 	}
 

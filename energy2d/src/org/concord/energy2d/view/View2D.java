@@ -82,6 +82,8 @@ import org.concord.energy2d.model.Thermostat;
 import org.concord.energy2d.model.Tree;
 import org.concord.energy2d.system.Helper;
 import org.concord.energy2d.undo.UndoAddManipulable;
+import org.concord.energy2d.undo.UndoEditBlob;
+import org.concord.energy2d.undo.UndoEditPolygon;
 import org.concord.energy2d.undo.UndoPaste;
 import org.concord.energy2d.undo.UndoRemoveManipulable;
 import org.concord.energy2d.undo.UndoResizeManipulable;
@@ -3579,6 +3581,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 								Shape s = selectedManipulable.getShape();
 								if (s instanceof Polygon2D) {
 									Polygon2D p = (Polygon2D) s;
+									undoManager.addEdit(new UndoEditPolygon(this, p));
 									Polygon p0 = (Polygon) shape;
 									int n = p0.npoints;
 									for (int i = 0; i < n; i++) {
@@ -3598,6 +3601,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 								Shape s = selectedManipulable.getShape();
 								if (s instanceof Blob2D) {
 									Blob2D b = (Blob2D) s;
+									undoManager.addEdit(new UndoEditBlob(this, b));
 									Blob2D b0 = (Blob2D) shape;
 									int n = b0.getPointCount();
 									for (int i = 0; i < n; i++) {
