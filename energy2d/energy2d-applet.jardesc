@@ -13,6 +13,7 @@
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
         <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.math"/>
         <javaElement handleIdentifier="=energy2d/src&lt;com.apple.eio"/>
+        <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.undo"/>
         <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.system"/>
         <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.event"/>
         <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.util"/>
