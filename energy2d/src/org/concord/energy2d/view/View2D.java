@@ -3581,7 +3581,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 								Shape s = selectedManipulable.getShape();
 								if (s instanceof Polygon2D) {
 									Polygon2D p = (Polygon2D) s;
-									undoManager.addEdit(new UndoEditPolygon(this, p));
+									undoManager.addEdit(new UndoEditPolygon(this, selectedManipulable, p));
 									Polygon p0 = (Polygon) shape;
 									int n = p0.npoints;
 									for (int i = 0; i < n; i++) {
@@ -3601,7 +3601,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 								Shape s = selectedManipulable.getShape();
 								if (s instanceof Blob2D) {
 									Blob2D b = (Blob2D) s;
-									undoManager.addEdit(new UndoEditBlob(this, b));
+									undoManager.addEdit(new UndoEditBlob(this, selectedManipulable, b));
 									Blob2D b0 = (Blob2D) shape;
 									int n = b0.getPointCount();
 									for (int i = 0; i < n; i++) {

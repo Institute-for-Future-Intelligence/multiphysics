@@ -9,6 +9,7 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
 import org.concord.energy2d.math.Polygon2D;
+import org.concord.energy2d.model.Manipulable;
 import org.concord.energy2d.view.View2D;
 
 public class UndoEditPolygon extends AbstractUndoableEdit {
@@ -17,9 +18,11 @@ public class UndoEditPolygon extends AbstractUndoableEdit {
 	private List<Point2D.Float> oldPoints, newPoints;
 	private View2D view;
 	private Polygon2D polygon;
+	private Manipulable selectedManipulable;
 
-	public UndoEditPolygon(View2D view, Polygon2D polygon) {
+	public UndoEditPolygon(View2D view, Manipulable selectedManipulable, Polygon2D polygon) {
 		this.view = view;
+		this.selectedManipulable = selectedManipulable;
 		this.polygon = polygon;
 		oldPoints = new ArrayList<Point2D.Float>();
 		newPoints = new ArrayList<Point2D.Float>();
@@ -44,7 +47,7 @@ public class UndoEditPolygon extends AbstractUndoableEdit {
 		view.getModel().refreshMaterialPropertyArrays();
 		if (view.isViewFactorLinesOn())
 			view.getModel().generateViewFactorMesh();
-		view.setSelectedManipulable(view.getSelectedManipulable());
+		view.setSelectedManipulable(selectedManipulable);
 		view.repaint();
 	}
 
@@ -57,7 +60,7 @@ public class UndoEditPolygon extends AbstractUndoableEdit {
 		view.getModel().refreshMaterialPropertyArrays();
 		if (view.isViewFactorLinesOn())
 			view.getModel().generateViewFactorMesh();
-		view.setSelectedManipulable(view.getSelectedManipulable());
+		view.setSelectedManipulable(selectedManipulable);
 		view.repaint();
 	}
 

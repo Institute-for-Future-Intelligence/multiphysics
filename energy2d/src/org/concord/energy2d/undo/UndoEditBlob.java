@@ -9,6 +9,7 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
 import org.concord.energy2d.math.Blob2D;
+import org.concord.energy2d.model.Manipulable;
 import org.concord.energy2d.view.View2D;
 
 public class UndoEditBlob extends AbstractUndoableEdit {
@@ -17,9 +18,11 @@ public class UndoEditBlob extends AbstractUndoableEdit {
 	private List<Point2D.Float> oldPoints, newPoints;
 	private View2D view;
 	private Blob2D blob;
+	private Manipulable selectedManipulable;
 
-	public UndoEditBlob(View2D view, Blob2D blob) {
+	public UndoEditBlob(View2D view, Manipulable selectedManipulable, Blob2D blob) {
 		this.view = view;
+		this.selectedManipulable = selectedManipulable;
 		this.blob = blob;
 		oldPoints = new ArrayList<Point2D.Float>();
 		newPoints = new ArrayList<Point2D.Float>();
@@ -44,7 +47,7 @@ public class UndoEditBlob extends AbstractUndoableEdit {
 		view.getModel().refreshMaterialPropertyArrays();
 		if (view.isViewFactorLinesOn())
 			view.getModel().generateViewFactorMesh();
-		view.setSelectedManipulable(view.getSelectedManipulable());
+		view.setSelectedManipulable(selectedManipulable);
 		view.repaint();
 	}
 
@@ -57,7 +60,7 @@ public class UndoEditBlob extends AbstractUndoableEdit {
 		view.getModel().refreshMaterialPropertyArrays();
 		if (view.isViewFactorLinesOn())
 			view.getModel().generateViewFactorMesh();
-		view.setSelectedManipulable(view.getSelectedManipulable());
+		view.setSelectedManipulable(selectedManipulable);
 		view.repaint();
 	}
 
