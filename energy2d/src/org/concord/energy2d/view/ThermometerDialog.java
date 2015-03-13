@@ -29,6 +29,7 @@ import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.Sensor;
 import org.concord.energy2d.model.Thermometer;
 import org.concord.energy2d.model.Thermostat;
+import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.util.MiscUtil;
 
 /**
@@ -90,12 +91,15 @@ class ThermometerDialog extends JDialog {
 				float x = parse(xField.getText());
 				if (Float.isNaN(x))
 					return;
-				thermometer.setX(x);
-
-				x = parse(yField.getText());
-				if (Float.isNaN(x))
+				float y = parse(yField.getText());
+				if (Float.isNaN(y))
 					return;
-				thermometer.setY(view.model.getLy() - x - thermometer.getSensingSpotY());
+				y = view.model.getLy() - y - thermometer.getSensingSpotY();
+				boolean moved = Math.abs(x - thermometer.getX()) > 0.000001 * view.model.getLx() || Math.abs(y - thermometer.getY()) > 0.000001 * view.model.getLy();
+				if (moved)
+					view.getUndoManager().addEdit(new UndoTranslateManipulable(view));
+				thermometer.setX(x);
+				thermometer.setY(y);
 
 				thermometer.setLabel(labelField.getText());
 				String uid = uidField.getText();
@@ -186,12 +190,12 @@ class ThermometerDialog extends JDialog {
 		box.add(p);
 
 		p.add(new JLabel("X:"));
-		xField = new JTextField(thermometer.getX() + "", 10);
+		xField = new JTextField(View2D.COORDINATES_FORMAT.format(thermometer.getX()), 10);
 		xField.addActionListener(okListener);
 		p.add(xField);
 
 		p.add(new JLabel("Y:"));
-		yField = new JTextField((view.model.getLy() - thermometer.getY() - thermometer.getSensingSpotY()) + "", 10);
+		yField = new JTextField(View2D.COORDINATES_FORMAT.format((view.model.getLy() - thermometer.getY() - thermometer.getSensingSpotY())), 10);
 		yField.addActionListener(okListener);
 		p.add(yField);
 

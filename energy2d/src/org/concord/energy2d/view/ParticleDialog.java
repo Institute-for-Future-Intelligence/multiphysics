@@ -171,22 +171,22 @@ class ParticleDialog extends JDialog {
 		p.add(temperatureField);
 
 		p.add(new JLabel("Rx (m):"));
-		rxField = new JTextField(FORMAT.format(particle.getRx()), 10);
+		rxField = new JTextField(View2D.COORDINATES_FORMAT.format(particle.getRx()), 10);
 		rxField.addActionListener(okListener);
 		p.add(rxField);
 
 		p.add(new JLabel("Ry (m):"));
-		ryField = new JTextField(FORMAT.format(view.model.getLy() - particle.getRy()), 10);
+		ryField = new JTextField(View2D.COORDINATES_FORMAT.format(view.model.getLy() - particle.getRy()), 10);
 		ryField.addActionListener(okListener);
 		p.add(ryField);
 
 		p.add(new JLabel("Vx (m/s):"));
-		vxField = new JTextField(FORMAT.format(particle.getVx()), 10);
+		vxField = new JTextField(View2D.VELOCITY_FORMAT.format(particle.getVx()), 10);
 		vxField.addActionListener(okListener);
 		p.add(vxField);
 
 		p.add(new JLabel("Vy (m/s):"));
-		vyField = new JTextField(FORMAT.format(-particle.getVy()), 10);
+		vyField = new JTextField(View2D.VELOCITY_FORMAT.format(-particle.getVy()), 10);
 		vyField.addActionListener(okListener);
 		p.add(vyField);
 

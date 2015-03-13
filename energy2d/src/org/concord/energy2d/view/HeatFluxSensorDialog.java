@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.Particle;
+import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.util.MiscUtil;
 
 /**
@@ -67,12 +68,15 @@ class HeatFluxSensorDialog extends JDialog {
 				float x = parse(xField.getText());
 				if (Float.isNaN(x))
 					return;
-				heatFluxSensor.setX(x);
-
-				x = parse(yField.getText());
-				if (Float.isNaN(x))
+				float y = parse(yField.getText());
+				if (Float.isNaN(y))
 					return;
-				heatFluxSensor.setY(view.model.getLy() - x);
+				y = view.model.getLy() - y;
+				boolean moved = Math.abs(x - heatFluxSensor.getX()) > 0.000001 * view.model.getLx() || Math.abs(y - heatFluxSensor.getY()) > 0.000001 * view.model.getLy();
+				if (moved)
+					view.getUndoManager().addEdit(new UndoTranslateManipulable(view));
+				heatFluxSensor.setX(x);
+				heatFluxSensor.setY(y);
 
 				x = parse(angleField.getText());
 				if (Float.isNaN(x))
@@ -145,12 +149,12 @@ class HeatFluxSensorDialog extends JDialog {
 		box.add(p);
 
 		p.add(new JLabel("X:"));
-		xField = new JTextField(heatFluxSensor.getX() + "", 10);
+		xField = new JTextField(View2D.COORDINATES_FORMAT.format(heatFluxSensor.getX()), 10);
 		xField.addActionListener(okListener);
 		p.add(xField);
 
 		p.add(new JLabel("Y:"));
-		yField = new JTextField((view.model.getLy() - heatFluxSensor.getY()) + "", 10);
+		yField = new JTextField(View2D.COORDINATES_FORMAT.format((view.model.getLy() - heatFluxSensor.getY())), 10);
 		yField.addActionListener(okListener);
 		p.add(yField);
 

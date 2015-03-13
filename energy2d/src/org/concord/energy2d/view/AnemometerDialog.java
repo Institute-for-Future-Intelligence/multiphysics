@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Particle;
+import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.util.MiscUtil;
 
 /**
@@ -63,12 +64,15 @@ class AnemometerDialog extends JDialog {
 				float x = MiscUtil.parse(owner, xField.getText());
 				if (Float.isNaN(x))
 					return;
-				anemometer.setX(x);
-
-				x = MiscUtil.parse(owner, yField.getText());
-				if (Float.isNaN(x))
+				float y = MiscUtil.parse(owner, yField.getText());
+				if (Float.isNaN(y))
 					return;
-				anemometer.setY(view.model.getLy() - x);
+				y = view.model.getLy() - y;
+				boolean moved = Math.abs(x - anemometer.getX()) > 0.000001 * view.model.getLx() || Math.abs(y - anemometer.getY()) > 0.000001 * view.model.getLy();
+				if (moved)
+					view.getUndoManager().addEdit(new UndoTranslateManipulable(view));
+				anemometer.setX(x);
+				anemometer.setY(y);
 
 				anemometer.setLabel(labelField.getText());
 				String uid = uidField.getText();
@@ -135,12 +139,12 @@ class AnemometerDialog extends JDialog {
 		box.add(p);
 
 		p.add(new JLabel("X:"));
-		xField = new JTextField(anemometer.getX() + "", 10);
+		xField = new JTextField(View2D.COORDINATES_FORMAT.format(anemometer.getX()), 10);
 		xField.addActionListener(okListener);
 		p.add(xField);
 
 		p.add(new JLabel("Y:"));
-		yField = new JTextField((view.model.getLy() - anemometer.getY()) + "", 10);
+		yField = new JTextField(View2D.COORDINATES_FORMAT.format((view.model.getLy() - anemometer.getY())), 10);
 		yField.addActionListener(okListener);
 		p.add(yField);
 

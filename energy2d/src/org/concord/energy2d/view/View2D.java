@@ -145,9 +145,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private final static int MINIMUM_MOUSE_DRAG_RESPONSE_INTERVAL = 5;
 	private final static DecimalFormat TIME_FORMAT = new DecimalFormat("###.#");
 	private final static DecimalFormat TEMPERATURE_FORMAT = new DecimalFormat("###.#");
-	private final static DecimalFormat VELOCITY_FORMAT = new DecimalFormat("#.####");
+	final static DecimalFormat VELOCITY_FORMAT = new DecimalFormat("#.####");
 	private final static DecimalFormat HEAT_FLUX_FORMAT = new DecimalFormat("###.##");
-	private final static DecimalFormat COORDINATES_FORMAT = new DecimalFormat("###.###");
+	final static DecimalFormat COORDINATES_FORMAT = new DecimalFormat("###.###");
 	private Font smallFont = new Font(null, Font.PLAIN, 10);
 	private Font sensorReadingFont = new Font(null, Font.PLAIN, 10);
 	private Font labelFont = new Font("Arial", Font.PLAIN | Font.BOLD, 14);
