@@ -3,7 +3,7 @@
 <links>
 </links>
 <model>
-<timestep>0.5</timestep>
+<timestep>0.25</timestep>
 <measurement_interval>50</measurement_interval>
 <viewupdate_interval>10</viewupdate_interval>
 <sun_angle>1.5707964</sun_angle>
@@ -15,7 +15,7 @@
 <thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>1.0</background_conductivity>
 <background_viscosity>1.0E-4</background_viscosity>
 <thermal_expansion_coefficient>0.0</thermal_expansion_coefficient>
-<buoyancy_approximation>1</buoyancy_approximation>
+<buoyancy_approximation>0</buoyancy_approximation>
 <boundary>
 <flux_at_border upper="0.0" lower="0.0" left="0.0" right="-2.0"/>
 <mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
@@ -115,7 +115,7 @@
 </part>
 </structure>
 <environment>
-<fan x="-0.1" y="-0.05000019" width="0.6" height="4.9" speed="0.04" angle="0.0"/><fan x="-0.1" y="5.15" width="0.6" height="4.9" speed="0.04" angle="0.0"/></environment>
+<fan x="-0.1" y="-0.05000019" width="0.6" height="4.9" speed="0.02" angle="0.0"/><fan x="-0.1" y="5.15" width="0.6" height="4.9" speed="0.02" angle="0.0"/></environment>
 <sensor>
 <thermometer label="T1" x="9.400002" y="2.3015873"/>
 <thermometer label="T2" x="9.400002" y="7.3015866"/>

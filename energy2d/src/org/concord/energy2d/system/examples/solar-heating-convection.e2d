@@ -185,8 +185,8 @@
 </part>
 </structure>
 <environment>
-<tree x="0.33519554" y="6.7178774" width="1.2150838" height="1.3128492" type="0"/>
-<tree x="9.0223465" y="4.76257" width="1.7318436" height="3.1843576" type="1"/>
+<tree color="8000" x="0.33519554" y="6.7178774" width="1.2150838" height="1.3128492" type="0"/>
+<tree color="9999" x="9.0223465" y="4.76257" width="1.7318436" height="3.1843576" type="1"/>
 </environment>
 <sensor>
 <thermometer label="T1" x="1.625" y="6.25"/>
@@ -206,10 +206,10 @@
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
 <perimeter_step_size>0.05</perimeter_step_size>
-<ruler>true</ruler>
+<border_tickmarks>true</border_tickmarks>
 <color_palette_type>0</color_palette_type>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>40.0</maximum_temperature>
-<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Press &apos;Q&apos; or &apos;W&apos; to change the sun angle" face="Arial" size="14" style="0" color="ffffff" x="0.5" y="9.5"/>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Press &apos;Q&apos; or &apos;W&apos; to change the sun angle" face="Arial" size="14" style="0" color="ffffff" x="0.5" y="9.5"/>
 </view>
 </state>
