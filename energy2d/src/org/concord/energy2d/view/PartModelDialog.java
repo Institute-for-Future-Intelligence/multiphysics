@@ -38,6 +38,8 @@ import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Ring2D;
 import org.concord.energy2d.math.TransformableShape;
 import org.concord.energy2d.model.Part;
+import org.concord.energy2d.undo.UndoResizeManipulable;
+import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.util.MiscUtil;
 
 /**
@@ -274,7 +276,20 @@ class PartModelDialog extends JDialog {
 				Shape shape = part.getShape();
 				if (shape instanceof RectangularShape) {
 					if (!Float.isNaN(width) && !Float.isNaN(height)) {
-						view.resizeManipulableTo(part, xcenter - 0.5f * width, view.model.getLy() - ycenter - 0.5f * height, width, height, 0, 0);
+						Point2D.Float oldCenter = part.getCenter();
+						float x = xcenter - 0.5f * width;
+						float y = view.model.getLy() - ycenter - 0.5f * height;
+						float dx = 0.000001f * view.model.getLx();
+						float dy = 0.000001f * view.model.getLy();
+						boolean resized = Math.abs(width - shape.getBounds2D().getWidth()) > dx || Math.abs(height - shape.getBounds2D().getHeight()) > dy;
+						if (resized) {
+							view.getUndoManager().addEdit(new UndoResizeManipulable(view));
+						} else {
+							boolean moved = Math.abs(x - oldCenter.x) > dx || Math.abs(y - oldCenter.y) > dy;
+							if (moved)
+								view.getUndoManager().addEdit(new UndoTranslateManipulable(view));
+						}
+						view.resizeManipulableTo(part, x, y, width, height, 0, 0);
 					}
 				} else if (shape instanceof TransformableShape) {
 					TransformableShape s = (TransformableShape) shape;

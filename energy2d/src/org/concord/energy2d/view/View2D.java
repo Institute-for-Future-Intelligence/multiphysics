@@ -2985,7 +2985,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 	// (x0, y0) is the coordinate of the upper-left corner of an Area (if shape is an Area). If the shape is a ring2D, w = inner diameter and h = outer diameter
 	void resizeManipulableTo(Manipulable m, float x, float y, float w, float h, float x0, float y0) {
-		undoManager.addEdit(new UndoResizeManipulable(this));
 		w = Math.max(model.getLx() / nx, w);
 		h = Math.max(model.getLy() / ny, h);
 		Shape s = m.getShape();
@@ -3568,6 +3567,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 									float y2 = convertPixelToPointY((int) r.getY());
 									float w2 = convertPixelToLengthX((int) r.getWidth());
 									float h2 = convertPixelToLengthY((int) r.getHeight());
+									undoManager.addEdit(new UndoResizeManipulable(this));
 									resizeManipulableTo(selectedManipulable, x2, y2, w2, h2, 0, 0);
 									setSelectedManipulable(selectedManipulable);
 								}
@@ -3627,6 +3627,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 									float w2 = convertPixelToLengthX((int) r.getWidth());
 									float h2 = convertPixelToLengthY((int) r.getHeight());
 									Point p = ((MovingCloud) movingShape).getLocation();
+									undoManager.addEdit(new UndoResizeManipulable(this));
 									resizeManipulableTo(selectedManipulable, x2, y2, w2, h2, convertPixelToPointX(p.x), convertPixelToPointY(p.y));
 									setSelectedManipulable(selectedManipulable);
 								} else if (selectedManipulable instanceof Tree && movingShape instanceof MovingTree) {
@@ -3636,6 +3637,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 									float w2 = convertPixelToLengthX((int) r.getWidth());
 									float h2 = convertPixelToLengthY((int) r.getHeight());
 									Point p = ((MovingTree) movingShape).getLocation();
+									undoManager.addEdit(new UndoResizeManipulable(this));
 									resizeManipulableTo(selectedManipulable, x2, y2, w2, h2, convertPixelToPointX(p.x), convertPixelToPointY(p.y));
 									setSelectedManipulable(selectedManipulable);
 								} else if (selectedManipulable instanceof Fan && movingShape instanceof MovingFan) {
@@ -3646,6 +3648,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 									float h2 = convertPixelToLengthY((int) r.getHeight());
 									((Fan) selectedManipulable).setAngle(w2 < h2 ? 0 : (float) (0.5 * Math.PI));
 									Point p = ((MovingFan) movingShape).getLocation();
+									undoManager.addEdit(new UndoResizeManipulable(this));
 									resizeManipulableTo(selectedManipulable, x2, y2, w2, h2, convertPixelToPointX(p.x), convertPixelToPointY(p.y));
 									setSelectedManipulable(selectedManipulable);
 								}

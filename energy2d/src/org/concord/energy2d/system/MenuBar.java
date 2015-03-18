@@ -1004,7 +1004,7 @@ class MenuBar extends JMenuBar {
 
 		examples.put("Complex Shapes", "examples/frigate.e2d");
 		examples.put("Collision Detection", "examples/collision.e2d");
-		examples.put("Ray Optics", "examples/ray-optics.e2d");
+		examples.put("Ray Optics", "examples/ray-tracing.e2d");
 		examples.put("Natural Daylighting", "examples/natural-daylighting.e2d");
 		examples.put("Thermoregulation", "examples/thermoregulation.e2d");
 		createMenu(box, subMenu, examples);
