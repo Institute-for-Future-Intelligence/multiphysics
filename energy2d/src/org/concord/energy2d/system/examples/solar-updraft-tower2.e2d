@@ -6,12 +6,12 @@
 </links>
 <model>
 <timestep>0.5</timestep>
-<viewupdate_interval>10</viewupdate_interval>
+<viewupdate_interval>8</viewupdate_interval>
 <sunny>true</sunny><sun_angle>1.5533433</sun_angle>
 <solar_power_density>20000.0</solar_power_density>
 <solar_ray_count>48</solar_ray_count>
 <solar_ray_speed>0.08</solar_ray_speed>
-<photon_emission_interval>5</photon_emission_interval>
+<photon_emission_interval>4</photon_emission_interval>
 <gravitational_acceleration>9.8</gravitational_acceleration>
 <thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>1.0</background_conductivity>
 <background_viscosity>0.01</background_viscosity>
@@ -170,12 +170,12 @@
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
 <perimeter_step_size>0.05</perimeter_step_size>
-<ruler>true</ruler>
+<border_tickmarks>true</border_tickmarks>
 <color_palette_type>0</color_palette_type>
 <control_panel>true</control_panel>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>100.0</maximum_temperature>
-<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Solar Updraft Tower-linebreak-(Short)" face="Arial" size="18" style="0" color="ffffff" x="0.5" y="9.7"/>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Solar Updraft Tower-linebreak-(Short)" face="Arial" size="18" style="0" color="ffffff" x="0.5" y="9.7"/>
 <text string="Glazing" face="Arial" size="12" style="0" color="ffffff" x="1.5000001" y="3.15"/>
 <text string="Glazing" face="Arial" size="12" style="0" color="ffffff" x="7.9" y="3.15"/>
 <text string="Absorber" face="Arial" size="12" style="1" color="ffffff" x="4.65" y="1.95"/>

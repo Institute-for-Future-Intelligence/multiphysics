@@ -5,9 +5,9 @@
 </links>
 <model>
 <timestep>0.5</timestep>
-<viewupdate_interval>2</viewupdate_interval>
+<viewupdate_interval>5</viewupdate_interval>
 <sunny>true</sunny><sun_angle>1.5707964</sun_angle>
-<solar_power_density>10000.0</solar_power_density>
+<solar_power_density>50000.0</solar_power_density>
 <solar_ray_count>24</solar_ray_count>
 <solar_ray_speed>0.1</solar_ray_speed>
 <photon_emission_interval>4</photon_emission_interval>
@@ -22,13 +22,14 @@
 </boundary>
 <structure>
 <part>
-<rectangle x="4.5" y="6.2870355" width="1.0" height="0.5"/><elasticity>1.0</elasticity>
-<thermal_conductivity>1.0</thermal_conductivity>
+<rectangle x="4.5" y="6.287035" width="1.0" height="0.5"/><elasticity>1.0</elasticity>
+<thermal_conductivity>10.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
-<density>10.0</density>
+<density>100.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>0.0</temperature>
@@ -59,7 +60,7 @@
 <environment>
 </environment>
 <sensor>
-<thermometer x="5.0" y="6.5370355"/>
+<thermometer x="5.0" y="6.3370357"/>
 <anemometer x="5.026455" y="4.0608463"/>
 </sensor>
 <controller>
@@ -75,6 +76,6 @@
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>100.0</maximum_temperature>
 <fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
-<text string="Solar oven-linebreak-Press &apos;Q&apos; or &apos;W&apos; to change the sun angle" face="Arial" size="14" style="0" color="ffffff" x="0.463" y="9.6098"/>
+<text string="Solar oven-linebreak-Press &apos;Q&apos; or &apos;W&apos; to change the sun angle" face="Arial" size="12" style="0" color="ffffff" x="0.22486775" y="9.8412695"/>
 </view>
 </state>

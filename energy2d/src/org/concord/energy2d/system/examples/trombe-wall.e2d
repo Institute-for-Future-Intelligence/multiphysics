@@ -9,18 +9,21 @@
 <sunny>true</sunny><sun_angle>2.6005406</sun_angle>
 <solar_power_density>50000.0</solar_power_density>
 <solar_ray_count>60</solar_ray_count>
-<solar_ray_speed>0.04</solar_ray_speed>
-<photon_emission_interval>5</photon_emission_interval>
-<z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>1.0</background_conductivity>
+<solar_ray_speed>0.03</solar_ray_speed>
+<photon_emission_interval>4</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>1.0</background_conductivity>
 <background_viscosity>0.01</background_viscosity>
-<thermal_buoyancy>2.5E-4</thermal_buoyancy>
+<thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
 <buoyancy_approximation>0</buoyancy_approximation>
 <boundary>
 <temperature_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
 <mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
 </boundary>
 <structure>
-<part><rectangle x="2.0" y="7.0" width="0.5" height="1.0"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="2.0" y="7.0" width="0.5" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -38,7 +41,9 @@
 <texture_height>10</texture_height>
 </texture>
 </part>
-<part><rectangle x="2.0" y="3.5" width="0.5" height="1.5"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="2.0" y="3.5" width="0.5" height="1.5"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -56,7 +61,9 @@
 <texture_height>10</texture_height>
 </texture>
 </part>
-<part><polygon count="6" vertices="1.5, 3.5, 5.5, 1.0, 9.5, 3.5, 8.5, 3.5, 5.5, 1.6499996, 2.5, 3.5"/>
+<part>
+<polygon count="6" vertices="1.5, 3.5, 5.5, 1.0, 9.5, 3.5, 8.5, 3.5, 5.5, 1.6499996, 2.5, 3.5"/>
+<elasticity>1.0</elasticity>
 <thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
@@ -75,7 +82,9 @@
 <texture_height>12</texture_height>
 </texture>
 </part>
-<part><rectangle x="-0.099999905" y="8.0" width="10.2" height="2.0"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="-0.099999905" y="8.0" width="10.2" height="2.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -93,7 +102,9 @@
 <texture_height>10</texture_height>
 </texture>
 </part>
-<part><rectangle x="8.5" y="3.5" width="0.5" height="4.5"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="8.5" y="3.5" width="0.5" height="4.5"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -112,7 +123,9 @@
 </texture>
 <label>Wall</label>
 </part>
-<part><rectangle x="1.525" y="5.0" width="0.1" height="2.0"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="1.525" y="5.0" width="0.1" height="2.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>1.0</transmission>
@@ -124,7 +137,9 @@
 <constant_temperature>false</constant_temperature>
 <color>ccccff</color>
 </part>
-<part><rectangle x="2.55" y="7.7" width="5.9" height="0.25"/><thermal_conductivity>0.08</thermal_conductivity>
+<part>
+<rectangle x="2.55" y="7.7" width="5.9" height="0.25"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.08</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -137,7 +152,9 @@
 <color>444444</color>
 <label>Floor</label>
 </part>
-<part><rectangle x="1.5" y="4.8" width="0.5" height="0.2"/><thermal_conductivity>1.0E-9</thermal_conductivity>
+<part>
+<rectangle x="1.5" y="4.8" width="0.5" height="0.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0E-9</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -149,7 +166,9 @@
 <temperature>0.0</temperature>
 <constant_temperature>false</constant_temperature>
 </part>
-<part><rectangle x="1.5" y="7.0" width="0.5" height="0.2"/><thermal_conductivity>1.0E-9</thermal_conductivity>
+<part>
+<rectangle x="1.5" y="7.0" width="0.5" height="0.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0E-9</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -161,7 +180,9 @@
 <temperature>0.0</temperature>
 <constant_temperature>false</constant_temperature>
 </part>
-<part><rectangle x="1.9000001" y="5.2" width="0.1" height="1.6"/><thermal_conductivity>0.1</thermal_conductivity>
+<part>
+<rectangle x="1.9000001" y="5.2" width="0.1" height="1.6"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.1</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>10.0</density>
 <transmission>0.0</transmission>
@@ -178,7 +199,9 @@
 <texture_height>8</texture_height>
 </texture>
 </part>
-<part><rectangle x="1.9999999" y="5.2000003" width="0.5" height="1.6"/><thermal_conductivity>0.001</thermal_conductivity>
+<part>
+<rectangle x="1.9999999" y="5.2000003" width="0.5" height="1.6"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
@@ -213,11 +236,12 @@
 <view>
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
-<ruler>true</ruler>
+<perimeter_step_size>0.05</perimeter_step_size>
+<border_tickmarks>true</border_tickmarks>
 <color_palette_type>0</color_palette_type>
 <control_panel>true</control_panel>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>50.0</maximum_temperature>
-<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Trombe Wall" face="Arial" size="18" style="0" color="ffffff" x="0.55" y="9.7"/>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Trombe Wall" face="Arial" size="18" style="0" color="ffffff" x="0.55" y="9.7"/>
 </view>
 </state>

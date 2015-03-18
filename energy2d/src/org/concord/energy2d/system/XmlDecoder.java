@@ -683,7 +683,7 @@ class XmlDecoder extends DefaultHandler {
 				float x = Float.NaN, y = Float.NaN, w = Float.NaN, h = Float.NaN;
 				byte type = Tree.REGULAR;
 				String label = null, uid = null;
-				Color color = Color.white;
+				Color color = Color.GREEN.darker();
 				for (int i = 0, n = attrib.getLength(); i < n; i++) {
 					attribName = attrib.getQName(i).intern();
 					attribValue = attrib.getValue(i);

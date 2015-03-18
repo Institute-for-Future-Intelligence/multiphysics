@@ -1263,7 +1263,6 @@ public class Model2D {
 
 	/** the part on the top sets the properties of a cell */
 	public void refreshMaterialPropertyArrays() {
-		int count = parts.size();
 		float x, y, windSpeed = 0;
 		boolean initial = indexOfStep == 0;
 		maximumHeatCapacity = backgroundDensity * backgroundSpecificHeat;
@@ -1278,17 +1277,29 @@ public class Model2D {
 				fluidity[i][j] = true;
 				uWind[i][j] = vWind[i][j] = 0;
 				synchronized (parts) {
-					ListIterator<Part> li = parts.listIterator(count);
+					ListIterator<Part> li = parts.listIterator(parts.size());
 					while (li.hasPrevious()) {
 						Part p = li.previous();
-						if (contains(p.getShape(), x, y)) {
+						// FIXME: for some reason, the fluid solver doesn't like the way we treat round-off error on the grid.
+						// So if the model is convective, revert to using the original contains(...) method for setting the properties on the grid.
+						if (contains(p.getShape(), x, y, convective)) {
 							conductivity[i][j] = p.getThermalConductivity();
 							specificHeat[i][j] = p.getSpecificHeat();
 							density[i][j] = p.getDensity();
+							fluidity[i][j] = false;
+							break;
+						}
+					}
+				}
+				// The rest properties of parts should use the new contains(...) method, as is in any other place
+				synchronized (parts) {
+					ListIterator<Part> li = parts.listIterator(parts.size());
+					while (li.hasPrevious()) {
+						Part p = li.previous();
+						if (contains(p.getShape(), x, y, false)) {
 							if (!initial && p.getConstantTemperature())
 								t[i][j] = p.getTemperature();
-							fluidity[i][j] = false;
-							if ((windSpeed = p.getWindSpeed()) != 0) {
+							if ((windSpeed = p.getWindSpeed()) != 0) { // parts used to support wind speed, we now prefer using fans
 								uWind[i][j] = (float) (windSpeed * Math.cos(p.getWindAngle()));
 								vWind[i][j] = (float) (windSpeed * Math.sin(p.getWindAngle()));
 							}
@@ -1298,7 +1309,7 @@ public class Model2D {
 				}
 				synchronized (fans) {
 					for (Fan f : fans) {
-						if (contains(f.getShape(), x, y)) {
+						if (contains(f.getShape(), x, y, false)) {
 							if ((windSpeed = f.getSpeed()) != 0) {
 								uWind[i][j] = (float) (windSpeed * Math.cos(f.getAngle()));
 								vWind[i][j] = (float) (windSpeed * Math.sin(f.getAngle()));
@@ -1331,7 +1342,7 @@ public class Model2D {
 					count = 0;
 					synchronized (parts) {
 						for (Part p : parts) {
-							if (p.getPower() != 0 && p.getPowerSwitch() && contains(p.getShape(), x, y)) {
+							if (p.getPower() != 0 && p.getPowerSwitch() && contains(p.getShape(), x, y, false)) {
 								power = p.getPower();
 								if (p.getThermistorTemperatureCoefficient() != 0) {
 									power *= 1f + p.getThermistorTemperatureCoefficient() * (t[i][j] - p.getThermistorReferenceTemperature());
@@ -1359,7 +1370,7 @@ public class Model2D {
 				count = 0;
 				synchronized (parts) {
 					for (Part p : parts) {
-						if (p.getConstantTemperature() && contains(p.getShape(), x, y)) {
+						if (p.getConstantTemperature() && contains(p.getShape(), x, y, false)) {
 							tb[i][j] += p.getTemperature();
 							count++;
 						}
@@ -1375,7 +1386,9 @@ public class Model2D {
 	}
 
 	// avoid round-off error in detecting if a point falls within a shape
-	private boolean contains(Shape shape, float x, float y) {
+	private boolean contains(Shape shape, float x, float y, boolean tolerateRoundOffError) {
+		if (tolerateRoundOffError)
+			return shape.contains(x, y);
 		float tol = 0.001f;
 		if (shape.contains(x, y) || shape.contains(x - deltaX * tol, y) || shape.contains(x + deltaX * tol, y) || shape.contains(x, y - deltaY * tol) || shape.contains(x, y + deltaY * tol))
 			return true;
@@ -1403,7 +1416,7 @@ public class Model2D {
 			x = i * deltaX;
 			for (int j = 0; j < ny; j++) {
 				y = j * deltaY;
-				if (contains(p.getShape(), x, y)) { // no overlap of parts will be allowed
+				if (contains(p.getShape(), x, y, false)) { // no overlap of parts will be allowed
 					energy += t[i][j] * density[i][j] * specificHeat[i][j];
 				}
 			}
@@ -1481,7 +1494,7 @@ public class Model2D {
 					t[i][j] = 0;
 					synchronized (parts) {
 						for (Part p : parts) { // a cell gets the average temperature from the overlapping parts
-							if (contains(p.getShape(), x, y)) {
+							if (contains(p.getShape(), x, y, false)) {
 								count++;
 								t[i][j] += p.getTemperature();
 							}
@@ -1654,7 +1667,7 @@ public class Model2D {
 				for (int j = 0; j < ny; j++) {
 					y = j * deltaY;
 					for (Fan f : fans) {
-						if (contains(f.getShape(), x, y)) {
+						if (contains(f.getShape(), x, y, false)) {
 							if (f.getSpeed() != 0) {
 								u[i][j] = uWind[i][j];
 								v[i][j] = vWind[i][j];

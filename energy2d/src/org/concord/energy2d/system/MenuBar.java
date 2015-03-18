@@ -959,7 +959,6 @@ class MenuBar extends JMenuBar {
 		examples.put("Thermal Ghosting", "examples/ghosting.e2d");
 		examples.put("Heat Loss through Basement", "examples/basement.e2d");
 		examples.put("Fireplace", "examples/fireplace-on.e2d");
-		examples.put("Internal Heating", "examples/internal-heater.e2d");
 		examples.put("Thermostats", "examples/thermostat2.e2d");
 		examples.put("Infiltration", "examples/infiltration.e2d");
 		examples.put("Wind Effect", "examples/wind-effect.e2d");

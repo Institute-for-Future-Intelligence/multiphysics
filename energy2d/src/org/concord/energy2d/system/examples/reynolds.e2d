@@ -11,12 +11,12 @@
 <solar_ray_speed>0.1</solar_ray_speed>
 <photon_emission_interval>20</photon_emission_interval>
 <gravitational_acceleration>9.8</gravitational_acceleration>
-<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>0.4</background_conductivity>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>0.5</background_conductivity>
 <background_viscosity>1.0E-4</background_viscosity>
 <thermal_expansion_coefficient>0.0</thermal_expansion_coefficient>
 <buoyancy_approximation>0</buoyancy_approximation>
 <boundary>
-<flux_at_border upper="0.0" lower="0.0" left="0.0" right="-2.0"/>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
 <mass_flow_at_border upper="0" lower="0" left="1" right="1"/>
 </boundary>
 <structure>
@@ -104,23 +104,25 @@
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
-<temperature>30.0</temperature>
+<temperature>50.0</temperature>
 <constant_temperature>true</constant_temperature>
 <label>%temperature</label>
 </part>
 <part>
-<rectangle x="1.15" y="0.99999994" width="0.7" height="0.6"/><elasticity>1.0</elasticity>
+<rectangle x="1.15" y="1.0000002" width="0.7" height="0.6"/><elasticity>1.0</elasticity>
 <thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
-<temperature>30.0</temperature>
+<temperature>50.0</temperature>
 <constant_temperature>true</constant_temperature>
 <label>%temperature</label>
 </part>
@@ -132,9 +134,10 @@
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
-<temperature>30.0</temperature>
+<temperature>50.0</temperature>
 <constant_temperature>true</constant_temperature>
 <label>%temperature</label>
 </part>
@@ -165,9 +168,10 @@
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
-<temperature>30.0</temperature>
+<temperature>50.0</temperature>
 <constant_temperature>true</constant_temperature>
 <label>%temperature</label>
 </part>

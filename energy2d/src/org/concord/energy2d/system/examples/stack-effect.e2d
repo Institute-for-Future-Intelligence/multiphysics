@@ -60,13 +60,14 @@
 </texture>
 </part>
 <part>
-<rectangle x="7.2" y="7.8" width="0.6" height="0.2"/><elasticity>1.0</elasticity>
+<rectangle x="7.15" y="7.8" width="0.7" height="0.2"/><elasticity>1.0</elasticity>
 <thermal_conductivity>0.1</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>100.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>100.0</temperature>
@@ -137,13 +138,14 @@
 </texture>
 </part>
 <part>
-<rectangle x="2.2" y="7.8" width="0.6" height="0.2"/><elasticity>1.0</elasticity>
+<rectangle x="2.15" y="7.8" width="0.7" height="0.2"/><elasticity>1.0</elasticity>
 <thermal_conductivity>0.1</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>100.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>100.0</temperature>
@@ -213,11 +215,11 @@
 <grid_size>10</grid_size>
 <graph_data_type>2</graph_data_type>
 <perimeter_step_size>0.05</perimeter_step_size>
-<ruler>true</ruler>
+<border_tickmarks>true</border_tickmarks>
 <color_palette_type>0</color_palette_type>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>100.0</maximum_temperature>
-<graph_xlabel>Time</graph_xlabel><graph_ylabel>Wind speed (m/s)</graph_ylabel><graph_ymin>0.0</graph_ymin><graph_ymax>50.0</graph_ymax><text string="Stack effect" face="Arial" size="18" style="0" color="ffffff" x="4.25" y="9.7"/>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Wind speed (m/s)</graph_ylabel><graph_ymin>-50.0</graph_ymin><graph_ymax>50.0</graph_ymax><text string="Stack effect" face="Arial" size="18" style="0" color="ffffff" x="4.25" y="9.7"/>
 <text string="Heater A" face="Arial" size="12" style="1" color="ffffff" border="true" x="2.1499999" y="1.749999"/>
 <text string="Heater B" face="Arial" size="12" style="1" color="ffffff" border="true" x="7.15" y="1.8499994"/>
 </view>

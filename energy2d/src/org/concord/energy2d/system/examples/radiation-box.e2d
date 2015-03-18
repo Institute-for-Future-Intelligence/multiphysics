@@ -154,11 +154,11 @@
 <grid_size>10</grid_size>
 <view_factor_lines>true</view_factor_lines>
 <perimeter_step_size>0.05</perimeter_step_size>
-<ruler>true</ruler>
+<border_tickmarks>true</border_tickmarks>
 <color_palette_type>1</color_palette_type>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>20.0</minimum_temperature>
 <maximum_temperature>70.0</maximum_temperature>
-<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Completely-linebreak-reflective" face="Arial" size="10" style="1" color="ffffff" x="0.67499995" y="0.45499998"/>
-<text string="Completely-linebreak-absorber" face="Arial" size="10" style="1" color="ffffff" x="0.305" y="0.425"/>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Completely-linebreak-reflective" face="Arial" size="10" style="1" color="ffffff" x="0.67499995" y="0.45499998"/>
+<text string="Completely-linebreak-absorbing" face="Arial" size="10" style="1" color="ffffff" x="0.305" y="0.425"/>
 </view>
 </state>

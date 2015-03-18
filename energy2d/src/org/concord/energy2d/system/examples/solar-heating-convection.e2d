@@ -21,7 +21,7 @@
 </boundary>
 <structure>
 <part>
-<polygon count="4" vertices="8.0, 8.0, 8.5, 8.0, 8.5, 7.0, 8.0, 7.0"/>
+<polygon count="4" vertices="8.0, 7.7000003, 8.5, 7.7000003, 8.5, 6.7000003, 8.0, 6.7000003"/>
 <elasticity>1.0</elasticity>
 <thermal_conductivity>0.08</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
@@ -29,7 +29,8 @@
 <transmission>0.0</transmission>
 <reflection>1.0</reflection>
 <scattering>false</scattering>
-<absorption>1.0</absorption>
+<scattering_visible>false</scattering_visible>
+<absorption>0.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>0.0</temperature>
 <constant_temperature>false</constant_temperature>
@@ -43,7 +44,8 @@
 <transmission>0.0</transmission>
 <reflection>1.0</reflection>
 <scattering>false</scattering>
-<absorption>1.0</absorption>
+<scattering_visible>false</scattering_visible>
+<absorption>0.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>0.0</temperature>
 <constant_temperature>false</constant_temperature>
@@ -62,7 +64,8 @@
 <transmission>0.0</transmission>
 <reflection>1.0</reflection>
 <scattering>false</scattering>
-<absorption>1.0</absorption>
+<scattering_visible>false</scattering_visible>
+<absorption>0.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>0.0</temperature>
 <constant_temperature>false</constant_temperature>
@@ -82,7 +85,8 @@
 <transmission>0.0</transmission>
 <reflection>1.0</reflection>
 <scattering>false</scattering>
-<absorption>1.0</absorption>
+<scattering_visible>false</scattering_visible>
+<absorption>0.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>0.0</temperature>
 <constant_temperature>false</constant_temperature>
@@ -101,7 +105,8 @@
 <transmission>0.0</transmission>
 <reflection>1.0</reflection>
 <scattering>false</scattering>
-<absorption>1.0</absorption>
+<scattering_visible>false</scattering_visible>
+<absorption>0.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>0.0</temperature>
 <constant_temperature>false</constant_temperature>
@@ -121,7 +126,8 @@
 <transmission>0.0</transmission>
 <reflection>1.0</reflection>
 <scattering>false</scattering>
-<absorption>1.0</absorption>
+<scattering_visible>false</scattering_visible>
+<absorption>0.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>0.0</temperature>
 <constant_temperature>false</constant_temperature>
@@ -134,13 +140,14 @@
 <label>Wall</label>
 </part>
 <part>
-<rectangle x="2.15" y="5.0" width="0.2" height="2.0"/><elasticity>1.0</elasticity>
+<rectangle x="2.2" y="5.0" width="0.1" height="2.0"/><elasticity>1.0</elasticity>
 <thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
 <transmission>1.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>0.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>0.0</temperature>
@@ -156,7 +163,8 @@
 <transmission>0.0</transmission>
 <reflection>1.0</reflection>
 <scattering>false</scattering>
-<absorption>1.0</absorption>
+<scattering_visible>false</scattering_visible>
+<absorption>0.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>0.0</temperature>
 <constant_temperature>false</constant_temperature>
@@ -176,6 +184,7 @@
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>0.0</temperature>
@@ -186,7 +195,8 @@
 </structure>
 <environment>
 <tree color="8000" x="0.33519554" y="6.7178774" width="1.2150838" height="1.3128492" type="0"/>
-<tree color="9999" x="9.0223465" y="4.76257" width="1.7318436" height="3.1843576" type="1"/>
+<tree color="9999" x="9.0" y="2.3" width="1.7" height="5.6" type="1"/>
+<tree color="8000" x="0.25000003" y="7.2" width="0.7" height="0.8" type="0"/>
 </environment>
 <sensor>
 <thermometer label="T1" x="1.625" y="6.25"/>
@@ -210,6 +220,6 @@
 <color_palette_type>0</color_palette_type>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>40.0</maximum_temperature>
-<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Press &apos;Q&apos; or &apos;W&apos; to change the sun angle" face="Arial" size="14" style="0" color="ffffff" x="0.5" y="9.5"/>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Press &apos;Q&apos; or &apos;W&apos; to change the sun angle" face="Arial" size="10" style="0" color="ffffff" x="0.45000002" y="9.85"/>
 </view>
 </state>
