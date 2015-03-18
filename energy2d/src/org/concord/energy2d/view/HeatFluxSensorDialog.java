@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.Particle;
+import org.concord.energy2d.undo.UndoRotateManipulable;
 import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.util.MiscUtil;
 
@@ -73,15 +74,21 @@ class HeatFluxSensorDialog extends JDialog {
 					return;
 				y = view.model.getLy() - y;
 				boolean moved = Math.abs(x - heatFluxSensor.getX()) > 0.000001 * view.model.getLx() || Math.abs(y - heatFluxSensor.getY()) > 0.000001 * view.model.getLy();
-				if (moved)
+				if (moved) {
 					view.getUndoManager().addEdit(new UndoTranslateManipulable(view));
-				heatFluxSensor.setX(x);
-				heatFluxSensor.setY(y);
+					heatFluxSensor.setX(x);
+					heatFluxSensor.setY(y);
+				}
 
-				x = parse(angleField.getText());
-				if (Float.isNaN(x))
+				float angle = parse(angleField.getText());
+				if (Float.isNaN(angle))
 					return;
-				heatFluxSensor.setAngle((float) Math.toRadians(x));
+				angle = (float) Math.toRadians(angle);
+				boolean rotated = Math.abs(angle - heatFluxSensor.getAngle()) > 0.001;
+				if (rotated) {
+					view.getUndoManager().addEdit(new UndoRotateManipulable(view, 0));
+					heatFluxSensor.setAngle(angle);
+				}
 
 				heatFluxSensor.setLabel(labelField.getText());
 				String uid = uidField.getText();

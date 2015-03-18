@@ -259,6 +259,7 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 			newX = center.x;
 			newY = center.y;
 			blob.translateCenterTo(oldX, oldY);
+			blob.update();
 		} else if (shape instanceof Ring2D) {
 			Ring2D ring = (Ring2D) shape;
 			newX = ring.getX();
@@ -283,6 +284,7 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 		} else if (shape instanceof Blob2D) {
 			Blob2D blob = (Blob2D) shape;
 			blob.translateCenterTo(newX, newY);
+			blob.update();
 		} else if (shape instanceof Ring2D) {
 			Ring2D ring = (Ring2D) shape;
 			ring.translateTo(newX, newY);

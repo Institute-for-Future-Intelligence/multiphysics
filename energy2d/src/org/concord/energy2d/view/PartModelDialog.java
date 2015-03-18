@@ -39,6 +39,7 @@ import org.concord.energy2d.math.Ring2D;
 import org.concord.energy2d.math.TransformableShape;
 import org.concord.energy2d.model.Part;
 import org.concord.energy2d.undo.UndoResizeManipulable;
+import org.concord.energy2d.undo.UndoRotateManipulable;
 import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.util.MiscUtil;
 
@@ -281,41 +282,50 @@ class PartModelDialog extends JDialog {
 						float y = view.model.getLy() - ycenter - 0.5f * height;
 						float dx = 0.000001f * view.model.getLx();
 						float dy = 0.000001f * view.model.getLy();
+						boolean moved = Math.abs(x - oldCenter.x) > dx || Math.abs(y - oldCenter.y) > dy;
 						boolean resized = Math.abs(width - shape.getBounds2D().getWidth()) > dx || Math.abs(height - shape.getBounds2D().getHeight()) > dy;
 						if (resized) {
 							view.getUndoManager().addEdit(new UndoResizeManipulable(view));
 						} else {
-							boolean moved = Math.abs(x - oldCenter.x) > dx || Math.abs(y - oldCenter.y) > dy;
 							if (moved)
 								view.getUndoManager().addEdit(new UndoTranslateManipulable(view));
 						}
-						view.resizeManipulableTo(part, x, y, width, height, 0, 0);
+						if (moved || resized)
+							view.resizeManipulableTo(part, x, y, width, height, 0, 0);
 					}
 				} else if (shape instanceof TransformableShape) {
 					TransformableShape s = (TransformableShape) shape;
 					if (!Float.isNaN(xcenter) && !Float.isNaN(ycenter)) {
-						s.flipY();
-						s.translateBy(xcenter - s.getCenter().x, ycenter - s.getCenter().y);
-						float ly = view.model.getLy();
-						if (s instanceof Polygon2D) {
-							Polygon2D p = (Polygon2D) s;
-							int n = p.getVertexCount();
-							Point2D.Float v;
-							for (int i = 0; i < n; i++) {
-								v = p.getVertex(i);
-								v.y = ly - v.y;
-							}
-						} else if (s instanceof Blob2D) {
-							Blob2D b = (Blob2D) s;
-							int n = b.getPointCount();
-							Point2D.Float v;
-							for (int i = 0; i < n; i++) {
-								v = b.getPoint(i);
-								v.y = ly - v.y;
+						Point2D.Float oldCenter = s.getCenter();
+						float dx = 0.000001f * view.model.getLx();
+						float dy = 0.000001f * view.model.getLy();
+						boolean moved = Math.abs(xcenter - oldCenter.x) > dx || Math.abs(ycenter - oldCenter.y) > dy;
+						if (moved) {
+							view.getUndoManager().addEdit(new UndoTranslateManipulable(view));
+							s.flipY();
+							s.translateBy(xcenter - s.getCenter().x, ycenter - s.getCenter().y);
+							float ly = view.model.getLy();
+							if (s instanceof Polygon2D) {
+								Polygon2D p = (Polygon2D) s;
+								int n = p.getVertexCount();
+								Point2D.Float v;
+								for (int i = 0; i < n; i++) {
+									v = p.getVertex(i);
+									v.y = ly - v.y;
+								}
+							} else if (s instanceof Blob2D) {
+								Blob2D b = (Blob2D) s;
+								int n = b.getPointCount();
+								Point2D.Float v;
+								for (int i = 0; i < n; i++) {
+									v = b.getPoint(i);
+									v.y = ly - v.y;
+								}
 							}
 						}
 					}
 					if (!Float.isNaN(degree) && degree != 0) {
+						view.getUndoManager().addEdit(new UndoRotateManipulable(view, degree));
 						s.rotateBy(degree);
 					}
 					if (!Float.isNaN(scaleX) && scaleX != 1) {
