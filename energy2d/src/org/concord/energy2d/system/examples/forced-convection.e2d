@@ -25,29 +25,6 @@
 </boundary>
 <structure>
 <part>
-<rectangle x="0.0" y="0.20000005" width="0.2" height="4.6"/><elasticity>1.0</elasticity>
-<thermal_conductivity>0.08</thermal_conductivity>
-<specific_heat>1300.0</specific_heat>
-<density>25.0</density>
-<transmission>0.0</transmission>
-<reflection>0.0</reflection>
-<scattering>false</scattering>
-<absorption>1.0</absorption>
-<emissivity>0.0</emissivity>
-<temperature>0.0</temperature>
-<constant_temperature>false</constant_temperature>
-<wind_speed>0.025</wind_speed>
-<uid>fan</uid>
-<texture><texture_fg>-1000000</texture_fg>
-<texture_bg>-7f7f80</texture_bg>
-<texture_style>10</texture_style>
-<texture_width>12</texture_width>
-<texture_height>12</texture_height>
-</texture>
-<visible>false</visible>
-<draggable>false</draggable>
-</part>
-<part>
 <rectangle x="0.0" y="5.0" width="0.2" height="5.0"/><elasticity>1.0</elasticity>
 <thermal_conductivity>0.08</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
@@ -118,7 +95,7 @@
 </part>
 </structure>
 <environment>
-</environment>
+<fan x="0.0" y="0.0" width="0.4" height="4.8" speed="0.05" angle="0.0"/></environment>
 <sensor>
 <thermometer label="T2" x="2.525" y="7.285449"/>
 <thermometer label="T1" x="2.525" y="2.3177252"/>
@@ -136,7 +113,7 @@
 <color_palette_type>0</color_palette_type>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>60.0</maximum_temperature>
-<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Fan" face="Arial" size="12" style="0" color="ffffff" border="true" x="0.35" y="7.65"/>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Fan" face="Arial" size="12" style="0" color="ffffff" border="true" x="0.45000002" y="7.75"/>
 <text string="This model automatically stops at 30 minutes." face="Arial" size="14" style="0" color="ffffff" x="0.30000004" y="0.6999998"/>
 </view>
 </state>
