@@ -25,6 +25,8 @@ import javax.swing.JTextField;
 
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.model.Particle;
+import org.concord.energy2d.undo.UndoResizeManipulable;
+import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.util.BackgroundComboBox;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.ColorMenu;
@@ -100,6 +102,17 @@ class ParticleDialog extends JDialog {
 				String tempText = temperatureField.getText();
 				float temperature = "NaN".equals(tempText) ? Float.NaN : parse(tempText);
 				String label = labelField.getText();
+
+				// undo
+				float dx = 0.000001f * view.model.getLx();
+				float dy = 0.000001f * view.model.getLy();
+				boolean moved = Math.abs(rx - particle.getRx()) > dx || Math.abs(view.model.getLy() - ry - particle.getRy()) > dy;
+				if (moved)
+					view.getUndoManager().addEdit(new UndoTranslateManipulable(view));
+				boolean resized = Math.abs(radius - particle.getRadius()) > dx;
+				if (resized)
+					view.getUndoManager().addEdit(new UndoResizeManipulable(view));
+
 				particle.setUid(uid);
 				particle.setLabel(label);
 				particle.setMass(mass);
@@ -161,7 +174,7 @@ class ParticleDialog extends JDialog {
 		p.add(massField);
 
 		p.add(new JLabel("Radius (m):"));
-		radiusField = new JTextField(particle.getRadius() + "", 10);
+		radiusField = new JTextField(View2D.COORDINATES_FORMAT.format(particle.getRadius()), 10);
 		radiusField.addActionListener(okListener);
 		p.add(radiusField);
 

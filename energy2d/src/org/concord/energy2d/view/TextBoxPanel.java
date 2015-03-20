@@ -33,6 +33,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
 import org.concord.energy2d.event.ManipulationEvent;
+import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.util.ColorComboBox;
 import org.concord.energy2d.util.ColorRectangle;
 import org.concord.energy2d.util.ComboBoxRenderer;
@@ -78,6 +79,21 @@ class TextBoxPanel extends JPanel {
 
 		ActionListener okListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				float x = parse(xField.getText());
+				if (Float.isNaN(x))
+					return;
+				float y = parse(yField.getText());
+				if (Float.isNaN(y))
+					return;
+
+				// undo
+				float dx = 0.000001f * view.model.getLx();
+				float dy = 0.000001f * view.model.getLy();
+				boolean moved = Math.abs(x - textBox.getX()) > dx || Math.abs(y - textBox.getY()) > dy;
+				if (moved)
+					view.getUndoManager().addEdit(new UndoTranslateManipulable(view));
+
 				String uid = uidField.getText();
 				if (uid != null && !uid.trim().equals("")) {
 					textBox.setUid(uid.trim());
@@ -85,13 +101,7 @@ class TextBoxPanel extends JPanel {
 					textBox.setUid(null);
 				}
 				textBox.setLabel(textArea.getText());
-				float x = parse(xField.getText());
-				if (Float.isNaN(x))
-					return;
 				textBox.setX(x);
-				float y = parse(yField.getText());
-				if (Float.isNaN(y))
-					return;
 				textBox.setY(y);
 				if (dialog != null) {
 					offset = dialog.getLocationOnScreen();
@@ -99,6 +109,7 @@ class TextBoxPanel extends JPanel {
 				}
 				view.repaint();
 				view.notifyManipulationListeners(textBox, ManipulationEvent.OBJECT_ADDED);
+
 			}
 		};
 

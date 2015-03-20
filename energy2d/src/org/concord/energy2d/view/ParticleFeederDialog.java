@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.model.ParticleFeeder;
+import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.util.BackgroundComboBox;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.ColorMenu;
@@ -95,6 +96,14 @@ class ParticleFeederDialog extends JDialog {
 						}
 					}
 				}
+
+				// undo
+				float dx = 0.000001f * view.model.getLx();
+				float dy = 0.000001f * view.model.getLy();
+				boolean moved = Math.abs(x - particleFeeder.getX()) > dx || Math.abs(view.model.getLy() - y - particleFeeder.getY()) > dy;
+				if (moved)
+					view.getUndoManager().addEdit(new UndoTranslateManipulable(view));
+
 				particleFeeder.setUid(uid);
 				particleFeeder.setLabel(labelField.getText());
 				particleFeeder.setMass(mass);

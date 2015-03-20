@@ -16,6 +16,7 @@ import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.Manipulable;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
+import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.Tree;
 import org.concord.energy2d.view.View2D;
 
@@ -74,6 +75,10 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			oldY = tree.getY();
 			oldW = tree.getWidth();
 			oldH = tree.getHeight();
+		} else if (selectedManipulable instanceof Particle) {
+			name = "Particle";
+			Particle particle = (Particle) selectedManipulable;
+			oldW = particle.getRadius();
 		}
 	}
 
@@ -141,6 +146,10 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			tree.setX(oldX);
 			tree.setY(oldY);
 			tree.setDimension(oldW, oldH);
+		} else if (selectedManipulable instanceof Particle) {
+			Particle particle = (Particle) selectedManipulable;
+			newW = particle.getRadius();
+			particle.setRadius(oldW);
 		}
 		view.setSelectedManipulable(selectedManipulable);
 		view.repaint();
@@ -190,6 +199,9 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			tree.setX(newX);
 			tree.setY(newY);
 			tree.setDimension(newW, newH);
+		} else if (selectedManipulable instanceof Particle) {
+			Particle particle = (Particle) selectedManipulable;
+			particle.setRadius(newW);
 		}
 		view.setSelectedManipulable(selectedManipulable);
 		view.repaint();
