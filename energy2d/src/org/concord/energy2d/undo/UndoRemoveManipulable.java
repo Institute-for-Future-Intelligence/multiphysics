@@ -9,6 +9,7 @@ import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
+import org.concord.energy2d.model.Heliostat;
 import org.concord.energy2d.model.Manipulable;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
@@ -38,6 +39,9 @@ public class UndoRemoveManipulable extends AbstractUndoableEdit {
 		} else if (selectedManipulable instanceof Fan) {
 			index = model.getFans().indexOf(selectedManipulable);
 			name = "Fan";
+		} else if (selectedManipulable instanceof Heliostat) {
+			index = model.getHeliostats().indexOf(selectedManipulable);
+			name = "Heliostat";
 		} else if (selectedManipulable instanceof Particle) {
 			index = model.getParticles().indexOf(selectedManipulable);
 			name = "Particle";
@@ -76,6 +80,8 @@ public class UndoRemoveManipulable extends AbstractUndoableEdit {
 		} else if (selectedManipulable instanceof Fan) {
 			model.addFan((Fan) selectedManipulable, index);
 			model.refreshMaterialPropertyArrays();
+		} else if (selectedManipulable instanceof Heliostat) {
+			model.addHeliostat((Heliostat) selectedManipulable, index);
 		} else if (selectedManipulable instanceof Particle) {
 			model.addParticle((Particle) selectedManipulable, index);
 		} else if (selectedManipulable instanceof ParticleFeeder) {

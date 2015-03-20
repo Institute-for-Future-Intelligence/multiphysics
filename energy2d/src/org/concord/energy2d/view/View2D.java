@@ -69,6 +69,7 @@ import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
+import org.concord.energy2d.model.Heliostat;
 import org.concord.energy2d.model.Manipulable;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
@@ -380,6 +381,21 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		a.putValue(Action.NAME, "Fan");
 		a.putValue(Action.SHORT_DESCRIPTION, "Insert a fan where the mouse last clicked");
 		getActionMap().put("Insert Fan", a);
+
+		a = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				float x = mouseReleasedPoint.x > 0 ? convertPixelToPointX(mouseReleasedPoint.x) : model.getLx() * 0.05f;
+				float y = mouseReleasedPoint.y > 0 ? convertPixelToPointY(mouseReleasedPoint.y) : model.getLy() * 0.05f;
+				Heliostat heliostat = addHeliostat(x, y, model.getLx() * 0.2f, model.getLy() * 0.2f);
+				notifyManipulationListeners(heliostat, ManipulationEvent.OBJECT_ADDED);
+				setSelectedManipulable(heliostat);
+				undoManager.addEdit(new UndoAddManipulable(heliostat, View2D.this));
+				repaint();
+			}
+		};
+		a.putValue(Action.NAME, "Heliostat");
+		a.putValue(Action.SHORT_DESCRIPTION, "Insert a heliostat where the mouse last clicked");
+		getActionMap().put("Insert Heliostat", a);
 
 		a = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
@@ -738,6 +754,17 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 	public void removeFan(Fan f) {
 		model.removeFan(f);
+		repaint();
+	}
+
+	public Heliostat addHeliostat(float x, float y, float w, float h) {
+		Heliostat f = new Heliostat(new Rectangle2D.Float(x, y, w, h));
+		model.addHeliostat(f);
+		return f;
+	}
+
+	public void removeHeliostat(Heliostat h) {
+		model.removeHeliostat(h);
 		repaint();
 	}
 
@@ -1283,6 +1310,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			pastedManipulable = ((Fan) copiedManipulable).duplicate(x, y);
 			model.addFan((Fan) pastedManipulable);
 			model.refreshMaterialPropertyArrays();
+		} else if (copiedManipulable instanceof Heliostat) {
+			pastedManipulable = ((Heliostat) copiedManipulable).duplicate(x, y);
+			model.addHeliostat((Heliostat) pastedManipulable);
 		} else if (copiedManipulable instanceof Particle) {
 			pastedManipulable = ((Particle) copiedManipulable).duplicate(x, y);
 			model.addParticle((Particle) pastedManipulable);
@@ -1550,6 +1580,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		}
 		drawParts(g);
 		drawFans(g);
+		drawHeliostats(g);
 		drawClouds(g);
 		drawTrees(g);
 		drawTextBoxes(g);
@@ -2491,9 +2522,51 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						w = convertLengthToPixelX(r2.width);
 						h = convertLengthToPixelY(r2.height);
 						String label = f.getLabel();
-						if (label != null) {
+						if (label != null)
 							drawLabelWithLineBreaks(g, label, x + 0.5f * w, y + 0.5f * h, w < h * 0.25f);
+						if (selectedManipulable == f) {
+							g.setStroke(longDashed);
+							g.drawRect(x, y, w, h);
 						}
+					}
+				}
+			}
+		}
+		g.setStroke(oldStroke);
+		g.setColor(oldColor);
+	}
+
+	private void drawHeliostats(Graphics2D g) {
+		List<Heliostat> heliostats = model.getHeliostats();
+		if (heliostats.isEmpty())
+			return;
+		Stroke oldStroke = g.getStroke();
+		Color oldColor = g.getColor();
+		synchronized (heliostats) {
+			for (Heliostat f : heliostats) {
+				if (f.isVisible()) {
+					float rotation = 0;
+					Rectangle2D r = f.getShape().getBounds2D();
+					int x = convertPointToPixelX((float) r.getX());
+					int y = convertPointToPixelY((float) r.getY());
+					int w = convertLengthToPixelX((float) r.getWidth());
+					int h = convertLengthToPixelY((float) r.getHeight());
+					Area a = Heliostat.getShape(new Rectangle2D.Float(x, y, w, h), f.getSpeed(), f.getAngle(), rotation);
+					g.setColor(Color.GRAY);
+					g.fill(a);
+					g.setColor(f == selectedManipulable ? Color.YELLOW : Color.BLACK);
+					g.setStroke(moderateStroke);
+					g.draw(a);
+					Shape s = f.getShape();
+					if (s instanceof Rectangle2D.Float) {
+						Rectangle2D.Float r2 = (Rectangle2D.Float) s;
+						x = convertPointToPixelX(r2.x);
+						y = convertPointToPixelY(r2.y);
+						w = convertLengthToPixelX(r2.width);
+						h = convertLengthToPixelY(r2.height);
+						String label = f.getLabel();
+						if (label != null)
+							drawLabelWithLineBreaks(g, label, x + 0.5f * w, y + 0.5f * h, w < h * 0.25f);
 						if (selectedManipulable == f) {
 							g.setStroke(longDashed);
 							g.drawRect(x, y, w, h);
@@ -2802,6 +2875,18 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					Fan f = model.getFans().get(i);
 					if (f.contains(rx, ry)) {
 						setSelectedManipulable(f);
+						return;
+					}
+				}
+			}
+		}
+		n = model.getHeliostats().size();
+		if (n > 0) {
+			synchronized (model.getHeliostats()) {
+				for (int i = n - 1; i >= 0; i--) { // later added, higher priority
+					Heliostat h = model.getHeliostats().get(i);
+					if (h.contains(rx, ry)) {
+						setSelectedManipulable(h);
 						return;
 					}
 				}
@@ -3433,6 +3518,20 @@ public class View2D extends JPanel implements PropertyChangeListener {
 							movingShape = new MovingFan(setMovingRect(a, x, y), f.getSpeed(), f.getAngle(), (float) Math.abs(Math.sin(rotation)));
 							setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 						}
+					} else if (selectedManipulable instanceof Heliostat && movingShape instanceof MovingHeliostat) {
+						MovingHeliostat mh = (MovingHeliostat) movingShape;
+						Rectangle2D.Float r = mh.getBoundingBox();
+						if (selectedSpot == -1) {
+							int xc = (int) (x - pressedPointRelative.x - r.getCenterX());
+							int yc = (int) (y - pressedPointRelative.y - r.getCenterY());
+							mh.setLocation(xc, yc);
+						} else {
+							float[] a = new float[] { (float) r.getX(), (float) r.getY(), (float) r.getWidth(), (float) r.getHeight() };
+							Heliostat h = (Heliostat) selectedManipulable;
+							float rotation = 0;
+							movingShape = new MovingFan(setMovingRect(a, x, y), h.getSpeed(), h.getAngle(), rotation);
+							setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+						}
 					} else if (selectedManipulable instanceof Part && movingShape instanceof MovingAnnulus) {
 						MovingAnnulus ma = (MovingAnnulus) movingShape;
 						Rectangle r = ma.getShape().getBounds();
@@ -3674,6 +3773,17 @@ public class View2D extends JPanel implements PropertyChangeListener {
 									float h2 = convertPixelToLengthY((int) r.getHeight());
 									((Fan) selectedManipulable).setAngle(w2 < h2 ? 0 : (float) (0.5 * Math.PI));
 									Point p = ((MovingFan) movingShape).getLocation();
+									undoManager.addEdit(new UndoResizeManipulable(this));
+									resizeManipulableTo(selectedManipulable, x2, y2, w2, h2, convertPixelToPointX(p.x), convertPixelToPointY(p.y));
+									setSelectedManipulable(selectedManipulable);
+								} else if (selectedManipulable instanceof Heliostat && movingShape instanceof MovingHeliostat) {
+									Rectangle2D r = ((MovingHeliostat) movingShape).getBoundingBox();
+									float x2 = convertPixelToPointX((int) r.getX());
+									float y2 = convertPixelToPointY((int) r.getY());
+									float w2 = convertPixelToLengthX((int) r.getWidth());
+									float h2 = convertPixelToLengthY((int) r.getHeight());
+									((Heliostat) selectedManipulable).setAngle(w2 < h2 ? 0 : (float) (0.5 * Math.PI));
+									Point p = ((MovingHeliostat) movingShape).getLocation();
 									undoManager.addEdit(new UndoResizeManipulable(this));
 									resizeManipulableTo(selectedManipulable, x2, y2, w2, h2, convertPixelToPointX(p.x), convertPixelToPointY(p.y));
 									setSelectedManipulable(selectedManipulable);
@@ -3987,7 +4097,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		case SELECT_MODE:
 			tipText = null;
 			int iSpot = -1;
-			if (!showGraph && (selectedManipulable instanceof Part || selectedManipulable instanceof Cloud || selectedManipulable instanceof Tree || selectedManipulable instanceof Fan)) {
+			if (!showGraph && (selectedManipulable instanceof Part || selectedManipulable instanceof Cloud || selectedManipulable instanceof Tree || selectedManipulable instanceof Fan || selectedManipulable instanceof Heliostat)) {
 				for (int i = 0; i < handle.length; i++) {
 					if (handle[i].x < -10 || handle[i].y < -10)
 						continue;
@@ -4320,6 +4430,20 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
 				float rotation = f.getSpeed() * model.getTime();
 				movingShape = new MovingFan(new Rectangle2D.Float(a, b, c, d), f.getSpeed(), f.getAngle(), (float) Math.abs(Math.sin(rotation)));
+			}
+		} else if (selectedManipulable instanceof Heliostat) {
+			Heliostat h = (Heliostat) selectedManipulable;
+			Shape shape = h.getShape();
+			if (shape instanceof Rectangle2D.Float) {
+				Rectangle2D.Float r = (Rectangle2D.Float) shape;
+				int a = convertPointToPixelX(r.x);
+				int b = convertPointToPixelY(r.y);
+				int c = convertLengthToPixelX(r.width);
+				int d = convertLengthToPixelY(r.height);
+				if (anchor)
+					setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
+				float rotation = 0;
+				movingShape = new MovingHeliostat(new Rectangle2D.Float(a, b, c, d), h.getSpeed(), h.getAngle(), rotation);
 			}
 		} else if (selectedManipulable instanceof ParticleFeeder) {
 			ParticleFeeder f = (ParticleFeeder) selectedManipulable;

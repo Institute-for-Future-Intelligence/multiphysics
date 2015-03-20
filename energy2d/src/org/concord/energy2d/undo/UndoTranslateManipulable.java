@@ -16,6 +16,7 @@ import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
+import org.concord.energy2d.model.Heliostat;
 import org.concord.energy2d.model.Manipulable;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
@@ -54,6 +55,9 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 			oldY = particleFeeder.getY();
 		} else if (selectedManipulable instanceof Fan) {
 			name = "Fan";
+			saveShape();
+		} else if (selectedManipulable instanceof Heliostat) {
+			name = "Heliostat";
 			saveShape();
 		} else if (selectedManipulable instanceof Thermometer) {
 			name = "Thermometer";
@@ -114,6 +118,8 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 		} else if (selectedManipulable instanceof Fan) {
 			undoShape();
 			model.refreshMaterialPropertyArrays();
+		} else if (selectedManipulable instanceof Heliostat) {
+			undoShape();
 		} else if (selectedManipulable instanceof Thermometer) {
 			Thermometer thermometer = (Thermometer) selectedManipulable;
 			newX = thermometer.getX();
@@ -177,6 +183,8 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 		} else if (selectedManipulable instanceof Fan) {
 			redoShape();
 			model.refreshMaterialPropertyArrays();
+		} else if (selectedManipulable instanceof Heliostat) {
+			redoShape();
 		} else if (selectedManipulable instanceof Thermometer) {
 			Thermometer thermometer = (Thermometer) selectedManipulable;
 			thermometer.setX(newX);

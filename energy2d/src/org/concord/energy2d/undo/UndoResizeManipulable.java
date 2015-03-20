@@ -13,6 +13,7 @@ import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Ring2D;
 import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Fan;
+import org.concord.energy2d.model.Heliostat;
 import org.concord.energy2d.model.Manipulable;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
@@ -55,6 +56,14 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			}
 		} else if (selectedManipulable instanceof Fan) {
 			name = "Fan";
+			Shape shape = selectedManipulable.getShape();
+			Rectangle2D.Float rect = (Rectangle2D.Float) shape;
+			oldX = rect.x;
+			oldY = rect.y;
+			oldW = rect.width;
+			oldH = rect.height;
+		} else if (selectedManipulable instanceof Heliostat) {
+			name = "Heliostat";
 			Shape shape = selectedManipulable.getShape();
 			Rectangle2D.Float rect = (Rectangle2D.Float) shape;
 			oldX = rect.x;
@@ -128,6 +137,17 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			rect.width = oldW;
 			rect.height = oldH;
 			model.refreshMaterialPropertyArrays();
+		} else if (selectedManipulable instanceof Heliostat) {
+			Shape shape = selectedManipulable.getShape();
+			Rectangle2D.Float rect = (Rectangle2D.Float) shape;
+			newX = rect.x;
+			newY = rect.y;
+			newW = rect.width;
+			newH = rect.height;
+			rect.x = oldX;
+			rect.y = oldY;
+			rect.width = oldW;
+			rect.height = oldH;
 		} else if (selectedManipulable instanceof Cloud) {
 			Cloud cloud = (Cloud) selectedManipulable;
 			newX = cloud.getX();
@@ -189,6 +209,13 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			rect.width = newW;
 			rect.height = newH;
 			model.refreshMaterialPropertyArrays();
+		} else if (selectedManipulable instanceof Heliostat) {
+			Shape shape = selectedManipulable.getShape();
+			Rectangle2D.Float rect = (Rectangle2D.Float) shape;
+			rect.x = newX;
+			rect.y = newY;
+			rect.width = newW;
+			rect.height = newH;
 		} else if (selectedManipulable instanceof Cloud) {
 			Cloud cloud = (Cloud) selectedManipulable;
 			cloud.setX(newX);

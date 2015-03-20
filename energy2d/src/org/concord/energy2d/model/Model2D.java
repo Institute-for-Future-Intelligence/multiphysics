@@ -87,6 +87,7 @@ public class Model2D {
 	private List<Cloud> clouds;
 	private List<Tree> trees;
 	private List<Fan> fans;
+	private List<Heliostat> heliostats;
 	private List<ParticleFeeder> particleFeeders;
 
 	private PhotonSolver2D photonSolver;
@@ -149,6 +150,7 @@ public class Model2D {
 		clouds = Collections.synchronizedList(new ArrayList<Cloud>());
 		trees = Collections.synchronizedList(new ArrayList<Tree>());
 		fans = Collections.synchronizedList(new ArrayList<Fan>());
+		heliostats = Collections.synchronizedList(new ArrayList<Heliostat>());
 		particleFeeders = Collections.synchronizedList(new ArrayList<ParticleFeeder>());
 
 		init();
@@ -408,6 +410,8 @@ public class Model2D {
 			p.translateBy(dx, dy);
 		for (Fan f : fans)
 			f.translateBy(dx, dy);
+		for (Heliostat h : heliostats)
+			h.translateBy(dx, dy);
 	}
 
 	public boolean scaleAll(float scale) {
@@ -509,6 +513,18 @@ public class Model2D {
 		}
 		for (Fan f : fans) {
 			Shape s = f.getShape();
+			if (s instanceof Rectangle2D.Float) {
+				Rectangle2D.Float r = (Rectangle2D.Float) s;
+				r.x = scale * r.x;
+				r.y = ly - scale * (ly - r.y);
+				r.width *= scale;
+				r.height *= scale;
+				if (!bound.intersects(r))
+					out = true;
+			}
+		}
+		for (Heliostat h : heliostats) {
+			Shape s = h.getShape();
 			if (s instanceof Rectangle2D.Float) {
 				Rectangle2D.Float r = (Rectangle2D.Float) s;
 				r.x = scale * r.x;
@@ -1188,6 +1204,46 @@ public class Model2D {
 		return null;
 	}
 
+	// heliostats
+
+	public void addHeliostat(Heliostat h) {
+		if (h != null && !heliostats.contains(h)) {
+			heliostats.add(h);
+		}
+	}
+
+	public void addHeliostat(Heliostat h, int index) {
+		if (h != null && !heliostats.contains(h)) {
+			heliostats.add(index, h);
+		}
+	}
+
+	public void removeHeliostat(Heliostat h) {
+		heliostats.remove(h);
+	}
+
+	public List<Heliostat> getHeliostats() {
+		return heliostats;
+	}
+
+	public Heliostat getHeliostat(int i) {
+		if (i < 0 || i >= heliostats.size())
+			return null;
+		return heliostats.get(i);
+	}
+
+	public Heliostat getHeliostat(String uid) {
+		if (uid == null)
+			return null;
+		synchronized (heliostats) {
+			for (Heliostat h : heliostats) {
+				if (uid.equals(h.getUid()))
+					return h;
+			}
+		}
+		return null;
+	}
+
 	// cloud
 
 	public void addCloud(Cloud c) {
@@ -1456,6 +1512,7 @@ public class Model2D {
 		clouds.clear();
 		trees.clear();
 		fans.clear();
+		heliostats.clear();
 		maximumHeatCapacity = -1;
 	}
 

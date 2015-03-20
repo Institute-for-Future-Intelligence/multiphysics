@@ -11,6 +11,7 @@ import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
+import org.concord.energy2d.model.Heliostat;
 import org.concord.energy2d.model.Part;
 import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.ParticleFeeder;
@@ -28,6 +29,7 @@ public class UndoClearAll extends AbstractUndoableEdit {
 	private List<Particle> particles;
 	private List<ParticleFeeder> particleFeeders;
 	private List<Fan> fans;
+	private List<Heliostat> heliostats;
 	private List<Photon> photons;
 	private List<Anemometer> anemometers;
 	private List<Thermometer> thermometers;
@@ -47,6 +49,8 @@ public class UndoClearAll extends AbstractUndoableEdit {
 		particleFeeders.addAll(view.getModel().getParticleFeeders());
 		fans = new ArrayList<Fan>();
 		fans.addAll(view.getModel().getFans());
+		heliostats = new ArrayList<Heliostat>();
+		heliostats.addAll(view.getModel().getHeliostats());
 		photons = new ArrayList<Photon>();
 		photons.addAll(view.getModel().getPhotons());
 		anemometers = new ArrayList<Anemometer>();
@@ -80,6 +84,9 @@ public class UndoClearAll extends AbstractUndoableEdit {
 		}
 		if (!fans.isEmpty()) {
 			view.getModel().getFans().addAll(fans);
+		}
+		if (!heliostats.isEmpty()) {
+			view.getModel().getHeliostats().addAll(heliostats);
 		}
 		if (!photons.isEmpty()) {
 			view.getModel().getPhotons().addAll(photons);

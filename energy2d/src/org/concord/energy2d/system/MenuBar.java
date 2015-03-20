@@ -417,6 +417,7 @@ class MenuBar extends JMenuBar {
 		menu.add(box.view.getActionMap().get("Insert Particle Feeder"));
 		menu.addSeparator();
 		menu.add(box.view.getActionMap().get("Insert Fan"));
+		menu.add(box.view.getActionMap().get("Insert Heliostat"));
 		menu.addSeparator();
 		menu.add(box.view.getActionMap().get("Insert Cloud"));
 		menu.add(box.view.getActionMap().get("Insert Tree"));
