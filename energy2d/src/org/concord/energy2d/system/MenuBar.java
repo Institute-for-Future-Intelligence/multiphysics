@@ -976,6 +976,7 @@ class MenuBar extends JMenuBar {
 		examples.put("Solar Chimney", "examples/solar-chimney.e2d");
 		examples.put("Trombe Wall", "examples/trombe-wall-closeup.e2d");
 		examples.put("Solar Updraft Tower", "examples/solar-updraft-tower.e2d");
+		examples.put("Solar Thermal Power Plant", "examples/solar-thermal-power-plant.e2d");
 		examples.put("Jet Impingement Cooling", "examples/jet-impingement.e2d");
 		examples.put("Heat Fins", "examples/fin1.e2d");
 		examples.put("Coaxial Cable", "examples/cable.e2d");

@@ -38,8 +38,11 @@ import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Ring2D;
 import org.concord.energy2d.math.TransformableShape;
 import org.concord.energy2d.model.Part;
+import org.concord.energy2d.undo.UndoFlipManipulable;
 import org.concord.energy2d.undo.UndoResizeManipulable;
 import org.concord.energy2d.undo.UndoRotateManipulable;
+import org.concord.energy2d.undo.UndoScaleManipulable;
+import org.concord.energy2d.undo.UndoShearManipulable;
 import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.util.MiscUtil;
 
@@ -329,21 +332,27 @@ class PartModelDialog extends JDialog {
 						s.rotateBy(degree);
 					}
 					if (!Float.isNaN(scaleX) && scaleX != 1) {
+						view.getUndoManager().addEdit(new UndoScaleManipulable(view, scaleX, 0));
 						s.scaleX(scaleX);
 					}
 					if (!Float.isNaN(scaleY) && scaleY != 1) {
+						view.getUndoManager().addEdit(new UndoScaleManipulable(view, scaleY, 1));
 						s.scaleY(scaleY);
 					}
 					if (!Float.isNaN(shearX) && shearX != 0) {
+						view.getUndoManager().addEdit(new UndoShearManipulable(view, shearX, 0));
 						s.shearX(shearX);
 					}
 					if (!Float.isNaN(shearY) && shearY != 0) {
+						view.getUndoManager().addEdit(new UndoShearManipulable(view, shearY, 1));
 						s.shearY(shearY);
 					}
 					if (flipXCheckBox.isSelected()) {
+						view.getUndoManager().addEdit(new UndoFlipManipulable(view, 0));
 						s.flipX();
 					}
 					if (flipYCheckBox.isSelected()) {
+						view.getUndoManager().addEdit(new UndoFlipManipulable(view, 1));
 						s.flipY();
 					}
 					if (s instanceof Blob2D) {

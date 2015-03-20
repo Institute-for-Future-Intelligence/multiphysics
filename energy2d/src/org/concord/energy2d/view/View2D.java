@@ -89,6 +89,7 @@ import org.concord.energy2d.undo.UndoPaste;
 import org.concord.energy2d.undo.UndoRemoveManipulable;
 import org.concord.energy2d.undo.UndoResizeManipulable;
 import org.concord.energy2d.undo.UndoTranslateManipulable;
+import org.concord.energy2d.undo.UndoZoom;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.ContourMap;
 import org.concord.energy2d.util.FieldLines;
@@ -508,6 +509,30 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		a.putValue(Action.ACCELERATOR_KEY, ks);
 		getInputMap().put(ks, "Redo");
 		getActionMap().put("Redo", a);
+
+		a = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				zoom(0.5f);
+				undoManager.addEdit(new UndoZoom(View2D.this, 0.5f));
+			}
+		};
+		ks = IS_MAC ? KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, KeyEvent.META_MASK) : KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, KeyEvent.CTRL_MASK);
+		a.putValue(Action.NAME, "Zoom In");
+		a.putValue(Action.ACCELERATOR_KEY, ks);
+		getInputMap().put(ks, "Zoom In");
+		getActionMap().put("Zoom In", a);
+
+		a = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				zoom(2);
+				undoManager.addEdit(new UndoZoom(View2D.this, 2));
+			}
+		};
+		ks = IS_MAC ? KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, KeyEvent.META_MASK) : KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, KeyEvent.CTRL_MASK);
+		a.putValue(Action.NAME, "Zoom Out");
+		a.putValue(Action.ACCELERATOR_KEY, ks);
+		getInputMap().put(ks, "Zoom Out");
+		getActionMap().put("Zoom Out", a);
 
 	}
 
@@ -2856,6 +2881,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		model.refreshMaterialPropertyArrays();
 		if (isViewFactorLinesOn())
 			model.generateViewFactorMesh();
+		setSelectedManipulable(selectedManipulable);
 		repaint();
 		notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 	}

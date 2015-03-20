@@ -22,7 +22,6 @@ import org.concord.energy2d.event.GraphEvent;
 import org.concord.energy2d.event.GraphListener;
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.event.ManipulationListener;
-import org.concord.energy2d.undo.UndoZoom;
 import org.concord.energy2d.util.MiscUtil;
 import org.concord.energy2d.view.Symbol;
 import org.concord.energy2d.view.View2D;
@@ -309,23 +308,13 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		JButton button = new JButton(new ImageIcon(ToolBar.class.getResource("resources/zoomin.png")));
 		button.setBorderPainted(false);
 		button.setToolTipText("Halve the size of the simulation box");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				box.view.zoom(0.5f);
-				box.view.getUndoManager().addEdit(new UndoZoom(box.view, 0.5f));
-			}
-		});
+		button.addActionListener(box.view.getActionMap().get("Zoom In"));
 		add(button);
 
 		button = new JButton(new ImageIcon(ToolBar.class.getResource("resources/zoomout.png")));
 		button.setBorderPainted(false);
 		button.setToolTipText("Double the size of the simulation box");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				box.view.zoom(2);
-				box.view.getUndoManager().addEdit(new UndoZoom(box.view, 2));
-			}
-		});
+		button.addActionListener(box.view.getActionMap().get("Zoom Out"));
 		add(button);
 
 	}
