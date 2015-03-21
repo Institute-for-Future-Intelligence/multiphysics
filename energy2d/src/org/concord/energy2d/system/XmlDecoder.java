@@ -798,8 +798,7 @@ class XmlDecoder extends DefaultHandler {
 		} else if (qName == "heliostat") {
 			if (attrib != null) {
 				float x = Float.NaN, y = Float.NaN, w = Float.NaN, h = Float.NaN;
-				String label = null, uid = null;
-				float angle = 0;
+				String label = null, uid = null, targetID = null;
 				for (int i = 0, n = attrib.getLength(); i < n; i++) {
 					attribName = attrib.getQName(i).intern();
 					attribValue = attrib.getValue(i);
@@ -811,10 +810,10 @@ class XmlDecoder extends DefaultHandler {
 						w = Float.parseFloat(attribValue);
 					} else if (attribName == "height") {
 						h = Float.parseFloat(attribValue);
-					} else if (attribName == "angle") {
-						angle = Float.parseFloat(attribValue);
 					} else if (attribName == "uid") {
 						uid = attribValue;
+					} else if (attribName == "target") {
+						targetID = attribValue;
 					} else if (attribName == "label") {
 						label = attribValue;
 					}
@@ -823,7 +822,8 @@ class XmlDecoder extends DefaultHandler {
 					Heliostat hs = new Heliostat(new Rectangle2D.Float(x, y, w, h));
 					hs.setUid(uid);
 					hs.setLabel(label);
-					hs.setAngle(angle);
+					if (targetID != null)
+						hs.setTarget(box.model.getPart(targetID));
 					box.model.addHeliostat(hs);
 				}
 			}

@@ -2545,13 +2545,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		synchronized (heliostats) {
 			for (Heliostat hs : heliostats) {
 				if (hs.isVisible()) {
-					float angle = 0;
 					Rectangle2D r = hs.getShape().getBounds2D();
 					int x = convertPointToPixelX((float) r.getX());
 					int y = convertPointToPixelY((float) r.getY());
 					int w = convertLengthToPixelX((float) r.getWidth());
 					int h = convertLengthToPixelY((float) r.getHeight());
-					Area a = Heliostat.getShape(new Rectangle2D.Float(x, y, w, h), angle);
+					Area a = Heliostat.getShape(new Rectangle2D.Float(x, y, w, h), hs.getAngle());
 					g.setColor(Color.GRAY);
 					g.fill(a);
 					g.setColor(hs == selectedManipulable ? Color.YELLOW : Color.BLACK);

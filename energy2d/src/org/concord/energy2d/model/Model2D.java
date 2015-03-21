@@ -304,6 +304,11 @@ public class Model2D {
 			return;
 		photons.clear();
 		photonSolver.setSunAngle(sunAngle);
+		if (!heliostats.isEmpty()) {
+			for (Heliostat h : heliostats) {
+				h.setAngle(sunAngle);
+			}
+		}
 	}
 
 	public float getSunAngle() {
@@ -1208,6 +1213,7 @@ public class Model2D {
 
 	public void addHeliostat(Heliostat h) {
 		if (h != null && !heliostats.contains(h)) {
+			h.setAngle(getSunAngle());
 			heliostats.add(h);
 		}
 	}

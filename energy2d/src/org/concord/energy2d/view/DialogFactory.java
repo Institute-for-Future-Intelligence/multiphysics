@@ -6,6 +6,7 @@ import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
+import org.concord.energy2d.model.Heliostat;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
 import org.concord.energy2d.model.Particle;
@@ -43,6 +44,8 @@ final class DialogFactory {
 			return new TreeDialog(view, (Tree) o, modal);
 		if (o instanceof Fan)
 			return new FanDialog(view, (Fan) o, modal);
+		if (o instanceof Heliostat)
+			return new HeliostatDialog(view, (Heliostat) o, modal);
 		if (o instanceof ParticleFeeder)
 			return new ParticleFeederDialog(view, (ParticleFeeder) o, modal);
 		if (o instanceof Thermometer)
@@ -69,6 +72,8 @@ final class DialogFactory {
 			return new TreeDialog(view, (Tree) o, modal);
 		if (o instanceof Fan)
 			return new FanDialog(view, (Fan) o, modal);
+		if (o instanceof Heliostat)
+			return new HeliostatDialog(view, (Heliostat) o, modal);
 		if (o instanceof ParticleFeeder)
 			return new ParticleFeederDialog(view, (ParticleFeeder) o, modal);
 		if (o instanceof Thermometer)

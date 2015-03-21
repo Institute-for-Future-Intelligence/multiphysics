@@ -1,6 +1,7 @@
 package org.concord.energy2d.model;
 
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
@@ -15,7 +16,7 @@ import org.concord.energy2d.util.XmlCharacterEncoder;
  */
 public class Heliostat extends Manipulable {
 
-	private byte type;
+	private Part target;
 	private float angle;
 
 	public Heliostat(Shape s) {
@@ -29,10 +30,10 @@ public class Heliostat extends Manipulable {
 			Rectangle2D.Float r = (Rectangle2D.Float) s;
 			s = new Rectangle2D.Float(x - 0.5f * r.width, y - 0.5f * r.height, r.width, r.height);
 		}
-		Heliostat f = new Heliostat(s);
-		f.type = type;
-		f.setLabel(getLabel());
-		return f;
+		Heliostat h = new Heliostat(s);
+		h.target = target;
+		h.setLabel(getLabel());
+		return h;
 	}
 
 	public void translateBy(float dx, float dy) {
@@ -44,12 +45,12 @@ public class Heliostat extends Manipulable {
 		}
 	}
 
-	public void setType(byte type) {
-		this.type = type;
+	public void setTarget(Part target) {
+		this.target = target;
 	}
 
-	public byte getType() {
-		return type;
+	public Part getTarget() {
+		return target;
 	}
 
 	public void setAngle(float angle) {
@@ -62,9 +63,13 @@ public class Heliostat extends Manipulable {
 
 	public static Area getShape(Rectangle2D.Float r, float angle) {
 		// the positions and sizes of the circles must ensure that r is the bounding box
-		Area a = new Area(new Rectangle2D.Float(r.x + r.width * 0.475f, r.y + r.height * 0.5f, r.width * 0.05f, r.height * 0.5f));
-		a.add(new Area(new Ellipse2D.Float(r.x + r.width * 0.45f, r.y + r.height * 0.45f, r.width * 0.1f, r.height * 0.1f)));
-		a.add(new Area(new Rectangle2D.Float(r.x, r.y + r.height * 0.475f, r.width, r.height * 0.05f)));
+		Area a = new Area(new Rectangle2D.Float(r.x + r.width * 0.45f, r.y + r.height * 0.5f, r.width * 0.1f, r.height * 0.5f));
+		Area bearing = new Area(new Ellipse2D.Float(r.x + r.width * 0.45f, r.y + r.height * 0.45f, r.width * 0.1f, r.height * 0.1f));
+		a.add(bearing);
+		Area mirror = new Area(new Rectangle2D.Float(r.x, r.y + r.height * 0.475f, r.width, r.height * 0.05f));
+		mirror.add(new Area(new Rectangle2D.Float(r.x + 0.4f * r.width, r.y + r.height * 0.5f, r.width * 0.2f, r.height * 0.05f)));
+		mirror.transform(AffineTransform.getRotateInstance(angle - Math.PI * 0.5, r.x + r.width * 0.5, r.y + r.height * 0.5));
+		a.add(mirror);
 		return a;
 	}
 
@@ -84,7 +89,9 @@ public class Heliostat extends Manipulable {
 			xml += " width=\"" + r.width + "\"";
 			xml += " height=\"" + r.height + "\"";
 		}
-		xml += " type=\"" + type + "\"/>";
+		if (target != null)
+			xml += " target=\"" + target.getUid() + "\"";
+		xml += "/>";
 		return xml;
 	}
 

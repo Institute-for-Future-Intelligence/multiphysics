@@ -54,6 +54,7 @@ import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
+import org.concord.energy2d.model.Heliostat;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
 import org.concord.energy2d.model.Particle;
@@ -748,6 +749,8 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 				view.removeTree((Tree) target);
 			else if (target instanceof Fan)
 				view.removeFan((Fan) target);
+			else if (target instanceof Heliostat)
+				view.removeHeliostat((Heliostat) target);
 			if (view.getSelectedManipulable() == target)
 				view.setSelectedManipulable(null);
 			setSaved(false);
