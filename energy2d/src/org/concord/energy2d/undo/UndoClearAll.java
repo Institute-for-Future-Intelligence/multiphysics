@@ -121,7 +121,11 @@ public class UndoClearAll extends AbstractUndoableEdit {
 	@Override
 	public void redo() throws CannotRedoException {
 		super.redo();
-		view.getModel().getParticles().clear();
+		view.getModel().clear();
+		view.getModel().refreshMaterialPropertyArrays();
+		view.getModel().refreshPowerArray();
+		view.getModel().refreshTemperatureBoundaryArray();
+		view.clear();
 		view.repaint();
 	}
 

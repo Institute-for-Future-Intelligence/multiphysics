@@ -1,8 +1,8 @@
 package org.concord.energy2d.model;
 
 import java.awt.Shape;
-import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import org.concord.energy2d.util.XmlCharacterEncoder;
@@ -15,7 +15,7 @@ import org.concord.energy2d.util.XmlCharacterEncoder;
  */
 public class Heliostat extends Manipulable {
 
-	private float speed;
+	private byte type;
 	private float angle;
 
 	public Heliostat(Shape s) {
@@ -30,8 +30,7 @@ public class Heliostat extends Manipulable {
 			s = new Rectangle2D.Float(x - 0.5f * r.width, y - 0.5f * r.height, r.width, r.height);
 		}
 		Heliostat f = new Heliostat(s);
-		f.angle = angle;
-		f.speed = speed;
+		f.type = type;
 		f.setLabel(getLabel());
 		return f;
 	}
@@ -45,12 +44,12 @@ public class Heliostat extends Manipulable {
 		}
 	}
 
-	public void setSpeed(float speed) {
-		this.speed = speed;
+	public void setType(byte type) {
+		this.type = type;
 	}
 
-	public float getSpeed() {
-		return speed;
+	public byte getType() {
+		return type;
 	}
 
 	public void setAngle(float angle) {
@@ -61,28 +60,17 @@ public class Heliostat extends Manipulable {
 		return angle;
 	}
 
-	public static Area getShape(Rectangle2D.Float r, float speed, float angle, float delta) {
-		if (r.height > r.width) {
-			float d1 = 0.5f * r.height * delta;
-			float d2 = d1 * 2;
-			float deg = (float) (Math.toDegrees(0.5 * Math.asin(r.height / Math.hypot(r.width, r.height))));
-			Area a = new Area(new Arc2D.Float(r.x + r.width / 4, r.y + d1, r.width / 2, r.height - d2, deg, 180 - 2 * deg, Arc2D.PIE));
-			a.add(new Area(new Arc2D.Float(r.x + r.width / 4, r.y + d1, r.width / 2, r.height - d2, -deg, 2 * deg - 180, Arc2D.PIE)));
-			a.add(new Area(new Rectangle2D.Float(speed * Math.cos(angle) >= 0 ? r.x : r.x + r.width * 0.5f, r.y + r.height * (0.5f - 0.025f), r.width * 0.5f, 0.05f * r.height)));
-			return a;
-		}
-		float d1 = 0.5f * r.width * delta;
-		float d2 = d1 * 2;
-		float deg = (float) (Math.toDegrees(0.5 * Math.asin(r.width / Math.hypot(r.width, r.height))));
-		Area a = new Area(new Arc2D.Float(r.x + d1, r.y + r.height / 4, r.width - d2, r.height / 2, deg, -2 * deg, Arc2D.PIE));
-		a.add(new Area(new Arc2D.Float(r.x + d1, r.y + r.height / 4, r.width - d2, r.height / 2, 180 - deg, 2 * deg, Arc2D.PIE)));
-		a.add(new Area(new Rectangle2D.Float(r.x + r.width * (0.5f - 0.025f), speed * Math.sin(angle) > 0 ? r.y : r.y + r.height * 0.5f, 0.05f * r.width, r.height * 0.5f)));
+	public static Area getShape(Rectangle2D.Float r, float angle) {
+		// the positions and sizes of the circles must ensure that r is the bounding box
+		Area a = new Area(new Rectangle2D.Float(r.x + r.width * 0.475f, r.y + r.height * 0.5f, r.width * 0.05f, r.height * 0.5f));
+		a.add(new Area(new Ellipse2D.Float(r.x + r.width * 0.45f, r.y + r.height * 0.45f, r.width * 0.1f, r.height * 0.1f)));
+		a.add(new Area(new Rectangle2D.Float(r.x, r.y + r.height * 0.475f, r.width, r.height * 0.05f)));
 		return a;
 	}
 
 	public String toXml() {
 		XmlCharacterEncoder xce = new XmlCharacterEncoder();
-		String xml = "<fan";
+		String xml = "<heliostat";
 		String uid = getUid();
 		if (uid != null && !uid.trim().equals(""))
 			xml += " uid=\"" + xce.encode(uid) + "\"";
@@ -96,8 +84,7 @@ public class Heliostat extends Manipulable {
 			xml += " width=\"" + r.width + "\"";
 			xml += " height=\"" + r.height + "\"";
 		}
-		xml += " speed=\"" + speed + "\"";
-		xml += " angle=\"" + angle + "\"/>";
+		xml += " type=\"" + type + "\"/>";
 		return xml;
 	}
 

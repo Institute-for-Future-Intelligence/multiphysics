@@ -12,8 +12,8 @@ class MovingHeliostat extends ComplexMovingShape {
 
 	private Rectangle2D.Float boundingBox;
 
-	MovingHeliostat(Rectangle2D.Float boundingBox, float speed, float angle, float delta) {
-		area = Heliostat.getShape(boundingBox, speed, angle, delta);
+	MovingHeliostat(Rectangle2D.Float boundingBox, float angle) {
+		area = Heliostat.getShape(boundingBox, angle);
 		this.boundingBox = boundingBox;
 	}
 

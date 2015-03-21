@@ -8,6 +8,7 @@ import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Constants;
 import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
+import org.concord.energy2d.model.Heliostat;
 import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
 import org.concord.energy2d.model.Particle;
@@ -153,6 +154,12 @@ class XmlEncoder {
 		if (!fans.isEmpty()) {
 			for (Fan f : fans) {
 				sb.append(f.toXml());
+			}
+		}
+		List<Heliostat> heliostats = box.model.getHeliostats();
+		if (!heliostats.isEmpty()) {
+			for (Heliostat h : heliostats) {
+				sb.append(h.toXml());
 			}
 		}
 		List<ParticleFeeder> particleFeeders = box.model.getParticleFeeders();

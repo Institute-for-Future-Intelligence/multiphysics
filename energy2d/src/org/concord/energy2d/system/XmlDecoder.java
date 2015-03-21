@@ -12,6 +12,7 @@ import org.concord.energy2d.model.Constants;
 import org.concord.energy2d.model.DirichletThermalBoundary;
 import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
+import org.concord.energy2d.model.Heliostat;
 import org.concord.energy2d.model.MassBoundary;
 import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.ParticleFeeder;
@@ -792,6 +793,38 @@ class XmlDecoder extends DefaultHandler {
 					f.setSpeed(speed);
 					f.setAngle(angle);
 					box.model.addFan(f);
+				}
+			}
+		} else if (qName == "heliostat") {
+			if (attrib != null) {
+				float x = Float.NaN, y = Float.NaN, w = Float.NaN, h = Float.NaN;
+				String label = null, uid = null;
+				float angle = 0;
+				for (int i = 0, n = attrib.getLength(); i < n; i++) {
+					attribName = attrib.getQName(i).intern();
+					attribValue = attrib.getValue(i);
+					if (attribName == "x") {
+						x = Float.parseFloat(attribValue);
+					} else if (attribName == "y") {
+						y = Float.parseFloat(attribValue);
+					} else if (attribName == "width") {
+						w = Float.parseFloat(attribValue);
+					} else if (attribName == "height") {
+						h = Float.parseFloat(attribValue);
+					} else if (attribName == "angle") {
+						angle = Float.parseFloat(attribValue);
+					} else if (attribName == "uid") {
+						uid = attribValue;
+					} else if (attribName == "label") {
+						label = attribValue;
+					}
+				}
+				if (!Float.isNaN(x) && !Float.isNaN(y) && !Float.isNaN(w) && !Float.isNaN(h)) {
+					Heliostat hs = new Heliostat(new Rectangle2D.Float(x, y, w, h));
+					hs.setUid(uid);
+					hs.setLabel(label);
+					hs.setAngle(angle);
+					box.model.addHeliostat(hs);
 				}
 			}
 		} else if (qName == "particle_feeder") {
