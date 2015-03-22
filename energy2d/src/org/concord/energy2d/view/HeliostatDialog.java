@@ -98,6 +98,10 @@ class HeliostatDialog extends JDialog {
 					}
 				}
 				String targetID = targetField.getText();
+				if (!view.isUidUsed(targetID)) {
+					JOptionPane.showMessageDialog(owner, "Object " + targetID + " not found.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				heliostat.setTarget(view.model.getPart(targetID));
 				heliostat.setUid(uid);
 				heliostat.setLabel(labelField.getText());
@@ -165,7 +169,7 @@ class HeliostatDialog extends JDialog {
 		p.add(hField);
 
 		p.add(new JLabel("Target ID:"));
-		targetField = new JTextField();
+		targetField = new JTextField(heliostat.getTarget() == null || heliostat.getTarget().getUid() == null ? "" : heliostat.getTarget().getUid());
 		targetField.addActionListener(okListener);
 		p.add(targetField);
 

@@ -819,7 +819,7 @@ class XmlDecoder extends DefaultHandler {
 					}
 				}
 				if (!Float.isNaN(x) && !Float.isNaN(y) && !Float.isNaN(w) && !Float.isNaN(h)) {
-					Heliostat hs = new Heliostat(new Rectangle2D.Float(x, y, w, h));
+					Heliostat hs = new Heliostat(new Rectangle2D.Float(x, y, w, h), box.model);
 					hs.setUid(uid);
 					hs.setLabel(label);
 					if (targetID != null)

@@ -89,8 +89,8 @@ class PhotonSolver2D {
 			for (Iterator<Photon> it = photons.iterator(); it.hasNext();) {
 				p = it.next();
 				p.move(timeStep);
+				remove = false;
 				if (model.getPartCount() > 0) {
-					remove = false;
 					synchronized (model.getParts()) {
 						for (Part part : model.getParts()) {
 							if (part.getScattering()) {
@@ -141,6 +141,14 @@ class PhotonSolver2D {
 								remove = true;
 								break;
 							}
+						}
+					}
+				}
+				if (!model.getHeliostats().isEmpty()) { // a heliostat reflects or absorbs light depending on its type, mirror or PV
+					synchronized (model.getHeliostats()) {
+						for (Heliostat h : model.getHeliostats()) {
+							if (h.reflect(p))
+								break;
 						}
 					}
 				}

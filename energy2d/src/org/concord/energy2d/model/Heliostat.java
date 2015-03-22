@@ -4,6 +4,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import org.concord.energy2d.util.XmlCharacterEncoder;
@@ -18,9 +19,11 @@ public class Heliostat extends Manipulable {
 
 	private Part target;
 	private float angle;
+	private Model2D model;
 
-	public Heliostat(Shape s) {
+	public Heliostat(Shape s, Model2D model) {
 		super(s);
+		this.model = model;
 	}
 
 	@Override
@@ -30,7 +33,7 @@ public class Heliostat extends Manipulable {
 			Rectangle2D.Float r = (Rectangle2D.Float) s;
 			s = new Rectangle2D.Float(x - 0.5f * r.width, y - 0.5f * r.height, r.width, r.height);
 		}
-		Heliostat h = new Heliostat(s);
+		Heliostat h = new Heliostat(s, model);
 		h.target = target;
 		h.setLabel(getLabel());
 		return h;
@@ -68,9 +71,33 @@ public class Heliostat extends Manipulable {
 		a.add(bearing);
 		Area mirror = new Area(new Rectangle2D.Float(r.x, r.y + r.height * 0.475f, r.width, r.height * 0.05f));
 		mirror.add(new Area(new Rectangle2D.Float(r.x + 0.4f * r.width, r.y + r.height * 0.5f, r.width * 0.2f, r.height * 0.05f)));
-		mirror.transform(AffineTransform.getRotateInstance(angle - Math.PI * 0.5, r.x + r.width * 0.5, r.y + r.height * 0.5));
+		mirror.transform(AffineTransform.getRotateInstance(angle, r.x + r.width * 0.5, r.y + r.height * 0.5));
 		a.add(mirror);
 		return a;
+	}
+
+	public boolean reflect(Photon p) {
+		Rectangle2D.Float shape = (Rectangle2D.Float) getShape();
+		float lenx = (float) (0.5 * shape.width * Math.cos(angle));
+		float leny = (float) (0.5 * shape.width * Math.sin(angle));
+		float cenx = 0.5f * shape.width + shape.x;
+		float ceny = 0.5f * shape.height + shape.y;
+		Line2D.Float line = new Line2D.Float(cenx - lenx, ceny - leny, cenx + lenx, ceny + leny);
+		float dt = model.getTimeStep();
+		float predictedX = p.getRx() + p.getVx() * dt;
+		float predictedY = p.getRy() + p.getVy() * dt;
+		boolean hit = line.intersectsLine(p.getRx(), p.getRy(), predictedX, predictedY);
+		if (hit) {
+			float d12 = (float) Math.hypot(line.x1 - line.x2, line.y1 - line.y2);
+			float sin = (line.y2 - line.y1) / d12;
+			float cos = (line.x2 - line.x1) / d12;
+			float u = p.getVx() * cos + p.getVy() * sin; // velocity component parallel to the line
+			float w = p.getVy() * cos - p.getVx() * sin; // velocity component perpendicular to the line
+			p.setVx(u * cos + w * sin);
+			p.setVy(u * sin - w * cos);
+			return true;
+		}
+		return false;
 	}
 
 	public String toXml() {
@@ -89,7 +116,7 @@ public class Heliostat extends Manipulable {
 			xml += " width=\"" + r.width + "\"";
 			xml += " height=\"" + r.height + "\"";
 		}
-		if (target != null)
+		if (target != null && target.getUid() != null && !target.getUid().trim().equals(""))
 			xml += " target=\"" + target.getUid() + "\"";
 		xml += "/>";
 		return xml;

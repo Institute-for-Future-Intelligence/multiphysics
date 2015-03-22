@@ -758,7 +758,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	}
 
 	public Heliostat addHeliostat(float x, float y, float w, float h) {
-		Heliostat f = new Heliostat(new Rectangle2D.Float(x, y, w, h));
+		Heliostat f = new Heliostat(new Rectangle2D.Float(x, y, w, h), model);
 		model.addHeliostat(f);
 		return f;
 	}
