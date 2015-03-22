@@ -80,12 +80,16 @@ class HeliostatDialog extends JDialog {
 					float dx = 0.000001f * view.model.getLx();
 					float dy = 0.000001f * view.model.getLy();
 					boolean moved = Math.abs(x - s.getBounds2D().getX()) > dx || Math.abs(y - s.getBounds2D().getY()) > dy;
-					if (moved)
+					if (moved) {
 						view.getUndoManager().addEdit(new UndoTranslateManipulable(view));
+					}
 					boolean resized = Math.abs(w - s.getBounds2D().getWidth()) > dx || Math.abs(h - s.getBounds2D().getHeight()) > dy;
-					if (resized)
+					if (resized) {
 						view.getUndoManager().addEdit(new UndoResizeManipulable(view));
+					}
 					r.setRect(x, view.model.getLy() - y, w, h);
+					if (moved || resized)
+						heliostat.setAngle();
 				}
 				String uid = uidField.getText();
 				if (uid != null) {

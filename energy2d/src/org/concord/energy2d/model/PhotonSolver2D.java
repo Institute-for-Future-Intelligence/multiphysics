@@ -168,7 +168,7 @@ class PhotonSolver2D {
 	}
 
 	void sunShine(List<Photon> photons, List<Part> parts) {
-		if (sunAngle < 0 || sunAngle > Math.PI)
+		if (sunAngle < -0.001 || sunAngle > Math.PI + 0.001)
 			return;
 		float s = (float) Math.abs(Math.sin(sunAngle));
 		float c = (float) Math.abs(Math.cos(sunAngle));

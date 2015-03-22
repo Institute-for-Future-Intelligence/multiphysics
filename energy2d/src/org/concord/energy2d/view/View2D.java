@@ -3001,6 +3001,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					r.y = ymax - dy - r.height / 2;
 			} else if (m instanceof TextBox) {
 				((TextBox) m).translateBy(dx, -dy);
+			} else if (m instanceof Heliostat) {
+				((Heliostat) m).setAngle();
 			}
 		} else if (s instanceof Ellipse2D.Float) {
 			Ellipse2D.Float r = (Ellipse2D.Float) s;
@@ -3038,6 +3040,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			r.y = y - r.height / 2;
 			if (m instanceof TextBox)
 				((TextBox) m).setLocation(r.x + convertPixelToPointX(8), model.getLy() - r.y - convertPixelToPointY(2));
+			else if (m instanceof Heliostat)
+				((Heliostat) m).setAngle();
 		} else if (s instanceof Ellipse2D.Float) {
 			Ellipse2D.Float r = (Ellipse2D.Float) s;
 			r.x = x - r.width / 2;
@@ -3780,10 +3784,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 									float y2 = convertPixelToPointY((int) r.getY());
 									float w2 = convertPixelToLengthX((int) r.getWidth());
 									float h2 = convertPixelToLengthY((int) r.getHeight());
-									((Heliostat) selectedManipulable).setAngle(w2 < h2 ? 0 : (float) (0.5 * Math.PI));
 									Point p = ((MovingHeliostat) movingShape).getLocation();
 									undoManager.addEdit(new UndoResizeManipulable(this));
 									resizeManipulableTo(selectedManipulable, x2, y2, w2, h2, convertPixelToPointX(p.x), convertPixelToPointY(p.y));
+									((Heliostat) selectedManipulable).setAngle();
 									setSelectedManipulable(selectedManipulable);
 								}
 							}

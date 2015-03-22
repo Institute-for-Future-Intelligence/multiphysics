@@ -5,6 +5,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import org.concord.energy2d.util.XmlCharacterEncoder;
@@ -35,6 +36,7 @@ public class Heliostat extends Manipulable {
 		}
 		Heliostat h = new Heliostat(s, model);
 		h.target = target;
+		h.setAngle();
 		h.setLabel(getLabel());
 		return h;
 	}
@@ -46,6 +48,8 @@ public class Heliostat extends Manipulable {
 			r.x += dx;
 			r.y += dy;
 		}
+		if (target != null)
+			setAngle();
 	}
 
 	public void setTarget(Part target) {
@@ -56,8 +60,18 @@ public class Heliostat extends Manipulable {
 		return target;
 	}
 
-	public void setAngle(float angle) {
-		this.angle = angle;
+	public void setAngle() {
+		float theta;
+		if (target != null) {
+			Point2D.Float c1 = target.getCenter();
+			Point2D.Float c2 = getCenter();
+			float dx = c1.x - c2.x;
+			float dy = c1.y - c2.y;
+			theta = 0.5f * ((float) Math.acos(dx / Math.hypot(dx, dy)) + model.getSunAngle());
+		} else {
+			theta = model.getSunAngle();
+		}
+		angle = (float) Math.PI * 0.5f - theta;
 	}
 
 	public float getAngle() {
@@ -88,9 +102,9 @@ public class Heliostat extends Manipulable {
 		float predictedY = p.getRy() + p.getVy() * dt;
 		boolean hit = line.intersectsLine(p.getRx(), p.getRy(), predictedX, predictedY);
 		if (hit) {
-			float d12 = (float) Math.hypot(line.x1 - line.x2, line.y1 - line.y2);
-			float sin = (line.y2 - line.y1) / d12;
-			float cos = (line.x2 - line.x1) / d12;
+			float d12 = (float) (1.0 / Math.hypot(line.x1 - line.x2, line.y1 - line.y2));
+			float sin = (line.y2 - line.y1) * d12;
+			float cos = (line.x2 - line.x1) * d12;
 			float u = p.getVx() * cos + p.getVy() * sin; // velocity component parallel to the line
 			float w = p.getVy() * cos - p.getVx() * sin; // velocity component perpendicular to the line
 			p.setVx(u * cos + w * sin);

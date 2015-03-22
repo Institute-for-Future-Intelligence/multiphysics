@@ -120,6 +120,7 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 			model.refreshMaterialPropertyArrays();
 		} else if (selectedManipulable instanceof Heliostat) {
 			undoShape();
+			((Heliostat) selectedManipulable).setAngle();
 		} else if (selectedManipulable instanceof Thermometer) {
 			Thermometer thermometer = (Thermometer) selectedManipulable;
 			newX = thermometer.getX();
@@ -185,6 +186,7 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 			model.refreshMaterialPropertyArrays();
 		} else if (selectedManipulable instanceof Heliostat) {
 			redoShape();
+			((Heliostat) selectedManipulable).setAngle();
 		} else if (selectedManipulable instanceof Thermometer) {
 			Thermometer thermometer = (Thermometer) selectedManipulable;
 			thermometer.setX(newX);

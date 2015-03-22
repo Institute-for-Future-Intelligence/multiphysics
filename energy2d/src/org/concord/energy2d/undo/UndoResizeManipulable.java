@@ -148,6 +148,7 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			rect.y = oldY;
 			rect.width = oldW;
 			rect.height = oldH;
+			((Heliostat) selectedManipulable).setAngle();
 		} else if (selectedManipulable instanceof Cloud) {
 			Cloud cloud = (Cloud) selectedManipulable;
 			newX = cloud.getX();
@@ -216,6 +217,7 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			rect.y = newY;
 			rect.width = newW;
 			rect.height = newH;
+			((Heliostat) selectedManipulable).setAngle();
 		} else if (selectedManipulable instanceof Cloud) {
 			Cloud cloud = (Cloud) selectedManipulable;
 			cloud.setX(newX);

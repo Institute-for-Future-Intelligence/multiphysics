@@ -299,31 +299,14 @@ public class Model2D {
 		refreshPowerArray();
 	}
 
-	private void setHeliostatAngle(Heliostat h) {
-		Part t = h.getTarget();
-		if (t != null) {
-			Point2D.Float c1 = t.getCenter();
-			Point2D.Float c2 = h.getCenter();
-			float dx = c1.x - c2.x;
-			float dy = c1.y - c2.y;
-			float r2 = (float) Math.hypot(dx, dy);
-			float angle = (float) Math.acos(dx / r2);
-			System.out.println(Math.toDegrees(getSunAngle()) + "," + Math.toDegrees(angle));
-			h.setAngle((float) Math.PI * 0.5f - 0.5f * (angle + getSunAngle()));
-		} else {
-			h.setAngle((float) Math.PI * 0.5f - getSunAngle());
-		}
-	}
-
 	public void setSunAngle(float sunAngle) {
+		photonSolver.setSunAngle(sunAngle);
 		if (!heliostats.isEmpty()) {
 			for (Heliostat h : heliostats)
-				setHeliostatAngle(h);
+				h.setAngle();
 		}
-		if (Math.abs(sunAngle - photonSolver.getSunAngle()) < 0.001f)
-			return;
-		photons.clear();
-		photonSolver.setSunAngle(sunAngle);
+		if (Math.abs(sunAngle - photonSolver.getSunAngle()) > 0.001f)
+			photons.clear();
 	}
 
 	public float getSunAngle() {
@@ -1228,7 +1211,7 @@ public class Model2D {
 
 	public void addHeliostat(Heliostat h) {
 		if (h != null && !heliostats.contains(h)) {
-			setHeliostatAngle(h);
+			h.setAngle();
 			heliostats.add(h);
 		}
 	}
