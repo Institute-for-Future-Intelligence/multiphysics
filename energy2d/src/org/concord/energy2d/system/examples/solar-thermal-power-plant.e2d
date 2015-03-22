@@ -9,7 +9,7 @@
 <viewupdate_interval>15</viewupdate_interval>
 <sunny>true</sunny><sun_angle>1.5707964</sun_angle>
 <solar_power_density>50000.0</solar_power_density>
-<solar_ray_count>36</solar_ray_count>
+<solar_ray_count>48</solar_ray_count>
 <solar_ray_speed>0.005</solar_ray_speed>
 <photon_emission_interval>12</photon_emission_interval>
 <gravitational_acceleration>9.8</gravitational_acceleration>
@@ -76,6 +76,7 @@
 <emissivity>0.0</emissivity>
 <temperature>20.0</temperature>
 <constant_temperature>false</constant_temperature>
+<uid>TOWER</uid>
 <texture><texture_fg>-1</texture_fg>
 <texture_bg>-7f7f80</texture_bg>
 <texture_style>9</texture_style>
@@ -84,137 +85,9 @@
 </texture>
 <filled>false</filled>
 </part>
-<part>
-<polygon count="8" vertices="1.25, 44.25, 4.25, 45.25, 4.25, 45.75, 3.0, 45.5, 3.25, 47.0, 2.25, 47.0, 2.5, 45.5, 1.25, 45.0"/>
-<elasticity>1.0</elasticity>
-<thermal_conductivity>1.0</thermal_conductivity>
-<specific_heat>1300.0</specific_heat>
-<density>25.0</density>
-<transmission>0.0</transmission>
-<reflection>1.0</reflection>
-<scattering>false</scattering>
-<scattering_visible>false</scattering_visible>
-<absorption>0.0</absorption>
-<emissivity>0.0</emissivity>
-<temperature>20.0</temperature>
-<constant_temperature>false</constant_temperature>
-<color>ffffff</color>
-</part>
-<part>
-<polygon count="8" vertices="49.7221, 44.313137, 46.7221, 45.313137, 46.7846, 45.875637, 47.9721, 45.500637, 47.6596, 47.000637, 48.7846, 47.000637, 48.3471, 45.375637, 49.7221, 44.938137"/>
-<elasticity>1.0</elasticity>
-<thermal_conductivity>1.0</thermal_conductivity>
-<specific_heat>1300.0</specific_heat>
-<density>25.0</density>
-<transmission>0.0</transmission>
-<reflection>1.0</reflection>
-<scattering>false</scattering>
-<scattering_visible>false</scattering_visible>
-<absorption>0.0</absorption>
-<emissivity>0.0</emissivity>
-<temperature>20.0</temperature>
-<constant_temperature>false</constant_temperature>
-<color>ffffff</color>
-</part>
-<part>
-<polygon count="8" vertices="6.25, 44.5, 9.25, 45.25, 9.25, 45.75, 8.25, 45.5, 8.5, 47.0, 7.25, 47.0, 7.5, 45.5, 6.25, 45.0"/>
-<elasticity>1.0</elasticity>
-<thermal_conductivity>1.0</thermal_conductivity>
-<specific_heat>1300.0</specific_heat>
-<density>25.0</density>
-<transmission>0.0</transmission>
-<reflection>1.0</reflection>
-<scattering>false</scattering>
-<scattering_visible>false</scattering_visible>
-<absorption>0.0</absorption>
-<emissivity>0.0</emissivity>
-<temperature>20.0</temperature>
-<constant_temperature>false</constant_temperature>
-<color>ffffff</color>
-</part>
-<part>
-<polygon count="8" vertices="43.987934, 44.399075, 40.987934, 45.149075, 40.987934, 45.774075, 42.112934, 45.524075, 41.737934, 47.024075, 42.862934, 47.024075, 42.487934, 45.399075, 43.987934, 45.024075"/>
-<elasticity>1.0</elasticity>
-<thermal_conductivity>1.0</thermal_conductivity>
-<specific_heat>1300.0</specific_heat>
-<density>25.0</density>
-<transmission>0.0</transmission>
-<reflection>1.0</reflection>
-<scattering>false</scattering>
-<scattering_visible>false</scattering_visible>
-<absorption>0.0</absorption>
-<emissivity>0.0</emissivity>
-<temperature>20.0</temperature>
-<constant_temperature>false</constant_temperature>
-<color>ffffff</color>
-</part>
-<part>
-<polygon count="8" vertices="11.26262, 44.48756, 14.253437, 45.039845, 14.240348, 45.78973, 13.244863, 45.522316, 13.718608, 47.03081, 12.468799, 47.008995, 12.744939, 45.513588, 11.249531, 45.237446"/>
-<elasticity>1.0</elasticity>
-<thermal_conductivity>1.0</thermal_conductivity>
-<specific_heat>1300.0</specific_heat>
-<density>25.0</density>
-<transmission>0.0</transmission>
-<reflection>1.0</reflection>
-<scattering>false</scattering>
-<scattering_visible>false</scattering_visible>
-<absorption>0.0</absorption>
-<emissivity>0.0</emissivity>
-<temperature>20.0</temperature>
-<constant_temperature>false</constant_temperature>
-<color>ffffff</color>
-</part>
-<part>
-<polygon count="8" vertices="38.873386, 44.56209, 35.878784, 45.09348, 35.636654, 45.846054, 36.883965, 45.58298, 36.3997, 47.088135, 37.64963, 47.075047, 37.383938, 45.577747, 38.881237, 45.312054"/>
-<elasticity>1.0</elasticity>
-<thermal_conductivity>1.0</thermal_conductivity>
-<specific_heat>1300.0</specific_heat>
-<density>25.0</density>
-<transmission>0.0</transmission>
-<reflection>1.0</reflection>
-<scattering>false</scattering>
-<scattering_visible>false</scattering_visible>
-<absorption>0.0</absorption>
-<emissivity>0.0</emissivity>
-<temperature>20.0</temperature>
-<constant_temperature>false</constant_temperature>
-<color>ffffff</color>
-</part>
-<part>
-<polygon count="8" vertices="16.044464, 44.448143, 19.03391, 44.80269, 19.016462, 45.302387, 18.01707, 45.267487, 18.455694, 47.03387, 17.206453, 46.990246, 17.517376, 45.25004, 16.027014, 44.947838"/>
-<elasticity>1.0</elasticity>
-<thermal_conductivity>1.0</thermal_conductivity>
-<specific_heat>1300.0</specific_heat>
-<density>25.0</density>
-<transmission>0.0</transmission>
-<reflection>1.0</reflection>
-<scattering>false</scattering>
-<scattering_visible>false</scattering_visible>
-<absorption>0.0</absorption>
-<emissivity>0.0</emissivity>
-<temperature>20.0</temperature>
-<constant_temperature>false</constant_temperature>
-<color>ffffff</color>
-</part>
-<part>
-<polygon count="8" vertices="33.10182, 44.379314, 30.11238, 44.73386, 30.129827, 45.23356, 31.129217, 45.198658, 30.690596, 46.965042, 31.939835, 46.921417, 31.628912, 45.18121, 33.119278, 44.87901"/>
-<elasticity>1.0</elasticity>
-<thermal_conductivity>1.0</thermal_conductivity>
-<specific_heat>1300.0</specific_heat>
-<density>25.0</density>
-<transmission>0.0</transmission>
-<reflection>1.0</reflection>
-<scattering>false</scattering>
-<scattering_visible>false</scattering_visible>
-<absorption>0.0</absorption>
-<emissivity>0.0</emissivity>
-<temperature>20.0</temperature>
-<constant_temperature>false</constant_temperature>
-<color>ffffff</color>
-</part>
 </structure>
 <environment>
-</environment>
+<heliostat x="0.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="4.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="8.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="12.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="16.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="20.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="26.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="30.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="34.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="38.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="42.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="46.0" y="43.0" width="4.0" height="4.0" target="TOWER"/></environment>
 <sensor>
 <thermometer x="25.0" y="13.500251"/>
 </sensor>
@@ -222,6 +95,7 @@
 </controller>
 </model>
 <view>
+<grid>true</grid>
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
 <perimeter_step_size>0.05</perimeter_step_size>
@@ -230,5 +104,6 @@
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>20.0</minimum_temperature>
 <maximum_temperature>100.0</maximum_temperature>
 <fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
+<text string="Press &apos;Q&apos; or &apos;W&apos; to change the sun angle" face="Arial" size="9" style="0" color="ffffff" x="2.0" y="48.75"/>
 </view>
 </state>

@@ -102,7 +102,7 @@ class HeliostatDialog extends JDialog {
 					}
 				}
 				String targetID = targetField.getText();
-				if (!view.isUidUsed(targetID)) {
+				if (targetID != null && !targetID.trim().equals("") && !view.isUidUsed(targetID)) {
 					JOptionPane.showMessageDialog(owner, "Object " + targetID + " not found.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
