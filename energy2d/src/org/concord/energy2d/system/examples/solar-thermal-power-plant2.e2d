@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <state>
 <links>
-<next_sim>solar-thermal-power-plant2.e2d</next_sim>
+<prev_sim>solar-thermal-power-plant.e2d</prev_sim>
 </links>
 <model>
 <model_width>50.0</model_width>
@@ -45,7 +45,7 @@
 </texture>
 </part>
 <part>
-<rectangle x="24.5" y="16.5" width="1.0" height="30.5"/><elasticity>1.0</elasticity>
+<rectangle x="37.0" y="16.75" width="1.0" height="30.5"/><elasticity>1.0</elasticity>
 <thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
@@ -65,7 +65,7 @@
 </texture>
 </part>
 <part>
-<rectangle x="23.5" y="13.0" width="3.0" height="3.5"/><elasticity>1.0</elasticity>
+<rectangle x="11.0" y="13.25" width="3.0" height="3.5"/><elasticity>1.0</elasticity>
 <thermal_conductivity>10.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>25.0</density>
@@ -77,7 +77,49 @@
 <emissivity>0.0</emissivity>
 <temperature>20.0</temperature>
 <constant_temperature>false</constant_temperature>
-<uid>TOWER</uid>
+<uid>TOWER1</uid>
+<texture><texture_fg>-1</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>9</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<filled>false</filled>
+</part>
+<part>
+<rectangle x="12.0" y="16.75" width="1.0" height="30.5"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>1.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-66cd</texture_bg>
+<texture_style>12</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+</part>
+<part>
+<rectangle x="36.0" y="13.25" width="3.0" height="3.5"/><elasticity>1.0</elasticity>
+<thermal_conductivity>10.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<uid>TOWER2</uid>
 <texture><texture_fg>-1</texture_fg>
 <texture_bg>-7f7f80</texture_bg>
 <texture_style>9</texture_style>
@@ -88,9 +130,10 @@
 </part>
 </structure>
 <environment>
-<heliostat x="0.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="4.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="8.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="12.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="16.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="20.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="26.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="30.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="34.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="38.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="42.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="46.0" y="43.0" width="4.0" height="4.0" target="TOWER"/></environment>
+<heliostat x="0.0" y="43.0" width="4.0" height="4.0" target="TOWER1"/><heliostat x="4.0" y="43.0" width="4.0" height="4.0" target="TOWER1"/><heliostat x="8.0" y="43.0" width="4.0" height="4.0" target="TOWER1"/><heliostat x="13.0" y="43.0" width="4.0" height="4.0" target="TOWER1"/><heliostat x="17.0" y="43.0" width="4.0" height="4.0" target="TOWER1"/><heliostat x="21.0" y="43.0" width="4.0" height="4.0" target="TOWER1"/><heliostat x="25.0" y="43.0" width="4.0" height="4.0" target="TOWER2"/><heliostat x="30.0" y="43.0" width="4.0" height="4.0" target="TOWER2"/><heliostat x="34.0" y="43.0" width="4.0" height="4.0" target="TOWER2"/><heliostat x="38.0" y="43.0" width="4.0" height="4.0" target="TOWER2"/><heliostat x="42.0" y="43.0" width="4.0" height="4.0" target="TOWER2"/><heliostat x="46.0" y="43.0" width="4.0" height="4.0" target="TOWER2"/></environment>
 <sensor>
-<thermometer x="25.0" y="13.500251"/>
+<thermometer uid="T1" label="T1" x="12.5" y="14.000251"/>
+<thermometer uid="T2" label="T2" x="37.5" y="14.000251"/>
 </sensor>
 <controller>
 </controller>

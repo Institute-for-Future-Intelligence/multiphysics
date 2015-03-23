@@ -88,8 +88,6 @@ class HeliostatDialog extends JDialog {
 						view.getUndoManager().addEdit(new UndoResizeManipulable(view));
 					}
 					r.setRect(x, view.model.getLy() - y, w, h);
-					if (moved || resized)
-						heliostat.setAngle();
 				}
 				String uid = uidField.getText();
 				if (uid != null) {
@@ -110,6 +108,7 @@ class HeliostatDialog extends JDialog {
 				heliostat.setUid(uid);
 				heliostat.setLabel(labelField.getText());
 				heliostat.setDraggable(draggableCheckBox.isSelected());
+				heliostat.setAngle();
 				view.notifyManipulationListeners(heliostat, ManipulationEvent.PROPERTY_CHANGE);
 				view.setSelectedManipulable(view.getSelectedManipulable());
 				view.repaint();
