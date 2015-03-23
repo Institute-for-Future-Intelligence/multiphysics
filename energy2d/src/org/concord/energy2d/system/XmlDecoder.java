@@ -799,6 +799,7 @@ class XmlDecoder extends DefaultHandler {
 			if (attrib != null) {
 				float x = Float.NaN, y = Float.NaN, w = Float.NaN, h = Float.NaN;
 				String label = null, uid = null, targetID = null;
+				byte type = Heliostat.MIRROR;
 				for (int i = 0, n = attrib.getLength(); i < n; i++) {
 					attribName = attrib.getQName(i).intern();
 					attribValue = attrib.getValue(i);
@@ -806,6 +807,8 @@ class XmlDecoder extends DefaultHandler {
 						x = Float.parseFloat(attribValue);
 					} else if (attribName == "y") {
 						y = Float.parseFloat(attribValue);
+					} else if (attribName == "type") {
+						type = Byte.parseByte(attribValue);
 					} else if (attribName == "width") {
 						w = Float.parseFloat(attribValue);
 					} else if (attribName == "height") {
@@ -821,6 +824,7 @@ class XmlDecoder extends DefaultHandler {
 				if (!Float.isNaN(x) && !Float.isNaN(y) && !Float.isNaN(w) && !Float.isNaN(h)) {
 					Heliostat hs = new Heliostat(new Rectangle2D.Float(x, y, w, h), box.model);
 					hs.setUid(uid);
+					hs.setType(type);
 					hs.setLabel(label);
 					if (targetID != null)
 						hs.setTarget(box.model.getPart(targetID));

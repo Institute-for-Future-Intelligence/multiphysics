@@ -18,6 +18,10 @@ import org.concord.energy2d.util.XmlCharacterEncoder;
  */
 public class Heliostat extends Manipulable {
 
+	public final static byte MIRROR = 0;
+	public final static byte PHOTOVOLTAIC = 1;
+
+	private byte type = MIRROR;
 	private Part target;
 	private float angle;
 	private Model2D model;
@@ -50,6 +54,14 @@ public class Heliostat extends Manipulable {
 		}
 		if (target != null)
 			setAngle();
+	}
+
+	public void setType(byte type) {
+		this.type = type;
+	}
+
+	public byte getType() {
+		return type;
 	}
 
 	public void setTarget(Part target) {
@@ -123,6 +135,8 @@ public class Heliostat extends Manipulable {
 		String label = getLabel();
 		if (label != null && !label.trim().equals(""))
 			xml += " label=\"" + xce.encode(label) + "\"";
+		if (type != MIRROR)
+			xml += " type=\"" + type + "\"";
 		if (getShape() instanceof Rectangle2D.Float) {
 			Rectangle2D.Float r = (Rectangle2D.Float) getShape();
 			xml += " x=\"" + r.x + "\"";

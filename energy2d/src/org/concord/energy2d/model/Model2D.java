@@ -1209,6 +1209,15 @@ public class Model2D {
 
 	// heliostats
 
+	public void refreshHeliostatsAimedAt(Part target) {
+		if (heliostats.isEmpty())
+			return;
+		for (Heliostat h : heliostats) {
+			if (target == h.getTarget())
+				h.setAngle();
+		}
+	}
+
 	public void addHeliostat(Heliostat h) {
 		if (h != null && !heliostats.contains(h)) {
 			h.setAngle();

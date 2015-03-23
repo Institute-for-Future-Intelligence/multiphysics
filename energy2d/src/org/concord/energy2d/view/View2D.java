@@ -3028,6 +3028,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		}
 		if (!model.getParticles().isEmpty())
 			model.attachSensors();
+		if (m instanceof Part)
+			model.refreshHeliostatsAimedAt((Part) m);
 		notifyManipulationListeners(m, ManipulationEvent.TRANSLATE);
 	}
 
@@ -3094,6 +3096,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		}
 		if (!model.getParticles().isEmpty())
 			model.attachSensors();
+		if (m instanceof Part)
+			model.refreshHeliostatsAimedAt((Part) m);
 		notifyManipulationListeners(m, ManipulationEvent.TRANSLATE);
 	}
 
@@ -3124,6 +3128,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				t.setY(y0 + y);
 			}
 		}
+		if (m instanceof Part)
+			model.refreshHeliostatsAimedAt((Part) m);
 		notifyManipulationListeners(m, ManipulationEvent.RESIZE);
 	}
 

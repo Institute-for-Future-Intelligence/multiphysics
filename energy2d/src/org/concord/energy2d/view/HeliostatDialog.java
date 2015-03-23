@@ -15,6 +15,7 @@ import java.text.DecimalFormat;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -42,6 +43,7 @@ class HeliostatDialog extends JDialog {
 	private JTextField uidField;
 	private JTextField labelField;
 	private JTextField targetField;
+	private JComboBox<String> typeComboBox;
 	private JCheckBox draggableCheckBox;
 	private Window owner;
 	private ActionListener okListener;
@@ -99,6 +101,11 @@ class HeliostatDialog extends JDialog {
 						}
 					}
 				}
+				String type = typeComboBox.getSelectedItem().toString();
+				if ("Mirror".equalsIgnoreCase(type))
+					heliostat.setType(Heliostat.MIRROR);
+				else if ("Photovoltaic".equalsIgnoreCase(type))
+					heliostat.setType(Heliostat.PHOTOVOLTAIC);
 				String targetID = targetField.getText();
 				if (targetID != null && !targetID.trim().equals("") && !view.isUidUsed(targetID)) {
 					JOptionPane.showMessageDialog(owner, "Object " + targetID + " not found.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -137,7 +144,7 @@ class HeliostatDialog extends JDialog {
 		});
 		buttonPanel.add(button);
 
-		JPanel p = new JPanel(new GridLayout(7, 2, 8, 8));
+		JPanel p = new JPanel(new GridLayout(8, 2, 8, 8));
 		p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.add(p, BorderLayout.CENTER);
 
@@ -145,6 +152,18 @@ class HeliostatDialog extends JDialog {
 		uidField = new JTextField(heliostat.getUid(), 10);
 		uidField.addActionListener(okListener);
 		p.add(uidField);
+
+		p.add(new JLabel("Type:"));
+		typeComboBox = new JComboBox<String>(new String[] { "Mirror", "Photovoltaic" });
+		switch (heliostat.getType()) {
+		case Heliostat.MIRROR:
+			typeComboBox.setSelectedIndex(0);
+			break;
+		case Heliostat.PHOTOVOLTAIC:
+			typeComboBox.setSelectedIndex(1);
+			break;
+		}
+		p.add(typeComboBox);
 
 		p.add(new JLabel("Label:"));
 		labelField = new JTextField(heliostat.getLabel(), 10);

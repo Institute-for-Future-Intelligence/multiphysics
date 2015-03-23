@@ -123,6 +123,7 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			model.refreshPowerArray();
 			model.refreshTemperatureBoundaryArray();
 			model.refreshMaterialPropertyArrays();
+			model.refreshHeliostatsAimedAt((Part) selectedManipulable);
 			if (view.isViewFactorLinesOn())
 				model.generateViewFactorMesh();
 		} else if (selectedManipulable instanceof Fan) {
@@ -200,6 +201,7 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			model.refreshPowerArray();
 			model.refreshTemperatureBoundaryArray();
 			model.refreshMaterialPropertyArrays();
+			model.refreshHeliostatsAimedAt((Part) selectedManipulable);
 			if (view.isViewFactorLinesOn())
 				model.generateViewFactorMesh();
 		} else if (selectedManipulable instanceof Fan) {
