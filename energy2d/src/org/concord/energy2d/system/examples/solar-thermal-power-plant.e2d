@@ -25,7 +25,7 @@
 </boundary>
 <structure>
 <part>
-<rectangle x="-0.5" y="47.0" width="50.5" height="3.0"/><elasticity>1.0</elasticity>
+<rectangle x="-0.5" y="45.0" width="50.5" height="5.0"/><elasticity>1.0</elasticity>
 <thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>10000.0</specific_heat>
 <density>100.0</density>
@@ -45,7 +45,7 @@
 </texture>
 </part>
 <part>
-<rectangle x="24.5" y="16.5" width="1.0" height="30.5"/><elasticity>1.0</elasticity>
+<rectangle x="24.5" y="14.5" width="1.0" height="30.5"/><elasticity>1.0</elasticity>
 <thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
@@ -65,7 +65,7 @@
 </texture>
 </part>
 <part>
-<rectangle x="23.5" y="13.0" width="3.0" height="3.5"/><elasticity>1.0</elasticity>
+<rectangle x="23.5" y="11.0" width="3.0" height="3.5"/><elasticity>1.0</elasticity>
 <thermal_conductivity>10.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>25.0</density>
@@ -88,9 +88,9 @@
 </part>
 </structure>
 <environment>
-<heliostat x="0.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="4.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="8.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="12.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="16.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="20.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="26.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="30.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="34.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="38.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="42.0" y="43.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="46.0" y="43.0" width="4.0" height="4.0" target="TOWER"/></environment>
+<heliostat x="0.0" y="41.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="4.0" y="41.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="8.0" y="41.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="12.0" y="41.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="16.0" y="41.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="20.0" y="41.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="26.0" y="41.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="30.0" y="41.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="34.0" y="41.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="38.0" y="41.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="42.0" y="41.0" width="4.0" height="4.0" target="TOWER"/><heliostat x="46.0" y="41.0" width="4.0" height="4.0" target="TOWER"/></environment>
 <sensor>
-<thermometer x="25.0" y="13.500251"/>
+<thermometer x="25.0" y="11.500251"/>
 </sensor>
 <controller>
 </controller>
@@ -106,6 +106,6 @@
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>20.0</minimum_temperature>
 <maximum_temperature>100.0</maximum_temperature>
 <fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
-<text string="Press &apos;Q&apos; or &apos;W&apos; to change the sun angle" face="Arial" size="9" style="0" color="ffffff" x="2.0" y="48.75"/>
+<text string="Press &apos;Q&apos; or &apos;W&apos; to change the sun angle" face="Arial" size="9" style="0" color="ffffff" x="2.0" y="48.25"/>
 </view>
 </state>

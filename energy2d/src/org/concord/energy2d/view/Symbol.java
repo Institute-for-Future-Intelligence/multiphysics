@@ -19,6 +19,8 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
 
+import org.concord.energy2d.model.Heliostat;
+
 /**
  * @author Charles Xie
  * 
@@ -161,38 +163,6 @@ public abstract class Symbol implements Icon {
 		} finally {
 			g.dispose();
 		}
-	}
-
-	public final static Symbol get(String s) {
-		if ("Thermometer".equals(s))
-			return new Thermometer();
-		if ("Anemometer".equals(s))
-			return new Anemometer();
-		if ("Heat Flux Sensor".equals(s))
-			return new HeatFluxSensor();
-		if ("Particle Feeder".equals(s))
-			return new ParticleFeederIcon(Color.GRAY, Color.WHITE);
-		if ("Sun".equals(s))
-			return new Sun(Color.YELLOW, 16, 16);
-		if ("Moon".equals(s))
-			return new Moon(Color.WHITE, 16, 16);
-		if ("Switch".equals(s))
-			return new SwitchIcon(Color.WHITE, 32, 32);
-		if ("Start".equals(s))
-			return new StartIcon(Color.WHITE, 32, 32);
-		if ("Reset".equals(s))
-			return new ResetIcon(Color.WHITE, 32, 32);
-		if ("Next".equals(s))
-			return new NextIcon(Color.WHITE, 32, 32);
-		if ("Prev".equals(s))
-			return new PrevIcon(Color.WHITE, 32, 32);
-		if ("Mode".equals(s))
-			return new ModeIcon(Color.WHITE, 32, 32);
-		if ("Graph".equals(s))
-			return new GraphIcon(Color.WHITE, 32, 32);
-		if ("Brand".equals(s))
-			return new BrandIcon();
-		return null;
 	}
 
 	static class Moon extends Symbol {
@@ -405,6 +375,47 @@ public abstract class Symbol implements Icon {
 			g2.setColor(borderColor);
 			g2.drawRoundRect(xSymbol, ySymbol, wSymbol, hSymbol, 8, 8);
 			g2.fillOval(Math.round(xSymbol + 0.5f * wSymbol - 2), Math.round(ySymbol + 0.5f * hSymbol - 2), 4, 4);
+		}
+
+	}
+
+	public static class HeliostatIcon extends Symbol {
+
+		private Color borderColor;
+		private float width, height, angle;
+
+		public HeliostatIcon(Color color, Color borderColor) {
+			setColor(color);
+			setBorderColor(borderColor);
+		}
+
+		public void setAngle(float angle) {
+			this.angle = angle;
+		}
+
+		public void setWidth(float width) {
+			this.width = width;
+		}
+
+		public void setHeight(float height) {
+			this.height = height;
+		}
+
+		public void setBorderColor(Color borderColor) {
+			this.borderColor = borderColor;
+		}
+
+		public void paintIcon(Component c, Graphics g, int x, int y) {
+			super.paintIcon(c, g, x, y);
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			Area a = Heliostat.getShape(new Rectangle2D.Float(x, y, width, height), angle);
+			g2.setColor(Color.GRAY);
+			g2.fill(a);
+			g2.setColor(borderColor);
+			g2.setStroke(stroke);
+			g2.draw(a);
 		}
 
 	}

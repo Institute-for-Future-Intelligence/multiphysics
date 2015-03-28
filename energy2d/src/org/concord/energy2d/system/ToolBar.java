@@ -196,7 +196,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		thermometerIcon.setOffsetY(4);
 		final JToggleButton sensorButton = new JToggleButton(thermometerIcon);
 		final JRadioButtonMenuItem rbmiThermometer = new JRadioButtonMenuItem("Thermometer", thermometerIcon, true);
-		Symbol heatFluxSensorIcon = Symbol.get("Heat Flux Sensor");
+		Symbol heatFluxSensorIcon = new Symbol.HeatFluxSensor();
 		heatFluxSensorIcon.setIconWidth(24);
 		heatFluxSensorIcon.setIconHeight(10);
 		heatFluxSensorIcon.setMarginX(4);
@@ -204,7 +204,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		heatFluxSensorIcon.setOffsetX(4);
 		heatFluxSensorIcon.setOffsetY(11);
 		final JRadioButtonMenuItem rbmiHeatFluxSensor = new JRadioButtonMenuItem("Heat Flux Sensor", heatFluxSensorIcon, false);
-		Symbol anemometerIcon = Symbol.get("Anemometer");
+		Symbol anemometerIcon = new Symbol.Anemometer();
 		anemometerIcon.setIconWidth(24);
 		anemometerIcon.setIconHeight(24);
 		anemometerIcon.setMarginX(4);

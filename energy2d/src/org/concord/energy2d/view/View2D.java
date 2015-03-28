@@ -98,6 +98,15 @@ import org.concord.energy2d.util.FillPattern;
 import org.concord.energy2d.util.MiscUtil;
 import org.concord.energy2d.util.Texture;
 import org.concord.energy2d.util.TextureFactory;
+import org.concord.energy2d.view.Symbol.GraphIcon;
+import org.concord.energy2d.view.Symbol.ModeIcon;
+import org.concord.energy2d.view.Symbol.Moon;
+import org.concord.energy2d.view.Symbol.NextIcon;
+import org.concord.energy2d.view.Symbol.PrevIcon;
+import org.concord.energy2d.view.Symbol.ResetIcon;
+import org.concord.energy2d.view.Symbol.StartIcon;
+import org.concord.energy2d.view.Symbol.Sun;
+import org.concord.energy2d.view.Symbol.SwitchIcon;
 
 /**
  * Visualizations and interactions
@@ -305,7 +314,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		thermostatRenderer = new ThermostatRenderer();
 		manipulationListeners = new ArrayList<ManipulationListener>();
 		graphListeners = new ArrayList<GraphListener>();
-		brand = Symbol.get("Brand");
+		brand = new Symbol.BrandIcon();
 		brand.setStroke(moderateStroke);
 		undoManager = new UndoManager();
 	}
@@ -903,37 +912,37 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public void setControlPanelVisible(boolean b) {
 		if (b) {
 			if (startIcon == null) {
-				startIcon = Symbol.get("Start");
+				startIcon = new StartIcon(Color.WHITE, 32, 32);
 				startIcon.setStroke(moderateStroke);
 				startIcon.setBorderPainted(true);
 			}
 			if (resetIcon == null) {
-				resetIcon = Symbol.get("Reset");
+				resetIcon = new ResetIcon(Color.WHITE, 32, 32);
 				resetIcon.setStroke(moderateStroke);
 				resetIcon.setBorderPainted(true);
 			}
 			if (graphIcon == null) {
-				graphIcon = Symbol.get("Graph");
+				graphIcon = new GraphIcon(Color.WHITE, 32, 32);
 				graphIcon.setStroke(moderateStroke);
 				graphIcon.setBorderPainted(true);
 			}
 			if (nextIcon == null) {
-				nextIcon = Symbol.get("Next");
+				nextIcon = new NextIcon(Color.WHITE, 32, 32);
 				nextIcon.setStroke(moderateStroke);
 				nextIcon.setBorderPainted(true);
 			}
 			if (prevIcon == null) {
-				prevIcon = Symbol.get("Prev");
+				prevIcon = new PrevIcon(Color.WHITE, 32, 32);
 				prevIcon.setStroke(moderateStroke);
 				prevIcon.setBorderPainted(true);
 			}
 			if (modeIcon == null) {
-				modeIcon = Symbol.get("Mode");
+				modeIcon = new ModeIcon(Color.WHITE, 32, 32);
 				modeIcon.setStroke(moderateStroke);
 				modeIcon.setBorderPainted(true);
 			}
 			if (switchIcon == null) {
-				switchIcon = Symbol.get("Switch");
+				switchIcon = new SwitchIcon(Color.WHITE, 32, 32);
 				switchIcon.setStroke(moderateStroke);
 				switchIcon.setBorderPainted(true);
 			}
@@ -1938,11 +1947,11 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		if (model.isSunny()) {
 			if (model.getSunAngle() <= 0 || model.getSunAngle() > Math.PI) {
 				if (moon == null)
-					moon = Symbol.get("Moon");
+					moon = new Moon(Color.WHITE, 16, 16);
 				moon.paintIcon(this, g, getWidth() - moon.getIconWidth() * 2, moon.getIconHeight() + 10);
 			} else {
 				if (sun == null)
-					sun = Symbol.get("Sun");
+					sun = new Sun(Color.YELLOW, 16, 16);
 				sun.paintIcon(this, g, getWidth() - sun.getIconWidth() * 2, sun.getIconHeight() + 10);
 			}
 		}
@@ -2125,7 +2134,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		if (anemometers.isEmpty())
 			return;
 		g.setStroke(thinStroke);
-		Symbol.Anemometer s = (Symbol.Anemometer) Symbol.get("Anemometer");
+		Symbol.Anemometer s = new Symbol.Anemometer();
 		float w = Anemometer.RELATIVE_WIDTH * model.getLx();
 		float h = Anemometer.RELATIVE_HEIGHT * model.getLy();
 		s.setIconWidth((int) (w * getHeight() / (xmax - xmin))); // use view height to set icon dimension so that the anemometer doesn't get distorted
@@ -2179,7 +2188,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		if (heatFluxSensors.isEmpty())
 			return;
 		g.setStroke(thinStroke);
-		Symbol.HeatFluxSensor s = (Symbol.HeatFluxSensor) Symbol.get("Heat Flux Sensor");
+		Symbol.HeatFluxSensor s = new Symbol.HeatFluxSensor();
 		float w = HeatFluxSensor.RELATIVE_WIDTH * model.getLx();
 		float h = HeatFluxSensor.RELATIVE_HEIGHT * model.getLy();
 		s.setIconWidth((int) (w * getHeight() / (xmax - xmin))); // use view height to set icon dimension so that the sensor doesn't get distorted
@@ -2219,7 +2228,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		if (thermometers.isEmpty())
 			return;
 		g.setStroke(thinStroke);
-		Symbol.Thermometer s = (Symbol.Thermometer) Symbol.get("Thermometer");
+		Symbol.Thermometer s = new Symbol.Thermometer();
 		float w = Thermometer.RELATIVE_WIDTH * model.getLx();
 		float h = Thermometer.RELATIVE_HEIGHT * model.getLy();
 		s.setIconWidth(Math.round(getHeight() * w / (xmax - xmin))); // use view height to set icon dimension so that the thermometer doesn't get distorted
@@ -2584,7 +2593,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			return;
 		Stroke oldStroke = g.getStroke();
 		Color oldColor = g.getColor();
-		Symbol.ParticleFeederIcon s = (Symbol.ParticleFeederIcon) Symbol.get("Particle Feeder");
+		Symbol.ParticleFeederIcon s = new Symbol.ParticleFeederIcon(Color.GRAY, Color.WHITE);
 		s.setStroke(moderateStroke);
 		float w = ParticleFeeder.RELATIVE_WIDTH * model.getLx();
 		float h = ParticleFeeder.RELATIVE_HEIGHT * model.getLy();
