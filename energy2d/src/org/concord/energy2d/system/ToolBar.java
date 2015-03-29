@@ -22,6 +22,7 @@ import org.concord.energy2d.event.GraphEvent;
 import org.concord.energy2d.event.GraphListener;
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.event.ManipulationListener;
+import org.concord.energy2d.model.Tree;
 import org.concord.energy2d.util.MiscUtil;
 import org.concord.energy2d.view.Symbol;
 import org.concord.energy2d.view.View2D;
@@ -155,6 +156,11 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		cloudIcon.setIconWidth(32);
 		cloudIcon.setIconHeight(32);
 		final JRadioButtonMenuItem rbmiCloud = new JRadioButtonMenuItem("Cloud", cloudIcon, false);
+		Symbol.TreeIcon treeIcon = new Symbol.TreeIcon(Tree.PINE);
+		treeIcon.setBorderColor(Color.BLACK);
+		treeIcon.setIconWidth(32);
+		treeIcon.setIconHeight(32);
+		final JRadioButtonMenuItem rbmiTree = new JRadioButtonMenuItem("Tree", treeIcon, false);
 		ActionListener miscChoiceAction = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -175,6 +181,9 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 				} else if (selected == rbmiCloud) {
 					box.view.setActionMode(View2D.CLOUD_MODE);
 					miscButton.setToolTipText("Drop a cloud");
+				} else if (selected == rbmiTree) {
+					box.view.setActionMode(View2D.TREE_MODE);
+					miscButton.setToolTipText("Drop a tree");
 				}
 				miscButton.setSelected(true);
 				s2d.view.requestFocusInWindow();
@@ -185,18 +194,21 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		rbmiFan.addActionListener(miscChoiceAction);
 		rbmiHeliostat.addActionListener(miscChoiceAction);
 		rbmiCloud.addActionListener(miscChoiceAction);
+		rbmiTree.addActionListener(miscChoiceAction);
 		final JPopupMenu miscMenu = new JPopupMenu();
 		miscMenu.add(rbmiParticle);
 		miscMenu.add(rbmiParticleFeeder);
 		miscMenu.add(rbmiFan);
 		miscMenu.add(rbmiHeliostat);
 		miscMenu.add(rbmiCloud);
+		miscMenu.add(rbmiTree);
 		ButtonGroup bgMisc = new ButtonGroup();
 		bgMisc.add(rbmiParticle);
 		bgMisc.add(rbmiParticleFeeder);
 		bgMisc.add(rbmiFan);
 		bgMisc.add(rbmiHeliostat);
 		bgMisc.add(rbmiCloud);
+		bgMisc.add(rbmiTree);
 
 		miscButton.setToolTipText("Drop a particle");
 		miscButton.addItemListener(new ItemListener() {
@@ -211,6 +223,8 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 					box.view.setActionMode(View2D.HELIOSTAT_MODE);
 				else if (rbmiCloud.isSelected())
 					box.view.setActionMode(View2D.CLOUD_MODE);
+				else if (rbmiTree.isSelected())
+					box.view.setActionMode(View2D.TREE_MODE);
 			}
 		});
 		add(miscButton);

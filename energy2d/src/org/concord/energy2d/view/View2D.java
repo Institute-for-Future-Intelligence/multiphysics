@@ -130,6 +130,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public final static byte FAN_MODE = 33;
 	public final static byte HELIOSTAT_MODE = 34;
 	public final static byte CLOUD_MODE = 35;
+	public final static byte TREE_MODE = 36;
 
 	public final static byte HEATMAP_NONE = 0;
 	public final static byte HEATMAP_TEMPERATURE = 1;
@@ -634,6 +635,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		case FAN_MODE:
 		case HELIOSTAT_MODE:
 		case CLOUD_MODE:
+		case TREE_MODE:
 			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			break;
 		case HEATING_MODE:
@@ -2094,27 +2096,28 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private void drawTrees(Graphics2D g) {
 		if (model.getTrees().isEmpty())
 			return;
-		g.setStroke(thickStroke);
-		Rectangle2D.Float r = new Rectangle2D.Float();
+		Symbol.TreeIcon treeIcon = new Symbol.TreeIcon(Tree.PINE);
+		treeIcon.setStroke(thickStroke);
+		int x, y, w, h;
 		synchronized (model.getTrees()) {
 			for (Tree t : model.getTrees()) {
-				r.x = convertPointToPixelX(t.getX());
-				r.y = convertPointToPixelY(t.getY());
-				r.width = convertLengthToPixelX(t.getWidth());
-				r.height = convertLengthToPixelY(t.getHeight());
-				Area a = Tree.getShape(r, t.getType());
-				g.setColor(t.getColor());
-				g.fill(a);
-				g.setColor(selectedManipulable == t ? Color.YELLOW : Color.GRAY);
-				g.draw(a);
+				x = convertPointToPixelX(t.getX());
+				y = convertPointToPixelY(t.getY());
+				w = convertLengthToPixelX(t.getWidth());
+				h = convertLengthToPixelY(t.getHeight());
+				treeIcon.setIconWidth(w);
+				treeIcon.setIconHeight(h);
+				treeIcon.setColor(t.getColor());
+				treeIcon.setBorderColor(selectedManipulable == t ? Color.YELLOW : Color.GRAY);
+				treeIcon.paintIcon(this, g, x, y);
 				if (t == selectedManipulable)
 					HandleSetter.setRects(this, selectedManipulable, handle);
 				if (t.getLabel() != null) {
 					g.setFont(labelFont);
-					g.setColor(getContrastColor((int) r.getCenterX(), (int) r.getCenterY()));
+					g.setColor(getContrastColor(x + w / 2, y + h / 2));
 					String label = t.getLabel();
 					FontMetrics fm = g.getFontMetrics();
-					g.drawString(label, (int) r.getCenterX() - fm.stringWidth(label) / 2, (int) r.getCenterY() + fm.getHeight());
+					g.drawString(label, x + w / 2 - fm.stringWidth(label) / 2, y + h / 2 + fm.getHeight());
 				}
 			}
 		}
@@ -3997,6 +4000,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			notifyManipulationListeners(cloud, ManipulationEvent.OBJECT_ADDED);
 			setSelectedManipulable(cloud);
 			undoManager.addEdit(new UndoAddManipulable(cloud, this));
+			break;
+		case TREE_MODE:
+			Tree tree = addTree(convertPixelToPointX(x) - model.getLx() * 0.05f, convertPixelToPointY(y) - model.getLy() * 0.1f, model.getLx() * 0.1f, model.getLy() * 0.2f, Tree.PINE);
+			notifyManipulationListeners(tree, ManipulationEvent.OBJECT_ADDED);
+			setSelectedManipulable(tree);
+			undoManager.addEdit(new UndoAddManipulable(tree, this));
 			break;
 		}
 		repaint();
