@@ -297,6 +297,8 @@ public class Model2D {
 		hour += (i % 24) - i;
 		photonSolver.setSunAngle((hour - sunrise) / (sunset - sunrise) * (float) Math.PI);
 		refreshPowerArray();
+		if (getSunAngle() >= 0 && getSunAngle() <= Math.PI)
+			refreshHeliostats();
 	}
 
 	public void setSunAngle(float sunAngle) {
@@ -1208,6 +1210,14 @@ public class Model2D {
 	}
 
 	// heliostats
+
+	public void refreshHeliostats() {
+		if (heliostats.isEmpty())
+			return;
+		for (Heliostat h : heliostats) {
+			h.setAngle();
+		}
+	}
 
 	public void refreshHeliostatsAimedAt(Part target) {
 		if (heliostats.isEmpty())

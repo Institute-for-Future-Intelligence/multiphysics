@@ -2065,7 +2065,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private void drawClouds(Graphics2D g) {
 		if (model.getClouds().isEmpty())
 			return;
-		Symbol.CloudIcon cloudIcon = new Symbol.CloudIcon();
+		Symbol.CloudIcon cloudIcon = new Symbol.CloudIcon(false);
 		cloudIcon.setStroke(thickStroke);
 		int x, y, w, h;
 		boolean daytime = model.isSunny() && model.getSunAngle() > 0 && model.getSunAngle() < Math.PI;
@@ -2096,7 +2096,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private void drawTrees(Graphics2D g) {
 		if (model.getTrees().isEmpty())
 			return;
-		Symbol.TreeIcon treeIcon = new Symbol.TreeIcon(Tree.PINE);
+		Symbol.TreeIcon treeIcon = new Symbol.TreeIcon(Tree.PINE, false);
 		treeIcon.setStroke(thickStroke);
 		int x, y, w, h;
 		synchronized (model.getTrees()) {
@@ -2517,7 +2517,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			return;
 		Stroke oldStroke = g.getStroke();
 		Color oldColor = g.getColor();
-		Symbol.FanIcon fanIcon = new Symbol.FanIcon(Color.GRAY, Color.BLACK);
+		Symbol.FanIcon fanIcon = new Symbol.FanIcon(Color.GRAY, Color.BLACK, false);
 		synchronized (fans) {
 			for (Fan f : fans) {
 				if (f.isVisible()) {
@@ -2562,7 +2562,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			return;
 		Stroke oldStroke = g.getStroke();
 		Color oldColor = g.getColor();
-		Symbol.HeliostatIcon heliostatIcon = new Symbol.HeliostatIcon(Color.GRAY, Color.BLACK);
+		Symbol.HeliostatIcon heliostatIcon = new Symbol.HeliostatIcon(Color.GRAY, Color.BLACK, false);
 		synchronized (heliostats) {
 			for (Heliostat hs : heliostats) {
 				if (hs.isVisible()) {

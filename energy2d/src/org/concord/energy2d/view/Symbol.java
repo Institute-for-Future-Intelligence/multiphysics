@@ -112,8 +112,24 @@ public abstract class Symbol implements Icon {
 		return marginY;
 	}
 
+	public void setSymbolWidth(int wSymbol) {
+		this.wSymbol = wSymbol;
+	}
+
+	public int getSymbolWidth() {
+		return wSymbol;
+	}
+
+	public void setSymbolHeight(int hSymbol) {
+		this.hSymbol = hSymbol;
+	}
+
+	public int getSymbolHeight() {
+		return hSymbol;
+	}
+
 	public void setIconWidth(int width) {
-		wSymbol = width;
+		wSymbol = width - marginX * 2;
 	}
 
 	public int getIconWidth() {
@@ -121,7 +137,7 @@ public abstract class Symbol implements Icon {
 	}
 
 	public void setIconHeight(int height) {
-		hSymbol = height;
+		hSymbol = height - marginY * 2;
 	}
 
 	public int getIconHeight() {
@@ -386,10 +402,12 @@ public abstract class Symbol implements Icon {
 
 		private Color borderColor;
 		private float speed, angle, rotation;
+		private boolean isButtonIcon;
 
-		public FanIcon(Color color, Color borderColor) {
+		public FanIcon(Color color, Color borderColor, boolean isButtonIcon) {
 			setColor(color);
 			setBorderColor(borderColor);
+			this.isButtonIcon = isButtonIcon;
 		}
 
 		public void setSpeed(float speed) {
@@ -411,9 +429,11 @@ public abstract class Symbol implements Icon {
 		public void paintIcon(Component c, Graphics g, int x, int y) {
 			super.paintIcon(c, g, x, y);
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-			Area a = Fan.getShape(new Rectangle2D.Float(x, y, getIconWidth(), getIconHeight()), speed, angle, (float) Math.abs(Math.sin(rotation)));
+			if (isButtonIcon) {
+				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			}
+			Area a = Fan.getShape(new Rectangle2D.Float(xSymbol, ySymbol, wSymbol > 0 ? wSymbol : getIconWidth(), hSymbol > 0 ? hSymbol : getIconHeight()), speed, angle, (float) Math.abs(Math.sin(rotation)));
 			g2.setColor(color);
 			g2.fill(a);
 			g2.setColor(borderColor);
@@ -426,10 +446,12 @@ public abstract class Symbol implements Icon {
 
 		private Color borderColor;
 		private float angle;
+		private boolean isButtonIcon;
 
-		public HeliostatIcon(Color color, Color borderColor) {
+		public HeliostatIcon(Color color, Color borderColor, boolean isButtonIcon) {
 			setColor(color);
 			setBorderColor(borderColor);
+			this.isButtonIcon = isButtonIcon;
 		}
 
 		public void setAngle(float angle) {
@@ -443,9 +465,11 @@ public abstract class Symbol implements Icon {
 		public void paintIcon(Component c, Graphics g, int x, int y) {
 			super.paintIcon(c, g, x, y);
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-			Area a = Heliostat.getShape(new Rectangle2D.Float(x, y, getIconWidth(), getIconHeight()), angle);
+			if (isButtonIcon) {
+				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			}
+			Area a = Heliostat.getShape(new Rectangle2D.Float(xSymbol, ySymbol, wSymbol > 0 ? wSymbol : getIconWidth(), hSymbol > 0 ? hSymbol : getIconHeight()), angle);
 			g2.setColor(color);
 			g2.fill(a);
 			g2.setColor(borderColor);
@@ -457,6 +481,11 @@ public abstract class Symbol implements Icon {
 	public static class CloudIcon extends Symbol {
 
 		private Color borderColor;
+		private boolean isButtonIcon;
+
+		public CloudIcon(boolean isButtonIcon) {
+			this.isButtonIcon = isButtonIcon;
+		}
 
 		public void setBorderColor(Color borderColor) {
 			this.borderColor = borderColor;
@@ -465,9 +494,11 @@ public abstract class Symbol implements Icon {
 		public void paintIcon(Component c, Graphics g, int x, int y) {
 			super.paintIcon(c, g, x, y);
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-			Area a = Cloud.getShape(new Rectangle2D.Float(x, y, getIconWidth(), getIconHeight()));
+			if (isButtonIcon) {
+				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			}
+			Area a = Cloud.getShape(new Rectangle2D.Float(xSymbol, ySymbol, wSymbol > 0 ? wSymbol : getIconWidth(), hSymbol > 0 ? hSymbol : getIconHeight()));
 			g2.setColor(color);
 			g2.fill(a);
 			g2.setColor(borderColor);
@@ -480,9 +511,11 @@ public abstract class Symbol implements Icon {
 
 		private byte type;
 		private Color borderColor;
+		private boolean isButtonIcon;
 
-		public TreeIcon(byte type) {
+		public TreeIcon(byte type, boolean isButtonIcon) {
 			this.type = type;
+			this.isButtonIcon = isButtonIcon;
 		}
 
 		public void setBorderColor(Color borderColor) {
@@ -492,9 +525,11 @@ public abstract class Symbol implements Icon {
 		public void paintIcon(Component c, Graphics g, int x, int y) {
 			super.paintIcon(c, g, x, y);
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-			Area a = Tree.getShape(new Rectangle2D.Float(x, y, getIconWidth(), getIconHeight()), type);
+			if (isButtonIcon) {
+				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			}
+			Area a = Tree.getShape(new Rectangle2D.Float(xSymbol, ySymbol, wSymbol > 0 ? wSymbol : getIconWidth(), hSymbol > 0 ? hSymbol : getIconHeight()), type);
 			g2.setColor(color);
 			g2.fill(a);
 			g2.setColor(borderColor);
