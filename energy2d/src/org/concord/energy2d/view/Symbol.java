@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
 
+import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.Heliostat;
 
 /**
@@ -379,26 +380,26 @@ public abstract class Symbol implements Icon {
 
 	}
 
-	public static class HeliostatIcon extends Symbol {
+	public static class FanIcon extends Symbol {
 
 		private Color borderColor;
-		private float width, height, angle;
+		private float speed, angle, rotation;
 
-		public HeliostatIcon(Color color, Color borderColor) {
+		public FanIcon(Color color, Color borderColor) {
 			setColor(color);
 			setBorderColor(borderColor);
+		}
+
+		public void setSpeed(float speed) {
+			this.speed = speed;
 		}
 
 		public void setAngle(float angle) {
 			this.angle = angle;
 		}
 
-		public void setWidth(float width) {
-			this.width = width;
-		}
-
-		public void setHeight(float height) {
-			this.height = height;
+		public void setRotation(float rotation) {
+			this.rotation = rotation;
 		}
 
 		public void setBorderColor(Color borderColor) {
@@ -410,14 +411,45 @@ public abstract class Symbol implements Icon {
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-			Area a = Heliostat.getShape(new Rectangle2D.Float(x, y, width, height), angle);
-			g2.setColor(Color.GRAY);
+			Area a = Fan.getShape(new Rectangle2D.Float(x, y, getIconWidth(), getIconHeight()), speed, angle, (float) Math.abs(Math.sin(rotation)));
+			g2.setColor(color);
 			g2.fill(a);
 			g2.setColor(borderColor);
 			g2.setStroke(stroke);
 			g2.draw(a);
 		}
+	}
 
+	public static class HeliostatIcon extends Symbol {
+
+		private Color borderColor;
+		private float angle;
+
+		public HeliostatIcon(Color color, Color borderColor) {
+			setColor(color);
+			setBorderColor(borderColor);
+		}
+
+		public void setAngle(float angle) {
+			this.angle = angle;
+		}
+
+		public void setBorderColor(Color borderColor) {
+			this.borderColor = borderColor;
+		}
+
+		public void paintIcon(Component c, Graphics g, int x, int y) {
+			super.paintIcon(c, g, x, y);
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			Area a = Heliostat.getShape(new Rectangle2D.Float(x, y, getIconWidth(), getIconHeight()), angle);
+			g2.setColor(color);
+			g2.fill(a);
+			g2.setColor(borderColor);
+			g2.setStroke(stroke);
+			g2.draw(a);
+		}
 	}
 
 	static class SwitchIcon extends Symbol {

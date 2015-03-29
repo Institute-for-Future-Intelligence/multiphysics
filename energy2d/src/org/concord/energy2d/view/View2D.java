@@ -127,6 +127,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public final static byte HEATING_MODE = 21;
 	public final static byte PARTICLE_MODE = 31;
 	public final static byte PARTICLE_FEEDER_MODE = 32;
+	public final static byte FAN_MODE = 33;
+	public final static byte HELIOSTAT_MODE = 34;
 
 	public final static byte HEATMAP_NONE = 0;
 	public final static byte HEATMAP_TEMPERATURE = 1;
@@ -628,6 +630,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		case ANEMOMETER_MODE:
 		case PARTICLE_MODE:
 		case PARTICLE_FEEDER_MODE:
+		case FAN_MODE:
+		case HELIOSTAT_MODE:
 			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			break;
 		case HEATING_MODE:
@@ -2508,21 +2512,23 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			return;
 		Stroke oldStroke = g.getStroke();
 		Color oldColor = g.getColor();
+		Symbol.FanIcon fanIcon = new Symbol.FanIcon(Color.GRAY, Color.BLACK);
 		synchronized (fans) {
 			for (Fan f : fans) {
 				if (f.isVisible()) {
-					float rotation = fanRotationSpeedScaleFactor * f.getSpeed() * model.getTime();
 					Rectangle2D r = f.getShape().getBounds2D();
 					int x = convertPointToPixelX((float) r.getX());
 					int y = convertPointToPixelY((float) r.getY());
 					int w = convertLengthToPixelX((float) r.getWidth());
 					int h = convertLengthToPixelY((float) r.getHeight());
-					Area a = Fan.getShape(new Rectangle2D.Float(x, y, w, h), f.getSpeed(), f.getAngle(), (float) Math.abs(Math.sin(rotation)));
-					g.setColor(Color.GRAY);
-					g.fill(a);
-					g.setColor(f == selectedManipulable ? Color.YELLOW : Color.BLACK);
-					g.setStroke(moderateStroke);
-					g.draw(a);
+					fanIcon.setIconWidth(w);
+					fanIcon.setIconHeight(h);
+					fanIcon.setAngle(f.getAngle());
+					fanIcon.setSpeed(f.getSpeed());
+					fanIcon.setRotation(fanRotationSpeedScaleFactor * f.getSpeed() * model.getTime());
+					fanIcon.setStroke(moderateStroke);
+					fanIcon.setBorderColor(f == selectedManipulable ? Color.YELLOW : Color.BLACK);
+					fanIcon.paintIcon(this, g, x, y);
 					Shape s = f.getShape();
 					if (s instanceof Rectangle2D.Float) {
 						Rectangle2D.Float r2 = (Rectangle2D.Float) s;
@@ -2551,6 +2557,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			return;
 		Stroke oldStroke = g.getStroke();
 		Color oldColor = g.getColor();
+		Symbol.HeliostatIcon heliostatIcon = new Symbol.HeliostatIcon(Color.GRAY, Color.BLACK);
 		synchronized (heliostats) {
 			for (Heliostat hs : heliostats) {
 				if (hs.isVisible()) {
@@ -2559,12 +2566,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					int y = convertPointToPixelY((float) r.getY());
 					int w = convertLengthToPixelX((float) r.getWidth());
 					int h = convertLengthToPixelY((float) r.getHeight());
-					Area a = Heliostat.getShape(new Rectangle2D.Float(x, y, w, h), hs.getAngle());
-					g.setColor(Color.GRAY);
-					g.fill(a);
-					g.setColor(hs == selectedManipulable ? Color.YELLOW : Color.BLACK);
-					g.setStroke(moderateStroke);
-					g.draw(a);
+					heliostatIcon.setIconWidth(w);
+					heliostatIcon.setIconHeight(h);
+					heliostatIcon.setAngle(hs.getAngle());
+					heliostatIcon.setStroke(moderateStroke);
+					heliostatIcon.setBorderColor(hs == selectedManipulable ? Color.YELLOW : Color.BLACK);
+					heliostatIcon.paintIcon(this, g, x, y);
 					Shape s = hs.getShape();
 					if (s instanceof Rectangle2D.Float) {
 						Rectangle2D.Float r2 = (Rectangle2D.Float) s;
@@ -3970,6 +3977,18 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			notifyManipulationListeners(particleFeeder, ManipulationEvent.OBJECT_ADDED);
 			setSelectedManipulable(particleFeeder);
 			undoManager.addEdit(new UndoAddManipulable(particleFeeder, this));
+			break;
+		case FAN_MODE:
+			Fan fan = addFan(convertPixelToPointX(x) - model.getLx() * 0.1f, convertPixelToPointY(y) - model.getLy() * 0.1f, model.getLx() * 0.2f, model.getLy() * 0.2f);
+			notifyManipulationListeners(fan, ManipulationEvent.OBJECT_ADDED);
+			setSelectedManipulable(fan);
+			undoManager.addEdit(new UndoAddManipulable(fan, this));
+			break;
+		case HELIOSTAT_MODE:
+			Heliostat heliostat = addHeliostat(convertPixelToPointX(x) - model.getLx() * 0.1f, convertPixelToPointY(y) - model.getLy() * 0.1f, model.getLx() * 0.2f, model.getLy() * 0.2f);
+			notifyManipulationListeners(heliostat, ManipulationEvent.OBJECT_ADDED);
+			setSelectedManipulable(heliostat);
+			undoManager.addEdit(new UndoAddManipulable(heliostat, this));
 			break;
 		}
 		repaint();

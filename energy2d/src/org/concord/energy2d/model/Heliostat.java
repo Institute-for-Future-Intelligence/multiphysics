@@ -3,7 +3,6 @@ package org.concord.energy2d.model;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -93,10 +92,8 @@ public class Heliostat extends Manipulable {
 	public static Area getShape(Rectangle2D.Float r, float angle) {
 		// the positions and sizes of the circles must ensure that r is the bounding box
 		Area a = new Area(new Rectangle2D.Float(r.x + r.width * 0.45f, r.y + r.height * 0.5f, r.width * 0.1f, r.height * 0.5f));
-		Area bearing = new Area(new Ellipse2D.Float(r.x + r.width * 0.45f, r.y + r.height * 0.45f, r.width * 0.1f, r.height * 0.1f));
-		a.add(bearing);
-		Area mirror = new Area(new Rectangle2D.Float(r.x, r.y + r.height * 0.475f, r.width, r.height * 0.05f));
-		mirror.add(new Area(new Rectangle2D.Float(r.x + 0.4f * r.width, r.y + r.height * 0.5f, r.width * 0.2f, r.height * 0.05f)));
+		Area mirror = new Area(new Rectangle2D.Float(r.x, r.y + r.height * 0.45f, r.width, r.height * 0.1f));
+		mirror.add(new Area(new Rectangle2D.Float(r.x + 0.3f * r.width, r.y + r.height * 0.54f, r.width * 0.4f, r.height * 0.05f)));
 		mirror.transform(AffineTransform.getRotateInstance(angle, r.x + r.width * 0.5, r.y + r.height * 0.5));
 		a.add(mirror);
 		return a;

@@ -122,7 +122,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 
 		// create particle button and its associated popup menu
 		ImageIcon particleIcon = new ImageIcon(ToolBar.class.getResource("resources/particle.png"));
-		final JToggleButton particleButton = new JToggleButton(particleIcon);
+		final JToggleButton miscButton = new JToggleButton(particleIcon);
 		final JRadioButtonMenuItem rbmiParticle = new JRadioButtonMenuItem("Particle", particleIcon, true);
 		Symbol.ParticleFeederIcon particleFeederIcon = new Symbol.ParticleFeederIcon(Color.WHITE, Color.GRAY);
 		particleFeederIcon.setStroke(new BasicStroke(3));
@@ -133,52 +133,85 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		particleFeederIcon.setOffsetX(7);
 		particleFeederIcon.setOffsetY(7);
 		final JRadioButtonMenuItem rbmiParticleFeeder = new JRadioButtonMenuItem("Particle Feeder", particleFeederIcon, false);
-		ActionListener particleChoiceAction = new ActionListener() {
+		Symbol.FanIcon fanIcon = new Symbol.FanIcon(Color.WHITE, Color.BLACK);
+		fanIcon.setIconWidth(19);
+		fanIcon.setIconHeight(19);
+		fanIcon.setMarginX(7);
+		fanIcon.setMarginY(7);
+		fanIcon.setOffsetX(7);
+		fanIcon.setOffsetY(7);
+		final JRadioButtonMenuItem rbmiFan = new JRadioButtonMenuItem("Fan", fanIcon, false);
+		Symbol.HeliostatIcon heliostatIcon = new Symbol.HeliostatIcon(Color.WHITE, Color.BLACK);
+		heliostatIcon.setAngle((float) Math.PI / 8);
+		heliostatIcon.setIconWidth(19);
+		heliostatIcon.setIconHeight(19);
+		heliostatIcon.setMarginX(7);
+		heliostatIcon.setMarginY(7);
+		heliostatIcon.setOffsetX(7);
+		heliostatIcon.setOffsetY(7);
+		final JRadioButtonMenuItem rbmiHeliostat = new JRadioButtonMenuItem("Heliostat", heliostatIcon, false);
+		ActionListener miscChoiceAction = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JRadioButtonMenuItem selected = (JRadioButtonMenuItem) e.getSource();
-				particleButton.setIcon(selected.getIcon());
+				miscButton.setIcon(selected.getIcon());
 				if (selected == rbmiParticle) {
 					box.view.setActionMode(View2D.PARTICLE_MODE);
-					particleButton.setToolTipText("Drop a particle");
+					miscButton.setToolTipText("Drop a particle");
 				} else if (selected == rbmiParticleFeeder) {
 					box.view.setActionMode(View2D.PARTICLE_FEEDER_MODE);
-					particleButton.setToolTipText("Drop a particle feeder");
+					miscButton.setToolTipText("Drop a particle feeder");
+				} else if (selected == rbmiFan) {
+					box.view.setActionMode(View2D.FAN_MODE);
+					miscButton.setToolTipText("Drop a fan");
+				} else if (selected == rbmiHeliostat) {
+					box.view.setActionMode(View2D.HELIOSTAT_MODE);
+					miscButton.setToolTipText("Drop a heliostat");
 				}
-				particleButton.setSelected(true);
+				miscButton.setSelected(true);
 				s2d.view.requestFocusInWindow();
 			}
 		};
-		rbmiParticle.addActionListener(particleChoiceAction);
-		rbmiParticleFeeder.addActionListener(particleChoiceAction);
-		final JPopupMenu particleMenu = new JPopupMenu();
-		particleMenu.add(rbmiParticle);
-		particleMenu.add(rbmiParticleFeeder);
-		ButtonGroup bgParticle = new ButtonGroup();
-		bgParticle.add(rbmiParticle);
-		bgParticle.add(rbmiParticleFeeder);
+		rbmiParticle.addActionListener(miscChoiceAction);
+		rbmiParticleFeeder.addActionListener(miscChoiceAction);
+		rbmiFan.addActionListener(miscChoiceAction);
+		rbmiHeliostat.addActionListener(miscChoiceAction);
+		final JPopupMenu miscMenu = new JPopupMenu();
+		miscMenu.add(rbmiParticle);
+		miscMenu.add(rbmiParticleFeeder);
+		miscMenu.add(rbmiFan);
+		miscMenu.add(rbmiHeliostat);
+		ButtonGroup bgMisc = new ButtonGroup();
+		bgMisc.add(rbmiParticle);
+		bgMisc.add(rbmiParticleFeeder);
+		bgMisc.add(rbmiFan);
+		bgMisc.add(rbmiHeliostat);
 
-		particleButton.setToolTipText("Drop a particle");
-		particleButton.addItemListener(new ItemListener() {
+		miscButton.setToolTipText("Drop a particle");
+		miscButton.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (rbmiParticle.isSelected())
 					box.view.setActionMode(View2D.PARTICLE_MODE);
 				else if (rbmiParticleFeeder.isSelected())
 					box.view.setActionMode(View2D.PARTICLE_FEEDER_MODE);
+				else if (rbmiFan.isSelected())
+					box.view.setActionMode(View2D.FAN_MODE);
+				else if (rbmiHeliostat.isSelected())
+					box.view.setActionMode(View2D.HELIOSTAT_MODE);
 			}
 		});
-		add(particleButton);
-		bg.add(particleButton);
+		add(miscButton);
+		bg.add(miscButton);
 
 		JButton arrowButton = new JButton();
 		Dimension d = new Dimension(12, x.getMaximumSize().height);
 		arrowButton.setMaximumSize(d);
 		arrowButton.setIcon(new Symbol.ArrowHead(Color.BLACK, d.width, d.height));
-		arrowButton.setToolTipText("Click to select the particle action using the button to the left");
+		arrowButton.setToolTipText("Click to select the action using the button to the left");
 		arrowButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				particleMenu.show(particleButton, 0, particleButton.getHeight());
+				miscMenu.show(miscButton, 0, miscButton.getHeight());
 			}
 		});
 		arrowButton.setBorder(BorderFactory.createEmptyBorder());
