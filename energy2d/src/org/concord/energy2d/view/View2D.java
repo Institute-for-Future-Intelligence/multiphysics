@@ -129,6 +129,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public final static byte PARTICLE_FEEDER_MODE = 32;
 	public final static byte FAN_MODE = 33;
 	public final static byte HELIOSTAT_MODE = 34;
+	public final static byte CLOUD_MODE = 35;
 
 	public final static byte HEATMAP_NONE = 0;
 	public final static byte HEATMAP_TEMPERATURE = 1;
@@ -632,6 +633,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		case PARTICLE_FEEDER_MODE:
 		case FAN_MODE:
 		case HELIOSTAT_MODE:
+		case CLOUD_MODE:
 			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			break;
 		case HEATING_MODE:
@@ -2061,29 +2063,29 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private void drawClouds(Graphics2D g) {
 		if (model.getClouds().isEmpty())
 			return;
-		g.setStroke(thickStroke);
-		Rectangle2D.Float r = new Rectangle2D.Float();
+		Symbol.CloudIcon cloudIcon = new Symbol.CloudIcon();
+		cloudIcon.setStroke(thickStroke);
+		int x, y, w, h;
 		boolean daytime = model.isSunny() && model.getSunAngle() > 0 && model.getSunAngle() < Math.PI;
 		synchronized (model.getClouds()) {
 			for (Cloud c : model.getClouds()) {
-				r.x = convertPointToPixelX(c.getX());
-				r.y = convertPointToPixelY(c.getY());
-				r.width = convertLengthToPixelX(c.getWidth());
-				r.height = convertLengthToPixelY(c.getHeight());
-				Area a = Cloud.getShape(r);
-				g.setColor(daytime ? c.getColor() : c.getColor().darker());
-				g.fill(a);
-				g.setColor(selectedManipulable == c ? Color.yellow : Color.gray);
-				g.draw(a);
-				if (model.isRunning() && c.getSpeed() != 0 && c == selectedManipulable) {
+				x = convertPointToPixelX(c.getX());
+				y = convertPointToPixelY(c.getY());
+				w = convertLengthToPixelX(c.getWidth());
+				h = convertLengthToPixelY(c.getHeight());
+				cloudIcon.setIconWidth(w);
+				cloudIcon.setIconHeight(h);
+				cloudIcon.setColor(daytime ? c.getColor() : c.getColor().darker());
+				cloudIcon.setBorderColor(selectedManipulable == c ? Color.yellow : Color.GRAY);
+				cloudIcon.paintIcon(this, g, x, y);
+				if (model.isRunning() && c.getSpeed() != 0 && c == selectedManipulable)
 					HandleSetter.setRects(this, selectedManipulable, handle);
-				}
 				if (c.getLabel() != null) {
 					g.setFont(labelFont);
-					g.setColor(getContrastColor((int) r.getCenterX(), (int) r.getCenterY()));
+					g.setColor(getContrastColor(x + w / 2, y + h / 2));
 					String label = c.getLabel();
 					FontMetrics fm = g.getFontMetrics();
-					g.drawString(label, (int) r.getCenterX() - fm.stringWidth(label) / 2, (int) r.getCenterY() + fm.getHeight());
+					g.drawString(label, x + w / 2 - fm.stringWidth(label) / 2, y + h / 2 + fm.getHeight());
 				}
 			}
 		}
@@ -3989,6 +3991,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			notifyManipulationListeners(heliostat, ManipulationEvent.OBJECT_ADDED);
 			setSelectedManipulable(heliostat);
 			undoManager.addEdit(new UndoAddManipulable(heliostat, this));
+			break;
+		case CLOUD_MODE:
+			Cloud cloud = addCloud(convertPixelToPointX(x) - model.getLx() * 0.15f, convertPixelToPointY(y) - model.getLy() * 0.05f, model.getLx() * 0.3f, model.getLy() * 0.1f, 0);
+			notifyManipulationListeners(cloud, ManipulationEvent.OBJECT_ADDED);
+			setSelectedManipulable(cloud);
+			undoManager.addEdit(new UndoAddManipulable(cloud, this));
 			break;
 		}
 		repaint();

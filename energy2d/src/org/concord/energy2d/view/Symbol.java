@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
 
+import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.Heliostat;
 
@@ -444,6 +445,28 @@ public abstract class Symbol implements Icon {
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 			Area a = Heliostat.getShape(new Rectangle2D.Float(x, y, getIconWidth(), getIconHeight()), angle);
+			g2.setColor(color);
+			g2.fill(a);
+			g2.setColor(borderColor);
+			g2.setStroke(stroke);
+			g2.draw(a);
+		}
+	}
+
+	public static class CloudIcon extends Symbol {
+
+		private Color borderColor;
+
+		public void setBorderColor(Color borderColor) {
+			this.borderColor = borderColor;
+		}
+
+		public void paintIcon(Component c, Graphics g, int x, int y) {
+			super.paintIcon(c, g, x, y);
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			Area a = Cloud.getShape(new Rectangle2D.Float(x, y, getIconWidth(), getIconHeight()));
 			g2.setColor(color);
 			g2.fill(a);
 			g2.setColor(borderColor);

@@ -150,6 +150,11 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		heliostatIcon.setOffsetX(7);
 		heliostatIcon.setOffsetY(7);
 		final JRadioButtonMenuItem rbmiHeliostat = new JRadioButtonMenuItem("Heliostat", heliostatIcon, false);
+		Symbol.CloudIcon cloudIcon = new Symbol.CloudIcon();
+		cloudIcon.setBorderColor(Color.BLACK);
+		cloudIcon.setIconWidth(32);
+		cloudIcon.setIconHeight(32);
+		final JRadioButtonMenuItem rbmiCloud = new JRadioButtonMenuItem("Cloud", cloudIcon, false);
 		ActionListener miscChoiceAction = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -167,6 +172,9 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 				} else if (selected == rbmiHeliostat) {
 					box.view.setActionMode(View2D.HELIOSTAT_MODE);
 					miscButton.setToolTipText("Drop a heliostat");
+				} else if (selected == rbmiCloud) {
+					box.view.setActionMode(View2D.CLOUD_MODE);
+					miscButton.setToolTipText("Drop a cloud");
 				}
 				miscButton.setSelected(true);
 				s2d.view.requestFocusInWindow();
@@ -176,16 +184,19 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		rbmiParticleFeeder.addActionListener(miscChoiceAction);
 		rbmiFan.addActionListener(miscChoiceAction);
 		rbmiHeliostat.addActionListener(miscChoiceAction);
+		rbmiCloud.addActionListener(miscChoiceAction);
 		final JPopupMenu miscMenu = new JPopupMenu();
 		miscMenu.add(rbmiParticle);
 		miscMenu.add(rbmiParticleFeeder);
 		miscMenu.add(rbmiFan);
 		miscMenu.add(rbmiHeliostat);
+		miscMenu.add(rbmiCloud);
 		ButtonGroup bgMisc = new ButtonGroup();
 		bgMisc.add(rbmiParticle);
 		bgMisc.add(rbmiParticleFeeder);
 		bgMisc.add(rbmiFan);
 		bgMisc.add(rbmiHeliostat);
+		bgMisc.add(rbmiCloud);
 
 		miscButton.setToolTipText("Drop a particle");
 		miscButton.addItemListener(new ItemListener() {
@@ -198,6 +209,8 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 					box.view.setActionMode(View2D.FAN_MODE);
 				else if (rbmiHeliostat.isSelected())
 					box.view.setActionMode(View2D.HELIOSTAT_MODE);
+				else if (rbmiCloud.isSelected())
+					box.view.setActionMode(View2D.CLOUD_MODE);
 			}
 		});
 		add(miscButton);
