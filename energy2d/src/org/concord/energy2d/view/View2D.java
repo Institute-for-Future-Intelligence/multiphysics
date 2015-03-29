@@ -2107,6 +2107,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				h = convertLengthToPixelY(t.getHeight());
 				treeIcon.setIconWidth(w);
 				treeIcon.setIconHeight(h);
+				treeIcon.setType(t.getType());
 				treeIcon.setColor(t.getColor());
 				treeIcon.setBorderColor(selectedManipulable == t ? Color.YELLOW : Color.GRAY);
 				treeIcon.paintIcon(this, g, x, y);
@@ -2143,7 +2144,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		if (anemometers.isEmpty())
 			return;
 		g.setStroke(thinStroke);
-		Symbol.Anemometer s = new Symbol.Anemometer();
+		Symbol.Anemometer s = new Symbol.Anemometer(false);
 		float w = Anemometer.RELATIVE_WIDTH * model.getLx();
 		float h = Anemometer.RELATIVE_HEIGHT * model.getLy();
 		s.setIconWidth((int) (w * getHeight() / (xmax - xmin))); // use view height to set icon dimension so that the anemometer doesn't get distorted
@@ -2197,7 +2198,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		if (heatFluxSensors.isEmpty())
 			return;
 		g.setStroke(thinStroke);
-		Symbol.HeatFluxSensor s = new Symbol.HeatFluxSensor();
+		Symbol.HeatFluxSensor s = new Symbol.HeatFluxSensor(false);
 		float w = HeatFluxSensor.RELATIVE_WIDTH * model.getLx();
 		float h = HeatFluxSensor.RELATIVE_HEIGHT * model.getLy();
 		s.setIconWidth((int) (w * getHeight() / (xmax - xmin))); // use view height to set icon dimension so that the sensor doesn't get distorted
@@ -2237,7 +2238,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		if (thermometers.isEmpty())
 			return;
 		g.setStroke(thinStroke);
-		Symbol.Thermometer s = new Symbol.Thermometer();
+		Symbol.Thermometer s = new Symbol.Thermometer(false);
 		float w = Thermometer.RELATIVE_WIDTH * model.getLx();
 		float h = Thermometer.RELATIVE_HEIGHT * model.getLy();
 		s.setIconWidth(Math.round(getHeight() * w / (xmax - xmin))); // use view height to set icon dimension so that the thermometer doesn't get distorted
@@ -2605,7 +2606,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			return;
 		Stroke oldStroke = g.getStroke();
 		Color oldColor = g.getColor();
-		Symbol.ParticleFeederIcon s = new Symbol.ParticleFeederIcon(Color.GRAY, Color.WHITE);
+		Symbol.ParticleFeederIcon s = new Symbol.ParticleFeederIcon(Color.GRAY, Color.WHITE, false);
 		s.setStroke(moderateStroke);
 		float w = ParticleFeeder.RELATIVE_WIDTH * model.getLx();
 		float h = ParticleFeeder.RELATIVE_HEIGHT * model.getLy();

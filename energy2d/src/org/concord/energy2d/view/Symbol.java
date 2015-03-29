@@ -233,8 +233,10 @@ public abstract class Symbol implements Icon {
 
 		private int value;
 		private int ballDiameter;
+		private boolean isButtonIcon;
 
-		public Thermometer() {
+		public Thermometer(boolean isButtonIcon) {
+			this.isButtonIcon = isButtonIcon;
 		}
 
 		public void setValue(int value) {
@@ -252,8 +254,10 @@ public abstract class Symbol implements Icon {
 		public void paintIcon(Component c, Graphics g, int x, int y) {
 			super.paintIcon(c, g, x, y);
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			if (isButtonIcon) {
+				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			}
 			g2.setColor(Color.white);
 			g2.fillRect(xSymbol, ySymbol, wSymbol, hSymbol);
 			ballDiameter = Math.round(wSymbol * 1.45f);
@@ -285,17 +289,21 @@ public abstract class Symbol implements Icon {
 	public static class HeatFluxSensor extends Symbol {
 
 		private Stroke stroke2;
+		private boolean isButtonIcon;
 
-		public HeatFluxSensor() {
+		public HeatFluxSensor(boolean isButtonIcon) {
 			stroke2 = new BasicStroke(3);
+			this.isButtonIcon = isButtonIcon;
 		}
 
 		public void paintIcon(Component c, Graphics g, int x, int y) {
 			super.paintIcon(c, g, x, y);
 			int y2 = Math.round(ySymbol + hSymbol * 0.5f);
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			if (isButtonIcon) {
+				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			}
 			g2.setColor(Color.white);
 			g2.fillRect(xSymbol, ySymbol, wSymbol, hSymbol);
 			g2.fillOval(xSymbol - 7, y2 - 3, 6, 6);
@@ -320,8 +328,10 @@ public abstract class Symbol implements Icon {
 	public static class Anemometer extends Symbol {
 
 		private float angle;
+		private boolean isButtonIcon;
 
-		public Anemometer() {
+		public Anemometer(boolean isButtonIcon) {
+			this.isButtonIcon = isButtonIcon;
 		}
 
 		public void setAngle(float angle) {
@@ -333,8 +343,10 @@ public abstract class Symbol implements Icon {
 			super.paintIcon(c, g, x, y);
 
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			if (isButtonIcon) {
+				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			}
 			double xc = xSymbol + wSymbol * 0.5;
 			double yc = ySymbol + hSymbol * 0.5;
 			g2.setColor(Color.white);
@@ -373,10 +385,12 @@ public abstract class Symbol implements Icon {
 	public static class ParticleFeederIcon extends Symbol {
 
 		private Color borderColor;
+		private boolean isButtonIcon;
 
-		public ParticleFeederIcon(Color color, Color borderColor) {
+		public ParticleFeederIcon(Color color, Color borderColor, boolean isButtonIcon) {
 			setColor(color);
 			setBorderColor(borderColor);
+			this.isButtonIcon = isButtonIcon;
 		}
 
 		public void setBorderColor(Color borderColor) {
@@ -386,8 +400,10 @@ public abstract class Symbol implements Icon {
 		public void paintIcon(Component c, Graphics g, int x, int y) {
 			super.paintIcon(c, g, x, y);
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			if (isButtonIcon) {
+				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			}
 			g2.setStroke(stroke);
 			g2.setColor(color);
 			g2.fillRoundRect(xSymbol, ySymbol, wSymbol, hSymbol, 8, 8);
@@ -516,6 +532,10 @@ public abstract class Symbol implements Icon {
 		public TreeIcon(byte type, boolean isButtonIcon) {
 			this.type = type;
 			this.isButtonIcon = isButtonIcon;
+		}
+
+		public void setType(byte type) {
+			this.type = type;
 		}
 
 		public void setBorderColor(Color borderColor) {

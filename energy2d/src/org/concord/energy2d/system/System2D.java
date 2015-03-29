@@ -278,6 +278,8 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 		a = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				if (nextSim != null) {
+					if (!askSaveBeforeLoading())
+						return;
 					try {
 						loadSim(nextSim);
 					} catch (IOException ioe) {
@@ -293,6 +295,8 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 		a = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				if (prevSim != null) {
+					if (!askSaveBeforeLoading())
+						return;
 					try {
 						loadSim(prevSim);
 					} catch (IOException ioe) {

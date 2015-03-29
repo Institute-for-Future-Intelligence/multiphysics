@@ -125,7 +125,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		ImageIcon particleIcon = new ImageIcon(ToolBar.class.getResource("resources/particle.png"));
 		final JToggleButton miscButton = new JToggleButton(particleIcon);
 		final JRadioButtonMenuItem rbmiParticle = new JRadioButtonMenuItem("Particle", particleIcon, true);
-		Symbol.ParticleFeederIcon particleFeederIcon = new Symbol.ParticleFeederIcon(Color.WHITE, Color.GRAY);
+		Symbol.ParticleFeederIcon particleFeederIcon = new Symbol.ParticleFeederIcon(Color.WHITE, Color.GRAY, true);
 		particleFeederIcon.setStroke(new BasicStroke(3));
 		particleFeederIcon.setIconWidth(19);
 		particleFeederIcon.setIconHeight(19);
@@ -254,7 +254,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		add(arrowButton);
 
 		// create sensor button and its associated popup menu
-		Symbol.Thermometer thermometerIcon = new Symbol.Thermometer();
+		Symbol.Thermometer thermometerIcon = new Symbol.Thermometer(true);
 		thermometerIcon.setValue(5);
 		thermometerIcon.setIconWidth(4);
 		thermometerIcon.setIconHeight(24);
@@ -264,7 +264,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		thermometerIcon.setOffsetY(4);
 		final JToggleButton sensorButton = new JToggleButton(thermometerIcon);
 		final JRadioButtonMenuItem rbmiThermometer = new JRadioButtonMenuItem("Thermometer", thermometerIcon, true);
-		Symbol heatFluxSensorIcon = new Symbol.HeatFluxSensor();
+		Symbol heatFluxSensorIcon = new Symbol.HeatFluxSensor(true);
 		heatFluxSensorIcon.setIconWidth(24);
 		heatFluxSensorIcon.setIconHeight(10);
 		heatFluxSensorIcon.setMarginX(4);
@@ -272,7 +272,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		heatFluxSensorIcon.setOffsetX(4);
 		heatFluxSensorIcon.setOffsetY(11);
 		final JRadioButtonMenuItem rbmiHeatFluxSensor = new JRadioButtonMenuItem("Heat Flux Sensor", heatFluxSensorIcon, false);
-		Symbol anemometerIcon = new Symbol.Anemometer();
+		Symbol anemometerIcon = new Symbol.Anemometer(true);
 		anemometerIcon.setIconWidth(24);
 		anemometerIcon.setIconHeight(24);
 		anemometerIcon.setMarginX(4);
