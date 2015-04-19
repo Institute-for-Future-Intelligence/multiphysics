@@ -662,6 +662,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		return graphRenderer.getDataType();
 	}
 
+	public void setGraphTimeUnit(byte timeUnit) {
+		graphRenderer.setTimeUnit(timeUnit);
+	}
+
+	public byte getGraphTimeUnit() {
+		return graphRenderer.getTimeUnit();
+	}
+
 	public void setTemperatureIncrement(float temperatureIncrement) {
 		this.temperatureIncrement = temperatureIncrement;
 	}
@@ -4065,14 +4073,19 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		return a;
 	}
 
-	private static String getFormattedTime(float time) {
-		String s = "";
-		if (time > 120 && time < 12000)
+	private String getFormattedTime(float time) {
+		String s;
+		switch (graphRenderer.getTimeUnit()) {
+		case GraphRenderer.TIME_UNIT_MINUTE:
 			s = TIME_FORMAT.format(time / 60) + " min";
-		else if (time >= 12000)
-			s = TIME_FORMAT.format(time / 3600) + " hr";
-		else
+			break;
+		case GraphRenderer.TIME_UNIT_SECOND:
 			s = TIME_FORMAT.format(time) + " s";
+			break;
+		default:
+			s = TIME_FORMAT.format(time / 3600) + " hr";
+			break;
+		}
 		return s;
 	}
 

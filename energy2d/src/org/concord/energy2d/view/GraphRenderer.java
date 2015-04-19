@@ -30,9 +30,14 @@ class GraphRenderer {
 	final static byte Y_SELECTION_BUTTON_LEFT_ARROW = 7;
 	final static byte Y_SELECTION_BUTTON_RIGHT_ARROW = 8;
 
+	final static byte TIME_UNIT_HOUR = 0;
+	final static byte TIME_UNIT_MINUTE = 1;
+	final static byte TIME_UNIT_SECOND = 2;
+
 	final static String[] DATA_TYPES = new String[] { "Temperature (" + '\u2103' + ")", "Heat flux (W/m" + '\u00B2' + ")", "Wind speed (m/s)" };
 
 	private byte dataType = 0;
+	private byte timeUnit = TIME_UNIT_HOUR;
 	private String xLabel = "Time (hr)";
 	private String yLabel = DATA_TYPES[0];
 	private final static DecimalFormat FORMAT = new DecimalFormat("##.####");
@@ -218,6 +223,28 @@ class GraphRenderer {
 		return dataType;
 	}
 
+	void setTimeUnit(byte timeUnit) {
+		this.timeUnit = timeUnit;
+		switch (timeUnit) {
+		case TIME_UNIT_SECOND:
+			xLabel = "Time (s)";
+			break;
+		case TIME_UNIT_MINUTE:
+			xLabel = "Time (min)";
+			break;
+		case TIME_UNIT_HOUR:
+			xLabel = "Time (hr)";
+			break;
+		default:
+			xLabel = "Time";
+			break;
+		}
+	}
+
+	byte getTimeUnit() {
+		return timeUnit;
+	}
+
 	private void centerString(String s, Graphics2D g, int x, int y, Shape[] shapes) {
 		int stringWidth = g.getFontMetrics().stringWidth(s);
 		if (shapes == arrowButtons) {
@@ -355,11 +382,23 @@ class GraphRenderer {
 		g.drawLine(x + w, y + h, x + w - 4, y + h + 2);
 		g.setFont(smallFont);
 		int k;
+		float unit;
+		switch (timeUnit) {
+		case TIME_UNIT_SECOND:
+			unit = 0.1f;
+			break;
+		case TIME_UNIT_MINUTE:
+			unit = 0.1f / 60f;
+			break;
+		default:
+			unit = 0.1f / 3600f;
+			break;
+		}
 		for (int i = 1; i < 10; i++) {
 			k = x + Math.round(i * w * 0.1f);
 			if (i % 2 == 0) {
 				g.drawLine(k, y + h, k, y + h - 4);
-				centerString(FORMAT.format(xmax * i * 0.1f / 3600f), g, k + 3, y + h - 8, null);
+				centerString(FORMAT.format(xmax * i * unit), g, k + 3, y + h - 8, null);
 			} else {
 				g.drawLine(k, y + h, k, y + h - 2);
 			}

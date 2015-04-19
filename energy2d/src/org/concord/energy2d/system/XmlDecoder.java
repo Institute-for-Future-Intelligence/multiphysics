@@ -74,7 +74,7 @@ class XmlDecoder extends DefaultHandler {
 	private String nextSim, prevSim;
 
 	// view properties
-	private byte graphDataType;
+	private byte graphDataType, graphTimeUnit;
 	private boolean fahrenheitUsed;
 	private boolean viewFactorLines;
 	private boolean borderTickmarks;
@@ -202,6 +202,7 @@ class XmlDecoder extends DefaultHandler {
 		box.model.setGravityType(gravityType);
 
 		box.view.setGraphDataType(graphDataType);
+		box.view.setGraphTimeUnit(graphTimeUnit);
 		box.view.setFahrenheitUsed(fahrenheitUsed);
 		box.view.setViewFactorLinesOn(viewFactorLines);
 		box.view.setBorderTickmarksOn(borderTickmarks);
@@ -953,6 +954,8 @@ class XmlDecoder extends DefaultHandler {
 			fanRotationSpeedScaleFactor = Float.parseFloat(str);
 		} else if (qName == "graph_data_type") {
 			graphDataType = Byte.parseByte(str);
+		} else if (qName == "graph_time_unit") {
+			graphTimeUnit = Byte.parseByte(str);
 		} else if (qName == "view_factor_lines") {
 			viewFactorLines = Boolean.parseBoolean(str);
 		} else if (qName == "ruler" || qName == "border_tickmarks") {
@@ -1243,6 +1246,7 @@ class XmlDecoder extends DefaultHandler {
 
 		// view properties
 		graphDataType = 0;
+		graphTimeUnit = 0;
 		fahrenheitUsed = false;
 		viewFactorLines = false;
 		borderTickmarks = false;

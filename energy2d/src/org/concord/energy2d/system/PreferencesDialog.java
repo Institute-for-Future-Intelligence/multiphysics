@@ -2,6 +2,7 @@ package org.concord.energy2d.system;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,6 +34,7 @@ class PreferencesDialog extends JDialog {
 	private JCheckBox snapToGridCheckBox;
 	private JTextField perimeterStepField;
 	private JTextField maximumDataPointsField;
+	private JComboBox<String> timeUnitComboBox;
 	private ActionListener okListener;
 
 	PreferencesDialog(final System2D s2d, boolean modal) {
@@ -70,6 +73,7 @@ class PreferencesDialog extends JDialog {
 					return;
 				}
 				Sensor.setMaximumDataPoints((int) x);
+				s2d.view.setGraphTimeUnit((byte) timeUnitComboBox.getSelectedIndex());
 
 				s2d.view.setSnapToGrid(snapToGridCheckBox.isSelected());
 				s2d.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
@@ -109,7 +113,7 @@ class PreferencesDialog extends JDialog {
 		snapToGridCheckBox.setToolTipText("Should objects' shapes and coordinates be snapped to the computational grid?");
 		p.add(snapToGridCheckBox);
 
-		p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		p = new JPanel(new GridLayout(2, 2, 10, 5));
 		p.setBorder(BorderFactory.createTitledBorder("Graphs"));
 		box.add(p);
 
@@ -118,6 +122,13 @@ class PreferencesDialog extends JDialog {
 		maximumDataPointsField.setToolTipText("Set the maximum number of data points sensors will collect");
 		maximumDataPointsField.addActionListener(okListener);
 		p.add(maximumDataPointsField);
+
+		p.add(new JLabel("Unit of Time Axis:"));
+		timeUnitComboBox = new JComboBox<String>(new String[] { "Hour", "Minute", "Second" });
+		timeUnitComboBox.setSelectedIndex(s2d.view.getGraphTimeUnit());
+		timeUnitComboBox.setToolTipText("Select the unit for the time axis of the graph");
+		timeUnitComboBox.addActionListener(okListener);
+		p.add(timeUnitComboBox);
 
 		p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		p.setBorder(BorderFactory.createTitledBorder("Perimeter Step"));

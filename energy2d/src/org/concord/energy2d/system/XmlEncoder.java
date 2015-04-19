@@ -215,6 +215,9 @@ class XmlEncoder {
 		if (box.view.getGraphDataType() > 0) {
 			sb.append("<graph_data_type>" + box.view.getGraphDataType() + "</graph_data_type>\n");
 		}
+		if (box.view.getGraphTimeUnit() > 0) {
+			sb.append("<graph_time_unit>" + box.view.getGraphTimeUnit() + "</graph_time_unit>\n");
+		}
 		if (box.view.getFahrenheitUsed()) {
 			sb.append("<fahrenheit_used>true</fahrenheit_used>\n");
 		}
