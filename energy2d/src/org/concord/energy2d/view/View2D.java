@@ -1721,12 +1721,11 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			switch (graphRenderer.getDataType()) {
 			case 0: // temperature (Celsius)
 				if (!model.getThermometers().isEmpty()) {
-					float dy = (graphRenderer.getYmax() - graphRenderer.getYmin()) * 0.05f;
 					synchronized (model.getThermometers()) {
 						for (Thermometer t : model.getThermometers()) {
-							if (t.getCurrentData() > graphRenderer.getYmax() + dy) { // allow overshot above max
+							if (t.getCurrentData() > graphRenderer.getYmax()) {
 								graphRenderer.increaseYmax();
-							} else if (t.getCurrentData() < graphRenderer.getYmin() - dy) { // allow overshot below min
+							} else if (t.getCurrentData() < graphRenderer.getYmin()) {
 								graphRenderer.decreaseYmin();
 							}
 							graphRenderer.drawData(g, t.getData(), t.getLabel(), selectedManipulable == t);
@@ -1736,12 +1735,11 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				break;
 			case 1: // heat flux
 				if (!model.getHeatFluxSensors().isEmpty()) {
-					float dy = (graphRenderer.getYmax() - graphRenderer.getYmin()) * 0.05f;
 					synchronized (model.getHeatFluxSensors()) {
 						for (HeatFluxSensor f : model.getHeatFluxSensors()) {
-							if (f.getCurrentData() > graphRenderer.getYmax() + dy) { // allow overshot above max
+							if (f.getCurrentData() > graphRenderer.getYmax()) {
 								graphRenderer.increaseYmax();
-							} else if (f.getCurrentData() < graphRenderer.getYmin() - dy) { // allow overshot below min
+							} else if (f.getCurrentData() < graphRenderer.getYmin()) {
 								graphRenderer.decreaseYmin();
 							}
 							graphRenderer.drawData(g, f.getData(), f.getLabel(), selectedManipulable == f);
@@ -1751,12 +1749,11 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				break;
 			case 2: // wind speed
 				if (!model.getAnemometers().isEmpty()) {
-					float dy = (graphRenderer.getYmax() - graphRenderer.getYmin()) * 0.05f;
 					synchronized (model.getAnemometers()) {
 						for (Anemometer a : model.getAnemometers()) {
-							if (a.getCurrentData() > graphRenderer.getYmax() + dy) { // allow overshot above max
+							if (a.getCurrentData() > graphRenderer.getYmax()) {
 								graphRenderer.increaseYmax();
-							} else if (a.getCurrentData() < graphRenderer.getYmin() - dy) { // allow overshot below min
+							} else if (a.getCurrentData() < graphRenderer.getYmin()) {
 								graphRenderer.decreaseYmin();
 							}
 							graphRenderer.drawData(g, a.getData(), a.getLabel(), selectedManipulable == a);
@@ -4026,8 +4023,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private void autofitGraph() {
 		float[] bounds = model.getSensorDataBounds(getGraphDataType());
 		if (bounds != null && bounds[0] < bounds[1]) {
-			graphRenderer.setYmin(bounds[0]);
-			graphRenderer.setYmax(bounds[1]);
+			float diff = 0.05f * (bounds[1] - bounds[0]);
+			if (Math.abs(bounds[0]) < 0.000001 * diff) {
+				graphRenderer.setYmin(bounds[0]);
+				graphRenderer.setYmax(bounds[1] + diff);
+			} else {
+				graphRenderer.setYmin(bounds[0] - diff);
+				graphRenderer.setYmax(bounds[1] + diff);
+			}
 		}
 	}
 

@@ -405,13 +405,26 @@ class GraphRenderer {
 		}
 		centerString(xLabel, g, x + w - 20, y + h - 4, null);
 
-		for (int i = 1; i < 10; i++) {
-			k = y + Math.round(i * h * 0.1f);
-			if (i % 2 == 0) {
-				g.drawLine(x, k, x + 4, k);
-				centerString(FORMAT.format(ymin + (ymax - ymin) * (1 - i * 0.1f)), g, x + 18, k + 3, null);
-			} else {
-				g.drawLine(x, k, x + 2, k);
+		int nTickmarksOfYAxis = 10;
+		int tens = 1;
+		float dyMultiplied = (ymax - ymin) / nTickmarksOfYAxis;
+		while (dyMultiplied < 1) {
+			dyMultiplied *= 10;
+			tens *= 10;
+		}
+		dyMultiplied = (float) Math.ceil(dyMultiplied);
+		float yminMultiplied = (float) Math.floor(ymin * tens);
+		float scaleY = h / (ymax - ymin);
+		for (int i = 0; i < nTickmarksOfYAxis + 1; i++) {
+			float yTickmark = (yminMultiplied + i * dyMultiplied) / tens;
+			if (yTickmark > ymin && yTickmark < ymax) {
+				k = (int) (y + h - (yTickmark - ymin) * scaleY);
+				if (i % 2 == 0) {
+					g.drawLine(x, k, x + 4, k);
+					centerString(FORMAT.format(yTickmark), g, x + 18, k + 3, null);
+				} else {
+					g.drawLine(x, k, x + 2, k);
+				}
 			}
 		}
 		centerString(yLabel, g, x + 70, y + 10, arrowButtons);
