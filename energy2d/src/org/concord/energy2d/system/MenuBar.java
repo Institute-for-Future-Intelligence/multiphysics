@@ -956,7 +956,8 @@ class MenuBar extends JMenuBar {
 		subMenu = new JMenu("Building Energy Analysis");
 		menu.add(subMenu);
 
-		examples.put("Thermal Bridge", "examples/thermal-bridge.e2d");
+		examples.put("Material Thermal Bridge", "examples/thermal-bridge.e2d");
+		examples.put("Geometric Thermal Bridge", "examples/gtb1.e2d");
 		examples.put("Thermal Ghosting", "examples/ghosting.e2d");
 		examples.put("Heat Loss through Basement", "examples/basement.e2d");
 		examples.put("Fireplace", "examples/fireplace-on.e2d");
