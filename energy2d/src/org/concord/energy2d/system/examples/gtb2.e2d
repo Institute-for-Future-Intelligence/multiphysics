@@ -72,8 +72,9 @@
 <sensor>
 <thermometer label="T1" x="1.4" y="1.1354494"/>
 <thermometer label="T2" x="5.0" y="1.1354494"/>
-<thermometer label="T3" x="8.6" y="1.1354494"/>
-<thermometer label="T4" x="9.8" y="4.80045"/>
+<thermometer label="T0" x="9.8" y="4.80045"/>
+<heat_flux_sensor label="F2" angle="0.0" x="5.0" y="8.700001"/>
+<heat_flux_sensor label="F1" angle="-0.7853982" x="1.4" y="8.700001"/>
 </sensor>
 <controller>
 </controller>
@@ -82,6 +83,7 @@
 <grid>true</grid>
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
+<graph_data_type>1</graph_data_type>
 <perimeter_step_size>0.05</perimeter_step_size>
 <border_tickmarks>true</border_tickmarks>
 <isotherm>true</isotherm>
@@ -90,5 +92,5 @@
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>20.0</minimum_temperature>
 <maximum_temperature>50.0</maximum_temperature>
 <fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><heat_flux_line>true</heat_flux_line>
-<graph_xlabel>Time (hr)</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel></view>
+<graph_xlabel>Time (hr)</graph_xlabel><graph_ylabel>Heat flux (W/m²)</graph_ylabel></view>
 </state>

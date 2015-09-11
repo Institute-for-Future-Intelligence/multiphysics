@@ -1667,10 +1667,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				int yt = convertPointToPixelY(f.getY()) - ht / 2;
 				g.setColor(Color.yellow);
 				if (f.getAngle() != 0)
-					g.rotate(f.getAngle(), xt + wt / 2, yt + ht / 2);
+					g.rotate(-f.getAngle(), xt + wt / 2, yt + ht / 2);
 				g.fillRect(xt - 3, yt - 3, wt + 5, ht + 5);
 				if (f.getAngle() != 0)
-					g.rotate(-f.getAngle(), xt + wt / 2, yt + ht / 2);
+					g.rotate(f.getAngle(), xt + wt / 2, yt + ht / 2);
 			} else if (selectedManipulable instanceof Anemometer) {
 				Anemometer a = (Anemometer) selectedManipulable;
 				Rectangle2D.Float r = (Rectangle2D.Float) a.getShape();
@@ -1701,9 +1701,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				if (selectedManipulable instanceof HeatFluxSensor) {
 					float angle = ((HeatFluxSensor) selectedManipulable).getAngle();
 					Rectangle r = movingShape.getShape().getBounds();
-					g.rotate(angle, r.x + r.width / 2, r.y + r.height / 2);
-					movingShape.render(g);
 					g.rotate(-angle, r.x + r.width / 2, r.y + r.height / 2);
+					movingShape.render(g);
+					g.rotate(angle, r.x + r.width / 2, r.y + r.height / 2);
 				} else {
 					movingShape.render(g);
 				}
@@ -2226,13 +2226,13 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					y = (int) (ry * getHeight() - iconH2);
 					str = HEAT_FLUX_FORMAT.format(f.getValue()) + "W/m" + '\u00B2';
 					if (f.getAngle() != 0)
-						g.rotate(f.getAngle(), x + s.wSymbol / 2, y + s.hSymbol / 2);
+						g.rotate(-f.getAngle(), x + s.wSymbol / 2, y + s.hSymbol / 2);
 					centerString(str, g, (int) (x + iconW2), y - 5, true);
 					if (f.getLabel() != null)
 						centerString(f.getLabel(), g, (int) (x + iconW2), y + s.getIconHeight() + 12, false);
 					s.paintIcon(this, g, x, y);
 					if (f.getAngle() != 0)
-						g.rotate(-f.getAngle(), x + s.wSymbol / 2, y + s.hSymbol / 2);
+						g.rotate(f.getAngle(), x + s.wSymbol / 2, y + s.hSymbol / 2);
 				}
 			}
 		}

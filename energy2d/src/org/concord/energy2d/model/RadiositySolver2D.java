@@ -45,8 +45,8 @@ class RadiositySolver2D {
 
 	float measure(HeatFluxSensor sensor) {
 		float measurement = 0f;
-		float dx = patchSize * 0.5f * (float) Math.cos(sensor.getAngle());
-		float dy = patchSize * 0.5f * (float) Math.sin(sensor.getAngle());
+		float dx = patchSize * 0.5f * (float) Math.cos(-sensor.getAngle());
+		float dy = patchSize * 0.5f * (float) Math.sin(-sensor.getAngle());
 		float x1 = sensor.getX() - dx;
 		float x2 = sensor.getX() + dx;
 		float y1 = sensor.getY() - dy;

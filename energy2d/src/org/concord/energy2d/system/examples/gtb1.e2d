@@ -22,7 +22,7 @@
 </boundary>
 <structure>
 <part>
-<polygon count="11" vertices="0.5, 0.5, 9.5, 0.5, 9.5, 1.5, 1.5, 1.5, 1.5, 8.5, 8.5, 8.5, 8.5, 1.5, 9.5, 1.5, 9.5, 5.9, 9.5, 9.5, 0.5, 9.5"/>
+<polygon count="11" vertices="0.48965883, 0.5122174, 9.489658, 0.5122174, 9.489658, 1.5122174, 1.4896588, 1.5122174, 1.4896588, 8.5122175, 8.489658, 8.5122175, 8.489658, 1.5122174, 9.489658, 1.5122174, 9.489658, 5.9122176, 9.489658, 9.5122175, 0.48965883, 9.5122175"/>
 <elasticity>1.0</elasticity>
 <thermal_conductivity>0.1</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
@@ -71,8 +71,9 @@
 <sensor>
 <thermometer label="T1" x="1.4" y="1.1354494"/>
 <thermometer label="T2" x="5.0" y="1.1354494"/>
-<thermometer label="T3" x="8.6" y="1.1354494"/>
-<thermometer label="T4" x="9.800004" y="4.8004475"/>
+<thermometer label="T0" x="9.8" y="4.80045"/>
+<heat_flux_sensor label="F1" angle="-0.7853982" x="1.5" y="8.6"/>
+<heat_flux_sensor label="F2" angle="0.0" x="5.0" y="8.6"/>
 </sensor>
 <controller>
 </controller>

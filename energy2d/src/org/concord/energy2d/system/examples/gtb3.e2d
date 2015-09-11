@@ -68,6 +68,8 @@
 <thermometer label="T2" x="6.2" y="5.9354496"/>
 <thermometer label="T3" x="7.999999" y="5.9354496"/>
 <thermometer label="T4" x="8.0" y="7.8"/>
+<heat_flux_sensor label="F1" angle="0.7853982" x="5.1" y="5.1"/>
+<heat_flux_sensor label="F2" angle="0.7853982" x="5.0" y="8.6"/>
 </sensor>
 <controller>
 </controller>
@@ -84,5 +86,6 @@
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>20.0</maximum_temperature>
 <fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><heat_flux_line>true</heat_flux_line>
-<graph_xlabel>Time (hr)</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel></view>
+<graph_xlabel>Time (hr)</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="20 °C" face="Arial" size="14" style="1" color="0" x="3.7999997" y="6.2"/>
+</view>
 </state>
