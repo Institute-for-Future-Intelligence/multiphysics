@@ -238,6 +238,13 @@ class XmlDecoder extends DefaultHandler {
 		if (graphYmax != 0)
 			box.view.setGraphYmax(graphYmax);
 
+		box.model.refreshPowerArray();
+		box.model.refreshTemperatureBoundaryArray();
+		box.model.refreshMaterialPropertyArrays();
+		box.model.setInitialTemperature();
+		if (box.model.isRadiative())
+			box.model.generateViewFactorMesh();
+
 		// since we don't know the width and height of the model until now, we have to fix the locations and the sizes of
 		// the sensors, since they are relative to the size of the model.
 		List<Thermometer> thermometers = box.model.getThermometers();
@@ -261,6 +268,7 @@ class XmlDecoder extends DefaultHandler {
 					r.height = HeatFluxSensor.RELATIVE_HEIGHT * modelHeight;
 					r.x = r.x - 0.5f * r.width;
 					r.y = r.y - 0.5f * r.height;
+					box.model.measure(h);
 				}
 			}
 		}
@@ -277,12 +285,6 @@ class XmlDecoder extends DefaultHandler {
 			}
 		}
 
-		box.model.refreshPowerArray();
-		box.model.refreshTemperatureBoundaryArray();
-		box.model.refreshMaterialPropertyArrays();
-		box.model.setInitialTemperature();
-		if (box.model.isRadiative())
-			box.model.generateViewFactorMesh();
 		box.view.repaint();
 
 		resetGlobalVariables();

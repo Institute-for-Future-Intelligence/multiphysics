@@ -776,14 +776,18 @@ public class Model2D {
 
 	public void addHeatFluxSensor(HeatFluxSensor h) {
 		heatFluxSensors.add(h);
+		measure(h);
 	}
 
 	public void addHeatFluxSensor(HeatFluxSensor h, int index) {
 		heatFluxSensors.add(index, h);
+		measure(h);
 	}
 
 	public void addHeatFluxSensor(float x, float y) {
-		heatFluxSensors.add(new HeatFluxSensor(x, y));
+		HeatFluxSensor h = new HeatFluxSensor(x, y);
+		heatFluxSensors.add(h);
+		measure(h);
 	}
 
 	public HeatFluxSensor addHeatFluxSensor(float x, float y, String uid, String label, float angle) {
@@ -792,6 +796,7 @@ public class Model2D {
 		h.setLabel(label);
 		h.setAngle(angle);
 		heatFluxSensors.add(h);
+		measure(h);
 		return h;
 	}
 
@@ -1654,6 +1659,13 @@ public class Model2D {
 		particleSolver.reset();
 		radiositySolver.reset();
 		attachSensors();
+		if (!heatFluxSensors.isEmpty()) {
+			synchronized (heatFluxSensors) {
+				for (HeatFluxSensor f : heatFluxSensors) {
+					measure(f);
+				}
+			}
+		}
 	}
 
 	private void checkPartPower() {
@@ -2136,19 +2148,9 @@ public class Model2D {
 			}
 		}
 		if (!heatFluxSensors.isEmpty()) {
-			int i, j;
 			synchronized (heatFluxSensors) {
 				for (HeatFluxSensor f : heatFluxSensors) {
-					i = Math.round(f.getX() / deltaX);
-					j = Math.round(f.getY() / deltaY);
-					if (i >= 0 && i < nx && j >= 0 && j < ny) {
-						float[] h = getHeatFlux(i, j);
-						float flux = (float) (h[0] * Math.sin(f.getAngle()) + h[1] * Math.cos(f.getAngle()));
-						if (radiative)
-							flux += radiositySolver.measure(f);
-						f.setValue(flux);
-						f.addData(getTime(), flux);
-					}
+					f.addData(getTime(), measure(f));
 				}
 			}
 		}
@@ -2164,6 +2166,20 @@ public class Model2D {
 				}
 			}
 		}
+	}
+
+	public float measure(HeatFluxSensor f) {
+		float flux = 0;
+		int i = Math.round(f.getX() / deltaX);
+		int j = Math.round(f.getY() / deltaY);
+		if (i >= 0 && i < nx && j >= 0 && j < ny) {
+			float[] h = getHeatFlux(i, j);
+			flux = (float) (h[0] * Math.sin(f.getAngle()) + h[1] * Math.cos(f.getAngle()));
+			if (radiative)
+				flux += radiositySolver.measure(f);
+		}
+		f.setValue(flux);
+		return flux;
 	}
 
 	// if controllers run every step, they could slow down significantly

@@ -3026,6 +3026,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					r.y = ymin + dy - r.height / 2;
 				else if (r.y + r.height / 2 > ymax - dy)
 					r.y = ymax - dy - r.height / 2;
+				if (m instanceof HeatFluxSensor)
+					model.measure((HeatFluxSensor) m);
 			} else if (m instanceof TextBox) {
 				((TextBox) m).translateBy(dx, -dy);
 			} else if (m instanceof Heliostat) {
@@ -3071,6 +3073,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				((TextBox) m).setLocation(r.x + convertPixelToPointX(8), model.getLy() - r.y - convertPixelToPointY(2));
 			else if (m instanceof Heliostat)
 				((Heliostat) m).setAngle();
+			else if (m instanceof HeatFluxSensor)
+				model.measure((HeatFluxSensor) m);
 		} else if (s instanceof Ellipse2D.Float) {
 			Ellipse2D.Float r = (Ellipse2D.Float) s;
 			r.x = x - r.width / 2;
@@ -3898,7 +3902,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				setSelectedManipulable(addedPart);
 				undoManager.addEdit(new UndoAddManipulable(addedPart, this));
 			} else {
-				if (ellipse.width > 0 || ellipse.height > 0)// ignore the quick click
+				if (ellipse.width > 0 || ellipse.height > 0) // ignore the quick click
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "The ellipse you tried to add was too small!", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			ellipse.setFrame(-1000, -1000, 0, 0);
