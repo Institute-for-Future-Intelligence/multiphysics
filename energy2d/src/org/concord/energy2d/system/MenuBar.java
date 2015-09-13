@@ -991,6 +991,7 @@ class MenuBar extends JMenuBar {
 		examples.put("Solar Cycles", "examples/solar-cycles-shadow.e2d");
 		examples.put("Sun & Clouds", "examples/solar-cycles.e2d");
 		examples.put("USA Isotherm", "examples/usa-isotherm.e2d");
+		examples.put("Hadley Cell", "examples/hadley-cell.e2d");
 		examples.put("Mantle Convection", "examples/mantle.e2d");
 		createMenu(box, subMenu, examples);
 
