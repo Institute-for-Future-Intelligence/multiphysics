@@ -222,6 +222,10 @@ abstract class FluidSolver2D {
 		float t0;
 		switch (buoyancyApproximation) {
 		case Model2D.BUOYANCY_AVERAGE_ALL:
+			// TODO: Should we include solid state cells or should we not?
+			// The logic of including all cells is to provide a more stable reference temperature. The results tend to look more normal with this choice.
+			// We can tell this from the column average below, which tends to produce less normal-looking results.
+			// However, why should solid cells have anything to do with fluid cells? And why should fluid cells isolated from the current one have anything to do with it?
 			t0 = MathUtil.getAverage(t);
 			for (int i = 1; i < nx1; i++) {
 				for (int j = 1; j < ny1; j++) {
