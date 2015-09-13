@@ -35,6 +35,7 @@ class PreferencesDialog extends JDialog {
 	private JTextField perimeterStepField;
 	private JTextField maximumDataPointsField;
 	private JComboBox<String> timeUnitComboBox;
+	private JComboBox<String> controlPanelPositionComboBox;
 	private ActionListener okListener;
 
 	PreferencesDialog(final System2D s2d, boolean modal) {
@@ -74,6 +75,7 @@ class PreferencesDialog extends JDialog {
 				}
 				Sensor.setMaximumDataPoints((int) x);
 				s2d.view.setGraphTimeUnit((byte) timeUnitComboBox.getSelectedIndex());
+				s2d.view.setControlPanelPosition((byte) controlPanelPositionComboBox.getSelectedIndex());
 
 				s2d.view.setSnapToGrid(snapToGridCheckBox.isSelected());
 				s2d.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
@@ -113,7 +115,7 @@ class PreferencesDialog extends JDialog {
 		snapToGridCheckBox.setToolTipText("Should objects' shapes and coordinates be snapped to the computational grid?");
 		p.add(snapToGridCheckBox);
 
-		p = new JPanel(new GridLayout(2, 2, 10, 5));
+		p = new JPanel(new GridLayout(3, 2, 10, 5));
 		p.setBorder(BorderFactory.createTitledBorder("Graphs"));
 		box.add(p);
 
@@ -129,6 +131,13 @@ class PreferencesDialog extends JDialog {
 		timeUnitComboBox.setToolTipText("Select the unit for the time axis of the graph");
 		timeUnitComboBox.addActionListener(okListener);
 		p.add(timeUnitComboBox);
+
+		p.add(new JLabel("Control Panel Position:"));
+		controlPanelPositionComboBox = new JComboBox<String>(new String[] { "Bottom", "Top" });
+		controlPanelPositionComboBox.setSelectedIndex(s2d.view.getControlPanelPosition());
+		controlPanelPositionComboBox.setToolTipText("Set the position of the Control Panel");
+		controlPanelPositionComboBox.addActionListener(okListener);
+		p.add(controlPanelPositionComboBox);
 
 		p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		p.setBorder(BorderFactory.createTitledBorder("Perimeter Step"));

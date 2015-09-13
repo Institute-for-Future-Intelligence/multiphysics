@@ -192,6 +192,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private boolean clockOn = true;
 	private boolean frankOn = true;
 	private boolean showControlPanel;
+	private byte controlPanelPosition = 0;
 	private byte heatMapType = HEATMAP_TEMPERATURE;
 	private byte mouseReadType = MOUSE_READ_DEFAULT;
 	private byte colorPaletteType = RAINBOW;
@@ -968,6 +969,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 	public boolean isControlPanelVisible() {
 		return showControlPanel;
+	}
+
+	public void setControlPanelPosition(byte p) {
+		controlPanelPosition = p;
+	}
+
+	public byte getControlPanelPosition() {
+		return controlPanelPosition;
 	}
 
 	public void setFrankOn(boolean b) {
@@ -1848,8 +1857,16 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			brand.setColor(heatMapType != HEATMAP_NONE ? Color.lightGray : Color.black);
 			brand.paintIcon(this, g, getWidth() - 84, getHeight() - (borderTickmarksRenderer != null ? 30 : 15));
 		}
-		if (showControlPanel)
-			drawControlPanel(g, getWidth() / 2, getHeight() - (borderTickmarksRenderer != null ? 50 : 36));
+		if (showControlPanel) {
+			switch (controlPanelPosition) {
+			case 0:
+				drawControlPanel(g, getWidth() / 2, getHeight() - (borderTickmarksRenderer != null ? 50 : 36));
+				break;
+			case 1:
+				drawControlPanel(g, getWidth() / 2, 16);
+				break;
+			}
+		}
 
 		if (actionMode == SELECT_MODE || actionMode == HEATING_MODE) { // draw field reader last
 			if (mouseMovedPoint.x >= 0 && mouseMovedPoint.y >= 0 && mouseMovedPoint.x < getWidth() && mouseMovedPoint.y < getHeight()) {
@@ -1935,9 +1952,18 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		int stringWidth = g.getFontMetrics().stringWidth(s);
 		g.setStroke(thinStroke);
 		g.setColor(Color.black);
-		g.fillRoundRect(button.xSymbol + (button.wSymbol - stringWidth) / 2 - 5, button.ySymbol - 24, stringWidth + 10, 20, 8, 8);
-		g.setColor(Color.white);
-		g.drawString(s, button.xSymbol + (button.wSymbol - stringWidth) / 2, button.ySymbol - 12);
+		switch (controlPanelPosition) {
+		case 0:
+			g.fillRoundRect(button.xSymbol + (button.wSymbol - stringWidth) / 2 - 5, button.ySymbol - 24, stringWidth + 10, 20, 8, 8);
+			g.setColor(Color.white);
+			g.drawString(s, button.xSymbol + (button.wSymbol - stringWidth) / 2, button.ySymbol - 12);
+			break;
+		case 1:
+			g.fillRoundRect(button.xSymbol + (button.wSymbol - stringWidth) / 2 - 5, button.ySymbol + button.getSymbolHeight() + 8, stringWidth + 10, 20, 8, 8);
+			g.setColor(Color.white);
+			g.drawString(s, button.xSymbol + (button.wSymbol - stringWidth) / 2, button.ySymbol + button.getSymbolHeight() + 20);
+			break;
+		}
 	}
 
 	private void drawMouseReadString(Graphics2D g, String s) {
