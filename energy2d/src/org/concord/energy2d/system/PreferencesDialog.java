@@ -115,24 +115,28 @@ class PreferencesDialog extends JDialog {
 		snapToGridCheckBox.setToolTipText("Should objects' shapes and coordinates be snapped to the computational grid?");
 		p.add(snapToGridCheckBox);
 
-		p = new JPanel(new GridLayout(3, 2, 10, 5));
+		p = new JPanel(new GridLayout(2, 2, 10, 5));
 		p.setBorder(BorderFactory.createTitledBorder("Graphs"));
 		box.add(p);
 
-		p.add(new JLabel("Sensor Maximum Data Points:"));
+		p.add(new JLabel(" Sensor Maximum Data Points:"));
 		maximumDataPointsField = new JTextField("" + Sensor.getMaximumDataPoints(), 10);
 		maximumDataPointsField.setToolTipText("Set the maximum number of data points sensors will collect");
 		maximumDataPointsField.addActionListener(okListener);
 		p.add(maximumDataPointsField);
 
-		p.add(new JLabel("Unit of Time Axis:"));
+		p.add(new JLabel(" Unit of Time Axis:"));
 		timeUnitComboBox = new JComboBox<String>(new String[] { "Hour", "Minute", "Second" });
 		timeUnitComboBox.setSelectedIndex(s2d.view.getGraphTimeUnit());
 		timeUnitComboBox.setToolTipText("Select the unit for the time axis of the graph");
 		timeUnitComboBox.addActionListener(okListener);
 		p.add(timeUnitComboBox);
 
-		p.add(new JLabel("Control Panel Position:"));
+		p = new JPanel(new GridLayout(1, 2, 10, 5));
+		p.setBorder(BorderFactory.createTitledBorder("Controls"));
+		box.add(p);
+
+		p.add(new JLabel(" Control Panel Position:"));
 		controlPanelPositionComboBox = new JComboBox<String>(new String[] { "Bottom", "Top" });
 		controlPanelPositionComboBox.setSelectedIndex(s2d.view.getControlPanelPosition());
 		controlPanelPositionComboBox.setToolTipText("Set the position of the Control Panel");
@@ -140,7 +144,7 @@ class PreferencesDialog extends JDialog {
 		p.add(controlPanelPositionComboBox);
 
 		p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		p.setBorder(BorderFactory.createTitledBorder("Perimeter Step"));
+		p.setBorder(BorderFactory.createTitledBorder("Radiation Perimeter Step"));
 		box.add(p);
 
 		p.add(new JLabel("Percentage of the box size:"));
