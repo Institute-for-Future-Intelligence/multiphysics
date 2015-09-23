@@ -157,63 +157,73 @@ class ParticleSolver2D {
 		float predictedY = p.ry + p.vy * timeStep + p.ay * dt2;
 		if (boundary instanceof SimpleMassBoundary) {
 			SimpleMassBoundary b = (SimpleMassBoundary) boundary;
-			if (predictedX + p.radius > lx) {
-				switch (b.getFlowTypeAtBorder(Boundary.RIGHT)) {
-				case MassBoundary.REFLECTIVE:
+			switch (b.getFlowTypeAtBorder(Boundary.RIGHT)) {
+			case MassBoundary.REFLECTIVE:
+				if (predictedX + p.radius > lx)
 					p.vx = -Math.abs(p.vx);
-					break;
-				case MassBoundary.STOP:
+				break;
+			case MassBoundary.STOP:
+				if (predictedX + p.radius > lx)
 					p.vx = 0;
-					break;
-				case MassBoundary.PERIODIC:
+				break;
+			case MassBoundary.PERIODIC:
+				if (predictedX > lx)
 					p.rx -= lx - p.radius;
-					break;
-				case MassBoundary.THROUGH:
+				break;
+			case MassBoundary.THROUGH:
+				if (predictedX - p.radius > lx)
 					return true;
-				}
-			} else if (predictedX - p.radius < 0) {
-				switch (b.getFlowTypeAtBorder(Boundary.LEFT)) {
-				case MassBoundary.REFLECTIVE:
-					p.vx = Math.abs(p.vx);
-					break;
-				case MassBoundary.STOP:
-					p.vx = 0;
-					break;
-				case MassBoundary.PERIODIC:
-					p.rx += lx - p.radius;
-					break;
-				case MassBoundary.THROUGH:
-					return true;
-				}
 			}
-			if (predictedY + p.radius > ly) {
-				switch (b.getFlowTypeAtBorder(Boundary.LOWER)) {
-				case MassBoundary.REFLECTIVE:
+			switch (b.getFlowTypeAtBorder(Boundary.LEFT)) {
+			case MassBoundary.REFLECTIVE:
+				if (predictedX - p.radius < 0)
+					p.vx = Math.abs(p.vx);
+				break;
+			case MassBoundary.STOP:
+				if (predictedX - p.radius < 0)
+					p.vx = 0;
+				break;
+			case MassBoundary.PERIODIC:
+				if (predictedX < 0)
+					p.rx += lx - p.radius;
+				break;
+			case MassBoundary.THROUGH:
+				if (predictedX + p.radius < 0)
+					return true;
+			}
+			switch (b.getFlowTypeAtBorder(Boundary.LOWER)) {
+			case MassBoundary.REFLECTIVE:
+				if (predictedY + p.radius > ly)
 					p.vy = -Math.abs(p.vy);
-					break;
-				case MassBoundary.STOP:
+				break;
+			case MassBoundary.STOP:
+				if (predictedY + p.radius > ly)
 					p.vy = 0;
-					break;
-				case MassBoundary.PERIODIC:
+				break;
+			case MassBoundary.PERIODIC:
+				if (predictedY > ly)
 					p.ry -= ly - p.radius;
-					break;
-				case MassBoundary.THROUGH:
+				break;
+			case MassBoundary.THROUGH:
+				if (predictedY - p.radius > ly)
 					return true;
-				}
-			} else if (predictedY - p.radius < 0) {
-				switch (b.getFlowTypeAtBorder(Boundary.UPPER)) {
-				case MassBoundary.REFLECTIVE:
+			}
+			switch (b.getFlowTypeAtBorder(Boundary.UPPER)) {
+			case MassBoundary.REFLECTIVE:
+				if (predictedY - p.radius < 0)
 					p.vy = Math.abs(p.vy);
-					break;
-				case MassBoundary.STOP:
+				break;
+			case MassBoundary.STOP:
+				if (predictedY - p.radius < 0)
 					p.vy = 0;
-					break;
-				case MassBoundary.PERIODIC:
+				break;
+			case MassBoundary.PERIODIC:
+				if (predictedY < 0)
 					p.ry += ly - p.radius;
-					break;
-				case MassBoundary.THROUGH:
+				break;
+			case MassBoundary.THROUGH:
+				if (predictedY + p.radius < 0)
 					return true;
-				}
 			}
 		}
 		return false;

@@ -208,7 +208,7 @@
 <sensor>
 <anemometer label="A2" x="5.0" y="7.0"/>
 <anemometer label="A1" x="1.8000001" y="8.0"/>
-<anemometer label="A3" x="8.5" y="8.0"/>
+<anemometer label="A3" x="8.2" y="8.0"/>
 </sensor>
 <controller>
 </controller>
