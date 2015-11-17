@@ -237,7 +237,7 @@ class XmlDecoder extends DefaultHandler {
 			box.view.setGraphYLabel(graphYLabel);
 		if (graphYmin != 0)
 			box.view.setGraphYmin(graphYmin);
-		if (graphYmax != 0)
+		if (graphYmax != 50)
 			box.view.setGraphYmax(graphYmax);
 
 		box.model.refreshPowerArray();

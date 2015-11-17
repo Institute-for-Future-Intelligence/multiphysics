@@ -407,6 +407,13 @@ class GraphRenderer {
 
 		int nTickmarksOfYAxis = 10;
 		int tens = 1;
+		if (ymax < ymin) {
+			float ymaxOLD = ymax;
+			ymax = ymin;
+			ymin = ymaxOLD;
+		} else if (ymax == ymin) {
+			ymax = ymin + 1;
+		}
 		float dyMultiplied = (ymax - ymin) / nTickmarksOfYAxis;
 		while (dyMultiplied < 1) {
 			dyMultiplied *= 10;
