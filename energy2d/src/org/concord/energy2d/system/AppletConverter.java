@@ -51,7 +51,7 @@ class AppletConverter {
 		s += "and <a href=\"http://energy.concord.org/energy2d/energy2d.js\">energy2d.js</a> ";
 		s += "to where this HTML file is located; ";
 		s += "<li>Make sure " + s2d.getCurrentFile() + " is copied or moved to where this HTML file is located; ";
-		s += "<li>This applet may not work offline. You have to upload all the four files (energy2d-applet.jar, energy2d.js, " + s2d.getCurrentFile().getName() + ", and this HTML file) to a web server and load this page after it is online.";
+		s += "<li>To publish this simulation, you have to upload all the four files (energy2d-applet.jar, energy2d.js, " + s2d.getCurrentFile().getName() + ", and this HTML file) to a web server.";
 		s += "</ol><p>This line of message should be removed if the applet works.</font></p>";
 		s += LINE_SEPARATOR;
 
@@ -62,7 +62,7 @@ class AppletConverter {
 		s += LINE_SEPARATOR;
 		s += "        <param name=\"script\" value=\"load " + MiscUtil.getFileName(s2d.getCurrentFile().toString()) + "\"/>";
 		s += LINE_SEPARATOR;
-		s += "        <param name=\"permissions\" value=\"sandbox\"/>";
+		s += "        <param name=\"permissions\" value=\"all-permissions\"/>";
 		s += LINE_SEPARATOR;
 		s += "        <param name=\"MAYSCRIPT\" value=\"true\"/>";
 		s += LINE_SEPARATOR;
