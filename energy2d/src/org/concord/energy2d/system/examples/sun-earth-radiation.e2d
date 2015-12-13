@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+</links>
+<model>
+<timestep>0.1</timestep>
+<sun_angle>0.0</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>10</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>10</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.001</z_heat_diffusivity><convective>false</convective>
+<background_conductivity>1.0E-9</background_conductivity>
+<background_viscosity>1.568E-4</background_viscosity>
+<thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<temperature_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part>
+<ellipse x="2.700000047683716" y="5.0" a="5.0" b="5.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>1.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>5</texture_style>
+<texture_width>12</texture_width>
+<texture_height>12</texture_height>
+</texture>
+<filled>false</filled>
+<label>Earth</label>
+</part>
+<part>
+<ellipse x="9.300000190734863" y="5.0" a="1.0" b="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>1.0</emissivity>
+<temperature>500.0</temperature>
+<constant_temperature>true</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>16</texture_style>
+<texture_width>12</texture_width>
+<texture_height>12</texture_height>
+</texture>
+<filled>false</filled>
+<label>Sun</label>
+</part>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer label="Tropical" x="5.1" y="4.80045"/>
+<thermometer label="Arctic" x="2.8" y="2.2354498"/>
+<thermometer label="Antarctic" x="2.8" y="7.23545"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<perimeter_step_size>0.024999999</perimeter_step_size>
+<color_palette_type>0</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>100.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time (hr)</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
+<text string="The sizes of the Sun and the Earth -linebreak-are not to scale." face="Arial" size="14" style="0" color="ffffff" x="0.30000004" y="9.8"/>
+</view>
+</state>
