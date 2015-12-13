@@ -1558,22 +1558,28 @@ class Scripter2D extends Scripter {
 			Shape shape = fan.getShape();
 			if (shape instanceof Rectangle2D.Float)
 				((Rectangle2D.Float) shape).x = z;
+			arrayUpdateRequested = true;
 		} else if (s == "y") {
 			Shape shape = fan.getShape();
 			if (shape instanceof Rectangle2D.Float)
 				((Rectangle2D.Float) shape).y = s2d.model.getLy() - z;
+			arrayUpdateRequested = true;
 		} else if (s == "width") {
 			Shape shape = fan.getShape();
 			if (shape instanceof Rectangle2D.Float)
 				((Rectangle2D.Float) shape).width = z;
+			arrayUpdateRequested = true;
 		} else if (s == "height") {
 			Shape shape = fan.getShape();
 			if (shape instanceof Rectangle2D.Float)
 				((Rectangle2D.Float) shape).height = z;
+			arrayUpdateRequested = true;
 		} else if (s == "speed") {
-			fan.setSpeed(z);
+			fan.setSpeed(fan.getAngle() == 0 ? z : -z);
+			arrayUpdateRequested = true;
 		} else if (s == "angle") {
 			fan.setAngle(z);
+			arrayUpdateRequested = true;
 		} else if (s == "draggable") {
 			fan.setDraggable(z > 0);
 		}
@@ -1850,10 +1856,10 @@ class Scripter2D extends Scripter {
 					}
 				};
 				EventQueue.invokeLater(new Runnable() { // need to wait until the view is shown on the screen to set the actual location
-							public void run() {
-								EventQueue.invokeLater(r);
-							}
-						});
+					public void run() {
+						EventQueue.invokeLater(r);
+					}
+				});
 			} else if (s == "y") {
 				final float z2 = z;
 				final Runnable r = new Runnable() {

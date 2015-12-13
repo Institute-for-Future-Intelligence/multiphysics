@@ -940,6 +940,7 @@ class MenuBar extends JMenuBar {
 		examples.put("Double Vortex Streets", "examples/double-vortex-streets.e2d");
 		examples.put("Eddy", "examples/eddy1.e2d");
 		examples.put("Nozzle", "examples/nozzle.e2d");
+		examples.put("Winding Flow", "examples/meander.e2d");
 		createMenu(box, subMenu, examples);
 
 		subMenu = new JMenu("Particle Coupling");
