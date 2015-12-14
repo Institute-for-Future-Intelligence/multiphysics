@@ -3197,7 +3197,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			}
 		}
 		boolean shiftDown = e.isShiftDown();
-		float delta = shiftDown ? 2.5f : 0.25f;
+		float delta = snapToGrid ? (shiftDown ? 5 : 1) : (shiftDown ? 2.5f : 0.25f);
 		boolean showTip = false;
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:

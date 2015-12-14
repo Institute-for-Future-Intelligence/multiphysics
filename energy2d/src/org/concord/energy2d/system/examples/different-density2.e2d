@@ -6,7 +6,7 @@
 <model>
 <model_width>1.0</model_width>
 <model_height>1.0</model_height>
-<timestep>0.05</timestep>
+<timestep>0.01</timestep>
 <viewupdate_interval>10</viewupdate_interval>
 <sun_angle>1.5707964</sun_angle>
 <solar_power_density>2000.0</solar_power_density>
@@ -25,10 +25,10 @@
 </boundary>
 <structure>
 <part>
-<rectangle x="0.19999999" y="0.3" width="0.3" height="0.4"/><elasticity>1.0</elasticity>
+<rectangle x="0.19" y="0.3" width="0.3" height="0.4"/><elasticity>1.0</elasticity>
 <thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
-<density>20.0</density>
+<density>2.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
@@ -44,7 +44,7 @@
 <rectangle x="0.49999997" y="0.3" width="0.3" height="0.4"/><elasticity>1.0</elasticity>
 <thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
-<density>10.0</density>
+<density>1.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
