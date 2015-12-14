@@ -6,7 +6,7 @@
 <model>
 <model_width>1.0</model_width>
 <model_height>1.0</model_height>
-<timestep>5.0</timestep>
+<timestep>0.05</timestep>
 <viewupdate_interval>10</viewupdate_interval>
 <sun_angle>1.5707964</sun_angle>
 <solar_power_density>2000.0</solar_power_density>
@@ -28,10 +28,11 @@
 <rectangle x="0.19999999" y="0.3" width="0.3" height="0.4"/><elasticity>1.0</elasticity>
 <thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
-<density>200.0</density>
+<density>20.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>40.0</temperature>
@@ -43,10 +44,11 @@
 <rectangle x="0.49999997" y="0.3" width="0.3" height="0.4"/><elasticity>1.0</elasticity>
 <thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
-<density>100.0</density>
+<density>10.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>10.0</temperature>
@@ -75,5 +77,6 @@
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>60.0</maximum_temperature>
 <fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time (min)</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="These two materials differ only in density (they have-linebreak-identical specific heat)." face="Arial" size="14" style="0" color="ffffff" x="0.25" y="0.8"/>
+<text string="Total thermal energy = %thermal_energy J" face="SansSerif" size="16" style="1" color="ffffff" x="0.025" y="0.98"/>
 </view>
 </state>

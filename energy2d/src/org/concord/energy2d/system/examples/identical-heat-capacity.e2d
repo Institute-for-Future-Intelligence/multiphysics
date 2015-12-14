@@ -5,7 +5,7 @@
 <model>
 <model_width>1.0</model_width>
 <model_height>1.0</model_height>
-<timestep>0.05</timestep>
+<timestep>0.02</timestep>
 <viewupdate_interval>10</viewupdate_interval>
 <sun_angle>1.5707964</sun_angle>
 <solar_power_density>2000.0</solar_power_density>
@@ -71,5 +71,6 @@
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>60.0</maximum_temperature>
 <fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time (min)</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="These two blocks are made of identical material.-linebreak-They have different initial temperatures." face="Arial" size="14" style="0" color="ffffff" x="0.3049" y="0.8247"/>
+<text string="Total thermal energy = %thermal_energy J" face="SansSerif" size="16" style="1" color="ffffff" x="0.03499999" y="0.97"/>
 </view>
 </state>

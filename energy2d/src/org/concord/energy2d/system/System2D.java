@@ -84,7 +84,7 @@ import com.apple.eawt.ApplicationEvent;
  */
 public class System2D extends JApplet implements MwService, ManipulationListener {
 
-	final static String BRAND_NAME = "Energy2D V2.3";
+	final static String BRAND_NAME = "Energy2D V2.3.1";
 
 	Model2D model;
 	View2D view;

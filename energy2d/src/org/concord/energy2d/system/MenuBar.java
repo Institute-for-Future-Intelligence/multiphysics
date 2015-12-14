@@ -890,7 +890,7 @@ class MenuBar extends JMenuBar {
 		examples.put("Thermal Equilibrium Between Objects with Different Densities", "examples/different-density1.e2d");
 		examples.put("The Effect of Thermal Conductivity on Equilibration Speed", "examples/different-conductivity.e2d");
 		examples.put("The Zeroth Law of Thermodynamics", "examples/zeroth.e2d");
-		examples.put("The First Law of Thermodynamics", "examples/conservation-of-energy.e2d");
+		examples.put("A Test of the Accuracy of Conduction Simulation", "examples/conservation-of-energy.e2d");
 		createMenu(box, subMenu, examples);
 
 		subMenu = new JMenu("Conduction");
