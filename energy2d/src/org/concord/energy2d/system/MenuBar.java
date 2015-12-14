@@ -841,7 +841,7 @@ class MenuBar extends JMenuBar {
 			public void actionPerformed(ActionEvent e) {
 				box.view.getUndoManager().addEdit(new UndoGridSize(box.view));
 				int gridSize = box.view.getGridSize();
-				if (gridSize > 2)
+				if (gridSize > 1)
 					box.view.setGridSize(--gridSize);
 				box.view.repaint();
 				box.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);

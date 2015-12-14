@@ -3196,37 +3196,53 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				cooling = true;
 			}
 		}
-		boolean keyDown = IS_MAC ? e.isMetaDown() : e.isControlDown();
-		float delta = keyDown ? 5 : 1;
+		boolean shiftDown = e.isShiftDown();
+		float delta = shiftDown ? 2.5f : 0.25f;
+		boolean showTip = false;
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
 			delta *= -(xmax - xmin) / nx;
-			if (selectedManipulable != null)
+			if (selectedManipulable != null) {
 				translateManipulableBy(selectedManipulable, delta, 0);
-			else if (e.isAltDown())
+				showTip = true;
+			} else if (e.isAltDown()) {
 				translateAllBy(delta, 0);
+				showTip = true;
+			}
 			break;
 		case KeyEvent.VK_RIGHT:
 			delta *= (xmax - xmin) / nx;
-			if (selectedManipulable != null)
+			if (selectedManipulable != null) {
 				translateManipulableBy(selectedManipulable, delta, 0);
-			else if (e.isAltDown())
+				showTip = true;
+			} else if (e.isAltDown()) {
 				translateAllBy(delta, 0);
+				showTip = true;
+			}
 			break;
 		case KeyEvent.VK_DOWN:
 			delta *= (ymax - ymin) / ny;
-			if (selectedManipulable != null)
+			if (selectedManipulable != null) {
 				translateManipulableBy(selectedManipulable, 0, delta);
-			else if (e.isAltDown())
+				showTip = true;
+			} else if (e.isAltDown()) {
 				translateAllBy(0, delta);
+				showTip = true;
+			}
 			break;
 		case KeyEvent.VK_UP:
 			delta *= -(ymax - ymin) / ny;
-			if (selectedManipulable != null)
+			if (selectedManipulable != null) {
 				translateManipulableBy(selectedManipulable, 0, delta);
-			else if (e.isAltDown())
+				showTip = true;
+			} else if (e.isAltDown()) {
 				translateAllBy(0, delta);
+				showTip = true;
+			}
 			break;
+		}
+		if (showTip && !shiftDown) {
+			tipText = "Hold down SHIFT key to move faster";
 		}
 		if (showGrid) {
 			int gridSize = gridRenderer.getGridSize();
@@ -3302,6 +3318,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			break;
 		}
 		repaint();
+		tipText = null;
 		// e.consume();//don't call, or this stops key binding
 	}
 
