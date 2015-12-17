@@ -541,7 +541,7 @@ class MenuBar extends JMenuBar {
 		menu.add(mi);
 		menu.addSeparator();
 
-		mi = new JMenuItem("Links");
+		mi = new JMenuItem("Links...");
 		mi.setToolTipText("Set links to previous and next simulations");
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -552,7 +552,7 @@ class MenuBar extends JMenuBar {
 		menu.add(mi);
 		menu.addSeparator();
 
-		mi = new JMenuItem("Preferences");
+		mi = new JMenuItem("Preferences...");
 		mi.setToolTipText("Set preferences");
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -905,6 +905,7 @@ class MenuBar extends JMenuBar {
 		examples.put("The Parallel Circuit Analogy", "examples/parallel-circuit-analogy.e2d");
 		examples.put("Why We Feel Hot or Cold When Touching Something", "examples/hand.e2d");
 		examples.put("Wood Spoon vs. Metal Spoon", "examples/spoon.e2d");
+		examples.put("Which Material is the Best Conductor", "examples/conduction-test.e2d");
 		createMenu(box, subMenu, examples);
 
 		subMenu = new JMenu("Convection");

@@ -377,7 +377,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				}
 			}
 		};
-		a.putValue(Action.NAME, "Text Box");
+		a.putValue(Action.NAME, "Text Box...");
 		a.putValue(Action.SHORT_DESCRIPTION, "Insert a text box where the mouse last clicked");
 		getActionMap().put("Insert Text Box", a);
 
