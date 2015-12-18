@@ -1,0 +1,3 @@
+getdown.txt = 8fdf90d94b206e5828c10b3a2a011bb6
+energy2d.jar = 8ecdaf31a4dd86e49396859cae8ebba5
+digest.txt = 503fb48a645e8513e998db1746a431b6

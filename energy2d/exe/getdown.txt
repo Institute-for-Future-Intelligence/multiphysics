@@ -1,0 +1,12 @@
+# The URL from which the client is downloaded
+appbase = http://energy.concord.org/energy2d/update/
+allow_offline = true
+
+# UI Configuration
+ui.name = Energy2D
+ui.progress = 2, 2, 500, 22
+
+# Application jar files
+code = energy2d.jar
+# The main entry point for the application
+class = org.concord.energy2d.system.System2D

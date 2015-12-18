@@ -981,6 +981,15 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 	}
 
 	public static void main(final String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				start(args);
+			}
+		});
+	}
+
+	static void start(final String[] args) {
 
 		isApplet = false;
 
