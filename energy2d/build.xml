@@ -4,7 +4,7 @@
 	<property name="app.version" value="2.4"/>
 	<property name="build.src.dir" value="src" />
 	<property name="build.classes.dir" value="classes" />
-	<property name="build.dist.dir" value="dist" />
+	<property name="build.dist.dir" value="C:\dist" />
 	
 	<condition property="JAVA_HOME" value="C:\Program Files (x86)\Java\jdk1.8.0_66\">
 		<os family="windows" />
@@ -65,7 +65,7 @@
 	<target name="deploy">
 		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath=".:${JAVA_HOME}/lib/ant-javafx.jar" />
 		<fx:deploy outdir="${build.dist.dir}" outfile="energy2d" nativeBundles="${bundle_type}" verbose="true">
-			<fx:application name="${app.name}" mainClass="com.threerings.getdown.launcher.GetdownApp" version="${app.version}">
+			<fx:application name="${app.name}" mainClass="org.concord.energy2d.system.System2D" version="${app.version}">
 				<fx:argument>.</fx:argument>
 			</fx:application>
 			<fx:preferences shortcut="true" menu="true" />

@@ -9,4 +9,4 @@ ui.progress = 2, 2, 500, 22
 # Application jar files
 code = energy2d.jar
 # The main entry point for the application
-class = org.concord.energy2d.system.System2D
+class = org.concord.energy3d.util.UpdateStub

@@ -374,13 +374,11 @@ class MenuBar extends JMenuBar {
 					EventQueue.invokeLater(new Runnable() {
 						public void run() {
 							box.shutdown();
-							System.exit(0);
 						}
 					});
 					break;
 				case JOptionPane.NO_OPTION:
 					box.shutdown();
-					System.exit(0);
 					break;
 				case JOptionPane.CANCEL_OPTION:
 					// do nothing

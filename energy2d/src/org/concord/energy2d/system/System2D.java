@@ -84,7 +84,7 @@ import com.apple.eawt.ApplicationEvent;
  */
 public class System2D extends JApplet implements MwService, ManipulationListener {
 
-	final static String BRAND_NAME = "Energy2D V2.3.1";
+	final static String BRAND_NAME = "Energy2D V2.4";
 
 	Model2D model;
 	View2D view;
@@ -110,6 +110,8 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 	private List<PropertyChangeListener> propertyChangeListeners;
 	private JFrame owner;
 	private static Preferences preferences;
+	private static boolean launchedByJWS;
+	private static boolean appDirectoryWritable = true;
 
 	public System2D() {
 
@@ -978,6 +980,16 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 			preferences.putInt("Sensor Maximum Data Points", Sensor.getMaximumDataPoints());
 		}
 		MiscUtil.shutdown();
+		if (launchedByJWS) {
+			System.exit(0);
+		} else {
+			if (appDirectoryWritable) {
+				owner.setVisible(false);
+				UpdateStub.update();
+			} else {
+				System.exit(0);
+			}
+		}
 	}
 
 	public static void main(final String[] args) {
@@ -993,9 +1005,16 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 
 		isApplet = false;
 
-		Locale.setDefault(Locale.US);
+		File testFile = new File(System.getProperty("user.dir"), "test.txt");
+		// can't use File.canWrite() to check if we can write a file to this folder. So we have to walk extra miles as follows.
+		try {
+			testFile.createNewFile();
+			testFile.delete();
+		} catch (Throwable e) {
+			appDirectoryWritable = false;
+		}
 
-		boolean launchedByJWS = false;
+		Locale.setDefault(Locale.US);
 
 		// detect if the app is launched via webstart just checking its class loader: SystemClassLoader or JnlpClassLoader.
 		ClassLoader cl = Thread.currentThread().getContextClassLoader();
@@ -1058,13 +1077,19 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 			public void windowOpened(WindowEvent e) {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
-						if (args != null && args.length > 1) {
-							String filePath = args[1];
-							if (filePath.toLowerCase().trim().endsWith(".e2d")) {
-								box.loadFile(new File(filePath));
-								menuBar.e2dFileChooser.rememberFile(filePath);
-							}
-
+						if (args == null)
+							return;
+						String filePath = null;
+						if (launchedByJWS) {
+							if (args.length > 1)
+								filePath = args[1];
+						} else {
+							if (args.length > 0)
+								filePath = args[0];
+						}
+						if (filePath != null && filePath.toLowerCase().trim().endsWith(".e2d")) {
+							box.loadFile(new File(filePath));
+							menuBar.e2dFileChooser.rememberFile(filePath);
 						}
 					}
 				});
@@ -1114,8 +1139,8 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 			});
 		}
 
-		if (!launchedByJWS)
-			UpdateAnnouncer.showMessage(box);
+		// if (!launchedByJWS)
+		// UpdateAnnouncer.showMessage(box);
 
 	}
 
