@@ -1,0 +1,16 @@
+<?xml version = "1.0" ?>
+<package>
+    <job id="CodeSign">
+    <script language = "VBScript">
+        <![CDATA[    
+            'Set File as Normal. . .
+
+            Dim objFSO, objFile
+            Set objFSO = CreateObject("Scripting.FileSystemObject")
+            Set objFile = objFSO.GetFile("Energy2D\Energy2D.exe")
+            objFile.Attributes = 0
+
+        ]]>
+    </script>
+    </job>
+</package>
