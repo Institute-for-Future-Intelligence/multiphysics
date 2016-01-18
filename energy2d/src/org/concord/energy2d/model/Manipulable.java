@@ -22,7 +22,11 @@ public abstract class Manipulable {
 		setShape(shape);
 	}
 
+	public abstract Manipulable duplicate();
+
 	public abstract Manipulable duplicate(float x, float y);
+
+	public abstract void translateBy(float dx, float dy);
 
 	public void setUid(String uid) {
 		this.uid = uid;

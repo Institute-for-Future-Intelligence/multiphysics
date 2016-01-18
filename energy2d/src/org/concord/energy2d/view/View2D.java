@@ -351,7 +351,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 		pasteAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				paste();
+				paste(e.getSource() == View2D.this);
 			}
 		};
 		ks = IS_MAC ? KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.META_MASK) : KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_MASK);
@@ -1329,50 +1329,113 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		copiedManipulable = selectedManipulable;
 	}
 
-	private void paste() {
+	// paste can be done through keyboard shortcut or pop-up menu
+	private void paste(boolean keyboard) {
+		Cursor oldCursor = getCursor();
+		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		float x = convertPixelToPointX(mouseReleasedPoint.x);
 		float y = convertPixelToPointY(mouseReleasedPoint.y);
+		float dx = model.getLx() / (float) nx;
+		float dy = model.getLy() / (float) ny;
 		Manipulable pastedManipulable = null;
 		if (copiedManipulable instanceof Part) {
-			pastedManipulable = ((Part) copiedManipulable).duplicate(x, y);
+			if (keyboard) {
+				pastedManipulable = copiedManipulable.duplicate();
+				pastedManipulable.translateBy(dx, dy);
+			} else {
+				pastedManipulable = copiedManipulable.duplicate(x, y);
+			}
 			model.addPart((Part) pastedManipulable);
 			model.refreshPowerArray();
 			model.refreshTemperatureBoundaryArray();
 			model.refreshMaterialPropertyArrays();
 			model.setInitialTemperature();
 		} else if (copiedManipulable instanceof Fan) {
-			pastedManipulable = ((Fan) copiedManipulable).duplicate(x, y);
+			if (keyboard) {
+				pastedManipulable = copiedManipulable.duplicate();
+				pastedManipulable.translateBy(dx, dy);
+			} else {
+				pastedManipulable = copiedManipulable.duplicate(x, y);
+			}
 			model.addFan((Fan) pastedManipulable);
 			model.refreshMaterialPropertyArrays();
 		} else if (copiedManipulable instanceof Heliostat) {
-			pastedManipulable = ((Heliostat) copiedManipulable).duplicate(x, y);
+			if (keyboard) {
+				pastedManipulable = copiedManipulable.duplicate();
+				pastedManipulable.translateBy(dx, dy);
+			} else {
+				pastedManipulable = copiedManipulable.duplicate(x, y);
+			}
 			model.addHeliostat((Heliostat) pastedManipulable);
 		} else if (copiedManipulable instanceof Particle) {
-			pastedManipulable = ((Particle) copiedManipulable).duplicate(x, y);
+			if (keyboard) {
+				pastedManipulable = copiedManipulable.duplicate();
+				pastedManipulable.translateBy(dx, dy);
+			} else {
+				pastedManipulable = copiedManipulable.duplicate(x, y);
+			}
 			model.addParticle((Particle) pastedManipulable);
 		} else if (copiedManipulable instanceof Thermometer) {
-			pastedManipulable = addThermometer(x, y);
+			if (keyboard) {
+				Thermometer t0 = (Thermometer) copiedManipulable;
+				pastedManipulable = addThermometer(t0.getX() + dx, t0.getY() + dy);
+			} else {
+				pastedManipulable = addThermometer(x, y);
+			}
 		} else if (copiedManipulable instanceof HeatFluxSensor) {
-			pastedManipulable = addHeatFluxSensor(x, y);
+			if (keyboard) {
+				HeatFluxSensor h0 = (HeatFluxSensor) copiedManipulable;
+				pastedManipulable = addHeatFluxSensor(h0.getX() + dx, h0.getY() + dy);
+			} else {
+				pastedManipulable = addHeatFluxSensor(x, y);
+			}
 			((HeatFluxSensor) pastedManipulable).setAngle(((HeatFluxSensor) copiedManipulable).getAngle());
 		} else if (copiedManipulable instanceof Anemometer) {
-			pastedManipulable = addAnemometer(x, y);
+			if (keyboard) {
+				Anemometer a0 = (Anemometer) copiedManipulable;
+				pastedManipulable = addAnemometer(a0.getX() + dx, a0.getY() + dy);
+			} else {
+				pastedManipulable = addAnemometer(x, y);
+			}
 		} else if (copiedManipulable instanceof TextBox) {
-			pastedManipulable = ((TextBox) copiedManipulable).duplicate(x, model.getLy() - y);
+			if (keyboard) {
+				pastedManipulable = copiedManipulable.duplicate();
+				pastedManipulable.translateBy(dx, -dy); // translation exception for textbox
+			} else {
+				pastedManipulable = copiedManipulable.duplicate(x, model.getLy() - y);
+			}
 			addTextBox((TextBox) pastedManipulable);
 		} else if (copiedManipulable instanceof Cloud) {
-			pastedManipulable = ((Cloud) copiedManipulable).duplicate(x, y);
+			if (keyboard) {
+				pastedManipulable = copiedManipulable.duplicate();
+				pastedManipulable.translateBy(dx, dy);
+			} else {
+				pastedManipulable = copiedManipulable.duplicate(x, y);
+			}
 			model.addCloud((Cloud) pastedManipulable);
 		} else if (copiedManipulable instanceof Tree) {
-			pastedManipulable = ((Tree) copiedManipulable).duplicate(x, y);
+			if (keyboard) {
+				pastedManipulable = copiedManipulable.duplicate();
+				pastedManipulable.translateBy(dx, dy);
+			} else {
+				pastedManipulable = copiedManipulable.duplicate(x, y);
+			}
 			model.addTree((Tree) pastedManipulable);
 		} else if (copiedManipulable instanceof ParticleFeeder) {
-			pastedManipulable = ((ParticleFeeder) copiedManipulable).duplicate(x, y);
+			if (keyboard) {
+				pastedManipulable = copiedManipulable.duplicate();
+				pastedManipulable.translateBy(dx, dy);
+			} else {
+				pastedManipulable = copiedManipulable.duplicate(x, y);
+			}
 			model.addParticleFeeder((ParticleFeeder) pastedManipulable);
 		}
+		setSelectedManipulable(pastedManipulable);
+		copiedManipulable = pastedManipulable;
 		notifyManipulationListeners(pastedManipulable, ManipulationEvent.PROPERTY_CHANGE);
 		undoManager.addEdit(new UndoPaste(pastedManipulable, this));
 		repaint();
+		setCursor(oldCursor);
 	}
 
 	private void createModelPopupMenu() {
@@ -1394,10 +1457,16 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 			@Override
 			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+				copyAction.setEnabled(true); // must re-enable all the disabled actions when popup menu shows
+				cutAction.setEnabled(true);
+				pasteAction.setEnabled(true);
 			}
 
 			@Override
 			public void popupMenuCanceled(PopupMenuEvent e) {
+				copyAction.setEnabled(true);
+				cutAction.setEnabled(true);
+				pasteAction.setEnabled(true);
 			}
 
 		});
@@ -1513,10 +1582,16 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 			@Override
 			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+				copyAction.setEnabled(true);
+				cutAction.setEnabled(true);
+				pasteAction.setEnabled(true);
 			}
 
 			@Override
 			public void popupMenuCanceled(PopupMenuEvent e) {
+				copyAction.setEnabled(true);
+				cutAction.setEnabled(true);
+				pasteAction.setEnabled(true);
 			}
 
 		});

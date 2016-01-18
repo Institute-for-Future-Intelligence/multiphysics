@@ -25,7 +25,22 @@ public class Anemometer extends Sensor {
 		setLabel(label);
 	}
 
+	@Override
 	public Anemometer duplicate(float x, float y) {
+		return new Anemometer(x, y);
+	}
+
+	@Override
+	public Anemometer duplicate() {
+		float x = 0;
+		float y = 0;
+		if (getShape() instanceof Rectangle2D.Float) {
+			Rectangle2D.Float r = (Rectangle2D.Float) getShape();
+			x = r.x + 0.5f * r.width;
+			y = r.y + 0.5f * r.height;
+		} else {
+			// TODO: none-rectangular shape
+		}
 		return new Anemometer(x, y);
 	}
 

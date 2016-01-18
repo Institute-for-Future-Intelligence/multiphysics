@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <state>
 <links>
+<next_sim>thermal-bridge-balcony.e2d</next_sim>
 </links>
 <model>
 <model_width>1.0</model_width>
@@ -186,17 +187,19 @@
 </controller>
 </model>
 <view>
+<grid>true</grid>
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
 <perimeter_step_size>0.05</perimeter_step_size>
 <border_tickmarks>true</border_tickmarks>
 <isotherm>true</isotherm>
 <color_palette_type>1</color_palette_type>
+<control_panel>true</control_panel>
 <color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
 <maximum_temperature>20.0</maximum_temperature>
 <fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
 <text string="A thermal bridge-linebreak--linebreak-Horizontal -linebreak-wall crosssection" face="Arial" size="12" style="1" color="666666" x="0.035" y="0.98"/>
-<text string="Interior" face="Arial" size="12" style="1" color="0" x="0.055" y="0.08"/>
-<text string="Exterior" face="Arial" size="12" style="1" color="ffffff" x="0.65" y="0.08"/>
+<text string="Interior" face="Arial" size="12" style="1" color="0" x="0.055" y="0.16000001"/>
+<text string="Exterior" face="Arial" size="12" style="1" color="ffffff" x="0.65" y="0.16000001"/>
 </view>
 </state>

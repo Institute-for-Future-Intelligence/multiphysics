@@ -36,6 +36,21 @@ public class Fan extends Manipulable {
 		return f;
 	}
 
+	@Override
+	public Fan duplicate() {
+		Shape s = getShape();
+		if (s instanceof Rectangle2D.Float) {
+			Rectangle2D.Float r = (Rectangle2D.Float) s;
+			s = new Rectangle2D.Float(r.x, r.y, r.width, r.height);
+		}
+		Fan f = new Fan(s);
+		f.angle = angle;
+		f.speed = speed;
+		f.setLabel(getLabel());
+		return f;
+	}
+
+	@Override
 	public void translateBy(float dx, float dy) {
 		Shape s = getShape();
 		if (s instanceof Rectangle2D.Float) {

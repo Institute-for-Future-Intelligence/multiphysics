@@ -52,6 +52,7 @@ public abstract class Sensor extends Manipulable {
 		}
 	}
 
+	@Override
 	public void translateBy(float dx, float dy) {
 		if (getShape() instanceof Rectangle2D.Float) {
 			Rectangle2D.Float r = (Rectangle2D.Float) getShape();

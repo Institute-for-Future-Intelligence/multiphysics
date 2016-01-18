@@ -77,6 +77,7 @@ public class Tree extends Manipulable {
 		return color;
 	}
 
+	@Override
 	public void translateBy(float dx, float dy) {
 		x += dx;
 		y += dy;
@@ -142,6 +143,16 @@ public class Tree extends Manipulable {
 		t.color = color;
 		t.setX(x - boundingBox.width / 2); // offset to the center, since this method is called to paste.
 		t.setY(y - boundingBox.height / 2);
+		return t;
+	}
+
+	@Override
+	public Tree duplicate() {
+		Tree t = new Tree(new Rectangle2D.Float(0, 0, boundingBox.width, boundingBox.height), type);
+		t.setLabel(getLabel());
+		t.color = color;
+		t.x = x;
+		t.y = y;
 		return t;
 	}
 

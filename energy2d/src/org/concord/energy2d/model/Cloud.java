@@ -63,6 +63,7 @@ public class Cloud extends Manipulable {
 			x += lx + boundingBox.width;
 	}
 
+	@Override
 	public void translateBy(float dx, float dy) {
 		x += dx;
 		y += dy;
@@ -122,13 +123,24 @@ public class Cloud extends Manipulable {
 	}
 
 	@Override
-	public Cloud duplicate(float x, float y) {
+	public Cloud duplicate(float newX, float newY) {
 		Cloud c = new Cloud(new Rectangle2D.Float(0, 0, boundingBox.width, boundingBox.height));
 		c.speed = speed;
 		c.setLabel(getLabel());
 		c.color = color;
-		c.setX(x - boundingBox.width / 2); // offset to the center, since this method is called to paste.
-		c.setY(y - boundingBox.height / 2);
+		c.setX(newX - boundingBox.width / 2); // offset to the center, since this method is called to paste.
+		c.setY(newY - boundingBox.height / 2);
+		return c;
+	}
+
+	@Override
+	public Cloud duplicate() {
+		Cloud c = new Cloud(new Rectangle2D.Float(0, 0, boundingBox.width, boundingBox.height));
+		c.speed = speed;
+		c.setLabel(getLabel());
+		c.color = color;
+		c.x = x;
+		c.y = y;
 		return c;
 	}
 

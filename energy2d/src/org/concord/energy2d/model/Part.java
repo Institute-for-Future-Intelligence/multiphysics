@@ -102,6 +102,7 @@ public class Part extends Manipulable {
 		return fillPattern;
 	}
 
+	@Override
 	public Part duplicate(float x, float y) {
 		Shape s = getShape();
 		if (s instanceof Rectangle2D.Float) {
@@ -133,6 +134,27 @@ public class Part extends Manipulable {
 		return p;
 	}
 
+	@Override
+	public Part duplicate() {
+		Shape s = getShape();
+		if (s instanceof Rectangle2D.Float) {
+			Rectangle2D.Float r = (Rectangle2D.Float) s;
+			s = new Rectangle2D.Float(r.x, r.y, r.width, r.height);
+		} else if (s instanceof Ellipse2D.Float) {
+			Ellipse2D.Float e = (Ellipse2D.Float) s;
+			s = new Ellipse2D.Float(e.x, e.y, e.width, e.height);
+		} else if (s instanceof Ring2D) {
+			s = new Ring2D((Ring2D) s);
+		} else if (s instanceof Polygon2D) {
+			s = ((Polygon2D) s).duplicate();
+		} else if (s instanceof Blob2D) {
+			s = ((Blob2D) s).duplicate();
+		}
+		Part p = new Part(s, model);
+		copyPropertiesTo(p);
+		return p;
+	}
+
 	public void copyPropertiesTo(Part p) {
 		p.filled = filled;
 		p.fillPattern = fillPattern;
@@ -156,6 +178,7 @@ public class Part extends Manipulable {
 		p.setLabel(getLabel());
 	}
 
+	@Override
 	public void translateBy(float dx, float dy) {
 		Shape s = getShape();
 		if (s instanceof Rectangle2D.Float) {

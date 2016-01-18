@@ -43,6 +43,26 @@ public class ParticleFeeder extends Manipulable {
 		return pf;
 	}
 
+	@Override
+	public ParticleFeeder duplicate() {
+		float x = 0;
+		float y = 0;
+		Shape s = getShape();
+		if (s instanceof Rectangle2D.Float) {
+			Rectangle2D.Float r = (Rectangle2D.Float) s;
+			x = r.x + 0.5f * r.width;
+			y = r.y + 0.5f * r.height;
+		}
+		ParticleFeeder pf = new ParticleFeeder(x, y);
+		pf.mass = mass;
+		pf.radius = radius;
+		pf.period = period;
+		pf.maximum = maximum;
+		pf.color = color;
+		pf.velocityColor = velocityColor;
+		return pf;
+	}
+
 	public void feed(Model2D model) {
 		List<Particle> particles = model.getParticles();
 		if (particles.size() >= maximum)
@@ -65,6 +85,7 @@ public class ParticleFeeder extends Manipulable {
 		model.addParticle(p);
 	}
 
+	@Override
 	public void translateBy(float dx, float dy) {
 		Shape s = getShape();
 		if (s instanceof Rectangle2D.Float) {

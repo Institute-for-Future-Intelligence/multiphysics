@@ -47,8 +47,23 @@ public class Particle extends Manipulable implements Discrete {
 		e.width = e.height = radius * 2;
 	}
 
+	@Override
 	public Particle duplicate(float x, float y) {
 		Particle p = new Particle(x, y);
+		p.color = color;
+		p.velocityColor = velocityColor;
+		p.mass = mass;
+		p.radius = radius;
+		p.vx = vx;
+		p.vy = vy;
+		p.temperature = temperature;
+		p.updateShape();
+		return p;
+	}
+
+	@Override
+	public Particle duplicate() {
+		Particle p = new Particle(rx, ry);
 		p.color = color;
 		p.velocityColor = velocityColor;
 		p.mass = mass;
@@ -120,6 +135,7 @@ public class Particle extends Manipulable implements Discrete {
 		return true;
 	}
 
+	@Override
 	public void translateBy(float deltaX, float deltaY) {
 		rx += deltaX;
 		ry += deltaY;

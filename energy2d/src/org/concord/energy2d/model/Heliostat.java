@@ -44,6 +44,21 @@ public class Heliostat extends Manipulable {
 		return h;
 	}
 
+	@Override
+	public Heliostat duplicate() {
+		Shape s = getShape();
+		if (s instanceof Rectangle2D.Float) {
+			Rectangle2D.Float r = (Rectangle2D.Float) s;
+			s = new Rectangle2D.Float(r.x, r.y, r.width, r.height);
+		}
+		Heliostat h = new Heliostat(s, model);
+		h.target = target;
+		h.setAngle();
+		h.setLabel(getLabel());
+		return h;
+	}
+
+	@Override
 	public void translateBy(float dx, float dy) {
 		Shape s = getShape();
 		if (s instanceof Rectangle2D.Float) {
