@@ -980,7 +980,7 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 			preferences.putInt("Sensor Maximum Data Points", Sensor.getMaximumDataPoints());
 		}
 		MiscUtil.shutdown();
-		if (launchedByJWS) {
+		if (launchedByJWS || "true".equalsIgnoreCase(System.getProperty("NoUpdate"))) {
 			System.exit(0);
 		} else {
 			if (appDirectoryWritable) {

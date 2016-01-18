@@ -2997,6 +2997,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			model.refreshPowerArray();
 			model.refreshTemperatureBoundaryArray();
 		}
+		for (TextBox t : textBoxes) {
+			t.setX(t.getX() * scaleFactor);
+			t.setY(t.getY() * scaleFactor);
+		}
 		setSelectedManipulable(getSelectedManipulable());
 		repaint();
 		notifyManipulationListeners(null, ManipulationEvent.RESIZE);
