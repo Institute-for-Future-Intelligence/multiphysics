@@ -22,6 +22,7 @@ abstract class HeatSolver2D {
 	float timeStep = 0.1f;
 	float backgroundTemperature;
 	float zHeatDiffusivity;
+	boolean zHeatDiffusivityOnlyForFluid;
 
 	HeatSolver2D(int nx, int ny) {
 		this.nx = nx;

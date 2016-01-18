@@ -213,6 +213,14 @@ public class Model2D {
 		return heatSolver.zHeatDiffusivity;
 	}
 
+	public void setZHeatDiffusivityOnlyForFluid(boolean zHeatDiffusivityOnlyForFluid) {
+		heatSolver.zHeatDiffusivityOnlyForFluid = zHeatDiffusivityOnlyForFluid;
+	}
+
+	public boolean getZHeatDiffusivityOnlyForFluid() {
+		return heatSolver.zHeatDiffusivityOnlyForFluid;
+	}
+
 	public void setThermophoreticCoefficient(float thermophoreticCoefficient) {
 		particleSolver.thermophoreticCoefficient = thermophoreticCoefficient;
 	}

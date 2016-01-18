@@ -91,6 +91,7 @@ class XmlEncoder {
 		sb.append("<particle_hardness>" + box.model.getParticleHardness() + "</particle_hardness>");
 
 		sb.append("<z_heat_diffusivity>" + box.model.getZHeatDiffusivity() + "</z_heat_diffusivity>");
+		sb.append("<z_heat_diffusivity_only_for_fluid>" + box.model.getZHeatDiffusivityOnlyForFluid() + "</z_heat_diffusivity_only_for_fluid>");
 
 		if (!box.model.isConvective()) {
 			sb.append("<convective>false</convective>\n");

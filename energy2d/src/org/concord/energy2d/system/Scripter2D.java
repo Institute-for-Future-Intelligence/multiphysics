@@ -920,6 +920,15 @@ class Scripter2D extends Scripter {
 						return;
 					}
 					s2d.model.setZHeatDiffusivity(zHeatDiffusivity);
+				} else if (t[0].equalsIgnoreCase("z_heat_diffusivity_only_for_fluid")) {
+					boolean zHeatDiffusivityOnlyForFluid=false;
+					try {
+						zHeatDiffusivityOnlyForFluid = Boolean.parseBoolean(t[1]);
+					} catch (NumberFormatException e) {
+						showException(ci, e);
+						return;
+					}
+					s2d.model.setZHeatDiffusivityOnlyForFluid(zHeatDiffusivityOnlyForFluid);
 				} else if (t[0].equalsIgnoreCase("gravitational_acceleration")) {
 					float gravitationalAcceleration = 0;
 					try {

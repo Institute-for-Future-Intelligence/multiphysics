@@ -46,9 +46,10 @@ class HeatSolver2DImpl extends HeatSolver2D {
 						ayij = hy * (rij + conductivity[i][j - 1]);
 						byij = hy * (rij + conductivity[i][j + 1]);
 						t[i][j] = (t0[i][j] * sij + q[i][j] + axij * t[i - 1][j] + bxij * t[i + 1][j] + ayij * t[i][j - 1] + byij * t[i][j + 1]) / (sij + axij + bxij + ayij + byij);
+						// use a simple proportional control only at the last step of relaxation if applicable
 						if (solveZ && k == relaxationSteps - 1) {
-							// use a simple proportional control only at the last step of relaxation
-							t[i][j] -= zHeatDiffusivity * timeStep * (t0[i][j] - backgroundTemperature);
+							if (!zHeatDiffusivityOnlyForFluid || (zHeatDiffusivityOnlyForFluid && fluidity[i][j]))
+								t[i][j] -= zHeatDiffusivity * timeStep * (t0[i][j] - backgroundTemperature);
 						}
 					} else {
 						t[i][j] = tb[i][j];

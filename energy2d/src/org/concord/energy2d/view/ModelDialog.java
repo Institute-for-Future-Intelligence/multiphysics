@@ -98,6 +98,7 @@ class ModelDialog extends JDialog {
 	private JLabel gravityTypeLabel;
 	private JComboBox<String> gravityTypeComboBox;
 	private JTextField zDiffusivityField;
+	private JCheckBox zDiffusivityOnlyForFluidCheckBox;
 	private JTextField gravitationalAccelerationField;
 	private JTextField particleDragField;
 	private JTextField particleHardnessField;
@@ -228,6 +229,7 @@ class ModelDialog extends JDialog {
 				model.setPhotonEmissionInterval((int) emissionInterval);
 				model.setSunAngle((float) Math.toRadians(sunAngleSlider.getValue()));
 				model.setZHeatDiffusivity(zHeatDiffusivity);
+				model.setZHeatDiffusivityOnlyForFluid(zDiffusivityOnlyForFluidCheckBox.isSelected());
 				model.setGravitationalAcceleration(gravitationalAcceleration);
 				model.setThermophoreticCoefficient(thermophoreticCoefficient);
 				model.setParticleDrag(particleDrag);
@@ -410,9 +412,9 @@ class ModelDialog extends JDialog {
 		zDiffusivityField.addActionListener(okListener);
 		p.add(zDiffusivityField);
 
-		// dummy
-		label = new JLabel();
-		p.add(label);
+		zDiffusivityOnlyForFluidCheckBox = new JCheckBox("Fluid only", model.getZHeatDiffusivityOnlyForFluid());
+		zDiffusivityOnlyForFluidCheckBox.setToolTipText("Apply Z heat diffusivity only to fluid");
+		p.add(zDiffusivityOnlyForFluidCheckBox);
 
 		// dummy
 		label = new JLabel();
@@ -432,7 +434,7 @@ class ModelDialog extends JDialog {
 
 		p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		pp.add(p, BorderLayout.CENTER);
-		p.add(new JLabel("<html><br><hr align=left width=100>* The Z heat diffusivity permits heat exchange in the direction perpendicular to the screen.<br>If it is positive, the system will settle at the background temperature set for the medium.</html>"));
+		p.add(new JLabel("<html><br><hr align=left width=100>* The Z heat diffusivity permits heat exchange in the direction perpendicular to the screen.<br>If it is positive, the system will settle at the background temperature set for the medium.<br>This property can be applied to fluid only.</html>"));
 
 		// fluid properties pane
 

@@ -59,6 +59,7 @@ class XmlDecoder extends DefaultHandler {
 	private float perimeterStepSize = 0.05f;
 	private boolean convective = true;
 	private float zHeatDiffusivity;
+	private boolean zHeatDiffusivityOnlyForFluid;
 	private float gravitationalAcceleration = -1;
 	private float thermophoreticCoefficient = 0;
 	private float particleDrag = -1;
@@ -187,6 +188,7 @@ class XmlDecoder extends DefaultHandler {
 		box.model.setPerimeterStepSize(perimeterStepSize);
 		box.model.setConvective(convective);
 		box.model.setZHeatDiffusivity(zHeatDiffusivity);
+		box.model.setZHeatDiffusivityOnlyForFluid(zHeatDiffusivityOnlyForFluid);
 		if (gravitationalAcceleration >= 0)
 			box.model.setGravitationalAcceleration(gravitationalAcceleration);
 		box.model.setThermophoreticCoefficient(thermophoreticCoefficient);
@@ -924,6 +926,8 @@ class XmlDecoder extends DefaultHandler {
 			perimeterStepSize = Float.parseFloat(str);
 		} else if (qName == "z_heat_diffusivity") {
 			zHeatDiffusivity = Float.parseFloat(str);
+		} else if (qName == "z_heat_diffusivity_only_for_fluid") {
+			zHeatDiffusivityOnlyForFluid = Boolean.parseBoolean(str);
 		} else if (qName == "gravitational_acceleration") {
 			gravitationalAcceleration = Float.parseFloat(str);
 		} else if (qName == "thermophoretic_coefficient") {
@@ -1236,6 +1240,7 @@ class XmlDecoder extends DefaultHandler {
 		photonEmissionInterval = 20;
 		perimeterStepSize = 0.05f;
 		zHeatDiffusivity = 0;
+		zHeatDiffusivityOnlyForFluid = false;
 		gravitationalAcceleration = -1;
 		thermophoreticCoefficient = 0;
 		particleDrag = -1;
