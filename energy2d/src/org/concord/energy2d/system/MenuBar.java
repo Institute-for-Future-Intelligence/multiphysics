@@ -931,6 +931,7 @@ class MenuBar extends JMenuBar {
 		subMenu = new JMenu("Fluid Dynamics");
 		menu.add(subMenu);
 
+		examples.put("Spit Fire", "examples/viscosity-turbulence.e2d");
 		examples.put("Bénard Cell", "examples/benard-cell.e2d");
 		examples.put("Lid-Driven Cavity", "examples/lid-driven-cavity.e2d");
 		examples.put("Smoke in Wind", "examples/smoke-in-wind.e2d");

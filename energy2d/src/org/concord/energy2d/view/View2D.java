@@ -89,6 +89,7 @@ import org.concord.energy2d.undo.UndoEditPolygon;
 import org.concord.energy2d.undo.UndoPaste;
 import org.concord.energy2d.undo.UndoRemoveManipulable;
 import org.concord.energy2d.undo.UndoResizeManipulable;
+import org.concord.energy2d.undo.UndoTranslateAll;
 import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.undo.UndoZoom;
 import org.concord.energy2d.util.ColorFill;
@@ -997,7 +998,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						Polygon2D r = (Polygon2D) shape;
 						int n = r.getVertexCount();
 						if (n > 50) {
-							if (JOptionPane.showConfirmDialog(JOptionPane.getFrameForComponent(this), "This model has many points. Radiation calculation can be very slow. Do you want to continue?", "Too Many Points", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.NO_OPTION)
+							if (JOptionPane.showConfirmDialog(JOptionPane.getFrameForComponent(this), "This model has too many points. Radiation calculation can be very slow. Do you want to continue?", "Too Many Points", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.NO_OPTION)
 								return;
 							break;
 						}
@@ -3102,7 +3103,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 	}
 
-	private void translateAllBy(float dx, float dy) {
+	public void translateAllBy(float dx, float dy) {
 		model.translateAllBy(dx, dy);
 		if (!textBoxes.isEmpty()) {
 			for (TextBox t : textBoxes) {
@@ -3287,6 +3288,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			} else if (e.isAltDown()) {
 				translateAllBy(delta, 0);
 				showTip = true;
+				undoManager.addEdit(new UndoTranslateAll(this, e.getKeyCode(), delta));
 			}
 			break;
 		case KeyEvent.VK_RIGHT:
@@ -3297,6 +3299,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			} else if (e.isAltDown()) {
 				translateAllBy(delta, 0);
 				showTip = true;
+				undoManager.addEdit(new UndoTranslateAll(this, e.getKeyCode(), delta));
 			}
 			break;
 		case KeyEvent.VK_DOWN:
@@ -3307,6 +3310,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			} else if (e.isAltDown()) {
 				translateAllBy(0, delta);
 				showTip = true;
+				undoManager.addEdit(new UndoTranslateAll(this, e.getKeyCode(), delta));
 			}
 			break;
 		case KeyEvent.VK_UP:
@@ -3317,6 +3321,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			} else if (e.isAltDown()) {
 				translateAllBy(0, delta);
 				showTip = true;
+				undoManager.addEdit(new UndoTranslateAll(this, e.getKeyCode(), delta));
 			}
 			break;
 		}
