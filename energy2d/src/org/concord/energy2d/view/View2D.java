@@ -2348,11 +2348,11 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		Symbol.Thermometer s = new Symbol.Thermometer(false);
 		float w = Thermometer.RELATIVE_WIDTH * model.getLx();
 		float h = Thermometer.RELATIVE_HEIGHT * model.getLy();
+		float sensingSpotY = 0.5f * h;
 		s.setIconWidth(Math.round(getHeight() * w / (xmax - xmin))); // use view height to set icon dimension so that the thermometer doesn't get distorted
 		s.setIconHeight(Math.round(getHeight() * h / (ymax - ymin)));
 		float iconW2 = s.getIconWidth() * 0.5f;
 		float iconH2 = s.getIconHeight() * 0.5f;
-		float sensingSpotY = convertPixelToLengthYPrecisely((int) (iconH2 - s.getBallDiameterOffset() * 0.5f));
 		int shiftH = Math.round(sensingSpotY / model.getLy() * ny);
 		float temp;
 		String str;
@@ -4175,6 +4175,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		r.width = Thermometer.RELATIVE_WIDTH * model.getLx();
 		r.height = Thermometer.RELATIVE_HEIGHT * model.getLy();
 		t.setCenter(x, y);
+		t.setSensingSpotY(r.height * 0.5f);
 		model.addThermometer(t);
 		return t;
 	}

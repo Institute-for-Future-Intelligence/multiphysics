@@ -247,10 +247,6 @@ public abstract class Symbol implements Icon {
 			return hSymbol - Math.round(wSymbol * 1.5f);
 		}
 
-		public int getBallDiameterOffset() {
-			return ballDiameter - 3;
-		}
-
 		public void paintIcon(Component c, Graphics g, int x, int y) {
 			super.paintIcon(c, g, x, y);
 			Graphics2D g2 = (Graphics2D) g;
@@ -262,7 +258,7 @@ public abstract class Symbol implements Icon {
 			g2.fillRect(xSymbol, ySymbol, wSymbol, hSymbol);
 			ballDiameter = Math.round(wSymbol * 1.45f);
 			int x2 = xSymbol + wSymbol / 2;
-			int y2 = ySymbol + hSymbol - ballDiameter + 6;
+			int y2 = ySymbol + hSymbol - ballDiameter / 2;
 			if (value != 0) {
 				g2.setColor(Color.red);
 				BasicStroke bs = new BasicStroke(wSymbol * 0.3f);
