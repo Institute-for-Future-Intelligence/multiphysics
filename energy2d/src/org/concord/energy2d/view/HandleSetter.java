@@ -12,6 +12,7 @@ import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Ring2D;
 import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Manipulable;
+import org.concord.energy2d.model.Sensor;
 import org.concord.energy2d.model.Tree;
 
 import static org.concord.energy2d.view.View2D.BOTTOM;
@@ -30,6 +31,9 @@ import static org.concord.energy2d.view.View2D.UPPER_RIGHT;
 class HandleSetter {
 
 	static void setRects(View2D view, Manipulable m, Rectangle[] handle) {
+
+		if (m instanceof Sensor)
+			return;
 
 		int h = handle[0].width / 2;
 		Shape s = m.getShape();

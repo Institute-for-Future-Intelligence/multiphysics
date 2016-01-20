@@ -3477,12 +3477,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		case SELECT_MODE:
 			if (selectedManipulable != null) {
 				selectedSpot = -1;
-				for (int i = 0; i < handle.length; i++) {
-					if (handle[i].x < -10 || handle[i].y < -10)
-						continue;
-					if (handle[i].contains(x, y)) {
-						selectedSpot = i;
-						break;
+				if (!(selectedManipulable instanceof Sensor)) { // assure that sensors should not have handles
+					for (int i = 0; i < handle.length; i++) {
+						if (handle[i].x < -10 || handle[i].y < -10)
+							continue;
+						if (handle[i].contains(x, y)) {
+							selectedSpot = i;
+							break;
+						}
 					}
 				}
 				if (selectedSpot != -1) {
