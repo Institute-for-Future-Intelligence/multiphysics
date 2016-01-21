@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.Polygon2D;
-import org.concord.energy2d.math.Ring2D;
+import org.concord.energy2d.math.Annulus;
 
 /**
  * This solves the radiosity equation.
@@ -303,8 +303,8 @@ class RadiositySolver2D {
 			}
 		}
 
-		else if (shape instanceof Ring2D) {
-			Ring2D r = (Ring2D) shape;
+		else if (shape instanceof Annulus) {
+			Annulus r = (Annulus) shape;
 			double perimeter = Math.PI * r.getInnerDiameter();
 			int n = (int) (perimeter / patchSize);
 			if (n <= 0)

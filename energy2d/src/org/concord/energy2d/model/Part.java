@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.Polygon2D;
-import org.concord.energy2d.math.Ring2D;
+import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.math.TransformableShape;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.FillPattern;
@@ -111,10 +111,10 @@ public class Part extends Manipulable {
 		} else if (s instanceof Ellipse2D.Float) {
 			Ellipse2D.Float e = (Ellipse2D.Float) s;
 			s = new Ellipse2D.Float(x - 0.5f * e.width, y - 0.5f * e.height, e.width, e.height);
-		} else if (s instanceof Ring2D) {
-			s = new Ring2D((Ring2D) s);
+		} else if (s instanceof Annulus) {
+			s = new Annulus((Annulus) s);
 			Rectangle2D r = s.getBounds2D();
-			((Ring2D) s).translateBy(x - (float) r.getCenterX(), y - (float) r.getCenterY());
+			((Annulus) s).translateBy(x - (float) r.getCenterX(), y - (float) r.getCenterY());
 		} else if (s instanceof Polygon2D) {
 			s = ((Polygon2D) s).duplicate();
 			Rectangle2D r = s.getBounds2D();
@@ -143,8 +143,8 @@ public class Part extends Manipulable {
 		} else if (s instanceof Ellipse2D.Float) {
 			Ellipse2D.Float e = (Ellipse2D.Float) s;
 			s = new Ellipse2D.Float(e.x, e.y, e.width, e.height);
-		} else if (s instanceof Ring2D) {
-			s = new Ring2D((Ring2D) s);
+		} else if (s instanceof Annulus) {
+			s = new Annulus((Annulus) s);
 		} else if (s instanceof Polygon2D) {
 			s = ((Polygon2D) s).duplicate();
 		} else if (s instanceof Blob2D) {
@@ -189,8 +189,8 @@ public class Part extends Manipulable {
 			Ellipse2D.Float e = (Ellipse2D.Float) s;
 			e.x += dx;
 			e.y += dy;
-		} else if (s instanceof Ring2D) {
-			((Ring2D) s).translateBy(dx, dy);
+		} else if (s instanceof Annulus) {
+			((Annulus) s).translateBy(dx, dy);
 		} else if (s instanceof Polygon2D) {
 			((Polygon2D) s).translateBy(dx, dy);
 		} else if (s instanceof Blob2D) {
@@ -463,9 +463,9 @@ public class Part extends Manipulable {
 					return true;
 			}
 
-		} else if (shape instanceof Ring2D) {
+		} else if (shape instanceof Annulus) {
 
-			Ring2D r0 = (Ring2D) shape;
+			Annulus r0 = (Annulus) shape;
 			// shrink it a bit to ensure that it intersects with this outer line
 			float indent = 0.01f;
 			float x = r0.getX();
@@ -541,9 +541,9 @@ public class Part extends Manipulable {
 		} else if (shape instanceof Ellipse2D.Float) {
 			if (predictedToBeInShape)
 				return reflect((Ellipse2D.Float) shape, p, predictedX, predictedY, scatter);
-		} else if (shape instanceof Ring2D) {
+		} else if (shape instanceof Annulus) {
 			if (predictedToBeInShape)
-				return reflect((Ring2D) shape, p, predictedX, predictedY, scatter);
+				return reflect((Annulus) shape, p, predictedX, predictedY, scatter);
 		}
 		return false;
 	}
@@ -665,7 +665,7 @@ public class Part extends Manipulable {
 		return false;
 	}
 
-	private boolean reflect(Ring2D e, Discrete p, float predictedX, float predictedY, boolean scatter) {
+	private boolean reflect(Annulus e, Discrete p, float predictedX, float predictedY, boolean scatter) {
 		float rInner = e.getInnerDiameter() * 0.5f;
 		float rOuter = e.getOuterDiameter() * 0.5f;
 		float x = e.getX();
@@ -808,8 +808,8 @@ public class Part extends Manipulable {
 			}
 			p2d = b.getPoint(n - 1);
 			xml += p2d.x + ", " + p2d.y + "\"/>\n";
-		} else if (getShape() instanceof Ring2D) {
-			Ring2D ring = (Ring2D) getShape();
+		} else if (getShape() instanceof Annulus) {
+			Annulus ring = (Annulus) getShape();
 			xml += "<ring";
 			xml += " x=\"" + ring.getX() + "\"";
 			xml += " y=\"" + ring.getY() + "\"";
@@ -935,8 +935,8 @@ public class Part extends Manipulable {
 			area = (float) (e.width * e.height * 0.25 * Math.PI);
 		} else if (getShape() instanceof TransformableShape) {
 			area = ((TransformableShape) getShape()).getArea();
-		} else if (getShape() instanceof Ring2D) {
-			area = ((Ring2D) getShape()).getArea();
+		} else if (getShape() instanceof Annulus) {
+			area = ((Annulus) getShape()).getArea();
 		}
 		return area;
 	}

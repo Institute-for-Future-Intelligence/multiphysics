@@ -17,7 +17,7 @@ import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.event.ManipulationListener;
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.Polygon2D;
-import org.concord.energy2d.math.Ring2D;
+import org.concord.energy2d.math.Annulus;
 
 /**
  * Units:
@@ -493,13 +493,13 @@ public class Model2D {
 				e.height *= scale;
 				if (!bound.intersects(e.getBounds2D()))
 					out = true;
-			} else if (s instanceof Ring2D) {
-				Ring2D a = (Ring2D) s;
+			} else if (s instanceof Annulus) {
+				Annulus a = (Annulus) s;
 				float x = scale * a.getX();
 				float y = ly - scale * (ly - a.getY());
 				float innerDiameter = a.getInnerDiameter() * scale;
 				float outerDiameter = a.getOuterDiameter() * scale;
-				a.setRing(x, y, innerDiameter, outerDiameter);
+				a.setShape(x, y, innerDiameter, outerDiameter);
 				if (!bound.intersects(a.getBounds2D()))
 					out = true;
 			} else if (s instanceof Polygon2D) {
@@ -1005,7 +1005,7 @@ public class Model2D {
 	}
 
 	public Part addRingPart(float x, float y, float inner, float outer) {
-		Part p = new Part(new Ring2D(x, y, inner, outer), this);
+		Part p = new Part(new Annulus(x, y, inner, outer), this);
 		addPart(p);
 		return p;
 	}

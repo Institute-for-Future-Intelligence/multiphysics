@@ -121,6 +121,21 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		add(x);
 		bg.add(x);
 
+		x = new JToggleButton(new ImageIcon(ToolBar.class.getResource("resources/ring.png")));
+		x.setToolTipText("Draw a ring");
+		x.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				box.view.setActionMode(View2D.RING_MODE);
+			}
+		});
+		x.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MiscUtil.setSelectedSilently(graphButton, false);
+			}
+		});
+		add(x);
+		bg.add(x);
+
 		// create particle button and its associated popup menu
 		ImageIcon particleIcon = new ImageIcon(ToolBar.class.getResource("resources/particle.png"));
 		final JToggleButton miscButton = new JToggleButton(particleIcon);

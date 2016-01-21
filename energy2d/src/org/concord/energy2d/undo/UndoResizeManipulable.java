@@ -10,7 +10,7 @@ import javax.swing.undo.CannotUndoException;
 
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.Polygon2D;
-import org.concord.energy2d.math.Ring2D;
+import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.Heliostat;
@@ -52,7 +52,7 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 				oldH = elli.height;
 			} else if (shape instanceof Polygon2D) {
 			} else if (shape instanceof Blob2D) {
-			} else if (shape instanceof Ring2D) {
+			} else if (shape instanceof Annulus) {
 			}
 		} else if (selectedManipulable instanceof Fan) {
 			name = "Fan";
@@ -118,7 +118,7 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 				elli.height = oldH;
 			} else if (shape instanceof Polygon2D) {
 			} else if (shape instanceof Blob2D) {
-			} else if (shape instanceof Ring2D) {
+			} else if (shape instanceof Annulus) {
 			}
 			model.refreshPowerArray();
 			model.refreshTemperatureBoundaryArray();
@@ -196,7 +196,7 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 				elli.height = newH;
 			} else if (shape instanceof Polygon2D) {
 			} else if (shape instanceof Blob2D) {
-			} else if (shape instanceof Ring2D) {
+			} else if (shape instanceof Annulus) {
 			}
 			model.refreshPowerArray();
 			model.refreshTemperatureBoundaryArray();

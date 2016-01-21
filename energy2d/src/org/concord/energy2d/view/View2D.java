@@ -64,7 +64,7 @@ import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.event.ManipulationListener;
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.Polygon2D;
-import org.concord.energy2d.math.Ring2D;
+import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Fan;
@@ -122,6 +122,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public final static byte ELLIPSE_MODE = 2;
 	public final static byte POLYGON_MODE = 3;
 	public final static byte BLOB_MODE = 4;
+	public final static byte RING_MODE = 5;
 	public final static byte THERMOMETER_MODE = 11;
 	public final static byte HEAT_FLUX_SENSOR_MODE = 12;
 	public final static byte ANEMOMETER_MODE = 13;
@@ -3146,8 +3147,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			if (m instanceof Particle) {
 				((Particle) m).translateBy(dx, dy);
 			}
-		} else if (s instanceof Ring2D) {
-			((Ring2D) s).translateBy(dx, dy);
+		} else if (s instanceof Annulus) {
+			((Annulus) s).translateBy(dx, dy);
 		} else if (s instanceof Area) {
 			if (m instanceof Cloud) {
 				((Cloud) m).translateBy(dx, dy);
@@ -3188,10 +3189,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			if (m instanceof Particle) {
 				((Particle) m).setLocation(x, y);
 			}
-		} else if (s instanceof Ring2D) {
+		} else if (s instanceof Annulus) {
 			if (m instanceof Part) {
-				Ring2D r = (Ring2D) s;
-				r.setRing(x, y, r.getInnerDiameter(), r.getOuterDiameter());
+				Annulus r = (Annulus) s;
+				r.setShape(x, y, r.getInnerDiameter(), r.getOuterDiameter());
 			}
 		} else if (s instanceof Area) {
 			if (m instanceof Cloud)
@@ -3249,9 +3250,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		} else if (s instanceof Ellipse2D.Float) {
 			Ellipse2D.Float r = (Ellipse2D.Float) s;
 			r.setFrame(x, y, w, h);
-		} else if (s instanceof Ring2D) {
-			Ring2D r = (Ring2D) s;
-			r.setRing(x, y, w, h);
+		} else if (s instanceof Annulus) {
+			Annulus r = (Annulus) s;
+			r.setShape(x, y, w, h);
 		} else if (s instanceof Area) {
 			if (m instanceof Cloud) {
 				Cloud c = (Cloud) m;
@@ -4569,8 +4570,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					y[i] = convertPointToPixelY(point.y);
 				}
 				movingShape = new MovingBlob(new Blob2D(x, y));
-			} else if (shape instanceof Ring2D) {
-				Ring2D r = (Ring2D) shape;
+			} else if (shape instanceof Annulus) {
+				Annulus r = (Annulus) shape;
 				int xc = convertPointToPixelX(r.getX());
 				int yc = convertPointToPixelY(r.getY());
 				int ai = convertPointToPixelX(r.getInnerDiameter());

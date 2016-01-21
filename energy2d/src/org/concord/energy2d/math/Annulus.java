@@ -8,11 +8,11 @@ import java.awt.geom.Ellipse2D;
  * @author Charles Xie
  * 
  */
-public class Ring2D extends Area {
+public class Annulus extends Area {
 
 	private float x, y, outerDiameter, innerDiameter;
 
-	public Ring2D(float x, float y, float innerDiameter, float outerDiameter) {
+	public Annulus(float x, float y, float innerDiameter, float outerDiameter) {
 		super(new Ellipse2D.Float(x - 0.5f * outerDiameter, y - 0.5f * outerDiameter, outerDiameter, outerDiameter));
 		subtract(new Area(new Ellipse2D.Float(x - 0.5f * innerDiameter, y - 0.5f * innerDiameter, innerDiameter, innerDiameter)));
 		this.x = x;
@@ -21,7 +21,7 @@ public class Ring2D extends Area {
 		this.outerDiameter = outerDiameter;
 	}
 
-	public Ring2D(Ring2D ring) {
+	public Annulus(Annulus ring) {
 		this(ring.x, ring.y, ring.innerDiameter, ring.outerDiameter);
 	}
 
@@ -35,7 +35,7 @@ public class Ring2D extends Area {
 		translateBy(x - this.x, y - this.y);
 	}
 
-	public void setRing(float x, float y, float innerDiameter, float outerDiameter) {
+	public void setShape(float x, float y, float innerDiameter, float outerDiameter) {
 		reset();
 		add(new Area(new Ellipse2D.Float(x - 0.5f * outerDiameter, y - 0.5f * outerDiameter, outerDiameter, outerDiameter)));
 		subtract(new Area(new Ellipse2D.Float(x - 0.5f * innerDiameter, y - 0.5f * innerDiameter, innerDiameter, innerDiameter)));

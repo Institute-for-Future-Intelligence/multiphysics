@@ -35,7 +35,7 @@ import javax.swing.SpringLayout;
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.Polygon2D;
-import org.concord.energy2d.math.Ring2D;
+import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.math.TransformableShape;
 import org.concord.energy2d.model.Part;
 import org.concord.energy2d.undo.UndoFlipManipulable;
@@ -358,7 +358,7 @@ class PartModelDialog extends JDialog {
 					if (s instanceof Blob2D) {
 						((Blob2D) s).update();
 					}
-				} else if (shape instanceof Ring2D) {
+				} else if (shape instanceof Annulus) {
 					if (!Float.isNaN(innerDiameter) && !Float.isNaN(outerDiameter)) {
 						view.resizeManipulableTo(part, xcenter, view.model.getLy() - ycenter, innerDiameter, outerDiameter, 0, 0);
 					}
@@ -486,9 +486,9 @@ class PartModelDialog extends JDialog {
 			p.add(new JLabel("Must be > 0"));
 			count++;
 
-		} else if (shape instanceof Ring2D) {
+		} else if (shape instanceof Annulus) {
 
-			Ring2D ring = (Ring2D) shape;
+			Annulus ring = (Annulus) shape;
 
 			p.add(new JLabel("Inner diameter"));
 			innerDiameterField = new JTextField(FORMAT.format(ring.getInnerDiameter()));

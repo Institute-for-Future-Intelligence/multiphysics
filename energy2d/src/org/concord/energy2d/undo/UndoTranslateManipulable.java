@@ -11,7 +11,7 @@ import javax.swing.undo.CannotUndoException;
 
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.Polygon2D;
-import org.concord.energy2d.math.Ring2D;
+import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Fan;
@@ -238,8 +238,8 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 			Point2D.Float center = blob.getCenter();
 			oldX = center.x;
 			oldY = center.y;
-		} else if (shape instanceof Ring2D) {
-			Ring2D ring = (Ring2D) shape;
+		} else if (shape instanceof Annulus) {
+			Annulus ring = (Annulus) shape;
 			oldX = ring.getX();
 			oldY = ring.getY();
 		}
@@ -272,8 +272,8 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 			newY = center.y;
 			blob.translateCenterTo(oldX, oldY);
 			blob.update();
-		} else if (shape instanceof Ring2D) {
-			Ring2D ring = (Ring2D) shape;
+		} else if (shape instanceof Annulus) {
+			Annulus ring = (Annulus) shape;
 			newX = ring.getX();
 			newY = ring.getY();
 			ring.translateTo(oldX, oldY);
@@ -297,8 +297,8 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 			Blob2D blob = (Blob2D) shape;
 			blob.translateCenterTo(newX, newY);
 			blob.update();
-		} else if (shape instanceof Ring2D) {
-			Ring2D ring = (Ring2D) shape;
+		} else if (shape instanceof Annulus) {
+			Annulus ring = (Annulus) shape;
 			ring.translateTo(newX, newY);
 		}
 	}
