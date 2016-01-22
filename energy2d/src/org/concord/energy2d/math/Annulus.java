@@ -13,16 +13,12 @@ public class Annulus extends Area {
 	private float x, y, outerDiameter, innerDiameter;
 
 	public Annulus(float x, float y, float innerDiameter, float outerDiameter) {
-		super(new Ellipse2D.Float(x - 0.5f * outerDiameter, y - 0.5f * outerDiameter, outerDiameter, outerDiameter));
-		subtract(new Area(new Ellipse2D.Float(x - 0.5f * innerDiameter, y - 0.5f * innerDiameter, innerDiameter, innerDiameter)));
-		this.x = x;
-		this.y = y;
-		this.innerDiameter = innerDiameter;
-		this.outerDiameter = outerDiameter;
+		super();
+		setShape(x, y, innerDiameter, outerDiameter);
 	}
 
-	public Annulus(Annulus ring) {
-		this(ring.x, ring.y, ring.innerDiameter, ring.outerDiameter);
+	public Annulus(Annulus a) {
+		this(a.x, a.y, a.innerDiameter, a.outerDiameter);
 	}
 
 	public void translateBy(float dx, float dy) {
@@ -43,6 +39,8 @@ public class Annulus extends Area {
 		this.y = y;
 		this.innerDiameter = innerDiameter;
 		this.outerDiameter = outerDiameter;
+		if (outerDiameter < innerDiameter)
+			throw new IllegalArgumentException("Outer diameter cannot be smaller than inner diameter");
 	}
 
 	/** return the x-coordinate of the center */

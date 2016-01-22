@@ -397,6 +397,29 @@ class XmlDecoder extends DefaultHandler {
 				if (!Float.isNaN(x) && !Float.isNaN(y) && !Float.isNaN(inner) && !Float.isNaN(outer))
 					part = box.model.addRingPart(x, y, inner, outer);
 			}
+		} else if (qName == "annulus") {
+			if (attrib != null) {
+				float x = Float.NaN, y = Float.NaN, innerA = Float.NaN, innerB = Float.NaN, outerA = Float.NaN, outerB = Float.NaN;
+				for (int i = 0, n = attrib.getLength(); i < n; i++) {
+					attribName = attrib.getQName(i).intern();
+					attribValue = attrib.getValue(i);
+					if (attribName == "x") {
+						x = Float.parseFloat(attribValue);
+					} else if (attribName == "y") {
+						y = Float.parseFloat(attribValue);
+					} else if (attribName == "innerA") {
+						innerA = Float.parseFloat(attribValue);
+					} else if (attribName == "innerB") {
+						innerB = Float.parseFloat(attribValue);
+					} else if (attribName == "outerA") {
+						outerA = Float.parseFloat(attribValue);
+					} else if (attribName == "outerB") {
+						outerB = Float.parseFloat(attribValue);
+					}
+				}
+				if (!Float.isNaN(x) && !Float.isNaN(y) && !Float.isNaN(innerA) && !Float.isNaN(innerB) && !Float.isNaN(outerA) && !Float.isNaN(outerB))
+					part = box.model.addAnnulusPart(x, y, innerA, innerB, outerA, outerB);
+			}
 		} else if (qName == "polygon") {
 			if (attrib != null) {
 				int count = -1;

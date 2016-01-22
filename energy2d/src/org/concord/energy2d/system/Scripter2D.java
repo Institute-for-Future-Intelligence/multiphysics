@@ -612,6 +612,8 @@ class Scripter2D extends Scripter {
 						mode = View2D.RECTANGLE_MODE;
 					} else if ("ellipse".equalsIgnoreCase(t[1])) {
 						mode = View2D.ELLIPSE_MODE;
+					} else if ("annulus".equalsIgnoreCase(t[1])) {
+						mode = View2D.ANNULUS_MODE;
 					} else if ("polygon".equalsIgnoreCase(t[1])) {
 						mode = View2D.POLYGON_MODE;
 					} else if ("blob".equalsIgnoreCase(t[1])) {
@@ -921,7 +923,7 @@ class Scripter2D extends Scripter {
 					}
 					s2d.model.setZHeatDiffusivity(zHeatDiffusivity);
 				} else if (t[0].equalsIgnoreCase("z_heat_diffusivity_only_for_fluid")) {
-					boolean zHeatDiffusivityOnlyForFluid=false;
+					boolean zHeatDiffusivityOnlyForFluid = false;
 					try {
 						zHeatDiffusivityOnlyForFluid = Boolean.parseBoolean(t[1]);
 					} catch (NumberFormatException e) {

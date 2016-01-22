@@ -16,6 +16,7 @@ import java.util.ListIterator;
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.event.ManipulationListener;
 import org.concord.energy2d.math.Blob2D;
+import org.concord.energy2d.math.EllipticalAnnulus;
 import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Annulus;
 
@@ -1000,6 +1001,18 @@ public class Model2D {
 
 	public Part addEllipticalPart(float x, float y, float a, float b, float temperature) {
 		Part p = addEllipticalPart(x, y, a, b);
+		p.setTemperature(temperature);
+		return p;
+	}
+
+	public Part addAnnulusPart(float x, float y, float innerA, float innerB, float outerA, float outerB) {
+		Part p = new Part(new EllipticalAnnulus(x, y, innerA, innerB, outerA, outerB), this);
+		addPart(p);
+		return p;
+	}
+
+	public Part addAnnulusPart(float x, float y, float innerA, float innerB, float outerA, float outerB, float temperature) {
+		Part p = addAnnulusPart(x, y, innerA, innerB, outerA, outerB);
 		p.setTemperature(temperature);
 		return p;
 	}

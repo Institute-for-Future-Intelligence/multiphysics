@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 
 import org.concord.energy2d.math.Blob2D;
+import org.concord.energy2d.math.EllipticalAnnulus;
 import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.model.Cloud;
@@ -86,6 +87,50 @@ class HandleSetter {
 			}
 		} else if (s instanceof Annulus) {
 			setRectHandles(view, s.getBounds2D(), handle, h);
+		} else if (s instanceof EllipticalAnnulus) {
+
+			EllipticalAnnulus e = (EllipticalAnnulus) s;
+
+			Rectangle2D.Float outerBound = new Rectangle2D.Float(e.getX() - e.getOuterA(), e.getY() - e.getOuterB(), 2 * e.getOuterA(), 2 * e.getOuterB());
+			handle[UPPER_LEFT].x = view.convertPointToPixelX((float) outerBound.getMinX()) - h;
+			handle[UPPER_LEFT].y = view.convertPointToPixelY((float) outerBound.getMinY()) - h;
+			handle[LOWER_LEFT].x = view.convertPointToPixelX((float) outerBound.getMinX()) - h;
+			handle[LOWER_LEFT].y = view.convertPointToPixelY((float) outerBound.getMaxY()) - h;
+			handle[UPPER_RIGHT].x = view.convertPointToPixelX((float) outerBound.getMaxX()) - h;
+			handle[UPPER_RIGHT].y = view.convertPointToPixelY((float) outerBound.getMinY()) - h;
+			handle[LOWER_RIGHT].x = view.convertPointToPixelX((float) outerBound.getMaxX()) - h;
+			handle[LOWER_RIGHT].y = view.convertPointToPixelY((float) outerBound.getMaxY()) - h;
+			handle[TOP].x = view.convertPointToPixelX((float) outerBound.getCenterX()) - h;
+			handle[TOP].y = view.convertPointToPixelY((float) outerBound.getMinY()) - h;
+			handle[BOTTOM].x = view.convertPointToPixelX((float) outerBound.getCenterX()) - h;
+			handle[BOTTOM].y = view.convertPointToPixelY((float) outerBound.getMaxY()) - h;
+			handle[LEFT].x = view.convertPointToPixelX((float) outerBound.getMinX()) - h;
+			handle[LEFT].y = view.convertPointToPixelY((float) outerBound.getCenterY()) - h;
+			handle[RIGHT].x = view.convertPointToPixelX((float) outerBound.getMaxX()) - h;
+			handle[RIGHT].y = view.convertPointToPixelY((float) outerBound.getCenterY()) - h;
+
+			Rectangle2D.Float innerBound = new Rectangle2D.Float(e.getX() - e.getInnerA(), e.getY() - e.getInnerB(), 2 * e.getInnerA(), 2 * e.getInnerB());
+			handle[UPPER_LEFT + 8].x = view.convertPointToPixelX((float) innerBound.getMinX()) - h;
+			handle[UPPER_LEFT + 8].y = view.convertPointToPixelY((float) innerBound.getMinY()) - h;
+			handle[LOWER_LEFT + 8].x = view.convertPointToPixelX((float) innerBound.getMinX()) - h;
+			handle[LOWER_LEFT + 8].y = view.convertPointToPixelY((float) innerBound.getMaxY()) - h;
+			handle[UPPER_RIGHT + 8].x = view.convertPointToPixelX((float) innerBound.getMaxX()) - h;
+			handle[UPPER_RIGHT + 8].y = view.convertPointToPixelY((float) innerBound.getMinY()) - h;
+			handle[LOWER_RIGHT + 8].x = view.convertPointToPixelX((float) innerBound.getMaxX()) - h;
+			handle[LOWER_RIGHT + 8].y = view.convertPointToPixelY((float) innerBound.getMaxY()) - h;
+			handle[TOP + 8].x = view.convertPointToPixelX((float) innerBound.getCenterX()) - h;
+			handle[TOP + 8].y = view.convertPointToPixelY((float) innerBound.getMinY()) - h;
+			handle[BOTTOM + 8].x = view.convertPointToPixelX((float) innerBound.getCenterX()) - h;
+			handle[BOTTOM + 8].y = view.convertPointToPixelY((float) innerBound.getMaxY()) - h;
+			handle[LEFT + 8].x = view.convertPointToPixelX((float) innerBound.getMinX()) - h;
+			handle[LEFT + 8].y = view.convertPointToPixelY((float) innerBound.getCenterY()) - h;
+			handle[RIGHT + 8].x = view.convertPointToPixelX((float) innerBound.getMaxX()) - h;
+			handle[RIGHT + 8].y = view.convertPointToPixelY((float) innerBound.getCenterY()) - h;
+
+			for (int i = RIGHT + 9; i < handle.length; i++) {
+				handle[i].x = handle[i].y = -100;
+			}
+
 		} else if (s instanceof Area) {
 			if (m instanceof Cloud) {
 				Cloud c = (Cloud) m;

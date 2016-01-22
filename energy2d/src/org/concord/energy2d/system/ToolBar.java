@@ -121,11 +121,11 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		add(x);
 		bg.add(x);
 
-		x = new JToggleButton(new ImageIcon(ToolBar.class.getResource("resources/ring.png")));
-		x.setToolTipText("Draw a ring");
+		x = new JToggleButton(new ImageIcon(ToolBar.class.getResource("resources/annulus.png")));
+		x.setToolTipText("Draw an annulus");
 		x.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				box.view.setActionMode(View2D.RING_MODE);
+				box.view.setActionMode(View2D.ANNULUS_MODE);
 			}
 		});
 		x.addActionListener(new ActionListener() {

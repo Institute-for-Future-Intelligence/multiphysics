@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import org.concord.energy2d.math.Blob2D;
+import org.concord.energy2d.math.EllipticalAnnulus;
 import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.math.TransformableShape;
@@ -815,6 +816,15 @@ public class Part extends Manipulable {
 			xml += " y=\"" + ring.getY() + "\"";
 			xml += " inner=\"" + ring.getInnerDiameter() + "\"";
 			xml += " outer=\"" + ring.getOuterDiameter() + "\"/>";
+		} else if (getShape() instanceof EllipticalAnnulus) {
+			EllipticalAnnulus e = (EllipticalAnnulus) getShape();
+			xml += "<annulus";
+			xml += " x=\"" + e.getX() + "\"";
+			xml += " y=\"" + e.getY() + "\"";
+			xml += " innerA=\"" + e.getInnerA() + "\"";
+			xml += " innerB=\"" + e.getInnerB() + "\"";
+			xml += " outerA=\"" + e.getOuterA() + "\"";
+			xml += " outerB=\"" + e.getOuterB() + "\"/>";
 		}
 		xml += "<elasticity>" + elasticity + "</elasticity>\n";
 		xml += "<thermal_conductivity>" + thermalConductivity + "</thermal_conductivity>\n";

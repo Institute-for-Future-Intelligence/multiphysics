@@ -63,6 +63,7 @@ import org.concord.energy2d.event.GraphListener;
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.event.ManipulationListener;
 import org.concord.energy2d.math.Blob2D;
+import org.concord.energy2d.math.EllipticalAnnulus;
 import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.model.Anemometer;
@@ -122,7 +123,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public final static byte ELLIPSE_MODE = 2;
 	public final static byte POLYGON_MODE = 3;
 	public final static byte BLOB_MODE = 4;
-	public final static byte RING_MODE = 5;
+	public final static byte ANNULUS_MODE = 5;
 	public final static byte THERMOMETER_MODE = 11;
 	public final static byte HEAT_FLUX_SENSOR_MODE = 12;
 	public final static byte ANEMOMETER_MODE = 13;
@@ -227,6 +228,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private byte actionMode = SELECT_MODE;
 	private Rectangle rectangle = new Rectangle();
 	private Ellipse2D.Float ellipse = new Ellipse2D.Float();
+	private EllipticalAnnulus annulus = new EllipticalAnnulus();
 	private Polygon polygon = new Polygon();
 	private Point mousePressedPoint = new Point(-1, -1);
 	private Point mouseReleasedPoint = new Point(-1, -1);
@@ -1869,6 +1871,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			g.setColor(Color.WHITE);
 			g.draw(ellipse);
 			break;
+		case ANNULUS_MODE:
+			g.setColor(TRANSLUCENT_GRAY);
+			g.fill(annulus);
+			g.setColor(Color.WHITE);
+			g.draw(annulus);
+			break;
 		case POLYGON_MODE:
 			g.setColor(TRANSLUCENT_GRAY);
 			g.fill(polygon);
@@ -3149,6 +3157,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			}
 		} else if (s instanceof Annulus) {
 			((Annulus) s).translateBy(dx, dy);
+		} else if (s instanceof EllipticalAnnulus) {
+			((EllipticalAnnulus) s).translateBy(dx, dy);
 		} else if (s instanceof Area) {
 			if (m instanceof Cloud) {
 				((Cloud) m).translateBy(dx, dy);
@@ -3193,6 +3203,11 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			if (m instanceof Part) {
 				Annulus r = (Annulus) s;
 				r.setShape(x, y, r.getInnerDiameter(), r.getOuterDiameter());
+			}
+		} else if (s instanceof EllipticalAnnulus) {
+			if (m instanceof Part) {
+				EllipticalAnnulus r = (EllipticalAnnulus) s;
+				r.translateTo(x, y);
 			}
 		} else if (s instanceof Area) {
 			if (m instanceof Cloud)
@@ -3649,6 +3664,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 							setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 						}
 					}
+				} else if (shape instanceof EllipticalAnnulus) {
+					if(selectedSpot==-1){
+						
+					} else {
+						
+					}
 				} else if (shape instanceof Area) {
 					if (selectedManipulable instanceof Cloud && movingShape instanceof MovingCloud) {
 						MovingCloud mc = (MovingCloud) movingShape;
@@ -3756,6 +3777,32 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				ellipse.height = mousePressedPoint.y - mouseDraggedPoint.y;
 				ellipse.y = mousePressedPoint.y - ellipse.height;
 			}
+			break;
+		case ANNULUS_MODE:
+			if (mouseDraggedPoint.x > mousePressedPoint.x) {
+				annulus.setOuterA(mouseDraggedPoint.x - mousePressedPoint.x);
+				annulus.setX(mousePressedPoint.x);
+			} else {
+				annulus.setOuterA(mousePressedPoint.x - mouseDraggedPoint.x);
+				annulus.setX(mousePressedPoint.x - annulus.getOuterA());
+			}
+			if (mouseDraggedPoint.y > mousePressedPoint.y) {
+				annulus.setOuterB(mouseDraggedPoint.y - mousePressedPoint.y);
+				annulus.setY(mousePressedPoint.y);
+			} else {
+				annulus.setOuterB(mousePressedPoint.y - mouseDraggedPoint.y);
+				annulus.setY(mousePressedPoint.y - annulus.getOuterB());
+			}
+			if (annulus.getOuterA() > annulus.getOuterB()) {
+				float thickness = annulus.getOuterB() * 0.5f;
+				annulus.setInnerB(thickness);
+				annulus.setInnerA(annulus.getOuterA() - thickness);
+			} else {
+				float thickness = annulus.getOuterA() * 0.5f;
+				annulus.setInnerA(thickness);
+				annulus.setInnerB(annulus.getOuterB() - thickness);
+			}
+			annulus.setShape();
 			break;
 		case HEATING_MODE:
 			heatingX = convertPixelToPointXPrecisely(x);
@@ -4036,6 +4083,30 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "The ellipse you tried to add was too small!", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			ellipse.setFrame(-1000, -1000, 0, 0);
+			break;
+		case ANNULUS_MODE:
+			if (annulus.getOuterA() > (float) getWidth() / (float) nx && annulus.getOuterB() > (float) getHeight() / (float) ny) {
+				float centerX = convertPixelToPointX((int) annulus.getX());
+				float centerY = convertPixelToPointY((int) annulus.getY());
+				float outerA = convertPixelToLengthX((int) annulus.getOuterA());
+				float outerB = convertPixelToLengthY((int) annulus.getOuterB());
+				float innerA = convertPixelToLengthX((int) annulus.getInnerA());
+				float innerB = convertPixelToLengthY((int) annulus.getInnerB());
+				Part addedPart = model.addAnnulusPart(centerX, centerY, innerA, innerB, outerA, outerB, model.getBackgroundTemperature() + 20);
+				model.refreshPowerArray();
+				model.refreshTemperatureBoundaryArray();
+				model.refreshMaterialPropertyArrays();
+				model.setInitialTemperature();
+				notifyManipulationListeners(addedPart, ManipulationEvent.OBJECT_ADDED);
+				setSelectedManipulable(addedPart);
+				undoManager.addEdit(new UndoAddManipulable(addedPart, this));
+			} else {
+				if (annulus.getOuterA() > 0 || annulus.getOuterB() > 0) // ignore the quick click
+					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(this), "The annulus you tried to add was too small!", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			annulus.setX(-1000);
+			annulus.setY(-1000);
+			annulus.setShape();
 			break;
 		case POLYGON_MODE:
 			if (e.getClickCount() >= 2) {
@@ -4578,9 +4649,16 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				int bi = convertPointToPixelY(r.getInnerDiameter());
 				int ao = convertPointToPixelX(r.getOuterDiameter());
 				int bo = convertPointToPixelY(r.getOuterDiameter());
-				Ellipse2D.Float outer = new Ellipse2D.Float(xc - ao / 2, yc - bo / 2, ao, bo);
-				Ellipse2D.Float inner = new Ellipse2D.Float(xc - ai / 2, yc - bi / 2, ai, bi);
-				movingShape = new MovingAnnulus(outer, inner);
+				movingShape = new MovingAnnulus(new Ellipse2D.Float(xc - ao / 2, yc - bo / 2, ao, bo), new Ellipse2D.Float(xc - ai / 2, yc - bi / 2, ai, bi));
+			} else if (shape instanceof EllipticalAnnulus) {
+				EllipticalAnnulus r = (EllipticalAnnulus) shape;
+				int xc = convertPointToPixelX(r.getX());
+				int yc = convertPointToPixelY(r.getY());
+				int ai = convertPointToPixelX(r.getInnerA());
+				int bi = convertPointToPixelY(r.getInnerB());
+				int ao = convertPointToPixelX(r.getOuterA());
+				int bo = convertPointToPixelY(r.getOuterB());
+				movingShape = new MovingAnnulus(new Ellipse2D.Float(xc - ao, yc - bo, 2 * ao, 2 * bo), new Ellipse2D.Float(xc - ai, yc - bi, 2 * ai, 2 * bi));
 			}
 		} else if (selectedManipulable instanceof Particle) {
 			Ellipse2D.Float e = (Ellipse2D.Float) selectedManipulable.getShape();
