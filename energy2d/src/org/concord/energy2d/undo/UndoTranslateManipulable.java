@@ -10,6 +10,7 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
 import org.concord.energy2d.math.Blob2D;
+import org.concord.energy2d.math.EllipticalAnnulus;
 import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.model.Anemometer;
@@ -242,6 +243,10 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 			Annulus ring = (Annulus) shape;
 			oldX = ring.getX();
 			oldY = ring.getY();
+		} else if (shape instanceof EllipticalAnnulus) {
+			EllipticalAnnulus e = (EllipticalAnnulus) shape;
+			oldX = e.getX();
+			oldY = e.getY();
 		}
 	}
 
@@ -277,6 +282,11 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 			newX = ring.getX();
 			newY = ring.getY();
 			ring.translateTo(oldX, oldY);
+		} else if (shape instanceof EllipticalAnnulus) {
+			EllipticalAnnulus e = (EllipticalAnnulus) shape;
+			newX = e.getX();
+			newY = e.getY();
+			e.translateTo(oldX, oldY);
 		}
 	}
 
@@ -300,6 +310,9 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 		} else if (shape instanceof Annulus) {
 			Annulus ring = (Annulus) shape;
 			ring.translateTo(newX, newY);
+		} else if (shape instanceof EllipticalAnnulus) {
+			EllipticalAnnulus e = (EllipticalAnnulus) shape;
+			e.translateTo(newX, newY);
 		}
 	}
 

@@ -116,6 +116,10 @@ public class Part extends Manipulable {
 			s = new Annulus((Annulus) s);
 			Rectangle2D r = s.getBounds2D();
 			((Annulus) s).translateBy(x - (float) r.getCenterX(), y - (float) r.getCenterY());
+		} else if (s instanceof EllipticalAnnulus) {
+			s = new EllipticalAnnulus((EllipticalAnnulus) s);
+			Rectangle2D r = s.getBounds2D();
+			((EllipticalAnnulus) s).translateBy(x - (float) r.getCenterX(), y - (float) r.getCenterY());
 		} else if (s instanceof Polygon2D) {
 			s = ((Polygon2D) s).duplicate();
 			Rectangle2D r = s.getBounds2D();
@@ -146,6 +150,8 @@ public class Part extends Manipulable {
 			s = new Ellipse2D.Float(e.x, e.y, e.width, e.height);
 		} else if (s instanceof Annulus) {
 			s = new Annulus((Annulus) s);
+		} else if (s instanceof EllipticalAnnulus) {
+			s = new EllipticalAnnulus((EllipticalAnnulus) s);
 		} else if (s instanceof Polygon2D) {
 			s = ((Polygon2D) s).duplicate();
 		} else if (s instanceof Blob2D) {
@@ -192,6 +198,8 @@ public class Part extends Manipulable {
 			e.y += dy;
 		} else if (s instanceof Annulus) {
 			((Annulus) s).translateBy(dx, dy);
+		} else if (s instanceof EllipticalAnnulus) {
+			((EllipticalAnnulus) s).translateBy(dx, dy);
 		} else if (s instanceof Polygon2D) {
 			((Polygon2D) s).translateBy(dx, dy);
 		} else if (s instanceof Blob2D) {
@@ -511,6 +519,57 @@ public class Part extends Manipulable {
 					return true;
 			}
 
+		} else if (shape instanceof EllipticalAnnulus) {
+
+			EllipticalAnnulus r0 = (EllipticalAnnulus) shape;
+			// shrink it a bit to ensure that it intersects with this outer line
+			float indent = 0.01f;
+			float x = r0.getX();
+			float y = r0.getY();
+			float outerA = r0.getOuterA() * (1 - indent);
+			float outerB = r0.getOuterB() * (1 - indent);
+			float h = (outerA - outerB) / (outerA + outerB);
+			h *= h;
+			double outerPerimeter = Math.PI * (outerA + outerB) * (1 + 3 * h / (10 + Math.sqrt(4 - 3 * h)));
+			float patchSize = model.getLx() * model.getPerimeterStepSize();
+			int n = (int) (outerPerimeter / patchSize);
+			if (n > 0) {
+				float[] vx = new float[n];
+				float[] vy = new float[n];
+				float theta;
+				float delta = (float) (2 * Math.PI / n);
+				for (int i = 0; i < n; i++) {
+					theta = delta * i;
+					vx[i] = (float) (x + outerA * Math.cos(theta));
+					vy[i] = (float) (y + outerB * Math.sin(theta));
+				}
+				for (int i = 0; i < n - 1; i++)
+					if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[i], vy[i], vx[i + 1], vy[i + 1]))
+						return true;
+				if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[n - 1], vy[n - 1], vx[0], vy[0]))
+					return true;
+				// expand it a bit to ensure that it intersects with this inner line
+				float innerA = r0.getInnerA() * (1 + indent);
+				float innerB = r0.getInnerB() * (1 + indent);
+				h = (innerA - innerB) / (innerA + innerB);
+				h *= h;
+				double innerPerimeter = Math.PI * (innerA + innerB) * (1 + 3 * h / (10 + Math.sqrt(4 - 3 * h)));
+				n = (int) (innerPerimeter / patchSize);
+				vx = new float[n];
+				vy = new float[n];
+				delta = (float) (2 * Math.PI / n);
+				for (int i = 0; i < n; i++) {
+					theta = delta * i;
+					vx[i] = (float) (x + innerA * Math.cos(theta));
+					vy[i] = (float) (y + innerB * Math.sin(theta));
+				}
+				for (int i = 0; i < n - 1; i++)
+					if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[i], vy[i], vx[i + 1], vy[i + 1]))
+						return true;
+				if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, vx[n - 1], vy[n - 1], vx[0], vy[0]))
+					return true;
+			}
+
 		}
 
 		return false;
@@ -545,6 +604,9 @@ public class Part extends Manipulable {
 		} else if (shape instanceof Annulus) {
 			if (predictedToBeInShape)
 				return reflect((Annulus) shape, p, predictedX, predictedY, scatter);
+		} else if (shape instanceof EllipticalAnnulus) {
+			if (predictedToBeInShape)
+				return reflect((EllipticalAnnulus) shape, p, predictedX, predictedY, scatter);
 		}
 		return false;
 	}
@@ -682,6 +744,38 @@ public class Part extends Manipulable {
 			theta = -delta * i;
 			vx[i] = (float) (x + a * Math.cos(theta));
 			vy[i] = (float) (y + a * Math.sin(theta));
+		}
+		Line2D.Float line = new Line2D.Float();
+		for (int i = 0; i < polygonize - 1; i++) {
+			line.setLine(vx[i], vy[i], vx[i + 1], vy[i + 1]);
+			if (reflectFromLine(p, line, predictedX, predictedY, scatter, !inside))
+				return true;
+		}
+		line.setLine(vx[polygonize - 1], vy[polygonize - 1], vx[0], vy[0]);
+		if (reflectFromLine(p, line, predictedX, predictedY, scatter, !inside))
+			return true;
+		return false;
+	}
+
+	private boolean reflect(EllipticalAnnulus e, Discrete p, float predictedX, float predictedY, boolean scatter) {
+		float innerA = e.getInnerA();
+		float innerB = e.getInnerB();
+		float outerA = e.getOuterA();
+		float outerB = e.getOuterB();
+		float x = e.getX();
+		float y = e.getY();
+		boolean inside = new Ellipse2D.Float(x - innerA, y - innerB, 2 * innerA, 2 * innerB).contains(p.getRx(), p.getRy());
+		float a = inside ? innerA : outerA;
+		float b = inside ? innerB : outerB;
+		int polygonize = 50;
+		float[] vx = new float[polygonize];
+		float[] vy = new float[polygonize];
+		float theta;
+		float delta = (float) (2 * Math.PI / polygonize);
+		for (int i = 0; i < polygonize; i++) {
+			theta = -delta * i;
+			vx[i] = (float) (x + a * Math.cos(theta));
+			vy[i] = (float) (y + b * Math.sin(theta));
 		}
 		Line2D.Float line = new Line2D.Float();
 		for (int i = 0; i < polygonize - 1; i++) {
@@ -947,6 +1041,8 @@ public class Part extends Manipulable {
 			area = ((TransformableShape) getShape()).getArea();
 		} else if (getShape() instanceof Annulus) {
 			area = ((Annulus) getShape()).getArea();
+		} else if (getShape() instanceof EllipticalAnnulus) {
+			area = ((EllipticalAnnulus) getShape()).getArea();
 		}
 		return area;
 	}

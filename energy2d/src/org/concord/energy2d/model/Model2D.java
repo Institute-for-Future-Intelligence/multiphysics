@@ -503,6 +503,17 @@ public class Model2D {
 				a.setShape(x, y, innerDiameter, outerDiameter);
 				if (!bound.intersects(a.getBounds2D()))
 					out = true;
+			} else if (s instanceof EllipticalAnnulus) {
+				EllipticalAnnulus e = (EllipticalAnnulus) s;
+				float x = scale * e.getX();
+				float y = ly - scale * (ly - e.getY());
+				float innerA = e.getInnerA() * scale;
+				float innerB = e.getInnerB() * scale;
+				float outerA = e.getOuterA() * scale;
+				float outerB = e.getOuterB() * scale;
+				e.setShape(x, y, innerA, innerB, outerA, outerB);
+				if (!bound.intersects(e.getBounds2D()))
+					out = true;
 			} else if (s instanceof Polygon2D) {
 				Polygon2D g = (Polygon2D) s;
 				int n = g.getVertexCount();

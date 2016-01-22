@@ -3254,7 +3254,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		notifyManipulationListeners(m, ManipulationEvent.TRANSLATE);
 	}
 
-	// (x0, y0) is the coordinate of the upper-left corner of an Area (if shape is an Area). If the shape is a ring2D, w = inner diameter and h = outer diameter
+	// (x0, y0) is the coordinate of the upper-left corner of an Area (if shape is an Area).
+	// If the shape is an annulus, w = inner diameter and h = outer diameter.
+	// If the shape is an elliptical annulus, w = inner A, h = inner B, x0 = outerA, and y0 = outerB
 	void resizeManipulableTo(Manipulable m, float x, float y, float w, float h, float x0, float y0) {
 		w = Math.max(model.getLx() / nx, w);
 		h = Math.max(model.getLy() / ny, h);
@@ -3268,6 +3270,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		} else if (s instanceof Annulus) {
 			Annulus r = (Annulus) s;
 			r.setShape(x, y, w, h);
+		} else if (s instanceof EllipticalAnnulus) {
+			EllipticalAnnulus r = (EllipticalAnnulus) s;
+			r.setShape(x, y, w, h, x0, y0);
 		} else if (s instanceof Area) {
 			if (m instanceof Cloud) {
 				Cloud c = (Cloud) m;
@@ -3665,10 +3670,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						}
 					}
 				} else if (shape instanceof EllipticalAnnulus) {
-					if(selectedSpot==-1){
-						
+					if (selectedSpot == -1) {
+
 					} else {
-						
+
 					}
 				} else if (shape instanceof Area) {
 					if (selectedManipulable instanceof Cloud && movingShape instanceof MovingCloud) {
@@ -4410,6 +4415,34 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						case RIGHT:
 							setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
 							break;
+						}
+						if (shape instanceof EllipticalAnnulus) {
+							switch (iSpot) {
+							case UPPER_LEFT + 8:
+								setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
+								break;
+							case LOWER_LEFT + 8:
+								setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));
+								break;
+							case UPPER_RIGHT + 8:
+								setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
+								break;
+							case LOWER_RIGHT + 8:
+								setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
+								break;
+							case TOP + 8:
+								setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
+								break;
+							case BOTTOM + 8:
+								setCursor(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
+								break;
+							case LEFT + 8:
+								setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
+								break;
+							case RIGHT + 8:
+								setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
+								break;
+							}
 						}
 					} else {
 						setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

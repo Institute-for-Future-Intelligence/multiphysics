@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.concord.energy2d.math.Blob2D;
+import org.concord.energy2d.math.EllipticalAnnulus;
 import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Annulus;
 
@@ -335,6 +336,51 @@ class RadiositySolver2D {
 				theta = delta * i;
 				vx[i] = (float) (r.getX() + radius * Math.cos(theta));
 				vy[i] = (float) (r.getY() + radius * Math.sin(theta));
+			}
+			for (int i = 0; i < n - 1; i++)
+				segments.add(new Segment(vx[i], vy[i], vx[i + 1], vy[i + 1], part));
+			if (vx[n - 1] != vx[0] || vy[n - 1] != vy[0])
+				segments.add(new Segment(vx[n - 1], vy[n - 1], vx[0], vy[0], part));
+		}
+
+		else if (shape instanceof EllipticalAnnulus) {
+			EllipticalAnnulus r = (EllipticalAnnulus) shape;
+			float innerA = r.getInnerA();
+			float innerB = r.getInnerB();
+			float h = (innerA - innerB) / (innerA + innerB);
+			h *= h;
+			double innerPerimeter = Math.PI * (innerA + innerB) * (1 + 3 * h / (10 + Math.sqrt(4 - 3 * h)));
+			int n = (int) (innerPerimeter / patchSize);
+			if (n <= 0)
+				return;
+			float[] vx = new float[n];
+			float[] vy = new float[n];
+			float theta;
+			float delta = (float) (2 * Math.PI / n);
+			// follow the clockwise direction in setting lines
+			for (int i = 0; i < n; i++) {
+				theta = delta * i;
+				vx[i] = (float) (r.getX() + innerA * Math.cos(theta));
+				vy[i] = (float) (r.getY() + innerB * Math.sin(theta));
+			}
+			for (int i = 0; i < n - 1; i++)
+				segments.add(new Segment(vx[i], vy[i], vx[i + 1], vy[i + 1], part));
+			if (vx[n - 1] != vx[0] || vy[n - 1] != vy[0])
+				segments.add(new Segment(vx[n - 1], vy[n - 1], vx[0], vy[0], part));
+			float outerA = r.getOuterA();
+			float outerB = r.getOuterB();
+			h = (outerA - outerB) / (outerA + outerB);
+			h *= h;
+			double outerPerimeter = Math.PI * (outerA + outerB) * (1 + 3 * h / (10 + Math.sqrt(4 - 3 * h)));
+			n = (int) (outerPerimeter / patchSize);
+			vx = new float[n];
+			vy = new float[n];
+			delta = (float) (2 * Math.PI / n);
+			// follow the clockwise direction in setting lines
+			for (int i = 0; i < n; i++) {
+				theta = delta * i;
+				vx[i] = (float) (r.getX() + outerA * Math.cos(theta));
+				vy[i] = (float) (r.getY() + outerB * Math.sin(theta));
 			}
 			for (int i = 0; i < n - 1; i++)
 				segments.add(new Segment(vx[i], vy[i], vx[i + 1], vy[i + 1], part));

@@ -34,6 +34,7 @@ import javax.swing.SpringLayout;
 
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.math.Blob2D;
+import org.concord.energy2d.math.EllipticalAnnulus;
 import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.math.TransformableShape;
@@ -70,7 +71,9 @@ class PartModelDialog extends JDialog {
 	private JRadioButton invisibleScatteringRadioButton;
 	private JTextField emissivityField, absorptivityField, reflectivityField, transmissivityField;
 	private JTextField elasticityField;
-	private JTextField xField, yField, wField, hField, angleField, scaleXField, scaleYField, shearXField, shearYField, innerDiameterField, outerDiameterField;
+	private JTextField xField, yField, wField, hField, angleField, scaleXField, scaleYField, shearXField, shearYField;
+	private JTextField innerDiameterField, outerDiameterField;
+	private JTextField innerAField, innerBField, outerAField, outerBField;
 	private JCheckBox flipXCheckBox, flipYCheckBox;
 	private JTextField uidField;
 	private JTextField labelField;
@@ -205,6 +208,38 @@ class PartModelDialog extends JDialog {
 					outerDiameter = parse(outerDiameterField.getText());
 					if (Float.isNaN(outerDiameter))
 						return;
+				}
+				if (innerDiameter >= outerDiameter) {
+					JOptionPane.showMessageDialog(owner, "Inner circle must be contained within outer circle.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				float innerA = Float.NaN;
+				if (innerAField != null) {
+					innerA = parse(innerAField.getText());
+					if (Float.isNaN(innerA))
+						return;
+				}
+				float innerB = Float.NaN;
+				if (innerBField != null) {
+					innerB = parse(innerBField.getText());
+					if (Float.isNaN(innerB))
+						return;
+				}
+				float outerA = Float.NaN;
+				if (outerAField != null) {
+					outerA = parse(outerAField.getText());
+					if (Float.isNaN(outerA))
+						return;
+				}
+				float outerB = Float.NaN;
+				if (outerBField != null) {
+					outerB = parse(outerBField.getText());
+					if (Float.isNaN(outerB))
+						return;
+				}
+				if (innerA >= outerA || innerB >= outerB) {
+					JOptionPane.showMessageDialog(owner, "Inner ellipse must be contained within outer ellipse.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 				float degree = Float.NaN;
 				if (angleField != null) {
@@ -362,6 +397,10 @@ class PartModelDialog extends JDialog {
 					if (!Float.isNaN(innerDiameter) && !Float.isNaN(outerDiameter)) {
 						view.resizeManipulableTo(part, xcenter, view.model.getLy() - ycenter, innerDiameter, outerDiameter, 0, 0);
 					}
+				} else if (shape instanceof EllipticalAnnulus) {
+					if (!Float.isNaN(innerA) && !Float.isNaN(innerB) && !Float.isNaN(outerA) && !Float.isNaN(outerB)) {
+						view.resizeManipulableTo(part, xcenter, view.model.getLy() - ycenter, innerA, innerB, outerA, outerB);
+					}
 				}
 
 				part.setWindAngle((float) Math.toRadians(windAngle));
@@ -500,6 +539,36 @@ class PartModelDialog extends JDialog {
 			outerDiameterField = new JTextField(FORMAT.format(ring.getOuterDiameter()));
 			outerDiameterField.addActionListener(okListener);
 			p.add(outerDiameterField);
+			p.add(new JLabel("<html><i>m</i></html>"));
+			count++;
+
+		} else if (shape instanceof EllipticalAnnulus) {
+
+			EllipticalAnnulus annulus = (EllipticalAnnulus) shape;
+
+			p.add(new JLabel("Inner A"));
+			innerAField = new JTextField(FORMAT.format(annulus.getInnerA()));
+			innerAField.addActionListener(okListener);
+			p.add(innerAField);
+			p.add(new JLabel("<html><i>m</i></html>"));
+
+			p.add(new JLabel("Inner B"));
+			innerBField = new JTextField(FORMAT.format(annulus.getInnerB()));
+			innerBField.addActionListener(okListener);
+			p.add(innerBField);
+			p.add(new JLabel("<html><i>m</i></html>"));
+			count++;
+
+			p.add(new JLabel("Outer A"));
+			outerAField = new JTextField(FORMAT.format(annulus.getOuterA()));
+			outerAField.addActionListener(okListener);
+			p.add(outerAField);
+			p.add(new JLabel("<html><i>m</i></html>"));
+
+			p.add(new JLabel("Outer B"));
+			outerBField = new JTextField(FORMAT.format(annulus.getOuterB()));
+			outerBField.addActionListener(okListener);
+			p.add(outerBField);
 			p.add(new JLabel("<html><i>m</i></html>"));
 			count++;
 
