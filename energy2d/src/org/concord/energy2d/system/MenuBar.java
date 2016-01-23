@@ -888,7 +888,9 @@ class MenuBar extends JMenuBar {
 		examples.put("Thermal Equilibrium Between Objects with Different Densities", "examples/different-density1.e2d");
 		examples.put("The Effect of Thermal Conductivity on Equilibration Speed", "examples/different-conductivity.e2d");
 		examples.put("The Zeroth Law of Thermodynamics", "examples/zeroth.e2d");
-		examples.put("A Test of the Accuracy of Conduction Simulation", "examples/conservation-of-energy.e2d");
+		examples.put("The Accuracy of Conduction Simulation", "examples/conservation-of-energy.e2d");
+		examples.put("Constant Power Sources", "examples/constant-power-sources.e2d");
+		examples.put("Constant Temperature Sources", "examples/constant-temperature-sources.e2d");
 		createMenu(box, subMenu, examples);
 
 		subMenu = new JMenu("Conduction");
@@ -1038,6 +1040,24 @@ class MenuBar extends JMenuBar {
 		});
 		menu.add(mi);
 
+		mi = new JMenuItem("Home Page...");
+		mi.setToolTipText("Visit Energy2D's home page");
+		mi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Helper.openBrowser("http://energy.concord.org/energy2d");
+			}
+		});
+		menu.add(mi);
+
+		mi = new JMenuItem("Blog...");
+		mi.setToolTipText("Read blog posts about Energy2D");
+		mi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Helper.openBrowser("http://molecularworkbench.blogspot.com/search/label/Energy2D");
+			}
+		});
+		menu.add(mi);
+
 		mi = new JMenuItem("Online Manual...");
 		mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, true));
 		mi.setToolTipText("Open the Online Manual");
@@ -1047,6 +1067,7 @@ class MenuBar extends JMenuBar {
 			}
 		});
 		menu.add(mi);
+
 		mi = new JMenuItem("Contact Us...");
 		mi.setToolTipText("Contact us");
 		mi.addActionListener(new ActionListener() {

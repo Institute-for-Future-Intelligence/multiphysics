@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<model>
+<timestep>10.0</timestep>
+<viewupdate_interval>10</viewupdate_interval>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<background_temperature>20.0</background_temperature>
+<thermal_buoyancy>2.5E-4</thermal_buoyancy>
+<buoyancy_approximation>1</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part><ellipse x="3.0" y="7.0" a="1.0" b="1.0"/><thermal_conductivity>0.08</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>true</constant_temperature>
+<uid>SOURCE2</uid>
+<label>%temperature</label>
+</part>
+<part><ellipse x="6.0" y="4.0" a="1.0" b="1.0"/><thermal_conductivity>0.08</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>40.0</temperature>
+<constant_temperature>true</constant_temperature>
+<uid>SOURCE1</uid>
+<label>%temperature</label>
+</part>
+</structure>
+</model>
+<sensor>
+<thermometer x="5.375552" y="4.772344"/>
+<thermometer x="3.6818852" y="6.391231"/>
+</sensor>
+<controller>
+</controller>
+<view>
+<grid_size>10</grid_size>
+<isotherm>true</isotherm>
+<color_palette_type>0</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>50.0</maximum_temperature>
+<heat_flux_line>true</heat_flux_line>
+<graph_xlabel>Time</graph_xlabel><text string="Constant temperature sources" face="Arial" size="16" style="3" color="ffffff" x="0.42328042" y="9.517196"/>
+</view>
+</state>

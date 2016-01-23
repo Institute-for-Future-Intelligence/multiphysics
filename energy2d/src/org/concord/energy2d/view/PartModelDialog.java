@@ -546,26 +546,26 @@ class PartModelDialog extends JDialog {
 
 			EllipticalAnnulus annulus = (EllipticalAnnulus) shape;
 
-			p.add(new JLabel("Inner A"));
+			p.add(new JLabel("Inner a"));
 			innerAField = new JTextField(FORMAT.format(annulus.getInnerA()));
 			innerAField.addActionListener(okListener);
 			p.add(innerAField);
 			p.add(new JLabel("<html><i>m</i></html>"));
 
-			p.add(new JLabel("Inner B"));
+			p.add(new JLabel("Inner b"));
 			innerBField = new JTextField(FORMAT.format(annulus.getInnerB()));
 			innerBField.addActionListener(okListener);
 			p.add(innerBField);
 			p.add(new JLabel("<html><i>m</i></html>"));
 			count++;
 
-			p.add(new JLabel("Outer A"));
+			p.add(new JLabel("Outer a"));
 			outerAField = new JTextField(FORMAT.format(annulus.getOuterA()));
 			outerAField.addActionListener(okListener);
 			p.add(outerAField);
 			p.add(new JLabel("<html><i>m</i></html>"));
 
-			p.add(new JLabel("Outer B"));
+			p.add(new JLabel("Outer b"));
 			outerBField = new JTextField(FORMAT.format(annulus.getOuterB()));
 			outerBField.addActionListener(okListener);
 			p.add(outerBField);
