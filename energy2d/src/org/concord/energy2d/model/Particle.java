@@ -3,6 +3,9 @@ package org.concord.energy2d.model;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 
+import org.concord.energy2d.util.ColorFill;
+import org.concord.energy2d.util.FillPattern;
+import org.concord.energy2d.util.Texture;
 import org.concord.energy2d.util.XmlCharacterEncoder;
 
 /**
@@ -28,11 +31,12 @@ public class Particle extends Manipulable implements Discrete {
 	private float rx0 = Float.NaN, ry0 = Float.NaN;
 	private float vx0 = Float.NaN, vy0 = Float.NaN;
 	private float theta0 = Float.NaN, omega0 = Float.NaN;
-	private Color color = Color.WHITE;
+	private FillPattern fillPattern;
 	private Color velocityColor = Color.BLACK;
 
 	public Particle() {
 		super(new Ellipse2D.Float());
+		fillPattern = new ColorFill(Color.WHITE);
 	}
 
 	public Particle(float rx, float ry) {
@@ -50,7 +54,7 @@ public class Particle extends Manipulable implements Discrete {
 	@Override
 	public Particle duplicate(float x, float y) {
 		Particle p = new Particle(x, y);
-		p.color = color;
+		p.fillPattern = fillPattern;
 		p.velocityColor = velocityColor;
 		p.mass = mass;
 		p.radius = radius;
@@ -64,7 +68,7 @@ public class Particle extends Manipulable implements Discrete {
 	@Override
 	public Particle duplicate() {
 		Particle p = new Particle(rx, ry);
-		p.color = color;
+		p.fillPattern = fillPattern;
 		p.velocityColor = velocityColor;
 		p.mass = mass;
 		p.radius = radius;
@@ -282,12 +286,12 @@ public class Particle extends Manipulable implements Discrete {
 		return movable;
 	}
 
-	public void setColor(Color color) {
-		this.color = color;
+	public void setFillPattern(FillPattern fillPattern) {
+		this.fillPattern = fillPattern;
 	}
 
-	public Color getColor() {
-		return color;
+	public FillPattern getFillPattern() {
+		return fillPattern;
 	}
 
 	public void setVelocityColor(Color color) {
@@ -319,9 +323,27 @@ public class Particle extends Manipulable implements Discrete {
 		String label = getLabel();
 		if (label != null && !label.trim().equals(""))
 			xml += "<label>" + xce.encode(label) + "</label>\n";
-		if (!Color.WHITE.equals(color))
-			xml += "<color>" + Integer.toHexString(0x00ffffff & color.getRGB()) + "</color>\n";
-		if (!Color.BLACK.equals(color))
+		if (fillPattern instanceof ColorFill) {
+			Color color = ((ColorFill) fillPattern).getColor();
+			if (!color.equals(Color.WHITE)) {
+				xml += "<color>" + Integer.toHexString(0x00ffffff & color.getRGB()) + "</color>\n";
+			}
+		} else if (fillPattern instanceof Texture) {
+			Texture pf = (Texture) fillPattern;
+			xml += "<texture>";
+			int i = pf.getForeground();
+			xml += "<texture_fg>" + Integer.toString(i, 16) + "</texture_fg>\n";
+			i = pf.getBackground();
+			xml += "<texture_bg>" + Integer.toString(i, 16) + "</texture_bg>\n";
+			i = ((Texture) fillPattern).getStyle();
+			xml += "<texture_style>" + i + "</texture_style>\n";
+			i = pf.getCellWidth();
+			xml += "<texture_width>" + i + "</texture_width>\n";
+			i = pf.getCellHeight();
+			xml += "<texture_height>" + i + "</texture_height>\n";
+			xml += "</texture>\n";
+		}
+		if (!Color.BLACK.equals(velocityColor))
 			xml += "<velocity_color>" + Integer.toHexString(0x00ffffff & velocityColor.getRGB()) + "</velocity_color>\n";
 		if (!Float.isNaN(temperature))
 			xml += "<temperature>" + temperature + "</temperature>\n";

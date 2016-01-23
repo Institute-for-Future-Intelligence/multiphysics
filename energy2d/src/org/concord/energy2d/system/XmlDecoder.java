@@ -130,11 +130,11 @@ class XmlDecoder extends DefaultHandler {
 	private boolean movable = true;
 	private Color color;
 	private Color velocityColor;
-	private byte partTextureStyle;
-	private int partTextureWidth = 10;
-	private int partTextureHeight = 10;
-	private Color partTextureForeground = Color.BLACK;
-	private Color partTextureBackground = Color.WHITE;
+	private byte textureStyle;
+	private int textureWidth = 10;
+	private int textureHeight = 10;
+	private Color textureForeground = Color.BLACK;
+	private Color textureBackground = Color.WHITE;
 	private boolean partFilled = true;
 	private Part part;
 
@@ -1076,15 +1076,15 @@ class XmlDecoder extends DefaultHandler {
 		} else if (qName == "wind_angle") {
 			fanAngle = Float.parseFloat(str);
 		} else if (qName == "texture_style") {
-			partTextureStyle = Byte.parseByte(str);
+			textureStyle = Byte.parseByte(str);
 		} else if (qName == "texture_width") {
-			partTextureWidth = Integer.parseInt(str);
+			textureWidth = Integer.parseInt(str);
 		} else if (qName == "texture_height") {
-			partTextureHeight = Integer.parseInt(str);
+			textureHeight = Integer.parseInt(str);
 		} else if (qName == "texture_fg") {
-			partTextureForeground = new Color(Integer.parseInt(str, 16));
+			textureForeground = new Color(Integer.parseInt(str, 16));
 		} else if (qName == "texture_bg") {
-			partTextureBackground = new Color(Integer.parseInt(str, 16));
+			textureBackground = new Color(Integer.parseInt(str, 16));
 		} else if (qName == "filled") {
 			partFilled = Boolean.parseBoolean(str);
 		} else if (qName == "visible") {
@@ -1153,8 +1153,8 @@ class XmlDecoder extends DefaultHandler {
 				part.setVisible(partVisible);
 				if (color != null)
 					part.setFillPattern(new ColorFill(color));
-				if (partTextureStyle != 0)
-					part.setFillPattern(new Texture(partTextureForeground.getRGB(), partTextureBackground.getRGB(), partTextureStyle, partTextureWidth, partTextureHeight));
+				if (textureStyle != 0)
+					part.setFillPattern(new Texture(textureForeground.getRGB(), textureBackground.getRGB(), textureStyle, textureWidth, textureHeight));
 				part.setFilled(partFilled);
 				part.setUid(uid);
 				part.setLabel(label);
@@ -1181,7 +1181,9 @@ class XmlDecoder extends DefaultHandler {
 				if (!Float.isNaN(temperature))
 					particle.setTemperature(temperature);
 				if (color != null)
-					particle.setColor(color);
+					particle.setFillPattern(new ColorFill(color));
+				if (textureStyle != 0)
+					particle.setFillPattern(new Texture(textureForeground.getRGB(), textureBackground.getRGB(), textureStyle, textureWidth, textureHeight));
 				if (velocityColor != null)
 					particle.setVelocityColor(velocityColor);
 				particle.setUid(uid);
@@ -1214,11 +1216,11 @@ class XmlDecoder extends DefaultHandler {
 		fanAngle = 0;
 		partVisible = true;
 		partFilled = true;
-		partTextureStyle = 0;
-		partTextureWidth = 10;
-		partTextureHeight = 10;
-		partTextureForeground = Color.BLACK;
-		partTextureBackground = Color.WHITE;
+		textureStyle = 0;
+		textureWidth = 10;
+		textureHeight = 10;
+		textureForeground = Color.BLACK;
+		textureBackground = Color.WHITE;
 		uid = null;
 		label = null;
 		color = null;
@@ -1236,6 +1238,11 @@ class XmlDecoder extends DefaultHandler {
 		particleRadius = Float.NaN;
 		particleMass = Float.NaN;
 		movable = true;
+		textureStyle = 0;
+		textureWidth = 10;
+		textureHeight = 10;
+		textureForeground = Color.BLACK;
+		textureBackground = Color.WHITE;
 		uid = null;
 		label = null;
 		color = null;

@@ -1,7 +1,6 @@
 package org.concord.energy2d.system;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
@@ -40,7 +39,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -65,7 +63,6 @@ import org.concord.energy2d.model.Tree;
 import org.concord.energy2d.util.MiscUtil;
 import org.concord.energy2d.view.TextBox;
 import org.concord.energy2d.view.View2D;
-import org.concord.modeler.MwService;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -77,14 +74,12 @@ import com.apple.eawt.ApplicationEvent;
 /**
  * Deploy as an app (energy2d.jar) or an applet (energy2d-applet.jar). The applet has no menu bar and tool bar and doesn't include /models and /resources.
  * 
- * Note: Java applets do not work in Chrome any more.
- * 
  * @author Charles Xie
  * 
  */
-public class System2D extends JApplet implements MwService, ManipulationListener {
+public class System2D extends JApplet implements ManipulationListener {
 
-	final static String BRAND_NAME = "Energy2D V2.4";
+	final static String BRAND_NAME = "Energy2D V2.5";
 
 	Model2D model;
 	View2D view;
@@ -385,14 +380,6 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 		}
 	}
 
-	public JPopupMenu getPopupMenu() {
-		return view.getPopupMenu();
-	}
-
-	public Component getSnapshotComponent() {
-		return view;
-	}
-
 	void setSaved(boolean b) {
 		saved = b;
 		EventQueue.invokeLater(new Runnable() {
@@ -687,10 +674,6 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 		return currentURL;
 	}
 
-	public boolean needExecutorService() {
-		return true;
-	}
-
 	public String runNativeScript(String script) {
 		if (script == null)
 			return null;
@@ -706,13 +689,6 @@ public class System2D extends JApplet implements MwService, ManipulationListener
 		if (scripter == null)
 			scripter = new Scripter2D(this);
 		return scripter;
-	}
-
-	public void setEditable(boolean b) {
-	}
-
-	public void setExecutorService(ExecutorService service) {
-		threadService = service;
 	}
 
 	public void manipulationOccured(ManipulationEvent e) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="C:/Users/qxie/Desktop/web/energy/energy2d/energy2d.jar"/>
+    <jar path="C:/Users/Charles Xie/Desktop/web/energy/energy2d/energy2d.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/energy2d/energy2d.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>

@@ -2096,7 +2096,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					e.width = e.height;
 				e.x = convertPointToPixelX(p.getRx()) - e.width * 0.5f;
 				e.y = convertPointToPixelY(p.getRy()) - e.height * 0.5f;
-				g.setColor(p.getColor());
+				FillPattern fillPattern = p.getFillPattern();
+				if (fillPattern instanceof ColorFill) {
+					g.setColor(((ColorFill) fillPattern).getColor());
+				} else if (fillPattern instanceof Texture) {
+					setPaint(g, (Texture) fillPattern, true);
+				}
 				g.fill(e);
 				g.setColor(selectedManipulable == p ? Color.yellow : Color.gray);
 				g.draw(e);
@@ -3831,29 +3836,32 @@ public class View2D extends JPanel implements PropertyChangeListener {
 								innerDragged = true;
 								break;
 							}
-							float xc = outer.x + 0.5f * outer.width;
-							float yc = outer.y + 0.5f * outer.height;
+							float dx = convertLengthToPixelX(2.0f * model.getLx() / nx);
+							float dy = convertLengthToPixelY(2.0f * model.getLy() / ny);
 							if (outerDragged) {
-								if (outer.width > outer.height) {
-									float thickness = outer.height * 0.25f;
-									inner.height = thickness;
-									inner.width = outer.width - thickness;
-								} else {
-									float thickness = outer.width * 0.25f;
-									inner.width = thickness;
-									inner.height = outer.height - thickness;
+								float xc = inner.x + 0.5f * inner.width;
+								float yc = inner.y + 0.5f * inner.height;
+								if (outer.width < inner.width + dx) {
+									outer.width = inner.width + dx;
 								}
+								if (outer.height < inner.height + dy) {
+									outer.height = inner.height + dy;
+								}
+								outer.x = xc - 0.5f * outer.width;
+								outer.y = yc - 0.5f * outer.height;
 							}
 							if (innerDragged) {
-								if (inner.width > outer.width * 0.9f) {
-									inner.width = outer.width * 0.9f;
+								float xc = outer.x + 0.5f * outer.width;
+								float yc = outer.y + 0.5f * outer.height;
+								if (inner.width > outer.width - dx) {
+									inner.width = outer.width - dx;
 								}
-								if (inner.height > outer.height * 0.9f) {
-									inner.height = outer.height * 0.9f;
+								if (inner.height > outer.height - dy) {
+									inner.height = outer.height - dy;
 								}
+								inner.x = xc - 0.5f * inner.width;
+								inner.y = yc - 0.5f * inner.height;
 							}
-							inner.x = xc - 0.5f * inner.width;
-							inner.y = yc - 0.5f * inner.height;
 							movingShape = new MovingAnnulus(outer, inner);
 							setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 						}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="C:/Users/qxie/Desktop/web/energy/energy2d/energy2d-applet.jar"/>
+    <jar path="C:/Users/Charles Xie/Desktop/web/energy/energy2d/energy2d-applet.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/energy2d/energy2d-applet.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
@@ -11,15 +11,14 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.math"/>
-        <javaElement handleIdentifier="=energy2d/src&lt;com.apple.eio"/>
         <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.undo"/>
-        <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.system"/>
-        <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.event"/>
         <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.util"/>
-        <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.view"/>
-        <javaElement handleIdentifier="=energy2d/src&lt;org.concord.modeler"/>
-        <javaElement handleIdentifier="=energy2d/src&lt;com.apple.eawt"/>
+        <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.math"/>
+        <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.event"/>
+        <javaElement handleIdentifier="=energy2d/src&lt;com.apple.eio"/>
         <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.model"/>
+        <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.system"/>
+        <javaElement handleIdentifier="=energy2d/src&lt;org.concord.energy2d.view"/>
+        <javaElement handleIdentifier="=energy2d/src&lt;com.apple.eawt"/>
     </selectedElements>
 </jardesc>

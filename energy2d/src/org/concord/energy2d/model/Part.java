@@ -84,7 +84,7 @@ public class Part extends Manipulable {
 	public Part(Shape shape, Model2D model) {
 		super(shape);
 		this.model = model;
-		fillPattern = new ColorFill(Color.gray);
+		fillPattern = new ColorFill(Color.GRAY);
 	}
 
 	public void setFilled(boolean filled) {
@@ -947,7 +947,7 @@ public class Part extends Manipulable {
 			xml += "<uid>" + xce.encode(getUid()) + "</uid>\n";
 		if (fillPattern instanceof ColorFill) {
 			Color color = ((ColorFill) fillPattern).getColor();
-			if (!color.equals(Color.gray)) {
+			if (!color.equals(Color.GRAY)) {
 				xml += "<color>" + Integer.toHexString(0x00ffffff & color.getRGB()) + "</color>\n";
 			}
 		} else if (fillPattern instanceof Texture) {

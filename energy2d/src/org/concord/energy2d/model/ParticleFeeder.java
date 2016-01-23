@@ -5,6 +5,7 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.XmlCharacterEncoder;
 
 /**
@@ -80,7 +81,7 @@ public class ParticleFeeder extends Manipulable {
 		p.setRadius(radius);
 		p.setVx((float) ((Math.random() - 0.5) * randomSpeed));
 		p.setVy((float) ((Math.random() - 0.5) * randomSpeed));
-		p.setColor(color);
+		p.setFillPattern(new ColorFill(color));
 		p.setVelocityColor(velocityColor);
 		model.addParticle(p);
 	}

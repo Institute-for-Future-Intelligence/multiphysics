@@ -30,7 +30,10 @@ import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.util.BackgroundComboBox;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.ColorMenu;
+import org.concord.energy2d.util.FillPattern;
 import org.concord.energy2d.util.MiscUtil;
+import org.concord.energy2d.util.Texture;
+import org.concord.energy2d.util.TextureChooser;
 
 /**
  * @author Charles Xie
@@ -42,7 +45,8 @@ class ParticleDialog extends JDialog {
 
 	private Window owner;
 	private JColorChooser colorChooser;
-	private BackgroundComboBox particleColorComboBox, velocityColorComboBox;
+	private TextureChooser textureChooser;
+	private BackgroundComboBox particleBackgroundComboBox, velocityColorComboBox;
 	private JTextField uidField, labelField;
 	private JTextField rxField, ryField, vxField, vyField, thetaField, omegaField;
 	private JTextField massField, radiusField, temperatureField;
@@ -215,37 +219,66 @@ class ParticleDialog extends JDialog {
 
 		p.add(new JLabel("Color:"));
 		colorChooser = new JColorChooser();
-		colorChooser.setColor(particle.getColor());
-		particleColorComboBox = new BackgroundComboBox(this, colorChooser, null);
-		particleColorComboBox.setToolTipText("Particle color");
-		particleColorComboBox.setFillPattern(new ColorFill(particle.getColor()));
-		particleColorComboBox.getColorMenu().setColorArrayAction(new AbstractAction() {
+		textureChooser = new TextureChooser();
+		FillPattern fp = particle.getFillPattern();
+		if (fp instanceof ColorFill) {
+			Color bgColor = ((ColorFill) fp).getColor();
+			colorChooser.setColor(bgColor);
+			textureChooser.setSelectedBackgroundColor(bgColor);
+		} else if (fp instanceof Texture) {
+			Texture texture = (Texture) fp;
+			textureChooser.setSelectedBackgroundColor(new Color(texture.getBackground()));
+			textureChooser.setSelectedForegroundColor(new Color(texture.getForeground()));
+			textureChooser.setSelectedStyle(texture.getStyle(), texture.getCellWidth(), texture.getCellHeight());
+		}
+
+		particleBackgroundComboBox = new BackgroundComboBox(this, colorChooser, textureChooser);
+		particleBackgroundComboBox.setToolTipText("Particle filling");
+		particleBackgroundComboBox.setFillPattern(particle.getFillPattern());
+		particleBackgroundComboBox.getColorMenu().setColorArrayAction(new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				Color c = particleColorComboBox.getColorMenu().getColor();
-				particle.setColor(c);
+				FillPattern fp = new ColorFill(particleBackgroundComboBox.getColorMenu().getColor());
+				if (fp.equals(particle.getFillPattern()))
+					return;
+				particle.setFillPattern(fp);
 				view.repaint();
-				particleColorComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, new ColorFill(c));
+				particleBackgroundComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, fp);
 			}
 		});
-		particleColorComboBox.getColorMenu().setMoreColorAction(new ActionListener() {
+		particleBackgroundComboBox.getColorMenu().setMoreColorAction(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Color c = particleColorComboBox.getColorMenu().getColorChooser().getColor();
-				particle.setColor(c);
+				FillPattern fp = new ColorFill(particleBackgroundComboBox.getColorMenu().getColorChooser().getColor());
+				if (fp.equals(particle.getFillPattern()))
+					return;
+				particle.setFillPattern(fp);
 				view.repaint();
-				particleColorComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, new ColorFill(c));
+				particleBackgroundComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, fp);
 			}
 		});
-		particleColorComboBox.getColorMenu().addHexColorListener(new ActionListener() {
+		particleBackgroundComboBox.getColorMenu().addHexColorListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Color c = particleColorComboBox.getColorMenu().getHexInputColor(particle.getColor());
+				Color c = particleBackgroundComboBox.getColorMenu().getHexInputColor(particle.getFillPattern() instanceof ColorFill ? ((ColorFill) particle.getFillPattern()).getColor() : null);
 				if (c == null)
 					return;
-				particle.setColor(c);
+				FillPattern fp = new ColorFill(c);
+				if (fp.equals(particle.getFillPattern()))
+					return;
+				particle.setFillPattern(fp);
 				view.repaint();
-				particleColorComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, new ColorFill(c));
+				particleBackgroundComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, fp);
 			}
 		});
-		p.add(particleColorComboBox);
+		particleBackgroundComboBox.getColorMenu().setTextureActions(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FillPattern fp = particleBackgroundComboBox.getColorMenu().getTextureChooser().getFillPattern();
+				if (fp != null && fp.equals(particle.getFillPattern()))
+					return;
+				particle.setFillPattern(fp);
+				view.repaint();
+				particleBackgroundComboBox.getColorMenu().firePropertyChange(ColorMenu.FILLING, null, fp);
+			}
+		}, null);
+		p.add(particleBackgroundComboBox);
 
 		p.add(new JLabel("Velocity Color:"));
 		velocityColorComboBox = new BackgroundComboBox(this, colorChooser, null);
@@ -269,7 +302,7 @@ class ParticleDialog extends JDialog {
 		});
 		velocityColorComboBox.getColorMenu().addHexColorListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Color c = velocityColorComboBox.getColorMenu().getHexInputColor(particle.getColor());
+				Color c = velocityColorComboBox.getColorMenu().getHexInputColor(particle.getVelocityColor());
 				if (c == null)
 					return;
 				particle.setVelocityColor(c);

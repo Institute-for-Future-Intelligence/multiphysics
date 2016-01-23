@@ -1452,7 +1452,7 @@ class Scripter2D extends Scripter {
 		} else if (s == "temperature") {
 			particle.setTemperature(z);
 		} else if (s == "color") {
-			particle.setColor(new Color((int) z));
+			particle.setFillPattern(new ColorFill(new Color((int) z)));
 		} else if (s == "movable") {
 			particle.setMovable(z > 0);
 		} else if (s == "draggable") {
