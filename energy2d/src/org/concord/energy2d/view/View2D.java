@@ -3669,12 +3669,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 							setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 						}
 					}
-				} else if (shape instanceof EllipticalAnnulus) {
-					if (selectedSpot == -1) {
-
-					} else {
-
-					}
 				} else if (shape instanceof Area) {
 					if (selectedManipulable instanceof Cloud && movingShape instanceof MovingCloud) {
 						MovingCloud mc = (MovingCloud) movingShape;
@@ -3735,8 +3729,44 @@ public class View2D extends JPanel implements PropertyChangeListener {
 							int yc = (int) (y - pressedPointRelative.y - r.getCenterY());
 							ma.setLocation(xc, yc);
 						} else {
-							// TODO: movingShape = new MovingAnnulus();
-							// setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+							Ellipse2D.Float inner = ma.getInnerEllipse();
+							Ellipse2D.Float outer = ma.getOuterEllipse();
+							switch (selectedSpot) {
+							case LOWER_LEFT:
+							case LOWER_RIGHT:
+							case UPPER_LEFT:
+							case UPPER_RIGHT:
+								outer.x = Math.min(x, anchorPoint.x);
+								outer.y = Math.min(y, anchorPoint.y);
+								outer.width = Math.abs(x - anchorPoint.x);
+								outer.height = Math.abs(y - anchorPoint.y);
+								break;
+							case TOP:
+							case BOTTOM:
+								outer.y = Math.min(y, anchorPoint.y);
+								outer.height = Math.abs(y - anchorPoint.y);
+								break;
+							case LEFT:
+							case RIGHT:
+								outer.x = Math.min(x, anchorPoint.x);
+								outer.width = Math.abs(x - anchorPoint.x);
+								break;
+							}
+							float xc = outer.x + 0.5f * outer.width;
+							float yc = outer.y + 0.5f * outer.height;
+							if (outer.width > outer.height) {
+								float thickness = outer.height * 0.25f;
+								inner.height = thickness;
+								inner.width = outer.width - thickness;
+							} else {
+								float thickness = outer.width * 0.25f;
+								inner.width = thickness;
+								inner.height = outer.height - thickness;
+							}
+							inner.x = xc - 0.5f * inner.width;
+							inner.y = yc - 0.5f * inner.height;
+							movingShape = new MovingAnnulus(outer, inner);
+							setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 						}
 					}
 				} else {
@@ -4007,6 +4037,19 @@ public class View2D extends JPanel implements PropertyChangeListener {
 									undoManager.addEdit(new UndoResizeManipulable(this));
 									resizeManipulableTo(selectedManipulable, x2, y2, w2, h2, convertPixelToPointX(p.x), convertPixelToPointY(p.y));
 									((Heliostat) selectedManipulable).setAngle();
+									setSelectedManipulable(selectedManipulable);
+								} else if (selectedManipulable instanceof Part && movingShape instanceof MovingAnnulus) {
+									MovingAnnulus ma = (MovingAnnulus) movingShape;
+									Ellipse2D.Float inner = ma.getInnerEllipse();
+									Ellipse2D.Float outer = ma.getOuterEllipse();
+									float rx = convertPixelToPointX((int) (outer.x + 0.5f * outer.width));
+									float ry = convertPixelToPointY((int) (outer.y + 0.5f * outer.height));
+									float ia = convertPixelToLengthX((int) (0.5f * inner.width));
+									float ib = convertPixelToLengthY((int) (0.5f * inner.height));
+									float oa = convertPixelToLengthX((int) (0.5f * outer.width));
+									float ob = convertPixelToLengthY((int) (0.5f * outer.height));
+									undoManager.addEdit(new UndoResizeManipulable(this));
+									resizeManipulableTo(selectedManipulable, rx, ry, ia, ib, oa, ob);
 									setSelectedManipulable(selectedManipulable);
 								}
 							}
@@ -4692,6 +4735,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				int ao = convertPointToPixelX(r.getOuterA());
 				int bo = convertPointToPixelY(r.getOuterB());
 				movingShape = new MovingAnnulus(new Ellipse2D.Float(xc - ao, yc - bo, 2 * ao, 2 * bo), new Ellipse2D.Float(xc - ai, yc - bi, 2 * ai, 2 * bi));
+				if (anchor)
+					setAnchorPointForRectangularShape(selectedSpot, xc - ao, yc - bo, 2 * ao, 2 * bo);
 			}
 		} else if (selectedManipulable instanceof Particle) {
 			Ellipse2D.Float e = (Ellipse2D.Float) selectedManipulable.getShape();
