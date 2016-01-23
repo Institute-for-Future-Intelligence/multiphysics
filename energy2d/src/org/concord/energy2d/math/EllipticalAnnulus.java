@@ -10,7 +10,7 @@ import java.awt.geom.Ellipse2D;
  */
 public class EllipticalAnnulus extends Area {
 
-	private float x = 0, y = 0, outerA = 20, innerA = 10, outerB = 20, innerB = 10;
+	private float x, y, outerA, innerA, outerB, innerB;
 
 	public EllipticalAnnulus() {
 		super();

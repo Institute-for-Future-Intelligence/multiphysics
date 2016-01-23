@@ -628,6 +628,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			break;
 		case RECTANGLE_MODE:
 		case ELLIPSE_MODE:
+		case ANNULUS_MODE:
 		case POLYGON_MODE:
 		case BLOB_MODE:
 			setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
@@ -3912,17 +3913,17 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			break;
 		case ANNULUS_MODE:
 			if (mouseDraggedPoint.x > mousePressedPoint.x) {
-				annulus.setOuterA(mouseDraggedPoint.x - mousePressedPoint.x);
-				annulus.setX(mousePressedPoint.x);
+				annulus.setOuterA(0.5f * (mouseDraggedPoint.x - mousePressedPoint.x));
+				annulus.setX(mousePressedPoint.x + annulus.getOuterA());
 			} else {
-				annulus.setOuterA(mousePressedPoint.x - mouseDraggedPoint.x);
+				annulus.setOuterA(0.5f * (mousePressedPoint.x - mouseDraggedPoint.x));
 				annulus.setX(mousePressedPoint.x - annulus.getOuterA());
 			}
 			if (mouseDraggedPoint.y > mousePressedPoint.y) {
-				annulus.setOuterB(mouseDraggedPoint.y - mousePressedPoint.y);
-				annulus.setY(mousePressedPoint.y);
+				annulus.setOuterB(0.5f * (mouseDraggedPoint.y - mousePressedPoint.y));
+				annulus.setY(mousePressedPoint.y + annulus.getOuterB());
 			} else {
-				annulus.setOuterB(mousePressedPoint.y - mouseDraggedPoint.y);
+				annulus.setOuterB(0.5f * (mousePressedPoint.y - mouseDraggedPoint.y));
 				annulus.setY(mousePressedPoint.y - annulus.getOuterB());
 			}
 			if (annulus.getOuterA() > annulus.getOuterB()) {
