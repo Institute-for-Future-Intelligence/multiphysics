@@ -9,6 +9,7 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
 import org.concord.energy2d.math.Blob2D;
+import org.concord.energy2d.math.EllipticalAnnulus;
 import org.concord.energy2d.math.Polygon2D;
 import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.model.Cloud;
@@ -30,6 +31,8 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 	private String name;
 	private float oldX, oldY, newX, newY;
 	private float oldW, oldH, newW, newH;
+	private float oldInnerA, oldInnerB, oldOuterA, oldOuterB;
+	private float newInnerA, newInnerB, newOuterA, newOuterB;
 
 	public UndoResizeManipulable(View2D view) {
 		this.view = view;
@@ -53,6 +56,14 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			} else if (shape instanceof Polygon2D) {
 			} else if (shape instanceof Blob2D) {
 			} else if (shape instanceof Annulus) {
+			} else if (shape instanceof EllipticalAnnulus) {
+				EllipticalAnnulus e = (EllipticalAnnulus) shape;
+				oldX = e.getX();
+				oldY = e.getY();
+				oldInnerA = e.getInnerA();
+				oldInnerB = e.getInnerB();
+				oldOuterA = e.getOuterA();
+				oldOuterB = e.getOuterB();
 			}
 		} else if (selectedManipulable instanceof Fan) {
 			name = "Fan";
@@ -119,6 +130,21 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			} else if (shape instanceof Polygon2D) {
 			} else if (shape instanceof Blob2D) {
 			} else if (shape instanceof Annulus) {
+			} else if (shape instanceof EllipticalAnnulus) {
+				EllipticalAnnulus e = (EllipticalAnnulus) shape;
+				newX = e.getX();
+				newY = e.getY();
+				newInnerA = e.getInnerA();
+				newInnerB = e.getInnerB();
+				newOuterA = e.getOuterA();
+				newOuterB = e.getOuterB();
+				e.setX(oldX);
+				e.setY(oldY);
+				e.setInnerA(oldInnerA);
+				e.setInnerB(oldInnerB);
+				e.setOuterA(oldOuterA);
+				e.setOuterB(oldOuterB);
+				e.setShape();
 			}
 			model.refreshPowerArray();
 			model.refreshTemperatureBoundaryArray();
@@ -197,6 +223,15 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			} else if (shape instanceof Polygon2D) {
 			} else if (shape instanceof Blob2D) {
 			} else if (shape instanceof Annulus) {
+			} else if (shape instanceof EllipticalAnnulus) {
+				EllipticalAnnulus e = (EllipticalAnnulus) shape;
+				e.setX(newX);
+				e.setY(newY);
+				e.setInnerA(newInnerA);
+				e.setInnerB(newInnerB);
+				e.setOuterA(newOuterA);
+				e.setOuterB(newOuterB);
+				e.setShape();
 			}
 			model.refreshPowerArray();
 			model.refreshTemperatureBoundaryArray();

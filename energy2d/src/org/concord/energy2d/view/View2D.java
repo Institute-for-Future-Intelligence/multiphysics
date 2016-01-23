@@ -2916,6 +2916,59 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		}
 	}
 
+	private void setAnchorPointForAnnulus(int i, float x, float y, float ai, float bi, float ao, float bo) {
+		switch (i) {
+		case UPPER_LEFT:
+			anchorPoint.setLocation(x + ao, y + bo);
+			break;
+		case UPPER_RIGHT:
+			anchorPoint.setLocation(x - ao, y + bo);
+			break;
+		case LOWER_RIGHT:
+			anchorPoint.setLocation(x - ao, y - bo);
+			break;
+		case LOWER_LEFT:
+			anchorPoint.setLocation(x + ao, y - bo);
+			break;
+		case TOP:
+			anchorPoint.setLocation(x - ao, y + bo);
+			break;
+		case RIGHT:
+			anchorPoint.setLocation(x - ao, y - bo);
+			break;
+		case BOTTOM:
+			anchorPoint.setLocation(x - ao, y - bo);
+			break;
+		case LEFT:
+			anchorPoint.setLocation(x + ao, y - bo);
+			break;
+		case UPPER_LEFT + 8:
+			anchorPoint.setLocation(x + ai, y + bi);
+			break;
+		case UPPER_RIGHT + 8:
+			anchorPoint.setLocation(x - ai, y + bi);
+			break;
+		case LOWER_RIGHT + 8:
+			anchorPoint.setLocation(x - ai, y - bi);
+			break;
+		case LOWER_LEFT + 8:
+			anchorPoint.setLocation(x + ai, y - bi);
+			break;
+		case TOP + 8:
+			anchorPoint.setLocation(x - ai, y + bi);
+			break;
+		case RIGHT + 8:
+			anchorPoint.setLocation(x - ai, y - bi);
+			break;
+		case BOTTOM + 8:
+			anchorPoint.setLocation(x - ai, y - bi);
+			break;
+		case LEFT + 8:
+			anchorPoint.setLocation(x + ai, y - bi);
+			break;
+		}
+	}
+
 	private void selectManipulable(int x, int y) {
 		setSelectedManipulable(null);
 		float rx = convertPixelToPointXPrecisely(x);
@@ -3729,6 +3782,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 							int yc = (int) (y - pressedPointRelative.y - r.getCenterY());
 							ma.setLocation(xc, yc);
 						} else {
+							boolean innerDragged = false, outerDragged = false;
 							Ellipse2D.Float inner = ma.getInnerEllipse();
 							Ellipse2D.Float outer = ma.getOuterEllipse();
 							switch (selectedSpot) {
@@ -3740,28 +3794,63 @@ public class View2D extends JPanel implements PropertyChangeListener {
 								outer.y = Math.min(y, anchorPoint.y);
 								outer.width = Math.abs(x - anchorPoint.x);
 								outer.height = Math.abs(y - anchorPoint.y);
+								outerDragged = true;
 								break;
 							case TOP:
 							case BOTTOM:
 								outer.y = Math.min(y, anchorPoint.y);
 								outer.height = Math.abs(y - anchorPoint.y);
+								outerDragged = true;
 								break;
 							case LEFT:
 							case RIGHT:
 								outer.x = Math.min(x, anchorPoint.x);
 								outer.width = Math.abs(x - anchorPoint.x);
+								outerDragged = true;
+								break;
+							case LOWER_LEFT + 8:
+							case LOWER_RIGHT + 8:
+							case UPPER_LEFT + 8:
+							case UPPER_RIGHT + 8:
+								inner.x = Math.min(x, anchorPoint.x);
+								inner.y = Math.min(y, anchorPoint.y);
+								inner.width = Math.abs(x - anchorPoint.x);
+								inner.height = Math.abs(y - anchorPoint.y);
+								innerDragged = true;
+								break;
+							case TOP + 8:
+							case BOTTOM + 8:
+								inner.y = Math.min(y, anchorPoint.y);
+								inner.height = Math.abs(y - anchorPoint.y);
+								innerDragged = true;
+								break;
+							case LEFT + 8:
+							case RIGHT + 8:
+								inner.x = Math.min(x, anchorPoint.x);
+								inner.width = Math.abs(x - anchorPoint.x);
+								innerDragged = true;
 								break;
 							}
 							float xc = outer.x + 0.5f * outer.width;
 							float yc = outer.y + 0.5f * outer.height;
-							if (outer.width > outer.height) {
-								float thickness = outer.height * 0.25f;
-								inner.height = thickness;
-								inner.width = outer.width - thickness;
-							} else {
-								float thickness = outer.width * 0.25f;
-								inner.width = thickness;
-								inner.height = outer.height - thickness;
+							if (outerDragged) {
+								if (outer.width > outer.height) {
+									float thickness = outer.height * 0.25f;
+									inner.height = thickness;
+									inner.width = outer.width - thickness;
+								} else {
+									float thickness = outer.width * 0.25f;
+									inner.width = thickness;
+									inner.height = outer.height - thickness;
+								}
+							}
+							if (innerDragged) {
+								if (inner.width > outer.width * 0.9f) {
+									inner.width = outer.width * 0.9f;
+								}
+								if (inner.height > outer.height * 0.9f) {
+									inner.height = outer.height * 0.9f;
+								}
 							}
 							inner.x = xc - 0.5f * inner.width;
 							inner.y = yc - 0.5f * inner.height;
@@ -4736,7 +4825,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				int bo = convertPointToPixelY(r.getOuterB());
 				movingShape = new MovingAnnulus(new Ellipse2D.Float(xc - ao, yc - bo, 2 * ao, 2 * bo), new Ellipse2D.Float(xc - ai, yc - bi, 2 * ai, 2 * bi));
 				if (anchor)
-					setAnchorPointForRectangularShape(selectedSpot, xc - ao, yc - bo, 2 * ao, 2 * bo);
+					setAnchorPointForAnnulus(selectedSpot, xc, yc, ai, bi, ao, bo);
 			}
 		} else if (selectedManipulable instanceof Particle) {
 			Ellipse2D.Float e = (Ellipse2D.Float) selectedManipulable.getShape();
