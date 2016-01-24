@@ -43,7 +43,6 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -314,6 +313,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			}
 		});
 		textBoxes = Collections.synchronizedList(new ArrayList<TextBox>());
+		pictures = Collections.synchronizedList(new ArrayList<Picture>());
 		createActions();
 		createModelPopupMenu();
 		setColorPaletteType(colorPaletteType);
@@ -687,8 +687,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public void clear() {
 		setSelectedManipulable(null);
 		textBoxes.clear();
-		if (pictures != null)
-			pictures.clear();
+		pictures.clear();
 		selectedSpot = -1;
 		hideHandles();
 	}
@@ -757,24 +756,25 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		return model.isUidUsed(uid);
 	}
 
-	public void addPicture(Icon image, int x, int y) {
-		if (pictures == null)
-			pictures = new ArrayList<Picture>();
-		pictures.add(new Picture(image, x, y));
+	public Picture addPicture(BufferedImage image, String format, float x, float y) {
+		Picture p = new Picture(image, format, x, y);
+		pictures.add(p);
+		return p;
 	}
 
 	public int getPictureCount() {
-		if (pictures == null)
-			return 0;
 		return pictures.size();
 	}
 
 	public Picture getPicture(int i) {
-		if (pictures == null)
-			return null;
 		if (i < 0 || i >= pictures.size())
 			return null;
 		return pictures.get(i);
+	}
+
+	public void removePicture(Picture p) {
+		pictures.remove(p);
+		repaint();
 	}
 
 	public Fan addFan(float x, float y, float w, float h) {
@@ -2848,11 +2848,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	}
 
 	private void drawPictures(Graphics2D g) {
-		if (pictures == null || pictures.isEmpty())
-			return;
-		for (Picture x : pictures) {
-			x.getImage().paintIcon(this, g, convertPointToPixelX(x.getX()), getHeight() - convertPointToPixelY(x.getY()));
-		}
+		for (Picture x : pictures)
+			g.drawImage(x.getImage(), convertPointToPixelX(x.getX()), getHeight() - convertPointToPixelY(x.getY()), this);
 	}
 
 	private void drawPhotons(Graphics2D g) {
@@ -3112,6 +3109,18 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				}
 			}
 		}
+		n = pictures.size();
+		if (n > 0) {
+			synchronized (pictures) {
+				for (int i = n - 1; i >= 0; i--) { // later added, higher priority
+					Picture p = pictures.get(i);
+					if (p.contains(rx, ry)) {
+						setSelectedManipulable(p);
+						return;
+					}
+				}
+			}
+		}
 	}
 
 	public void setSelectedManipulable(Manipulable m) {
@@ -3315,7 +3324,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 	// (x0, y0) is the coordinate of the upper-left corner of an Area (if shape is an Area).
 	// If the shape is an annulus, w = inner diameter and h = outer diameter.
-	// If the shape is an elliptical annulus, w = inner A, h = inner B, x0 = outerA, and y0 = outerB
+	// If the shape is an elliptical annulus, w = innerA, h = innerB, x0 = outerA, and y0 = outerB
 	void resizeManipulableTo(Manipulable m, float x, float y, float w, float h, float x0, float y0) {
 		w = Math.max(model.getLx() / nx, w);
 		h = Math.max(model.getLy() / ny, h);

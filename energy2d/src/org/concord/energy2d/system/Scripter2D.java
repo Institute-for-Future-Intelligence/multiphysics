@@ -16,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -339,6 +339,7 @@ class Scripter2D extends Scripter {
 						final float[] z = parseArray(2, s.substring(1, j));
 						if (z != null) {
 							String filename = s.substring(j + 1);
+							String format = MiscUtil.getSuffix(filename);
 							URL url = null;
 							try {
 								url = new URL(s2d.getCodeBase(), filename);
@@ -347,17 +348,12 @@ class Scripter2D extends Scripter {
 								return;
 							}
 							if (url != null) {
-								final ImageIcon image = new ImageIcon(url);
-								final Runnable r = new Runnable() {
-									public void run() {
-										s2d.view.addPicture(image, s2d.view.convertPointToPixelX(z[0]), s2d.view.convertPointToPixelY(z[1]));
-									}
-								};
-								EventQueue.invokeLater(new Runnable() {
-									public void run() {
-										EventQueue.invokeLater(r);
-									}
-								});
+								try {
+									s2d.view.addPicture(ImageIO.read(url), format, s2d.view.convertPointToPixelX(z[0]), s2d.view.convertPointToPixelY(z[1]));
+								} catch (IOException e) {
+									showException(ci, e);
+									return;
+								}
 								success = true;
 							}
 						}

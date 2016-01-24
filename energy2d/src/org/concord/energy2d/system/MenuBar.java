@@ -18,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ButtonGroup;
@@ -66,6 +67,7 @@ class MenuBar extends JMenuBar {
 	private final static boolean IS_MAC = System.getProperty("os.name").startsWith("Mac");
 
 	FileChooser e2dFileChooser;
+	private FileChooser imgFileChooser;
 	private FileChooser htmFileChooser;
 
 	private FileFilter e2dFilter = new FileFilter() {
@@ -116,11 +118,42 @@ class MenuBar extends JMenuBar {
 
 	};
 
+	private FileFilter imageFilter = new FileFilter() {
+
+		public boolean accept(File file) {
+			if (file == null)
+				return false;
+			if (file.isDirectory())
+				return true;
+			String filename = file.getName();
+			int index = filename.lastIndexOf('.');
+			if (index == -1)
+				return false;
+			String postfix = filename.substring(index + 1);
+			if ("png".equalsIgnoreCase(postfix))
+				return true;
+			if ("jpg".equalsIgnoreCase(postfix))
+				return true;
+			if ("jpeg".equalsIgnoreCase(postfix))
+				return true;
+			if ("gif".equalsIgnoreCase(postfix))
+				return true;
+			return false;
+		}
+
+		@Override
+		public String getDescription() {
+			return "IMAGE";
+		}
+
+	};
+
 	private Action openAction;
 	private Action saveAction;
 	private Action saveAsAction;
 	private Action saveAsAppletAction;
 	private Action exitAction;
+	private Action insertImageAction;
 	private ScreenshotSaver screenshotSaver;
 	private int fileMenuItemCount;
 	private List<JComponent> recentFileMenuItems;
@@ -129,6 +162,7 @@ class MenuBar extends JMenuBar {
 
 		e2dFileChooser = new FileChooser();
 		htmFileChooser = new FileChooser();
+		imgFileChooser = new FileChooser();
 		recentFileMenuItems = new ArrayList<JComponent>();
 
 		// file menu
@@ -419,7 +453,41 @@ class MenuBar extends JMenuBar {
 		menu.addSeparator();
 		menu.add(box.view.getActionMap().get("Insert Cloud"));
 		menu.add(box.view.getActionMap().get("Insert Tree"));
+		menu.addSeparator();
 		menu.add(box.view.getActionMap().get("Insert Text Box"));
+
+		insertImageAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				imgFileChooser.setAcceptAllFileFilterUsed(false);
+				imgFileChooser.addChoosableFileFilter(imageFilter);
+				imgFileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
+				imgFileChooser.setDialogTitle("Select Image");
+				imgFileChooser.setApproveButtonMnemonic('O');
+				imgFileChooser.setAccessory(null);
+				if (imgFileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+					File file = imgFileChooser.getSelectedFile();
+					if (file.exists()) {
+						String filename = file.getName();
+						String format = MiscUtil.getSuffix(filename);
+						try {
+							box.view.addPicture(ImageIO.read(file), format, 0.1f * box.model.getLx(), 0.9f * box.model.getLy());
+						} catch (IOException exception) {
+							exception.printStackTrace();
+							JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(box), "File " + file + " can't be loaded.", "File error", JOptionPane.ERROR_MESSAGE);
+						}
+						box.view.repaint();
+					} else {
+						JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(box), "File " + file + " was not found.", "File not found", JOptionPane.ERROR_MESSAGE);
+					}
+					imgFileChooser.rememberFile(file.getPath());
+				}
+				imgFileChooser.resetChoosableFileFilters();
+			}
+		};
+		insertImageAction.putValue(Action.NAME, "Image...");
+		insertImageAction.putValue(Action.SHORT_DESCRIPTION, "Insert an image where the mouse last clicked");
+		box.view.getActionMap().put("Insert Image", insertImageAction);
+		menu.add(insertImageAction);
 
 		// edit menu
 
@@ -1113,6 +1181,8 @@ class MenuBar extends JMenuBar {
 				htmFileChooser.setCurrentDirectory(new File(latestPath));
 			} else if ("png".equalsIgnoreCase(type)) {
 				screenshotSaver.setCurrentDirectory(new File(latestPath));
+			} else if ("img".equalsIgnoreCase(type)) {
+				imgFileChooser.setCurrentDirectory(new File(latestPath));
 			} else if ("e2d".equalsIgnoreCase(type)) {
 				e2dFileChooser.setCurrentDirectory(new File(latestPath));
 			}
@@ -1124,6 +1194,8 @@ class MenuBar extends JMenuBar {
 			return htmFileChooser.getLatestPath();
 		if ("png".equalsIgnoreCase(type))
 			return screenshotSaver.getLatestPath();
+		if ("img".equalsIgnoreCase(type))
+			return imgFileChooser.getLatestPath();
 		return e2dFileChooser.getLatestPath();
 	}
 

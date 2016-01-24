@@ -3,7 +3,14 @@ package org.concord.energy2d.system;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.xml.bind.DatatypeConverter;
 
 import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Boundary;
@@ -28,6 +35,7 @@ import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.Scripter;
 import org.concord.energy2d.util.Texture;
 import org.concord.energy2d.util.XmlCharacterDecoder;
+import org.concord.energy2d.view.Picture;
 import org.concord.energy2d.view.TextBox;
 import org.concord.energy2d.view.View2D;
 import org.xml.sax.Attributes;
@@ -787,6 +795,48 @@ class XmlDecoder extends DefaultHandler {
 					t.setColor(color);
 					t.setBorder(border);
 					box.view.repaint();
+				}
+			}
+		} else if (qName == "image") {
+			if (attrib != null) {
+				float x = Float.NaN, y = Float.NaN;
+				String format = null, uid = null, data = null;
+				boolean border = false;
+				for (int i = 0, n = attrib.getLength(); i < n; i++) {
+					attribName = attrib.getQName(i).intern();
+					attribValue = attrib.getValue(i);
+					if (attribName == "x") {
+						x = Float.parseFloat(attribValue);
+					} else if (attribName == "y") {
+						y = Float.parseFloat(attribValue);
+					} else if (attribName == "uid") {
+						uid = attribValue;
+					} else if (attribName == "data") {
+						data = attribValue;
+					} else if (attribName == "format") {
+						format = attribValue;
+					} else if (attribName == "border") {
+						border = Boolean.parseBoolean(attribValue);
+					}
+				}
+				if (!Float.isNaN(x) && !Float.isNaN(y) && data != null) {
+					InputStream in = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(data));
+					Picture p = null;
+					try {
+						p = box.view.addPicture(ImageIO.read(in), format, x, y);
+					} catch (IOException e) {
+						e.printStackTrace();
+					} finally {
+						try {
+							in.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+					if (p != null) {
+						p.setUid(uid);
+						box.view.repaint();
+					}
 				}
 			}
 		} else if (qName == "fan") {

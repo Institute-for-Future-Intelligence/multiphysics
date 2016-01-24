@@ -3,10 +3,13 @@ package org.concord.energy2d.util;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.text.NumberFormat;
@@ -363,6 +366,17 @@ public final class MiscUtil {
 			JOptionPane.showMessageDialog(owner, "Cannot parse " + e.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		return x;
+	}
+
+	/** Convert an Image into a BufferedImage */
+	public static BufferedImage toBufferedImage(Image img) {
+		if (img instanceof BufferedImage)
+			return (BufferedImage) img;
+		BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = bi.createGraphics();
+		g.drawImage(img, 0, 0, null);
+		g.dispose();
+		return bi;
 	}
 
 }

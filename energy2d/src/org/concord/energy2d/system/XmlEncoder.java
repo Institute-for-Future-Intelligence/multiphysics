@@ -289,6 +289,12 @@ class XmlEncoder {
 				sb.append(box.view.getTextBox(i).toXml());
 			}
 		}
+		n = box.view.getPictureCount();
+		if (n > 0) {
+			for (int i = 0; i < n; i++) {
+				sb.append(box.view.getPicture(i).toXml());
+			}
+		}
 		sb.append("</view>\n");
 
 		sb.append("</state>\n");

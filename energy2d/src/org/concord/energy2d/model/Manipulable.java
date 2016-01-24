@@ -12,7 +12,7 @@ import org.concord.energy2d.math.TransformableShape;
 public abstract class Manipulable {
 
 	private boolean selected;
-	private Shape shape;
+	protected Shape shape;
 	private boolean draggable = true;
 	private boolean visible = true;
 	private String label;

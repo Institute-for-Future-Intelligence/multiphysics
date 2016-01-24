@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <state>
 <links>
-<next_sim>stefan2.e2d</next_sim>
+<prev_sim>stefan.e2d</prev_sim>
 </links>
 <model>
 <model_width>1.0</model_width>
@@ -35,14 +35,14 @@
 <scattering_visible>false</scattering_visible>
 <absorption>0.0</absorption>
 <emissivity>1.0</emissivity>
-<temperature>50.0</temperature>
+<temperature>-50.0</temperature>
 <constant_temperature>true</constant_temperature>
 <uid>left_radiator</uid>
 <filled>false</filled>
 <label>%temperature</label>
 </part>
 <part>
-<rectangle x="0.099999994" y="0.099999994" width="0.19999999" height="0.32999998"/><elasticity>1.0</elasticity>
+<rectangle x="0.099999994" y="0.14999999" width="0.19999999" height="0.28"/><elasticity>1.0</elasticity>
 <thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>1.0</density>
@@ -91,14 +91,14 @@
 <scattering_visible>false</scattering_visible>
 <absorption>0.0</absorption>
 <emissivity>1.0</emissivity>
-<temperature>100.0</temperature>
+<temperature>50.0</temperature>
 <constant_temperature>true</constant_temperature>
 <uid>right_radiator</uid>
 <filled>false</filled>
 <label>%temperature</label>
 </part>
 <part>
-<rectangle x="0.7" y="0.099999994" width="0.19999999" height="0.32"/><elasticity>1.0</elasticity>
+<rectangle x="0.7" y="0.16" width="0.19999999" height="0.26"/><elasticity>1.0</elasticity>
 <thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>1.0</density>
@@ -112,6 +112,27 @@
 <constant_temperature>false</constant_temperature>
 <filled>false</filled>
 <label>%temperature</label>
+</part>
+<part>
+<rectangle x="0.034999996" y="0.089999996" width="0.35" height="0.02"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-1</texture_bg>
+<texture_style>9</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<label>Reflector</label>
 </part>
 </structure>
 <environment>
@@ -127,13 +148,12 @@
 <grid>true</grid>
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
-<view_factor_lines>true</view_factor_lines>
 <perimeter_step_size>0.05</perimeter_step_size>
 <border_tickmarks>true</border_tickmarks>
-<color_palette>true</color_palette>
 <color_palette_type>1</color_palette_type>
 <control_panel>true</control_panel>
-<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>-20.0</minimum_temperature>
-<maximum_temperature>80.0</maximum_temperature>
-<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel></view>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>-50.0</minimum_temperature>
+<maximum_temperature>50.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Drag the reflector to block radiation (resize as needed)-linebreak-Copy and paste to create more reflectors" face="Arial" size="12" style="1" color="ffffff" x="0.035" y="0.985"/>
+</view>
 </state>
