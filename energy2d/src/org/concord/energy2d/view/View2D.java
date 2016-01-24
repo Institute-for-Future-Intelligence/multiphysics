@@ -756,10 +756,31 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		return model.isUidUsed(uid);
 	}
 
-	public Picture addPicture(BufferedImage image, String format, float x, float y) {
-		Picture p = new Picture(image, format, x, y);
+	public Picture addPicture(BufferedImage image, String format, String fileName, float x, float y) {
+		Picture p = new Picture(image, format, fileName, x, y);
+		p.setWidth(convertPixelToLengthX((int) p.getWidth()));
+		p.setHeight(convertPixelToLengthX((int) p.getHeight()));
 		pictures.add(p);
 		return p;
+	}
+
+	public void addPicture(Picture p, int index) {
+		pictures.add(index, p);
+		repaint();
+	}
+
+	public void addPicture(Picture p) {
+		pictures.add(p);
+	}
+
+	public void addPictureOriginalSize(Picture p) {
+		p.setWidth(convertPixelToLengthX((int) p.getWidth()));
+		p.setHeight(convertPixelToLengthX((int) p.getHeight()));
+		pictures.add(p);
+	}
+
+	public List<Picture> getPictures() {
+		return pictures;
 	}
 
 	public int getPictureCount() {
@@ -1410,6 +1431,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				pastedManipulable = copiedManipulable.duplicate(x, model.getLy() - y);
 			}
 			addTextBox((TextBox) pastedManipulable);
+		} else if (copiedManipulable instanceof Picture) {
+			if (keyboard) {
+				pastedManipulable = copiedManipulable.duplicate();
+				pastedManipulable.translateBy(dx, dy); // translation exception for textbox
+			} else {
+				pastedManipulable = copiedManipulable.duplicate(x, y);
+			}
+			addPicture((Picture) pastedManipulable);
 		} else if (copiedManipulable instanceof Cloud) {
 			if (keyboard) {
 				pastedManipulable = copiedManipulable.duplicate();
@@ -2849,7 +2878,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 
 	private void drawPictures(Graphics2D g) {
 		for (Picture x : pictures)
-			g.drawImage(x.getImage(), convertPointToPixelX(x.getX()), getHeight() - convertPointToPixelY(x.getY()), this);
+			g.drawImage(x.getImage(), convertPointToPixelX(x.getX()), convertPointToPixelY(x.getY()), this);
 	}
 
 	private void drawPhotons(Graphics2D g) {
@@ -4854,7 +4883,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			if (anchor)
 				setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
 			movingShape = new MovingEllipse(new Ellipse2D.Float(a, b, c, d));
-		} else if (selectedManipulable instanceof Sensor || selectedManipulable instanceof TextBox) {
+		} else if (selectedManipulable instanceof Sensor || selectedManipulable instanceof TextBox || selectedManipulable instanceof Picture) {
 			Rectangle2D.Float r = (Rectangle2D.Float) selectedManipulable.getShape();
 			int a = convertPointToPixelX(r.x);
 			int b = convertPointToPixelY(r.y);

@@ -19,11 +19,14 @@ public class Picture extends Manipulable {
 
 	private BufferedImage image;
 	private String format = "png";
+	private String fileName;
+	private boolean border;
 
-	public Picture(BufferedImage image, String formatName, float x, float y) {
+	public Picture(BufferedImage image, String format, String fileName, float x, float y) {
 		super(new Rectangle2D.Float()); // dummy rectangle, don't use
 		setImage(image);
-		setFormat(formatName);
+		setFormat(format);
+		setFileName(fileName);
 		Rectangle2D.Float rect = (Rectangle2D.Float) shape;
 		rect.x = x;
 		rect.y = y;
@@ -47,6 +50,14 @@ public class Picture extends Manipulable {
 		return format;
 	}
 
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
 	public void setX(float x) {
 		Rectangle2D.Float rect = (Rectangle2D.Float) shape;
 		rect.x = x;
@@ -67,9 +78,19 @@ public class Picture extends Manipulable {
 		return rect.y;
 	}
 
+	public void setWidth(float width) {
+		Rectangle2D.Float rect = (Rectangle2D.Float) shape;
+		rect.width = width;
+	}
+
 	public float getWidth() {
 		Rectangle2D.Float rect = (Rectangle2D.Float) shape;
 		return rect.width;
+	}
+
+	public void setHeight(float height) {
+		Rectangle2D.Float rect = (Rectangle2D.Float) shape;
+		rect.height = height;
 	}
 
 	public float getHeight() {
@@ -77,15 +98,29 @@ public class Picture extends Manipulable {
 		return rect.height;
 	}
 
+	public void setBorder(boolean b) {
+		border = b;
+	}
+
+	public boolean hasBorder() {
+		return border;
+	}
+
 	@Override
 	public Manipulable duplicate() {
 		Rectangle2D.Float rect = (Rectangle2D.Float) shape;
-		return new Picture(image, format, rect.x, rect.y);
+		Picture p = new Picture(image, format, fileName, rect.x, rect.y);
+		p.setWidth(getWidth());
+		p.setHeight(getHeight());
+		return p;
 	}
 
 	@Override
 	public Manipulable duplicate(float x, float y) {
-		return new Picture(image, format, x, y);
+		Picture p = new Picture(image, format, fileName, x, y);
+		p.setWidth(getWidth());
+		p.setHeight(getHeight());
+		return p;
 	}
 
 	@Override
@@ -99,7 +134,10 @@ public class Picture extends Manipulable {
 		String xml = "<image";
 		if (getUid() != null)
 			xml += " uid=\"" + getUid() + "\"";
+		if (border)
+			xml += " border=\"true\"";
 		xml += " label=\"" + new XmlCharacterEncoder().encode(getLabel()) + "\"";
+		xml += " filename=\"" + new XmlCharacterEncoder().encode(getFileName()) + "\"";
 		ByteArrayOutputStream b = new ByteArrayOutputStream();
 		boolean success = true;
 		try {
@@ -121,6 +159,8 @@ public class Picture extends Manipulable {
 		if (!isDraggable())
 			xml += " draggable=\"false\"";
 		xml += " format=\"" + format + "\"";
+		xml += " width=\"" + getWidth() + "\"";
+		xml += " height=\"" + getHeight() + "\"";
 		xml += " x=\"" + getX() + "\"";
 		xml += " y=\"" + getY() + "\"/>\n";
 		return xml;

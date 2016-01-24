@@ -3,7 +3,6 @@ package org.concord.energy2d.system;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -799,8 +798,8 @@ class XmlDecoder extends DefaultHandler {
 			}
 		} else if (qName == "image") {
 			if (attrib != null) {
-				float x = Float.NaN, y = Float.NaN;
-				String format = null, uid = null, data = null;
+				float x = Float.NaN, y = Float.NaN, w = Float.NaN, h = Float.NaN;
+				String filename = null, format = null, uid = null, data = null;
 				boolean border = false;
 				for (int i = 0, n = attrib.getLength(); i < n; i++) {
 					attribName = attrib.getQName(i).intern();
@@ -809,12 +808,18 @@ class XmlDecoder extends DefaultHandler {
 						x = Float.parseFloat(attribValue);
 					} else if (attribName == "y") {
 						y = Float.parseFloat(attribValue);
+					} else if (attribName == "width") {
+						w = Float.parseFloat(attribValue);
+					} else if (attribName == "height") {
+						h = Float.parseFloat(attribValue);
 					} else if (attribName == "uid") {
 						uid = attribValue;
 					} else if (attribName == "data") {
 						data = attribValue;
 					} else if (attribName == "format") {
 						format = attribValue;
+					} else if (attribName == "filename") {
+						filename = attribValue;
 					} else if (attribName == "border") {
 						border = Boolean.parseBoolean(attribValue);
 					}
@@ -823,7 +828,7 @@ class XmlDecoder extends DefaultHandler {
 					InputStream in = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(data));
 					Picture p = null;
 					try {
-						p = box.view.addPicture(ImageIO.read(in), format, x, y);
+						p = box.view.addPicture(ImageIO.read(in), format, filename, x, y);
 					} catch (IOException e) {
 						e.printStackTrace();
 					} finally {
@@ -835,6 +840,13 @@ class XmlDecoder extends DefaultHandler {
 					}
 					if (p != null) {
 						p.setUid(uid);
+						p.setBorder(border);
+						p.setX(x);
+						p.setY(y);
+						if (!Float.isNaN(w))
+							p.setWidth(w);
+						if (!Float.isNaN(h))
+							p.setHeight(h);
 						box.view.repaint();
 					}
 				}

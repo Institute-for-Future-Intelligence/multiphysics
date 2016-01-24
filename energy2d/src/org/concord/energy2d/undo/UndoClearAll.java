@@ -19,6 +19,7 @@ import org.concord.energy2d.model.Photon;
 import org.concord.energy2d.model.Thermometer;
 import org.concord.energy2d.model.Thermostat;
 import org.concord.energy2d.model.Tree;
+import org.concord.energy2d.view.Picture;
 import org.concord.energy2d.view.TextBox;
 import org.concord.energy2d.view.View2D;
 
@@ -38,6 +39,7 @@ public class UndoClearAll extends AbstractUndoableEdit {
 	private List<Cloud> clouds;
 	private List<Tree> trees;
 	private List<TextBox> textBoxes;
+	private List<Picture> pictures;
 	private View2D view;
 
 	public UndoClearAll(View2D view) {
@@ -67,6 +69,8 @@ public class UndoClearAll extends AbstractUndoableEdit {
 		trees.addAll(view.getModel().getTrees());
 		textBoxes = new ArrayList<TextBox>();
 		textBoxes.addAll(view.getTextBoxes());
+		pictures = new ArrayList<Picture>();
+		pictures.addAll(view.getPictures());
 		this.view = view;
 	}
 
@@ -111,6 +115,9 @@ public class UndoClearAll extends AbstractUndoableEdit {
 		}
 		if (!textBoxes.isEmpty()) {
 			view.getTextBoxes().addAll(textBoxes);
+		}
+		if (!pictures.isEmpty()) {
+			view.getPictures().addAll(pictures);
 		}
 		view.getModel().refreshMaterialPropertyArrays();
 		view.getModel().refreshPowerArray();

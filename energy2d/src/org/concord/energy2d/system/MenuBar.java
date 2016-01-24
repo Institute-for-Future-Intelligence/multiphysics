@@ -57,6 +57,7 @@ import org.concord.energy2d.undo.UndoViewFactorLines;
 import org.concord.energy2d.util.FileChooser;
 import org.concord.energy2d.util.MiscUtil;
 import org.concord.energy2d.util.ScreenshotSaver;
+import org.concord.energy2d.view.Picture;
 
 /**
  * @author Charles Xie
@@ -465,21 +466,24 @@ class MenuBar extends JMenuBar {
 				imgFileChooser.setApproveButtonMnemonic('O');
 				imgFileChooser.setAccessory(null);
 				if (imgFileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+					Picture p = null;
 					File file = imgFileChooser.getSelectedFile();
 					if (file.exists()) {
 						String filename = file.getName();
 						String format = MiscUtil.getSuffix(filename);
 						try {
-							box.view.addPicture(ImageIO.read(file), format, 0.1f * box.model.getLx(), 0.9f * box.model.getLy());
+							p = new Picture(ImageIO.read(file), format, filename, 0.1f * box.model.getLx(), 0.1f * box.model.getLy());
 						} catch (IOException exception) {
 							exception.printStackTrace();
 							JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(box), "File " + file + " can't be loaded.", "File error", JOptionPane.ERROR_MESSAGE);
 						}
-						box.view.repaint();
 					} else {
 						JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(box), "File " + file + " was not found.", "File not found", JOptionPane.ERROR_MESSAGE);
 					}
 					imgFileChooser.rememberFile(file.getPath());
+					box.view.addPictureOriginalSize(p);
+					box.view.repaint();
+					box.view.notifyManipulationListeners(p, ManipulationEvent.OBJECT_ADDED);
 				}
 				imgFileChooser.resetChoosableFileFilters();
 			}
@@ -522,10 +526,16 @@ class MenuBar extends JMenuBar {
 
 			@Override
 			public void menuDeselected(MenuEvent e) {
+				JMenu src = (JMenu) e.getSource();
+				for (int i = 0; i < src.getMenuComponentCount(); i++)
+					src.getMenuComponent(i).setEnabled(true);
 			}
 
 			@Override
 			public void menuCanceled(MenuEvent e) {
+				JMenu src = (JMenu) e.getSource();
+				for (int i = 0; i < src.getMenuComponentCount(); i++)
+					src.getMenuComponent(i).setEnabled(true);
 			}
 		});
 		add(menu);

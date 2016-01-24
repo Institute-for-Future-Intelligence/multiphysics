@@ -349,7 +349,7 @@ class Scripter2D extends Scripter {
 							}
 							if (url != null) {
 								try {
-									s2d.view.addPicture(ImageIO.read(url), format, s2d.view.convertPointToPixelX(z[0]), s2d.view.convertPointToPixelY(z[1]));
+									s2d.view.addPicture(ImageIO.read(url), format, filename, s2d.view.convertPointToPixelX(z[0]), s2d.view.convertPointToPixelY(z[1]));
 								} catch (IOException e) {
 									showException(ci, e);
 									return;

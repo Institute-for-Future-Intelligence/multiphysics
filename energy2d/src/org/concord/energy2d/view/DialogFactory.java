@@ -56,6 +56,8 @@ final class DialogFactory {
 			return new HeatFluxSensorDialog(view, (HeatFluxSensor) o, modal);
 		if (o instanceof TextBox)
 			return new TextBoxPanel((TextBox) o, view).createDialog(modal);
+		if (o instanceof Picture)
+			return new PictureDialog(view, (Picture) o, modal);
 		return null;
 	}
 
