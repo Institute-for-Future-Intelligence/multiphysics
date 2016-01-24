@@ -1010,6 +1010,7 @@ class MenuBar extends JMenuBar {
 		menu.add(subMenu);
 
 		examples.put("Complex Shapes", "examples/frigate.e2d");
+		examples.put("Elliptical Annulus", "examples/annulus.e2d");
 		examples.put("Collision Detection", "examples/collision.e2d");
 		examples.put("Ray Optics", "examples/ray-tracing.e2d");
 		examples.put("Natural Daylighting", "examples/natural-daylighting.e2d");
