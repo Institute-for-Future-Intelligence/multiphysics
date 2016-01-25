@@ -25,6 +25,7 @@ import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.ParticleFeeder;
 import org.concord.energy2d.model.Thermometer;
 import org.concord.energy2d.model.Tree;
+import org.concord.energy2d.view.Picture;
 import org.concord.energy2d.view.TextBox;
 import org.concord.energy2d.view.View2D;
 
@@ -90,6 +91,11 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 			TextBox textBox = (TextBox) selectedManipulable;
 			oldX = textBox.getX();
 			oldY = textBox.getY();
+		} else if (selectedManipulable instanceof Picture) {
+			name = "Image";
+			Picture picture = (Picture) selectedManipulable;
+			oldX = picture.getX();
+			oldY = picture.getY();
 		}
 	}
 
@@ -159,6 +165,12 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 			newY = textBox.getY();
 			textBox.setX(oldX);
 			textBox.setY(oldY);
+		} else if (selectedManipulable instanceof Picture) {
+			Picture picture = (Picture) selectedManipulable;
+			newX = picture.getX();
+			newY = picture.getY();
+			picture.setX(oldX);
+			picture.setY(oldY);
 		}
 		view.setSelectedManipulable(selectedManipulable);
 		view.repaint();
@@ -214,6 +226,10 @@ public class UndoTranslateManipulable extends AbstractUndoableEdit {
 			TextBox textBox = (TextBox) selectedManipulable;
 			textBox.setX(newX);
 			textBox.setY(newY);
+		} else if (selectedManipulable instanceof Picture) {
+			Picture picture = (Picture) selectedManipulable;
+			picture.setX(newX);
+			picture.setY(newY);
 		}
 		view.setSelectedManipulable(selectedManipulable);
 		view.repaint();

@@ -312,11 +312,9 @@ class MenuBar extends JMenuBar {
 			}
 		};
 		saveAsAction.putValue(Action.SHORT_DESCRIPTION, "Save a simulation as");
-		ks = IS_MAC ? KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.META_MASK) : KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_MASK);
 		box.view.getInputMap().put(ks, "SaveAs");
 		box.view.getActionMap().put("SaveAs", saveAsAction);
 		mi = new JMenuItem("Save As...");
-		mi.setAccelerator(ks);
 		mi.setToolTipText((String) saveAsAction.getValue(Action.SHORT_DESCRIPTION));
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

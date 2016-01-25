@@ -379,4 +379,13 @@ public final class MiscUtil {
 		return bi;
 	}
 
+	/** Resize a BufferedImage */
+	public static BufferedImage resize(BufferedImage img, int w, int h) {
+		BufferedImage newImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = newImage.createGraphics();
+		g.drawImage(img.getScaledInstance(w, h, Image.SCALE_SMOOTH), 0, 0, null);
+		g.dispose();
+		return newImage;
+	}
+
 }

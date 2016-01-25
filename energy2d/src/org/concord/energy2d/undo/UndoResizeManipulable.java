@@ -20,6 +20,7 @@ import org.concord.energy2d.model.Model2D;
 import org.concord.energy2d.model.Part;
 import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.Tree;
+import org.concord.energy2d.view.Picture;
 import org.concord.energy2d.view.View2D;
 
 public class UndoResizeManipulable extends AbstractUndoableEdit {
@@ -99,6 +100,13 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			name = "Particle";
 			Particle particle = (Particle) selectedManipulable;
 			oldW = particle.getRadius();
+		} else if (selectedManipulable instanceof Picture) {
+			name = "Image";
+			Picture picture = (Picture) selectedManipulable;
+			oldX = picture.getX();
+			oldY = picture.getY();
+			oldW = picture.getWidth();
+			oldH = picture.getHeight();
 		}
 	}
 
@@ -198,6 +206,16 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 			Particle particle = (Particle) selectedManipulable;
 			newW = particle.getRadius();
 			particle.setRadius(oldW);
+		} else if (selectedManipulable instanceof Picture) {
+			Picture picture = (Picture) selectedManipulable;
+			newX = picture.getX();
+			newY = picture.getY();
+			newW = picture.getWidth();
+			newH = picture.getHeight();
+			picture.setX(oldX);
+			picture.setY(oldY);
+			picture.setWidth(oldW);
+			picture.setHeight(oldH);
 		}
 		view.setSelectedManipulable(selectedManipulable);
 		view.repaint();
@@ -268,6 +286,12 @@ public class UndoResizeManipulable extends AbstractUndoableEdit {
 		} else if (selectedManipulable instanceof Particle) {
 			Particle particle = (Particle) selectedManipulable;
 			particle.setRadius(newW);
+		} else if (selectedManipulable instanceof Picture) {
+			Picture picture = (Picture) selectedManipulable;
+			picture.setX(newX);
+			picture.setY(newY);
+			picture.setWidth(newW);
+			picture.setHeight(newH);
 		}
 		view.setSelectedManipulable(selectedManipulable);
 		view.repaint();

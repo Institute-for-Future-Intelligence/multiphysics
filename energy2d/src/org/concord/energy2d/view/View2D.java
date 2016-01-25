@@ -2877,8 +2877,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	}
 
 	private void drawPictures(Graphics2D g) {
-		for (Picture x : pictures)
-			g.drawImage(x.getImage(), convertPointToPixelX(x.getX()), convertPointToPixelY(x.getY()), this);
+		for (Picture x : pictures) {
+			BufferedImage bi = MiscUtil.resize(x.getImage(), convertPointToPixelX(x.getWidth()), convertPointToPixelY(x.getHeight()));
+			g.drawImage(bi, convertPointToPixelX(x.getX()), convertPointToPixelY(x.getY()), this);
+		}
 	}
 
 	private void drawPhotons(Graphics2D g) {
@@ -3183,6 +3185,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			t.setX(t.getX() * scaleFactor);
 			t.setY(t.getY() * scaleFactor);
 		}
+		for (Picture p : pictures) {
+			p.setX(p.getX() * scaleFactor);
+			p.setY(model.getLy() - (model.getLy() - p.getY()) * scaleFactor);
+			p.setWidth(p.getWidth() * scaleFactor);
+			p.setHeight(p.getHeight() * scaleFactor);
+		}
 		setSelectedManipulable(getSelectedManipulable());
 		repaint();
 		notifyManipulationListeners(null, ManipulationEvent.RESIZE);
@@ -3199,6 +3207,11 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		model.setLy(extent * ly);
 		model.translateAllBy(0, extent > 1 ? ly : -ly * 0.5f); // fix the y-flip problem
 		setArea(0, extent * lx, 0, extent * ly);
+		if (!pictures.isEmpty()) {
+			for (Picture picture : pictures) {
+				picture.setY(model.getLy() - (model.getLy() - picture.getY()) / extent);
+			}
+		}
 		model.refreshPowerArray();
 		model.refreshTemperatureBoundaryArray();
 		model.refreshMaterialPropertyArrays();
@@ -3214,6 +3227,11 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		if (!textBoxes.isEmpty()) {
 			for (TextBox t : textBoxes) {
 				t.translateBy(dx, -dy);
+			}
+		}
+		if (!pictures.isEmpty()) {
+			for (Picture p : pictures) {
+				p.translateBy(dx, dy);
 			}
 		}
 		if (!model.getParts().isEmpty())
@@ -3710,7 +3728,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						a[1] = y - pressedPointRelative.y - a[3] * 0.5f;
 						setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
 					} else {
-						if (selectedManipulable instanceof Part) {
+						if (selectedManipulable instanceof Part || selectedManipulable instanceof Picture) {
 							setMovingRect(a, x, y);
 							setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 						}
@@ -4073,7 +4091,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 								translateManipulableTo(selectedManipulable, x2, y2);
 								setSelectedManipulable(selectedManipulable);
 							} else {
-								if (selectedManipulable instanceof Part) {
+								if (selectedManipulable instanceof Part || selectedManipulable instanceof Picture) {
 									RectangularShape r = (RectangularShape) shape;
 									float x2 = convertPixelToPointX((int) r.getX());
 									float y2 = convertPixelToPointY((int) r.getY());
@@ -4557,7 +4575,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		case SELECT_MODE:
 			tipText = null;
 			int iSpot = -1;
-			if (!showGraph && (selectedManipulable instanceof Part || selectedManipulable instanceof Cloud || selectedManipulable instanceof Tree || selectedManipulable instanceof Fan || selectedManipulable instanceof Heliostat)) {
+			if (!showGraph && (selectedManipulable instanceof Part || selectedManipulable instanceof Cloud || selectedManipulable instanceof Tree || selectedManipulable instanceof Fan || selectedManipulable instanceof Heliostat || selectedManipulable instanceof Picture)) {
 				for (int i = 0; i < handle.length; i++) {
 					if (handle[i].x < -10 || handle[i].y < -10)
 						continue;
