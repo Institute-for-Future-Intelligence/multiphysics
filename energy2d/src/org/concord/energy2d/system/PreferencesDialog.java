@@ -78,6 +78,8 @@ class PreferencesDialog extends JDialog {
 				s2d.view.setControlPanelPosition((byte) controlPanelPositionComboBox.getSelectedIndex());
 
 				s2d.view.setSnapToGrid(snapToGridCheckBox.isSelected());
+				if (s2d.snapToggleButton != null)
+					s2d.snapToggleButton.setSelected(snapToGridCheckBox.isSelected());
 				s2d.view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
 				s2d.view.repaint();
 				dispose();

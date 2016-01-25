@@ -7,6 +7,8 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -39,6 +41,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -102,6 +105,7 @@ public class System2D extends JApplet implements ManipulationListener {
 	Runnable clickRun, clickStop, clickReset, clickReload;
 	private JButton buttonRun, buttonStop, buttonReset, buttonReload;
 	private JLabel statusLabel;
+	JToggleButton snapToggleButton;
 	private ToolBarListener toolBarListener;
 	private List<PropertyChangeListener> propertyChangeListeners;
 	private JFrame owner;
@@ -817,6 +821,17 @@ public class System2D extends JApplet implements ManipulationListener {
 
 	private JPanel createButtonPanel() {
 		statusLabel = new JLabel();
+		snapToggleButton = new JToggleButton(new ImageIcon(System2D.class.getResource("resources/grid.png")));
+		snapToggleButton.setSelected(view.isSnapToGrid());
+		snapToggleButton.setToolTipText("Snap to computational grid (100x100)");
+		snapToggleButton.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				boolean b = snapToggleButton.isSelected();
+				snapToggleButton.setIcon(new ImageIcon(System2D.class.getResource(b ? "resources/grid.png" : "resources/nogrid.png")));
+				view.setSnapToGrid(b);
+			}
+		});
 		JPanel p = new JPanel();
 		buttonRun = new JButton("Run");
 		buttonRun.setToolTipText("Run the simulation");
@@ -1037,10 +1052,12 @@ public class System2D extends JApplet implements ManipulationListener {
 		box.view.addManipulationListener(toolBar);
 		frame.getContentPane().add(toolBar, BorderLayout.NORTH);
 		JPanel bottomPanel = new JPanel(new BorderLayout());
-		bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+		bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 		bottomPanel.add(box.createButtonPanel(), BorderLayout.CENTER);
 		box.statusLabel.setPreferredSize(new Dimension(100, 24));
+		box.snapToggleButton.setFocusable(false);
 		bottomPanel.add(box.statusLabel, BorderLayout.WEST);
+		bottomPanel.add(box.snapToggleButton, BorderLayout.EAST);
 		frame.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
 		int x = preferences.getInt("Upper-left x", (screen.height - w) / 8);
 		int y = preferences.getInt("Upper-left y", (screen.height - w) / 8);

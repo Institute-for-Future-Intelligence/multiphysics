@@ -36,7 +36,7 @@
 <constant_temperature>true</constant_temperature>
 </part>
 <part>
-<polygon count="8" vertices="5.2, 6.5999985, 1.5999998, 8.599998, 1.5999998, 8.999998, 1.9999998, 8.799999, 1.9999998, 10.399998, 2.3999999, 10.399998, 2.3999999, 8.599998, 5.2, 6.999998"/>
+<polygon count="8" vertices="5.203575, 6.593843, 1.5888778, 8.520357, 1.6087388, 8.997021, 2.0059583, 8.798411, 2.0059583, 10.40715, 2.4031777, 10.40715, 2.4031777, 8.599801, 5.203575, 7.0903673"/>
 <elasticity>1.0</elasticity>
 <thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
@@ -184,7 +184,7 @@
 </texture>
 </part>
 <part>
-<polygon count="24" vertices="5.2000003, 6.6, 9.6, 4.4, 14.6, 6.6, 14.6, 10.400001, 17.0, 10.400001, 17.0, 14.6, 12.0, 14.6, 12.0, 18.4, 2.0, 18.4, 2.0, 10.400001, 5.2000003, 10.400001, 5.2000003, 10.8, 2.4, 10.8, 2.4, 18.0, 11.6, 18.0, 11.6, 14.2, 16.6, 14.2, 16.6, 10.8, 14.2, 10.8, 14.2, 7.0, 9.6, 5.0, 5.6, 7.0, 5.6, 10.8, 5.2000003, 10.8"/>
+<polygon count="24" vertices="5.203575, 6.593843, 9.513406, 4.428997, 14.5978155, 6.593843, 14.5978155, 10.40715, 17.000994, 10.40715, 17.000994, 14.5978155, 11.996028, 14.5978155, 11.996028, 18.391262, 2.0059583, 18.391262, 2.0059583, 10.40715, 5.203575, 10.40715, 5.203575, 10.804369, 2.4031777, 10.804369, 2.4031777, 17.994041, 11.598808, 17.994041, 11.598808, 14.200596, 16.603773, 14.200596, 16.603773, 10.804369, 14.200596, 10.804369, 14.200596, 6.9910626, 9.59285, 5.0049653, 5.6007943, 6.9910626, 5.6007943, 10.804369, 5.203575, 10.804369"/>
 <elasticity>1.0</elasticity>
 <thermal_conductivity>0.001</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
@@ -206,7 +206,7 @@
 </texture>
 </part>
 <part>
-<polygon count="4" vertices="14.6, 6.6, 15.6, 7.0, 15.6, 7.6, 14.6, 7.2000003"/>
+<polygon count="4" vertices="14.5978155, 6.593843, 15.590864, 6.9910626, 15.571003, 7.567031, 14.5978155, 7.209533"/>
 <elasticity>1.0</elasticity>
 <thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
@@ -260,7 +260,7 @@
 <grid>true</grid>
 <snap_to_grid>true</snap_to_grid>
 <grid_size>10</grid_size>
-<perimeter_step_size>0.05</perimeter_step_size>
+<perimeter_step_size>0.049999997</perimeter_step_size>
 <border_tickmarks>true</border_tickmarks>
 <color_palette>true</color_palette>
 <color_palette_type>0</color_palette_type>

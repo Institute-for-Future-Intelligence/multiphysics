@@ -4254,7 +4254,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			break;
 		case RECTANGLE_MODE:
 			if (rectangle.width > (float) getWidth() / (float) nx && rectangle.height > (float) getHeight() / (float) ny) {
-				Part addedPart = model.addRectangularPart(convertPixelToPointX(rectangle.x), convertPixelToPointY(rectangle.y), convertPixelToLengthX(rectangle.width), convertPixelToLengthY(rectangle.height), 0);
+				Part addedPart = model.addRectangularPart(convertPixelToPointX(rectangle.x), convertPixelToPointY(rectangle.y), convertPixelToLengthX(rectangle.width), convertPixelToLengthY(rectangle.height), model.getBackgroundTemperature());
 				setAddedPartProperties(addedPart);
 				model.refreshPowerArray();
 				model.refreshTemperatureBoundaryArray();
@@ -4275,7 +4275,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				float ey = convertPixelToPointY((int) ellipse.y);
 				float ew = convertPixelToLengthX((int) ellipse.width);
 				float eh = convertPixelToLengthY((int) ellipse.height);
-				Part addedPart = model.addEllipticalPart(ex + 0.5f * ew, ey + 0.5f * eh, ew, eh, previousProperties.temperature);
+				Part addedPart = model.addEllipticalPart(ex + 0.5f * ew, ey + 0.5f * eh, ew, eh, model.getBackgroundTemperature());
 				setAddedPartProperties(addedPart);
 				model.refreshPowerArray();
 				model.refreshTemperatureBoundaryArray();
@@ -4298,7 +4298,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				float outerB = convertPixelToLengthY((int) annulus.getOuterB());
 				float innerA = convertPixelToLengthX((int) annulus.getInnerA());
 				float innerB = convertPixelToLengthY((int) annulus.getInnerB());
-				Part addedPart = model.addAnnulusPart(centerX, centerY, innerA, innerB, outerA, outerB, previousProperties.temperature);
+				Part addedPart = model.addAnnulusPart(centerX, centerY, innerA, innerB, outerA, outerB, model.getBackgroundTemperature());
 				setAddedPartProperties(addedPart);
 				model.refreshPowerArray();
 				model.refreshTemperatureBoundaryArray();
@@ -4326,7 +4326,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						px[i] = convertPixelToPointX(polygon.xpoints[i]);
 						py[i] = convertPixelToPointY(polygon.ypoints[i]);
 					}
-					Part addedPart = model.addPolygonPart(px, py, previousProperties.temperature);
+					Part addedPart = model.addPolygonPart(px, py, model.getBackgroundTemperature());
 					setAddedPartProperties(addedPart);
 					model.refreshPowerArray();
 					model.refreshTemperatureBoundaryArray();
@@ -4353,7 +4353,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						px[i] = convertPixelToPointX(polygon.xpoints[i]);
 						py[i] = convertPixelToPointY(polygon.ypoints[i]);
 					}
-					Part addedPart = model.addBlobPart(px, py, previousProperties.temperature);
+					Part addedPart = model.addBlobPart(px, py, model.getBackgroundTemperature());
 					setAddedPartProperties(addedPart);
 					model.refreshPowerArray();
 					model.refreshTemperatureBoundaryArray();
