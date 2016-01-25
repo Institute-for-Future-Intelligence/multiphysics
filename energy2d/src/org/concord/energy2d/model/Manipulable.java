@@ -15,7 +15,7 @@ public abstract class Manipulable {
 	protected Shape shape;
 	private boolean draggable = true;
 	private boolean visible = true;
-	private String label;
+	protected String label;
 	private String uid;
 
 	public Manipulable(Shape shape) {

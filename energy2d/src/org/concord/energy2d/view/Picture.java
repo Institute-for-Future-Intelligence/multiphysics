@@ -132,12 +132,6 @@ public class Picture extends Manipulable {
 
 	public String toXml() {
 		String xml = "<image";
-		if (getUid() != null)
-			xml += " uid=\"" + getUid() + "\"";
-		if (border)
-			xml += " border=\"true\"";
-		xml += " label=\"" + new XmlCharacterEncoder().encode(getLabel()) + "\"";
-		xml += " filename=\"" + new XmlCharacterEncoder().encode(getFileName()) + "\"";
 		ByteArrayOutputStream b = new ByteArrayOutputStream();
 		boolean success = true;
 		try {
@@ -154,6 +148,14 @@ public class Picture extends Manipulable {
 		}
 		if (success)
 			xml += " data=\"" + DatatypeConverter.printBase64Binary(b.toByteArray()) + "\"";
+		if (getUid() != null && !getUid().equals(""))
+			xml += " uid=\"" + getUid() + "\"";
+		if (border)
+			xml += " border=\"true\"";
+		if (label != null)
+			xml += " label=\"" + new XmlCharacterEncoder().encode(label) + "\"";
+		if (fileName != null)
+			xml += " filename=\"" + new XmlCharacterEncoder().encode(fileName) + "\"";
 		if (!isVisible())
 			xml += " visible=\"false\"";
 		if (!isDraggable())

@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.concord.energy2d.event.ManipulationEvent;
+import org.concord.energy2d.undo.UndoResizeManipulable;
 import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.util.MiscUtil;
 
@@ -33,6 +34,8 @@ class PictureDialog extends JDialog {
 
 	private JTextField xField;
 	private JTextField yField;
+	private JTextField widthField;
+	private JTextField heightField;
 	private JTextField uidField;
 	private JTextField labelField;
 	private JTextField fileNameField;
@@ -62,6 +65,12 @@ class PictureDialog extends JDialog {
 				float y = parse(yField.getText());
 				if (Float.isNaN(y))
 					return;
+				float width = parse(widthField.getText());
+				if (Float.isNaN(width))
+					return;
+				float height = parse(heightField.getText());
+				if (Float.isNaN(height))
+					return;
 				String uid = uidField.getText();
 				if (uid != null) {
 					uid = uid.trim();
@@ -80,11 +89,19 @@ class PictureDialog extends JDialog {
 				if (moved)
 					view.getUndoManager().addEdit(new UndoTranslateManipulable(view));
 
-				picture.setUid(uid);
-				picture.setLabel(labelField.getText());
+				boolean resized = Math.abs(width - picture.getWidth()) > dx || Math.abs(height - picture.getHeight()) > dy;
+				if (resized)
+					view.getUndoManager().addEdit(new UndoResizeManipulable(view));
+
+				if (uid != null && !uid.equals(""))
+					picture.setUid(uid);
+				String label = labelField.getText();
+				if (label != null && !label.equals(""))
+					picture.setLabel(label);
 				picture.setX(x);
 				picture.setY(y);
-				;
+				picture.setWidth(width);
+				picture.setHeight(height);
 				picture.setDraggable(draggableCheckBox.isSelected());
 				view.notifyManipulationListeners(picture, ManipulationEvent.PROPERTY_CHANGE);
 				view.setSelectedManipulable(view.getSelectedManipulable());
@@ -114,7 +131,7 @@ class PictureDialog extends JDialog {
 		});
 		buttonPanel.add(button);
 
-		JPanel p = new JPanel(new GridLayout(5, 2, 8, 8));
+		JPanel p = new JPanel(new GridLayout(7, 2, 8, 8));
 		p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.add(p, BorderLayout.CENTER);
 
@@ -143,6 +160,16 @@ class PictureDialog extends JDialog {
 		yField = new JTextField(FORMAT.format(picture.getY()), 10);
 		yField.addActionListener(okListener);
 		p.add(yField);
+
+		p.add(new JLabel("Width (m):"));
+		widthField = new JTextField(FORMAT.format(picture.getWidth()), 10);
+		widthField.addActionListener(okListener);
+		p.add(widthField);
+
+		p.add(new JLabel("Height (m):"));
+		heightField = new JTextField(FORMAT.format(picture.getHeight()), 10);
+		heightField.addActionListener(okListener);
+		p.add(heightField);
 
 		pack();
 		setLocationRelativeTo(view);
