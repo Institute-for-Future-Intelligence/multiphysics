@@ -800,7 +800,7 @@ class XmlDecoder extends DefaultHandler {
 			if (attrib != null) {
 				float x = Float.NaN, y = Float.NaN, w = Float.NaN, h = Float.NaN;
 				String filename = null, format = null, uid = null, data = null;
-				boolean border = false;
+				boolean border = false, draggable = true;
 				for (int i = 0, n = attrib.getLength(); i < n; i++) {
 					attribName = attrib.getQName(i).intern();
 					attribValue = attrib.getValue(i);
@@ -822,6 +822,8 @@ class XmlDecoder extends DefaultHandler {
 						filename = attribValue;
 					} else if (attribName == "border") {
 						border = Boolean.parseBoolean(attribValue);
+					} else if (attribName == "draggable") {
+						draggable = Boolean.parseBoolean(attribValue);
 					}
 				}
 				if (!Float.isNaN(x) && !Float.isNaN(y) && data != null) {
@@ -841,6 +843,7 @@ class XmlDecoder extends DefaultHandler {
 					if (p != null) {
 						p.setUid(uid);
 						p.setBorder(border);
+						p.setDraggable(draggable);
 						p.setX(x);
 						p.setY(y);
 						if (!Float.isNaN(w))
