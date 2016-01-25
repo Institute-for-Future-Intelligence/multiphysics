@@ -823,7 +823,7 @@ public class System2D extends JApplet implements ManipulationListener {
 		statusLabel = new JLabel();
 		snapToggleButton = new JToggleButton(new ImageIcon(System2D.class.getResource("resources/grid.png")));
 		snapToggleButton.setSelected(view.isSnapToGrid());
-		snapToggleButton.setToolTipText("Snap to computational grid (100x100)");
+		snapToggleButton.setToolTipText("Snap to computational grid (" + model.getNx() + " x " + model.getNy() + ") when editing");
 		snapToggleButton.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
