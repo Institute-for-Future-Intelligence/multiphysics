@@ -1721,13 +1721,13 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			g.setColor(Color.black);
 			g.fillRect(0, 0, w, h);
 		}
+		drawPictures(g);
 		drawParts(g);
 		drawFans(g);
 		drawHeliostats(g);
 		drawClouds(g);
 		drawTrees(g);
 		drawTextBoxes(g);
-		drawPictures(g);
 		drawParticles(g);
 		drawParticleFeeders(g);
 		if (showViewFactorLines)
@@ -3206,12 +3206,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		model.setLx(extent * lx);
 		model.setLy(extent * ly);
 		model.translateAllBy(0, extent > 1 ? ly : -ly * 0.5f); // fix the y-flip problem
-		setArea(0, extent * lx, 0, extent * ly);
 		if (!pictures.isEmpty()) {
 			for (Picture picture : pictures) {
-				picture.setY(model.getLy() - (model.getLy() - picture.getY()) / extent);
+				picture.translateBy(0, extent > 1 ? ly : -ly * 0.5f);
 			}
 		}
+		setArea(0, extent * lx, 0, extent * ly);
 		model.refreshPowerArray();
 		model.refreshTemperatureBoundaryArray();
 		model.refreshMaterialPropertyArrays();

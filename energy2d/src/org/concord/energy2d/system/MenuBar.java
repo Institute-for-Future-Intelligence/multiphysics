@@ -312,7 +312,6 @@ class MenuBar extends JMenuBar {
 			}
 		};
 		saveAsAction.putValue(Action.SHORT_DESCRIPTION, "Save a simulation as");
-		box.view.getInputMap().put(ks, "SaveAs");
 		box.view.getActionMap().put("SaveAs", saveAsAction);
 		mi = new JMenuItem("Save As...");
 		mi.setToolTipText((String) saveAsAction.getValue(Action.SHORT_DESCRIPTION));
@@ -1035,6 +1034,7 @@ class MenuBar extends JMenuBar {
 		subMenu = new JMenu("Building Energy Analysis");
 		menu.add(subMenu);
 
+		examples.put("Thermal Envelope", "examples/thermal-envelope.e2d");
 		examples.put("Material Thermal Bridge", "examples/thermal-bridge.e2d");
 		examples.put("Geometric Thermal Bridge", "examples/gtb1.e2d");
 		examples.put("Thermal Ghosting", "examples/ghosting.e2d");
