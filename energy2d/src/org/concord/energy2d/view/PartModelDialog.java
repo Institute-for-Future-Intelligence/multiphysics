@@ -422,6 +422,16 @@ class PartModelDialog extends JDialog {
 				view.setSelectedManipulable(view.getSelectedManipulable());
 				view.repaint();
 
+				view.previousProperties.temperature = part.getTemperature();
+				view.previousProperties.thermalConductivity = part.getThermalConductivity();
+				view.previousProperties.specificHeat = part.getSpecificHeat();
+				view.previousProperties.density = part.getDensity();
+				view.previousProperties.absorptivity = part.getAbsorptivity();
+				view.previousProperties.reflectivity = part.getReflectivity();
+				view.previousProperties.transmissivity = part.getTransmissivity();
+				view.previousProperties.emissivity = part.getEmissivity();
+				view.previousProperties.elasticity = part.getElasticity();
+
 				dispose();
 
 			}

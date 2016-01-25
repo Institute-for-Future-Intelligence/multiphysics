@@ -263,6 +263,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private volatile boolean cooling;
 	private volatile float heatingX, heatingY;
 	private float temperatureIncrement = 10;
+	PreviousProperties previousProperties;
 
 	public View2D() {
 		super();
@@ -326,6 +327,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		brand = new Symbol.BrandIcon();
 		brand.setStroke(moderateStroke);
 		undoManager = new UndoManager();
+		previousProperties = new PreviousProperties();
 	}
 
 	@SuppressWarnings("serial")
@@ -4252,7 +4254,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			break;
 		case RECTANGLE_MODE:
 			if (rectangle.width > (float) getWidth() / (float) nx && rectangle.height > (float) getHeight() / (float) ny) {
-				Part addedPart = model.addRectangularPart(convertPixelToPointX(rectangle.x), convertPixelToPointY(rectangle.y), convertPixelToLengthX(rectangle.width), convertPixelToLengthY(rectangle.height), model.getBackgroundTemperature() + 20);
+				Part addedPart = model.addRectangularPart(convertPixelToPointX(rectangle.x), convertPixelToPointY(rectangle.y), convertPixelToLengthX(rectangle.width), convertPixelToLengthY(rectangle.height), 0);
+				setAddedPartProperties(addedPart);
 				model.refreshPowerArray();
 				model.refreshTemperatureBoundaryArray();
 				model.refreshMaterialPropertyArrays();
@@ -4272,7 +4275,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				float ey = convertPixelToPointY((int) ellipse.y);
 				float ew = convertPixelToLengthX((int) ellipse.width);
 				float eh = convertPixelToLengthY((int) ellipse.height);
-				Part addedPart = model.addEllipticalPart(ex + 0.5f * ew, ey + 0.5f * eh, ew, eh, model.getBackgroundTemperature() + 20);
+				Part addedPart = model.addEllipticalPart(ex + 0.5f * ew, ey + 0.5f * eh, ew, eh, previousProperties.temperature);
+				setAddedPartProperties(addedPart);
 				model.refreshPowerArray();
 				model.refreshTemperatureBoundaryArray();
 				model.refreshMaterialPropertyArrays();
@@ -4294,7 +4298,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				float outerB = convertPixelToLengthY((int) annulus.getOuterB());
 				float innerA = convertPixelToLengthX((int) annulus.getInnerA());
 				float innerB = convertPixelToLengthY((int) annulus.getInnerB());
-				Part addedPart = model.addAnnulusPart(centerX, centerY, innerA, innerB, outerA, outerB, model.getBackgroundTemperature() + 20);
+				Part addedPart = model.addAnnulusPart(centerX, centerY, innerA, innerB, outerA, outerB, previousProperties.temperature);
+				setAddedPartProperties(addedPart);
 				model.refreshPowerArray();
 				model.refreshTemperatureBoundaryArray();
 				model.refreshMaterialPropertyArrays();
@@ -4321,7 +4326,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						px[i] = convertPixelToPointX(polygon.xpoints[i]);
 						py[i] = convertPixelToPointY(polygon.ypoints[i]);
 					}
-					Part addedPart = model.addPolygonPart(px, py, model.getBackgroundTemperature() + 20);
+					Part addedPart = model.addPolygonPart(px, py, previousProperties.temperature);
+					setAddedPartProperties(addedPart);
 					model.refreshPowerArray();
 					model.refreshTemperatureBoundaryArray();
 					model.refreshMaterialPropertyArrays();
@@ -4347,7 +4353,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						px[i] = convertPixelToPointX(polygon.xpoints[i]);
 						py[i] = convertPixelToPointY(polygon.ypoints[i]);
 					}
-					Part addedPart = model.addBlobPart(px, py, model.getBackgroundTemperature() + 20);
+					Part addedPart = model.addBlobPart(px, py, previousProperties.temperature);
+					setAddedPartProperties(addedPart);
 					model.refreshPowerArray();
 					model.refreshTemperatureBoundaryArray();
 					model.refreshMaterialPropertyArrays();
@@ -4425,6 +4432,28 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		e.consume();
 		movingShape = null;
 		mouseBeingDragged = false;
+	}
+
+	private void setAddedPartProperties(Part addedPart) {
+		if (Float.isNaN(previousProperties.temperature))
+			previousProperties.temperature = model.getBackgroundTemperature() + 20;
+		addedPart.setTemperature(previousProperties.temperature);
+		if (!Float.isNaN(previousProperties.thermalConductivity))
+			addedPart.setThermalConductivity(previousProperties.thermalConductivity);
+		if (!Float.isNaN(previousProperties.specificHeat))
+			addedPart.setSpecificHeat(previousProperties.specificHeat);
+		if (!Float.isNaN(previousProperties.density))
+			addedPart.setDensity(previousProperties.density);
+		if (!Float.isNaN(previousProperties.absorptivity))
+			addedPart.setAbsorptivity(previousProperties.absorptivity);
+		if (!Float.isNaN(previousProperties.reflectivity))
+			addedPart.setReflectivity(previousProperties.reflectivity);
+		if (!Float.isNaN(previousProperties.transmissivity))
+			addedPart.setTransmissivity(previousProperties.transmissivity);
+		if (!Float.isNaN(previousProperties.emissivity))
+			addedPart.setEmissivity(previousProperties.emissivity);
+		if (!Float.isNaN(previousProperties.elasticity))
+			addedPart.setElasticity(previousProperties.elasticity);
 	}
 
 	private void autofitGraph() {
