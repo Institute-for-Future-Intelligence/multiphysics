@@ -192,7 +192,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private boolean snapToGrid = true;
 	private float fanRotationSpeedScaleFactor = 1;
 	private boolean clockOn = true;
-	private boolean frankOn = true;
+	private boolean showLogo = true;
 	private boolean showControlPanel;
 	private byte controlPanelPosition = 0;
 	private byte heatMapType = HEATMAP_TEMPERATURE;
@@ -235,8 +235,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private Point mouseDraggedPoint = new Point(-1, -1);
 	private String errorMessage;
 	private DecimalFormat formatter = new DecimalFormat("#####.#####");
+	private DecimalFormat twoDecimalFormat = new DecimalFormat("#.##");
 	private Color lightColor = new Color(255, 255, 255, 128);
-	private Symbol brand;
+	private Symbol logo;
 	private Symbol moon, sun;
 	private Symbol startIcon, resetIcon, graphIcon, switchIcon, nextIcon, prevIcon, modeIcon; // control panel to support touch screen
 	private String tipText;
@@ -324,8 +325,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		thermostatRenderer = new ThermostatRenderer();
 		manipulationListeners = new ArrayList<ManipulationListener>();
 		graphListeners = new ArrayList<GraphListener>();
-		brand = new Symbol.BrandIcon();
-		brand.setStroke(moderateStroke);
+		logo = new Symbol.LogoIcon();
+		logo.setStroke(moderateStroke);
 		undoManager = new UndoManager();
 		previousProperties = new PreviousProperties();
 	}
@@ -1007,12 +1008,12 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		return controlPanelPosition;
 	}
 
-	public void setFrankOn(boolean b) {
-		frankOn = b;
+	public void setShowLogo(boolean b) {
+		showLogo = b;
 	}
 
-	public boolean isFrankOn() {
-		return frankOn;
+	public boolean getShowLogo() {
+		return showLogo;
 	}
 
 	public void setViewFactorLinesOn(boolean b) {
@@ -1970,9 +1971,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		}
 
 		g.setStroke(stroke);
-		if (frankOn) {
-			brand.setColor(heatMapType != HEATMAP_NONE ? Color.lightGray : Color.black);
-			brand.paintIcon(this, g, getWidth() - 84, getHeight() - (borderTickmarksRenderer != null ? 30 : 15));
+		if (showLogo) {
+			logo.setColor(heatMapType != HEATMAP_NONE ? Color.lightGray : Color.black);
+			logo.paintIcon(this, g, getWidth() - 84, getHeight() - (borderTickmarksRenderer != null ? 30 : 15));
 		}
 		if (showControlPanel) {
 			switch (controlPanelPosition) {
@@ -2003,8 +2004,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						drawButtonInfo(g, modeIcon.isPressed() ? "Heat" : "Select", modeIcon);
 					} else if (controlButton == switchIcon) {
 						drawButtonInfo(g, "Exit", switchIcon);
-					} else if (controlButton == brand && frankOn) {
-						drawButtonInfo(g, "energy.concord.org", brand);
 					}
 				} else {
 					switch (mouseReadType) {
@@ -2053,6 +2052,9 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			g.setFont(smallFont);
 			g.drawString(tipText, tipTextLocation.x, tipTextLocation.y);
 		}
+
+		if (getWidth() != getHeight())
+			drawButtonInfo(g, "1 : " + twoDecimalFormat.format((float) getHeight() / (float) getWidth()), logo);
 
 	}
 
@@ -4584,7 +4586,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		int y = e.getY();
 		mouseMovedPoint.setLocation(x, y);
 		Symbol button = overWhichButton(x, y);
-		if (button != null && button != brand) {
+		if (button != null && button != logo) {
 			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			repaint();
 			e.consume();
@@ -5126,8 +5128,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			if (isFullScreen() && switchIcon != null && switchIcon.contains(x, y))
 				return switchIcon;
 		}
-		if (frankOn && brand.contains(x, y))
-			return brand;
+		if (showLogo && logo.contains(x, y))
+			return logo;
 		return null;
 	}
 

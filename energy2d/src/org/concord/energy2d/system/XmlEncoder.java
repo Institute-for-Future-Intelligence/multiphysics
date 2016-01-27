@@ -236,7 +236,7 @@ class XmlEncoder {
 			sb.append("<color_palette>true</color_palette>\n");
 		}
 		sb.append("<color_palette_type>" + box.view.getColorPaletteType() + "</color_palette_type>\n");
-		if (!box.view.isFrankOn()) {
+		if (!box.view.getShowLogo()) {
 			sb.append("<brand>false</brand>\n");
 		}
 		if (box.view.isControlPanelVisible()) {

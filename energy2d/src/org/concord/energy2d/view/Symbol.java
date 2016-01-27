@@ -744,12 +744,12 @@ public abstract class Symbol implements Icon {
 
 	}
 
-	static class BrandIcon extends Symbol {
+	static class LogoIcon extends Symbol {
 
 		private Font font;
 		private int cornerDiameter = 20;
 
-		public BrandIcon() {
+		public LogoIcon() {
 			font = new Font("Book Antiqua", Font.BOLD, 14);
 		}
 
