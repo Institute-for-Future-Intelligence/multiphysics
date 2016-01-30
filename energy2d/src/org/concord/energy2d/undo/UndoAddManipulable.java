@@ -17,6 +17,7 @@ import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.ParticleFeeder;
 import org.concord.energy2d.model.Thermometer;
 import org.concord.energy2d.model.Tree;
+import org.concord.energy2d.view.Picture;
 import org.concord.energy2d.view.TextBox;
 import org.concord.energy2d.view.View2D;
 
@@ -54,6 +55,8 @@ public class UndoAddManipulable extends AbstractUndoableEdit {
 			name = "Tree";
 		} else if (addedManipulable instanceof TextBox) {
 			name = "Text Box";
+		} else if (addedManipulable instanceof Picture) {
+			name = "Image";
 		}
 	}
 
@@ -97,6 +100,8 @@ public class UndoAddManipulable extends AbstractUndoableEdit {
 			model.addTree((Tree) addedManipulable);
 		} else if (addedManipulable instanceof TextBox) {
 			view.addTextBox((TextBox) addedManipulable);
+		} else if (addedManipulable instanceof Picture) {
+			view.addPicture((Picture) addedManipulable);
 		}
 		view.setSelectedManipulable(addedManipulable);
 		view.repaint();

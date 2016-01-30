@@ -38,6 +38,7 @@ import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
 
 import org.concord.energy2d.event.ManipulationEvent;
+import org.concord.energy2d.undo.UndoAddManipulable;
 import org.concord.energy2d.undo.UndoClearAll;
 import org.concord.energy2d.undo.UndoClearAllParticles;
 import org.concord.energy2d.undo.UndoColorPalette;
@@ -58,6 +59,7 @@ import org.concord.energy2d.util.FileChooser;
 import org.concord.energy2d.util.MiscUtil;
 import org.concord.energy2d.util.ScreenshotSaver;
 import org.concord.energy2d.view.Picture;
+import org.concord.energy2d.view.View2D;
 
 /**
  * @author Charles Xie
@@ -481,6 +483,7 @@ class MenuBar extends JMenuBar {
 					box.view.addPictureOriginalSize(p);
 					box.view.repaint();
 					box.view.notifyManipulationListeners(p, ManipulationEvent.OBJECT_ADDED);
+					box.view.getUndoManager().addEdit(new UndoAddManipulable(p, box.view));
 				}
 				imgFileChooser.resetChoosableFileFilters();
 			}
@@ -958,10 +961,11 @@ class MenuBar extends JMenuBar {
 		menu.add(subMenu);
 
 		LinkedHashMap<String, String> examples = new LinkedHashMap<String, String>();
-		examples.put("Thermal Equilibrium Between Identical Objects", "examples/identical-heat-capacity.e2d");
-		examples.put("Thermal Equilibrium Between Objects with Different Specific Heats", "examples/different-specific-heat1.e2d");
-		examples.put("Thermal Equilibrium Between Objects with Different Densities", "examples/different-density1.e2d");
+		examples.put("Thermal Equilibrium between Identical Objects", "examples/identical-heat-capacity.e2d");
+		examples.put("Thermal Equilibrium between Objects with Different Specific Heats", "examples/different-specific-heat1.e2d");
+		examples.put("Thermal Equilibrium between Objects with Different Densities", "examples/different-density1.e2d");
 		examples.put("The Effect of Thermal Conductivity on Equilibration Speed", "examples/different-conductivity.e2d");
+		examples.put("Thermal Equilibrium between Two Petri Dishes", "examples/two-dishes.e2d");
 		examples.put("The Zeroth Law of Thermodynamics", "examples/zeroth.e2d");
 		examples.put("The Accuracy of Conduction Simulation", "examples/conservation-of-energy.e2d");
 		examples.put("Constant Power Sources", "examples/constant-power-sources.e2d");
