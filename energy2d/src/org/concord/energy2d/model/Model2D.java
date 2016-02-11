@@ -1576,6 +1576,19 @@ public class Model2D {
 		maximumHeatCapacity = -1;
 	}
 
+	public void lockAll(boolean b) {
+		for (Part x : parts)
+			x.setDraggable(!b);
+		for (Particle x : particles)
+			x.setDraggable(!b);
+		for (ParticleFeeder x : particleFeeders)
+			x.setDraggable(!b);
+		for (Fan x : fans)
+			x.setDraggable(!b);
+		for (Heliostat x : heliostats)
+			x.setDraggable(!b);
+	}
+
 	public void removeAllParticles() {
 		particles.clear();
 	}

@@ -59,7 +59,6 @@ import org.concord.energy2d.util.FileChooser;
 import org.concord.energy2d.util.MiscUtil;
 import org.concord.energy2d.util.ScreenshotSaver;
 import org.concord.energy2d.view.Picture;
-import org.concord.energy2d.view.View2D;
 
 /**
  * @author Charles Xie
@@ -612,6 +611,26 @@ class MenuBar extends JMenuBar {
 				}
 				box.view.scaleAll(x);
 				box.view.getUndoManager().addEdit(new UndoScaleAll(box.view, x));
+			}
+		});
+		menu.add(mi);
+
+		mi = new JMenuItem("Lock All");
+		mi.setToolTipText("Set all the model elements to be draggable");
+		mi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				box.model.lockAll(true);
+				box.view.lockAll(true);
+			}
+		});
+		menu.add(mi);
+
+		mi = new JMenuItem("Unlock All");
+		mi.setToolTipText("Set all the model elements to be undraggable");
+		mi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				box.model.lockAll(false);
+				box.view.lockAll(false);
 			}
 		});
 		menu.add(mi);

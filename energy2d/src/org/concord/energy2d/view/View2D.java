@@ -695,6 +695,13 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		hideHandles();
 	}
 
+	public void lockAll(boolean b) {
+		for (TextBox x : textBoxes)
+			x.setDraggable(!b);
+		for (Picture x : pictures)
+			x.setDraggable(!b);
+	}
+
 	public void hideHandles() {
 		for (Rectangle h : handle)
 			h.x = h.y = 0;
