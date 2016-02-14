@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <state>
 <links>
-<next_sim>thermostat-cooling.e2d</next_sim>
+<prev_sim>thermostat2.e2d</prev_sim>
 </links>
 <model>
 <timestep>100.0</timestep>
@@ -15,15 +15,16 @@
 <background_conductivity>0.1</background_conductivity>
 <background_density>1.0</background_density>
 <background_specific_heat>100.0</background_specific_heat>
+<background_temperature>40.0</background_temperature>
 <thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
 <buoyancy_approximation>1</buoyancy_approximation>
 <boundary>
-<temperature_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<temperature_at_border upper="40.0" lower="40.0" left="40.0" right="40.0"/>
 <mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
 </boundary>
 <structure>
 <part>
-<rectangle x="5.75" y="7.5" width="0.5" height="0.5"/><elasticity>1.0</elasticity>
+<rectangle x="5.75" y="4.027784" width="0.5" height="0.5"/><elasticity>1.0</elasticity>
 <thermal_conductivity>0.08</thermal_conductivity>
 <specific_heat>1300.0</specific_heat>
 <density>25.0</density>
@@ -34,7 +35,7 @@
 <emissivity>0.0</emissivity>
 <temperature>10.0</temperature>
 <constant_temperature>false</constant_temperature>
-<power>5.0</power>
+<power>-5.0</power>
 <uid>HEATER1</uid>
 </part>
 <part>
@@ -47,7 +48,7 @@
 <scattering>false</scattering>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
-<temperature>0.0</temperature>
+<temperature>40.0</temperature>
 <constant_temperature>false</constant_temperature>
 <texture><texture_fg>-1000000</texture_fg>
 <texture_bg>-7f7f80</texture_bg>
@@ -67,7 +68,7 @@
 <scattering>false</scattering>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
-<temperature>0.0</temperature>
+<temperature>40.0</temperature>
 <constant_temperature>false</constant_temperature>
 <texture><texture_fg>-1000000</texture_fg>
 <texture_bg>-7f7f80</texture_bg>
@@ -88,7 +89,7 @@
 <scattering>false</scattering>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
-<temperature>0.0</temperature>
+<temperature>40.0</temperature>
 <constant_temperature>false</constant_temperature>
 <texture><texture_fg>-1000000</texture_fg>
 <texture_bg>-7f7f80</texture_bg>
@@ -109,7 +110,7 @@
 <scattering>false</scattering>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
-<temperature>0.0</temperature>
+<temperature>40.0</temperature>
 <constant_temperature>false</constant_temperature>
 <texture><texture_fg>-7f7f80</texture_fg>
 <texture_bg>-cccccd</texture_bg>
@@ -130,7 +131,7 @@
 <scattering>false</scattering>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
-<temperature>0.0</temperature>
+<temperature>40.0</temperature>
 <constant_temperature>false</constant_temperature>
 <texture><texture_fg>-1000000</texture_fg>
 <texture_bg>-7f7f80</texture_bg>
@@ -149,7 +150,7 @@
 <scattering>false</scattering>
 <absorption>0.0</absorption>
 <emissivity>0.0</emissivity>
-<temperature>0.0</temperature>
+<temperature>20.0</temperature>
 <constant_temperature>false</constant_temperature>
 <color>ffffff</color>
 <label>Window</label>
@@ -167,7 +168,7 @@
 <emissivity>0.0</emissivity>
 <temperature>10.0</temperature>
 <constant_temperature>false</constant_temperature>
-<power>5.0</power>
+<power>-5.0</power>
 <uid>HEATER2</uid>
 </part>
 <part>
@@ -182,7 +183,7 @@
 <emissivity>0.0</emissivity>
 <temperature>10.0</temperature>
 <constant_temperature>false</constant_temperature>
-<power>5.0</power>
+<power>-5.0</power>
 <uid>HEATER3</uid>
 </part>
 <part>
@@ -197,7 +198,7 @@
 <emissivity>0.0</emissivity>
 <temperature>10.0</temperature>
 <constant_temperature>false</constant_temperature>
-<power>5.0</power>
+<power>-5.0</power>
 <uid>HEATER4</uid>
 </part>
 <part>
@@ -210,7 +211,7 @@
 <scattering>false</scattering>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
-<temperature>0.0</temperature>
+<temperature>20.0</temperature>
 <constant_temperature>false</constant_temperature>
 <texture><texture_fg>-1000000</texture_fg>
 <texture_bg>-7f7f80</texture_bg>
@@ -229,7 +230,7 @@
 <scattering>false</scattering>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
-<temperature>0.0</temperature>
+<temperature>20.0</temperature>
 <constant_temperature>false</constant_temperature>
 <texture><texture_fg>-1000000</texture_fg>
 <texture_bg>-7f7f80</texture_bg>
@@ -259,9 +260,9 @@
 <perimeter_step_size>0.049999997</perimeter_step_size>
 <color_palette_type>1</color_palette_type>
 <control_panel>true</control_panel>
-<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
-<maximum_temperature>50.0</maximum_temperature>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>20.0</minimum_temperature>
+<maximum_temperature>60.0</maximum_temperature>
 <fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time (hr)</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
-<text string="Heating" face="Arial" size="14" style="0" color="ffffff" x="0.19999999" y="9.8"/>
+<text string="Cooling" face="Arial" size="14" style="0" color="ffffff" x="0.2" y="9.8"/>
 </view>
 </state>
