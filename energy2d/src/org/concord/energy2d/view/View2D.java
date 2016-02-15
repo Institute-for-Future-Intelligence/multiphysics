@@ -1536,7 +1536,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		});
 		modelPopupMenu.add(mi);
 
-		mi = new JMenuItem("View Data...");
+		mi = new JMenuItem("Sensor Data...");
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (dataViewer == null)
