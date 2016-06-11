@@ -351,6 +351,18 @@ class MenuBar extends JMenuBar {
 		fileMenu.addSeparator();
 		fileMenuItemCount++;
 
+		final Action copyImageAction = box.view.getActionMap().get("Copy Image");
+		mi = new JMenuItem("Copy Image");
+		mi.setAccelerator((KeyStroke) copyImageAction.getValue(Action.ACCELERATOR_KEY));
+		mi.setToolTipText((String) copyImageAction.getValue(Action.SHORT_DESCRIPTION));
+		mi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				copyImageAction.actionPerformed(e);
+			}
+		});
+		fileMenu.add(mi);
+		fileMenuItemCount++;
+
 		final Action propertyAction = box.view.getActionMap().get("Property");
 		mi = new JMenuItem("Properties...");
 		mi.setAccelerator((KeyStroke) propertyAction.getValue(Action.ACCELERATOR_KEY));

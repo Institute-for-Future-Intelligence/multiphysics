@@ -92,6 +92,7 @@ import org.concord.energy2d.undo.UndoResizeManipulable;
 import org.concord.energy2d.undo.UndoTranslateAll;
 import org.concord.energy2d.undo.UndoTranslateManipulable;
 import org.concord.energy2d.undo.UndoZoom;
+import org.concord.energy2d.util.ClipImage;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.ContourMap;
 import org.concord.energy2d.util.FieldLines;
@@ -260,6 +261,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private Action copyAction;
 	private Action cutAction;
 	private Action pasteAction;
+	private Action copyImageAction;
 	private volatile boolean runHeatingThread;
 	private volatile boolean cooling;
 	private volatile float heatingX, heatingY;
@@ -570,6 +572,17 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		a.putValue(Action.ACCELERATOR_KEY, ks);
 		getInputMap().put(ks, "Zoom Out");
 		getActionMap().put("Zoom Out", a);
+
+		copyImageAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				new ClipImage().copyImageToClipboard(View2D.this);
+			}
+		};
+		ks = IS_MAC ? KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.META_MASK | KeyEvent.ALT_MASK) : KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_MASK | KeyEvent.ALT_MASK);
+		copyImageAction.putValue(Action.NAME, "Copy Image");
+		copyImageAction.putValue(Action.ACCELERATOR_KEY, ks);
+		getInputMap().put(ks, "Copy Image");
+		getActionMap().put("Copy Image", copyImageAction);
 
 	}
 
@@ -1519,6 +1532,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		modelPopupMenu.add(cutAction);
 		modelPopupMenu.add(pasteAction);
 		modelPopupMenu.addSeparator();
+		modelPopupMenu.add(copyImageAction);
 
 		JMenuItem mi = new JMenuItem("Properties...");
 		mi.addActionListener(new ActionListener() {

@@ -22,7 +22,7 @@ abstract class FluidSolver2D {
 	private byte buoyancyApproximation = Model2D.BUOYANCY_AVERAGE_ALL;
 	private byte gravityType = Model2D.GRAVITY_UNIFORM;
 
-	float viscosity = 10 * Constants.AIR_VISCOSITY;
+	float viscosity = Constants.AIR_VISCOSITY;
 
 	int nx, ny, nx1, ny1, nx2, ny2;
 	float[][] u0, v0;

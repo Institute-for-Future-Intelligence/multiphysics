@@ -42,7 +42,7 @@ public class Model2D {
 
 	private int indexOfStep;
 
-	private float backgroundConductivity = 10 * Constants.AIR_THERMAL_CONDUCTIVITY;
+	private float backgroundConductivity = Constants.AIR_THERMAL_CONDUCTIVITY;
 	private float backgroundSpecificHeat = Constants.AIR_SPECIFIC_HEAT;
 	private float backgroundDensity = Constants.AIR_DENSITY;
 	private float backgroundTemperature;

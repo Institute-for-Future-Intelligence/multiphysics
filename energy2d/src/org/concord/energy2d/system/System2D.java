@@ -83,7 +83,7 @@ import com.apple.eawt.ApplicationEvent;
  */
 public class System2D extends JApplet implements ManipulationListener {
 
-	final static String BRAND_NAME = "Energy2D V2.5";
+	final static String BRAND_NAME = "Energy2D V2.6";
 
 	Model2D model;
 	View2D view;
