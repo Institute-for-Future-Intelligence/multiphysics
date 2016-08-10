@@ -116,7 +116,7 @@
 			</manifest>
 		</fx:jar>
 
-		<taskdef name="digest" classname="com.threerings.getdown.tools.DigesterTask" classpath="exe/lib/getdown.jar" />
+		<taskdef name="digest" classname="com.threerings.getdown.tools.DigesterTask" classpath="exe/lib/getdown.jar;exe/lib/samskivert.jar" />
 		<digest appdir="exe" />
 
 	</target>

@@ -8,5 +8,8 @@ ui.progress = 2, 2, 500, 22
 
 # Application jar files
 code = energy2d.jar
+code = lib/getdown.jar
+code = lib/samskivert.jar
+
 # The main entry point for the application
 class = org.concord.energy2d.system.UpdateStub

@@ -83,7 +83,7 @@ import com.apple.eawt.ApplicationEvent;
  */
 public class System2D extends JApplet implements ManipulationListener {
 
-	final static String BRAND_NAME = "Energy2D V2.6";
+	final static String BRAND_NAME = "Energy2D V2.8";
 
 	Model2D model;
 	View2D view;
@@ -110,7 +110,7 @@ public class System2D extends JApplet implements ManipulationListener {
 	private List<PropertyChangeListener> propertyChangeListeners;
 	private JFrame owner;
 	private static Preferences preferences;
-	private static boolean launchedByJWS;
+	static boolean launchedByJWS;
 	private static boolean appDirectoryWritable = true;
 
 	public System2D() {
@@ -980,10 +980,10 @@ public class System2D extends JApplet implements ManipulationListener {
 		} else {
 			if (appDirectoryWritable) {
 				owner.setVisible(false);
-				UpdateStub.update();
-			} else {
-				System.exit(0);
+				// UpdateStub.update();
+				Updater.install();
 			}
+			System.exit(0);
 		}
 	}
 
@@ -992,6 +992,7 @@ public class System2D extends JApplet implements ManipulationListener {
 			@Override
 			public void run() {
 				start(args);
+				Updater.download();
 			}
 		});
 	}
