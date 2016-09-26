@@ -78,7 +78,14 @@ class DataViewer {
 
 	private void showData(String title, Sensor[] sensors) {
 		List<TimedData> data = sensors[0].getData();
-		int n = data.size();
+		int n = 0;
+		for (Sensor s : sensors) {
+			int size = s.getData().size();
+			if (size > n) {
+				n = size;
+				data = s.getData();
+			}
+		}
 		if (n < 1) {
 			JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(view), "No data has been collected.", "No data", JOptionPane.INFORMATION_MESSAGE);
 			return;
@@ -91,8 +98,10 @@ class DataViewer {
 		for (int j = 0; j < sensors.length; j++) {
 			header[j + 1] = sensors[j].getLabel() != null ? sensors[j].getLabel() : "Value";
 			data = sensors[j].getData();
-			for (int i = 0; i < n; i++)
-				column[i][j + 1] = data.get(i).getValue();
+			if (data.size() > 0) {
+				for (int i = 0; i < n; i++)
+					column[i][j + 1] = data.get(i).getValue();
+			}
 		}
 		showDataWindow(title, column, header);
 	}
