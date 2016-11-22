@@ -43,6 +43,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * @author Charles Xie
+ * @author Mark Henning
  * 
  */
 class XmlDecoder extends DefaultHandler {
@@ -56,7 +57,7 @@ class XmlDecoder extends DefaultHandler {
 	private float timeStep = 0.1f;
 	private int measurementInterval = 100;
 	private int controlInterval = 100;
-	private int viewUpdateInterval = 20;
+	private int viewUpdateInterval = 100; // explicit solver requires 1/5 of the implicit solver's time step length, so this was increased from 20 to 100 to obtain comparable view update speed
 	private boolean sunny;
 	private float sunAngle = (float) (Math.PI * 0.5);
 	private float solarPowerDensity = 2000;
@@ -1326,7 +1327,7 @@ class XmlDecoder extends DefaultHandler {
 		timeStep = 1;
 		measurementInterval = 100;
 		controlInterval = 100;
-		viewUpdateInterval = 20;
+		viewUpdateInterval = 100;
 		sunny = false;
 		sunAngle = (float) Math.PI * 0.5f;
 		solarPowerDensity = 2000;

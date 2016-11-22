@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -79,11 +80,12 @@ import com.apple.eawt.ApplicationEvent;
  * Deploy as an app (energy2d.jar) or an applet (energy2d-applet.jar). The applet has no menu bar and tool bar and doesn't include /models and /resources.
  * 
  * @author Charles Xie
+ * @author Mark Henning
  * 
  */
 public class System2D extends JApplet implements ManipulationListener {
 
-	final static String BRAND_NAME = "Energy2D V2.9";
+	final static String BRAND_NAME = "Energy2D V2.10";
 
 	Model2D model;
 	View2D view;
@@ -338,6 +340,20 @@ public class System2D extends JApplet implements ManipulationListener {
 
 	public void run() {
 		view.setRunToggle(true);
+		
+		// output warning if time step is below stability criteria
+		float	maxStableTimeStep = model.calcMaxStableTimeStep();
+		if (maxStableTimeStep <= model.getTimeStep()) {
+			final DecimalFormat FORMAT = new DecimalFormat("####.#########");
+			JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(view),
+					"<html>Warning:<br>"
+					+ "The current time step is too large. Simulation might be instable.<br>"
+					+ "<table>"
+					+ "<tr><td>Current time step</td><td>" + FORMAT.format(model.getTimeStep()) + " s</td></tr>"
+					+ "<tr><td>Time step should be below</td><td>" + FORMAT.format(maxStableTimeStep) + " s</td></tr>"
+					+ "</table></html>", "Time step warning", JOptionPane.ERROR_MESSAGE);
+		}
+		
 		executeInThreadService(new Runnable() {
 			public void run() {
 				model.run();

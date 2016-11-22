@@ -30,7 +30,7 @@ abstract class FluidSolver2D {
 	float deltaX, deltaY;
 	boolean[][] fluidity;
 	MassBoundary boundary;
-	float[][] t;
+	double[][] t;
 	float[][] uWind, vWind;
 	private float[][] vorticity, stream;
 
@@ -111,7 +111,7 @@ abstract class FluidSolver2D {
 		return viscosity;
 	}
 
-	void setTemperature(float[][] t) {
+	void setTemperature(double[][] t) {
 		this.t = t;
 	}
 
@@ -226,7 +226,7 @@ abstract class FluidSolver2D {
 			// The logic of including all cells is to provide a more stable reference temperature. The results tend to look more normal with this choice.
 			// We can tell this from the column average below, which tends to produce less normal-looking results.
 			// However, why should solid cells have anything to do with fluid cells? And why should fluid cells isolated from the current one have anything to do with it?
-			t0 = MathUtil.getAverage(t);
+			t0 = (float)MathUtil.getAverage(t);
 			for (int i = 1; i < nx1; i++) {
 				for (int j = 1; j < ny1; j++) {
 					if (fluidity[i][j]) {
@@ -252,7 +252,7 @@ abstract class FluidSolver2D {
 	private void applySphericalBuoyancy(float[][] u, float[][] v) {
 		float g = gravity * timeStep;
 		float b = thermalExpansionCoefficient * timeStep;
-		float t0 = MathUtil.getAverage(t);
+		float t0 = (float)MathUtil.getAverage(t);
 		float dx = 0, dy = 0, dr = 0;
 		float cx = nx / 2, cy = ny / 2;
 		for (int i = 1; i < nx1; i++) {
@@ -263,7 +263,7 @@ abstract class FluidSolver2D {
 					dr = (float) (1.0 / Math.hypot(dx, dy));
 					dx *= dr;
 					dy *= dr;
-					dr = (g - b) * t[i][j] + b * t0;
+					dr = (g - b) * (float)t[i][j] + b * t0;
 					u[i][j] -= dr * dx;
 					v[i][j] -= dr * dy;
 				}

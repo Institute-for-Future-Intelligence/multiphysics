@@ -2,6 +2,7 @@ package org.concord.energy2d.math;
 
 /**
  * @author Charles Xie
+ * @author Mark Henning
  * 
  */
 public class MathUtil {
@@ -61,4 +62,13 @@ public class MathUtil {
 		return ave / (array.length * array[0].length);
 	}
 
+	public static double getAverage(double[][] array) {
+		double ave = 0;
+		for (double[] a : array) {
+			for (double x : a) {
+				ave += x;
+			}
+		}
+		return ave / (array.length * array[0].length);
+	}
 }

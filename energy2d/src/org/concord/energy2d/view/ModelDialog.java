@@ -394,7 +394,7 @@ class ModelDialog extends JDialog {
 		steplengthField = new JTextField(FORMAT.format(model.getTimeStep()), 8);
 		steplengthField.addActionListener(okListener);
 		p.add(steplengthField);
-		label = new JLabel("<html><i>s</i></html>");
+		label = new JLabel("<html><i>s</i> ; CPUs: " + Runtime.getRuntime().availableProcessors() + "</html>");
 		p.add(label);
 
 		label = new JLabel("Height");

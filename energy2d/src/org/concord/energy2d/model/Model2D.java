@@ -12,13 +12,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.event.ManipulationListener;
+import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.EllipticalAnnulus;
 import org.concord.energy2d.math.Polygon2D;
-import org.concord.energy2d.math.Annulus;
+import org.concord.energy2d.util.MiscUtil;
 
 /**
  * Units:
@@ -28,6 +30,7 @@ import org.concord.energy2d.math.Annulus;
  * Using a 1D array and then a convenience function I(i, j) =i + j x ny to find t(i, j) is about 12% faster than using a 2D array directly (Java 6). Hence, using 1D array for 2D functions doesn't result in significant performance improvements.
  * 
  * @author Charles Xie
+ * @author Mark Henning
  * 
  */
 public class Model2D {
@@ -49,7 +52,7 @@ public class Model2D {
 	private float maximumHeatCapacity = -1;
 
 	// temperature array
-	private float[][] t;
+	private double[][] t; // Higher accuracy required due to the explicit solver's small time steps
 
 	// velocity x-component array (m/s)
 	private float[][] u;
@@ -59,6 +62,7 @@ public class Model2D {
 
 	// internal temperature boundary array
 	private float[][] tb;
+	private boolean[] tbHasValues;
 
 	// internal heat generation array
 	private float[][] q;
@@ -127,13 +131,20 @@ public class Model2D {
 	private List<ManipulationListener> manipulationListeners;
 	private Runnable tasks;
 
+	// multithreading
+	private final int numOfThreads;
+	private ArrayBlockingQueue<Integer> nextStepToDoQueue; // actions: x=-1: exit thread; x>=0: perform partial explicit solver for part x
+	private ArrayBlockingQueue<Integer> nextStepDoneQueue;
+	private List<Runnable> nextStepThreads;
+	
 	public Model2D() {
 
-		t = new float[nx][ny];
+		t = new double[nx][ny];
 		u = new float[nx][ny];
 		v = new float[nx][ny];
 		q = new float[nx][ny];
 		tb = new float[nx][ny];
+		tbHasValues = new boolean[nx];
 		uWind = new float[nx][ny];
 		vWind = new float[nx][ny];
 		conductivity = new float[nx][ny];
@@ -156,14 +167,27 @@ public class Model2D {
 
 		init();
 
-		heatSolver = new HeatSolver2DImpl(nx, ny);
+		heatSolver = new HeatSolver2DExpl(nx, ny);
 		heatSolver.setSpecificHeat(specificHeat);
 		heatSolver.setConductivity(conductivity);
 		heatSolver.setDensity(density);
 		heatSolver.setPower(q);
 		heatSolver.setVelocity(u, v);
-		heatSolver.setTemperatureBoundary(tb);
+		heatSolver.setTemperatureBoundary(tb, tbHasValues);
 		heatSolver.setFluidity(fluidity);
+		
+		numOfThreads = Runtime.getRuntime().availableProcessors();
+		nextStepToDoQueue = new ArrayBlockingQueue<Integer>(numOfThreads);
+		nextStepDoneQueue = new ArrayBlockingQueue<Integer>(numOfThreads);
+		nextStepThreads = new ArrayList<Runnable>();
+		for(int i = 0 ; i < numOfThreads ; i++) {
+			Runnable	myRunnable = new Runnable(){
+				public void run(){
+					Model2D.this.nextStepMT();
+				}
+			};
+			nextStepThreads.add(myRunnable);
+		}
 
 		fluidSolver = new FluidSolver2DImpl(nx, ny);
 		fluidSolver.setFluidity(fluidity);
@@ -1396,9 +1420,10 @@ public class Model2D {
 					ListIterator<Part> li = parts.listIterator(parts.size());
 					while (li.hasPrevious()) {
 						Part p = li.previous();
-						// FIXME: for some reason, the fluid solver doesn't like the way we treat round-off error on the grid.
+						// FIXME (energy2D V2.5): for some reason, the fluid solver doesn't like the way we treat round-off error on the grid.
 						// So if the model is convective, revert to using the original contains(...) method for setting the properties on the grid.
-						if (contains(p.getShape(), x, y, convective)) {
+						// NOV 2016 - Mark Henning: round off fixed, so boolean parameter is obsolete now.
+						if (contains(p.getShape(), x, y/*, convective*/)) {
 							conductivity[i][j] = p.getThermalConductivity();
 							specificHeat[i][j] = p.getSpecificHeat();
 							density[i][j] = p.getDensity();
@@ -1412,7 +1437,7 @@ public class Model2D {
 					ListIterator<Part> li = parts.listIterator(parts.size());
 					while (li.hasPrevious()) {
 						Part p = li.previous();
-						if (contains(p.getShape(), x, y, false)) {
+						if (contains(p.getShape(), x, y)) {
 							if (!initial && p.getConstantTemperature())
 								t[i][j] = p.getTemperature();
 							if ((windSpeed = p.getWindSpeed()) != 0) { // parts used to support wind speed, we now prefer using fans
@@ -1425,7 +1450,7 @@ public class Model2D {
 				}
 				synchronized (fans) {
 					for (Fan f : fans) {
-						if (contains(f.getShape(), x, y, false)) {
+						if (contains(f.getShape(), x, y)) {
 							if ((windSpeed = f.getSpeed()) != 0) {
 								uWind[i][j] = (float) (windSpeed * Math.cos(f.getAngle()));
 								vWind[i][j] = (float) (windSpeed * Math.sin(f.getAngle()));
@@ -1439,6 +1464,7 @@ public class Model2D {
 					maximumHeatCapacity = heatCapacity;
 			}
 		}
+		heatSolver.refreshMatPropDerivedPrecalculations();
 		if (initial) {
 			setInitialTemperature();
 			setInitialVelocity();
@@ -1458,7 +1484,7 @@ public class Model2D {
 					count = 0;
 					synchronized (parts) {
 						for (Part p : parts) {
-							if (p.getPower() != 0 && p.getPowerSwitch() && contains(p.getShape(), x, y, false)) {
+							if (p.getPower() != 0 && p.getPowerSwitch() && contains(p.getShape(), x, y)) {
 								power = p.getPower();
 								if (p.getThermistorTemperatureCoefficient() != 0) {
 									power *= 1f + p.getThermistorTemperatureCoefficient() * (t[i][j] - p.getThermistorReferenceTemperature());
@@ -1479,6 +1505,7 @@ public class Model2D {
 		float x, y;
 		int count;
 		for (int i = 0; i < nx; i++) {
+			tbHasValues[i] = false;
 			x = i * deltaX;
 			for (int j = 0; j < ny; j++) {
 				y = j * deltaY;
@@ -1486,7 +1513,7 @@ public class Model2D {
 				count = 0;
 				synchronized (parts) {
 					for (Part p : parts) {
-						if (p.getConstantTemperature() && contains(p.getShape(), x, y, false)) {
+						if (p.getConstantTemperature() && contains(p.getShape(), x, y)) {
 							tb[i][j] += p.getTemperature();
 							count++;
 						}
@@ -1494,6 +1521,7 @@ public class Model2D {
 				}
 				if (count > 0) {
 					tb[i][j] /= count;
+					tbHasValues[i] = true;
 				} else {
 					tb[i][j] = Float.NaN;
 				}
@@ -1502,13 +1530,8 @@ public class Model2D {
 	}
 
 	// avoid round-off error in detecting if a point falls within a shape
-	private boolean contains(Shape shape, float x, float y, boolean tolerateRoundOffError) {
-		if (tolerateRoundOffError)
-			return shape.contains(x, y);
-		float tol = 0.001f;
-		if (shape.contains(x, y) || shape.contains(x - deltaX * tol, y) || shape.contains(x + deltaX * tol, y) || shape.contains(x, y - deltaY * tol) || shape.contains(x, y + deltaY * tol))
-			return true;
-		return false;
+	private boolean contains(Shape shape, float x, float y) {
+		return shape.contains(x - 0.5f*deltaX, y + 0.5f*deltaY);
 	}
 
 	/** get the total thermal energy of the system */
@@ -1532,7 +1555,7 @@ public class Model2D {
 			x = i * deltaX;
 			for (int j = 0; j < ny; j++) {
 				y = j * deltaY;
-				if (contains(p.getShape(), x, y, false)) { // no overlap of parts will be allowed
+				if (contains(p.getShape(), x, y)) { // no overlap of parts will be allowed
 					energy += t[i][j] * density[i][j] * specificHeat[i][j];
 				}
 			}
@@ -1548,7 +1571,7 @@ public class Model2D {
 		int j = Math.round(y / deltaY);
 		if (j < 0 || j >= ny)
 			return -1;
-		return t[i][j] * density[i][j] * specificHeat[i][j] * deltaX * deltaY;
+		return (float)t[i][j] * density[i][j] * specificHeat[i][j] * deltaX * deltaY;
 	}
 
 	private void init() {
@@ -1624,7 +1647,7 @@ public class Model2D {
 					t[i][j] = 0;
 					synchronized (parts) {
 						for (Part p : parts) { // a cell gets the average temperature from the overlapping parts
-							if (contains(p.getShape(), x, y, false)) {
+							if (contains(p.getShape(), x, y)) {
 								count++;
 								t[i][j] += p.getTemperature();
 							}
@@ -1647,6 +1670,14 @@ public class Model2D {
 		refreshPowerArray();
 		if (!running) {
 			running = true;
+
+			nextStepToDoQueue.clear();
+			nextStepDoneQueue.clear();
+			for(Runnable nst : nextStepThreads) {
+				Thread thread = new Thread(nst);
+				thread.start();
+			}
+			
 			while (running) {
 				nextStep();
 				if (fatalErrorOccurred()) {
@@ -1657,6 +1688,21 @@ public class Model2D {
 				if (tasks != null)
 					tasks.run();
 			}
+
+			for(int i = 0 ; i < numOfThreads ; i++) {
+				try {
+					nextStepToDoQueue.put(-1);
+				} catch (InterruptedException e) {
+				}
+			}
+			
+			for(int i = 0 ; i < numOfThreads ; i++) {
+				try {
+					nextStepDoneQueue.take();
+				} catch (InterruptedException e) {
+				}
+			}
+
 			if (notifyReset) {
 				indexOfStep = 0;
 				reallyReset();
@@ -1668,7 +1714,7 @@ public class Model2D {
 	}
 
 	public boolean fatalErrorOccurred() {
-		return Float.isNaN(t[nx / 2][ny / 2]);
+		return Double.isNaN(t[nx / 2][ny / 2]);
 	}
 
 	public void stop() {
@@ -1774,7 +1820,23 @@ public class Model2D {
 		}
 
 		// conduction solver
-		heatSolver.solve(convective, t);
+		heatSolver.solvePrepare(convective, t);
+		
+		for(int i = 0 ; i < numOfThreads ; i++) {
+			try {
+				nextStepToDoQueue.put(i);
+			} catch (InterruptedException e) {
+			}
+		}
+	
+		for(int i = 0 ; i < numOfThreads ; i++) {
+			try {
+				nextStepDoneQueue.take();
+			} catch (InterruptedException e) {
+			}
+		}
+
+		heatSolver.solvePostprocess(convective, t);
 
 		// particle solver
 		if (!particles.isEmpty())
@@ -1801,6 +1863,23 @@ public class Model2D {
 
 	}
 
+	private void nextStepMT() {
+		// multithreaded Calls
+		while(true) {
+			try {
+				int nextPart = nextStepToDoQueue.take();
+				if (nextPart >= 0) {
+					heatSolver.solvePerformMT(convective, t, nextPart, numOfThreads);
+				}
+				nextStepDoneQueue.put(nextPart);
+				if (nextPart < 0) {
+					break;
+				}
+			} catch (InterruptedException e) {
+			}
+		}
+	}
+
 	private void applyFans() {
 		float x, y;
 		synchronized (fans) {
@@ -1809,7 +1888,7 @@ public class Model2D {
 				for (int j = 0; j < ny; j++) {
 					y = j * deltaY;
 					for (Fan f : fans) {
-						if (contains(f.getShape(), x, y, false)) {
+						if (contains(f.getShape(), x, y)) {
 							if (f.getSpeed() != 0) {
 								u[i][j] = uWind[i][j];
 								v[i][j] = vWind[i][j];
@@ -1839,6 +1918,10 @@ public class Model2D {
 		return heatSolver.getTimeStep();
 	}
 
+	public float calcMaxStableTimeStep() {
+		return heatSolver.calcMaxStableTimeStep();
+	}
+
 	void changePowerAt(float x, float y, float increment) {
 		int i = Math.min(t.length - 1, Math.round(x / deltaX));
 		if (i < 0)
@@ -1850,7 +1933,7 @@ public class Model2D {
 	}
 
 	public void setTemperature(float[][] t) {
-		this.t = t;
+		MiscUtil.copy(this.t, t);
 	}
 
 	public float getTemperatureAt(float x, float y) {
@@ -1860,7 +1943,7 @@ public class Model2D {
 		int j = Math.min(t[0].length - 1, Math.round(y / deltaY));
 		if (j < 0)
 			j = 0;
-		return t[i][j];
+		return (float)t[i][j];
 	}
 
 	public float getTemperatureAt(float x, float y, byte stencil) {
@@ -1884,9 +1967,9 @@ public class Model2D {
 			j = ny - 1;
 		switch (stencil) {
 		case Sensor.ONE_POINT:
-			return t[i][j];
+			return (float)t[i][j];
 		case Sensor.FIVE_POINT:
-			float temp = t[i][j];
+			double temp = t[i][j];
 			int count = 1;
 			if (i > 0) {
 				temp += t[i - 1][j];
@@ -1904,7 +1987,7 @@ public class Model2D {
 				temp += t[i][j + 1];
 				count++;
 			}
-			return temp / count;
+			return (float)temp / count;
 		case Sensor.NINE_POINT:
 			temp = t[i][j];
 			count = 1;
@@ -1940,9 +2023,9 @@ public class Model2D {
 				temp += t[i + 1][j + 1];
 				count++;
 			}
-			return temp / count;
+			return (float)temp / count;
 		default:
-			return t[i][j];
+			return (float)t[i][j];
 		}
 	}
 
@@ -2035,7 +2118,9 @@ public class Model2D {
 	}
 
 	public float[][] getTemperature() {
-		return t;
+		float[][] tf = new float[this.t.length][this.t[0].length];
+		MiscUtil.copy(tf, this.t);
+		return tf;
 	}
 
 	public float[] getHeatFlux(int i, int j) {
@@ -2047,8 +2132,8 @@ public class Model2D {
 			j = 1;
 		else if (j > ny - 2)
 			j = ny - 2;
-		float fx = -conductivity[i][j] * (t[i + 1][j] - t[i - 1][j]) / (2 * deltaX);
-		float fy = -conductivity[i][j] * (t[i][j + 1] - t[i][j - 1]) / (2 * deltaY);
+		float fx = -conductivity[i][j] * (float)(t[i + 1][j] - t[i - 1][j]) / (2 * deltaX);
+		float fy = -conductivity[i][j] * (float)(t[i][j + 1] - t[i][j - 1]) / (2 * deltaY);
 		return new float[] { fx, fy };
 	}
 

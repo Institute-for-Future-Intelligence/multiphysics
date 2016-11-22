@@ -3,13 +3,15 @@ package org.concord.energy2d.model;
 import org.concord.energy2d.util.MiscUtil;
 
 /**
- * By default, we use an implicit solver, which is unconditionally stable. While it finds the equilibrium state more quickly, the numeric diffusion that stablizes it causes the transient state to be inaccurate.
+ * An implicit solver is unconditionally stable. While it finds the equilibrium state more quickly, the numeric diffusion that stablizes it causes the transient state to be inaccurate.
  * 
- * A smaller time step will need to be used, compared with an explicit solver.
+ * However, the current implementation does not work properly, as it gives asymmetric results, so it was disabled.
+ * The class is kept as it might serve as a basis for future implementations.
  * 
- * We should also implement an explicit solver as an option. It makes no sense to use an implicit method when we need transient accuracy.
+ * Besides that, although having optimized the solver for speed, it currently lacks multithreading capabilities.
  * 
  * @author Charles Xie
+ * @author Mark Henning
  * 
  */
 class HeatSolver2DImpl extends HeatSolver2D {
@@ -22,15 +24,13 @@ class HeatSolver2DImpl extends HeatSolver2D {
 		super(nx, ny);
 	}
 
-	void solve(boolean convective, float[][] t) {
+	float calcMaxStableTimeStep() {
+		return Float.MAX_VALUE; // For the implicit solver, there is currently no max time step
+	}
 
+	void solvePrepare(boolean convective, double[][] t) {
 		// Copying a two-dimensional array is very fast: it takes less than 1% compared with the time for the relaxation solver below. Considering this, I chose clarity instead of swapping the arrays.
 		MiscUtil.copy(t0, t);
-
-		float hx = 0.5f / (deltaX * deltaX);
-		float hy = 0.5f / (deltaY * deltaY);
-		float rij, sij, axij, bxij, ayij, byij;
-		float invTimeStep = 1f / timeStep;
 
 		boolean solveZ = zHeatDiffusivity != 0;
 
@@ -39,13 +39,7 @@ class HeatSolver2DImpl extends HeatSolver2D {
 				for (int j = 1; j < ny1; j++) {
 					if (Float.isNaN(tb[i][j])) {
 						// how do we deal with vacuum? if(density[i][j]==0 || density[i-1][j]==0||density[i+1][j]==0||density[i][j-1]==0||density[i][j+1]==0) continue;
-						sij = specificHeat[i][j] * density[i][j] * invTimeStep;
-						rij = conductivity[i][j];
-						axij = hx * (rij + conductivity[i - 1][j]);
-						bxij = hx * (rij + conductivity[i + 1][j]);
-						ayij = hy * (rij + conductivity[i][j - 1]);
-						byij = hy * (rij + conductivity[i][j + 1]);
-						t[i][j] = (t0[i][j] * sij + q[i][j] + axij * t[i - 1][j] + bxij * t[i + 1][j] + ayij * t[i][j - 1] + byij * t[i][j + 1]) / (sij + axij + bxij + ayij + byij);
+						t[i][j] = (t0[i][j] * s[i][j] + q[i][j] + ax[i][j] * t[i - 1][j] + bx[i][j] * t[i + 1][j] + ay[i][j] * t[i][j - 1] + by[i][j] * t[i][j + 1]) * invSumSAB[i][j];
 						// use a simple proportional control only at the last step of relaxation if applicable
 						if (solveZ && k == relaxationSteps - 1) {
 							if (!zHeatDiffusivityOnlyForFluid || (zHeatDiffusivityOnlyForFluid && fluidity[i][j]))
@@ -62,15 +56,21 @@ class HeatSolver2DImpl extends HeatSolver2D {
 		if (convective) {
 			advect(t);
 		}
-
+	}
+	 
+	void solvePerformMT(boolean convective, double[][] t, int part, int numOfParts) {
+		// Currently, this solver does not support running in multithreaded mode
 	}
 
-	private void advect(float[][] t) {
+	void solvePostprocess(boolean convective, double[][] t) {
+	}
+	
+	private void advect(double[][] t) {
 		macCormack(t);
 	}
 
 	// MacCormack
-	private void macCormack(float[][] t) {
+	private void macCormack(double[][] t) {
 
 		float tx = 0.5f * timeStep / deltaX;
 		float ty = 0.5f * timeStep / deltaY;

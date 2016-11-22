@@ -28,6 +28,7 @@ import javax.swing.filechooser.FileFilter;
 
 /**
  * @author Charles Xie
+ * @author Mark Henning
  * 
  */
 public final class MiscUtil {
@@ -186,6 +187,40 @@ public final class MiscUtil {
 	public static void copy(float[][] dst, float[][] src) {
 		for (int i = 0; i < src.length; i++)
 			System.arraycopy(src[i], 0, dst[i], 0, src[i].length);
+	}
+
+	/** copy two-dimension arrays */
+	public static void copy(double[][] dst, double[][] src) {
+		for (int i = 0; i < src.length; i++)
+			System.arraycopy(src[i], 0, dst[i], 0, src[i].length);
+	}
+
+	/** copy two-dimension arrays */
+	public static void copy(double[][] dst, float[][] src) {
+		final int endi = src.length;
+		final int endj = src[0].length;
+
+		for(int i = 0; i < endi; i++) {
+			float srci[] = src[i];
+			double dsti[] = dst[i];
+			for(int j = 0; j < endj; j++) {
+				dsti[j] = (double) srci[j];
+			}
+		}
+	}
+
+	/** copy two-dimension arrays */
+	public static void copy(float[][] dst, double[][] src) {
+		final int endi = src.length;
+		final int endj = src[0].length;
+
+		for(int i = 0; i < endi; i++) {
+			double srci[] = src[i];
+			float dsti[] = dst[i];
+			for(int j = 0; j < endj; j++) {
+				dsti[j] = (float) srci[j];
+			}
+		}
 	}
 
 	public static String formatTime(int time) {

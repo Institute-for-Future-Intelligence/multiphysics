@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 /**
  * @author Charles Xie
+ * @author Mark Henning
  * 
  */
 abstract class HeatSolver2D {
@@ -16,13 +17,18 @@ abstract class HeatSolver2D {
 	float[][] q;
 	float[][] u, v;
 	float[][] tb;
-	float[][] t0; // array that stores the previous temperature results
+	boolean[] tbHasValues;
+	double[][] t0; // array that stores the previous temperature results
 	boolean[][] fluidity;
 	float deltaX, deltaY;
 	float timeStep = 0.1f;
 	float backgroundTemperature;
 	float zHeatDiffusivity;
 	boolean zHeatDiffusivityOnlyForFluid;
+	// arrays for precalculated values to speed up simulation
+	float[][] ax, bx, ay, by; // conductivity averaged over neighboring cells
+	float[][] invSumSAB;
+	float[][] s;
 
 	HeatSolver2D(int nx, int ny) {
 		this.nx = nx;
@@ -31,13 +37,40 @@ abstract class HeatSolver2D {
 		ny1 = ny - 1;
 		nx2 = nx - 2;
 		ny2 = ny - 2;
-		t0 = new float[nx][ny];
+		t0 = new double[nx][ny];
 		boundary = new DirichletThermalBoundary();
+		ax = new float[nx][ny];
+		bx = new float[nx][ny];
+		ay = new float[nx][ny];
+		by = new float[nx][ny];
+		invSumSAB = new float[nx][ny];
+		s = new float[nx][ny];
 	}
 
 	void reset() {
 		for (int i = 0; i < nx; i++) {
 			Arrays.fill(t0[i], 0);
+		}
+	}
+	
+	void refreshMatPropDerivedPrecalculations() {
+		float hx = 0.5f / (deltaX * deltaX);
+		float hy = 0.5f / (deltaY * deltaY);
+		float invTimeStep = 1.0f / timeStep;
+		float rij;
+
+		for (int i = 1; i < nx1; i++) {
+			for (int j = 1; j < ny1; j++) {
+				// Calculation of these values is required once only
+				// This speeds up the simulation by about 40%
+				rij = conductivity[i][j];
+				ax[i][j] = hx * (rij + conductivity[i - 1][j]);
+				bx[i][j] = hx * (rij + conductivity[i + 1][j]);
+				ay[i][j] = hy * (rij + conductivity[i][j - 1]);
+				by[i][j] = hy * (rij + conductivity[i][j + 1]);
+				s[i][j] = specificHeat[i][j] * density[i][j] * invTimeStep;
+				invSumSAB[i][j] = 1f / (s[i][j] + ax[i][j] + bx[i][j] + ay[i][j] + by[i][j]);
+			}
 		}
 	}
 
@@ -87,13 +120,18 @@ abstract class HeatSolver2D {
 		this.q = q;
 	}
 
-	void setTemperatureBoundary(float[][] tb) {
+	void setTemperatureBoundary(float[][] tb, boolean[] tbHasValues) {
 		this.tb = tb;
+		this.tbHasValues = tbHasValues;
 	}
 
-	abstract void solve(boolean convective, float[][] t);
+	abstract float calcMaxStableTimeStep();
 
-	void applyBoundary(float[][] t) {
+	abstract void solvePrepare(boolean convective, double[][] t);
+	abstract void solvePerformMT(boolean convective, double[][] t, int part, int numOfParts); // Intended to run multithreaded
+	abstract void solvePostprocess(boolean convective, double[][] t);
+
+	void applyBoundary(double[][] t) {
 
 		if (boundary instanceof DirichletThermalBoundary) {
 			DirichletThermalBoundary b = (DirichletThermalBoundary) boundary;
