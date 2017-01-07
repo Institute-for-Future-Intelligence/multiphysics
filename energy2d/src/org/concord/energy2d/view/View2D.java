@@ -61,10 +61,10 @@ import org.concord.energy2d.event.GraphEvent;
 import org.concord.energy2d.event.GraphListener;
 import org.concord.energy2d.event.ManipulationEvent;
 import org.concord.energy2d.event.ManipulationListener;
+import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.EllipticalAnnulus;
 import org.concord.energy2d.math.Polygon2D;
-import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Cloud;
 import org.concord.energy2d.model.Fan;
@@ -2031,31 +2031,62 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					case MOUSE_READ_COORDINATES:
 						float coorx = convertPixelToPointXPrecisely(mouseMovedPoint.x);
 						float coory = model.getLy() - convertPixelToPointYPrecisely(mouseMovedPoint.y);
-						drawMouseReadString(g, "(" + COORDINATES_FORMAT.format(coorx) + ", " + COORDINATES_FORMAT.format(coory) + ") m");
+						drawMouseMoveString(g, "(" + COORDINATES_FORMAT.format(coorx) + ", " + COORDINATES_FORMAT.format(coory) + ") m");
 						break;
 					case MOUSE_READ_TEMPERATURE:
 						float pointValue = model.getTemperatureAt(convertPixelToPointXPrecisely(mouseMovedPoint.x), convertPixelToPointYPrecisely(mouseMovedPoint.y));
-						drawMouseReadString(g, TEMPERATURE_FORMAT.format(fahrenheitUsed ? pointValue * 1.8 + 32 : pointValue) + " " + (fahrenheitUsed ? '\u2109' : '\u2103'));
+						drawMouseMoveString(g, TEMPERATURE_FORMAT.format(fahrenheitUsed ? pointValue * 1.8 + 32 : pointValue) + " " + (fahrenheitUsed ? '\u2109' : '\u2103'));
 						break;
 					case MOUSE_READ_THERMAL_ENERGY:
 						pointValue = model.getThermalEnergyAt(convertPixelToPointXPrecisely(mouseMovedPoint.x), convertPixelToPointYPrecisely(mouseMovedPoint.y));
-						drawMouseReadString(g, TEMPERATURE_FORMAT.format(pointValue) + " J");
+						drawMouseMoveString(g, TEMPERATURE_FORMAT.format(pointValue) + " J");
 						break;
 					case MOUSE_READ_VELOCITY:
 						float[] velocity = model.getVelocityAt(convertPixelToPointXPrecisely(mouseMovedPoint.x), convertPixelToPointYPrecisely(mouseMovedPoint.y));
-						drawMouseReadString(g, "(" + VELOCITY_FORMAT.format(velocity[0]) + ", " + VELOCITY_FORMAT.format(-velocity[1]) + ") m/s");
+						drawMouseMoveString(g, "(" + VELOCITY_FORMAT.format(velocity[0]) + ", " + VELOCITY_FORMAT.format(-velocity[1]) + ") m/s");
 						break;
 					case MOUSE_READ_HEAT_FLUX:
 						float[] heatFlux = model.getHeatFluxAt(convertPixelToPointXPrecisely(mouseMovedPoint.x), convertPixelToPointYPrecisely(mouseMovedPoint.y));
-						drawMouseReadString(g, HEAT_FLUX_FORMAT.format(Math.hypot(heatFlux[0], heatFlux[1])) + ": (" + HEAT_FLUX_FORMAT.format(heatFlux[0]) + ", " + HEAT_FLUX_FORMAT.format(-heatFlux[1]) + ") W/m" + '\u00B2');
+						drawMouseMoveString(g, HEAT_FLUX_FORMAT.format(Math.hypot(heatFlux[0], heatFlux[1])) + ": (" + HEAT_FLUX_FORMAT.format(heatFlux[0]) + ", " + HEAT_FLUX_FORMAT.format(-heatFlux[1]) + ") W/m" + '\u00B2');
 						break;
 					case MOUSE_READ_DEFAULT:
 						if (showGraph) {
 							String dataInfo = getGraphDataAt(mouseMovedPoint.x, mouseMovedPoint.y);
 							if (dataInfo != null)
-								drawMouseReadString(g, dataInfo);
+								drawMouseMoveString(g, dataInfo);
 						}
 						break;
+					}
+				}
+			}
+			if (actionMode == SELECT_MODE && selectedSpot != -1 && mouseBeingDragged) {
+				if (movingShape != null) {
+					if (movingShape instanceof MovingRoundRectangle) {
+						RoundRectangle2D.Float r = (RoundRectangle2D.Float) movingShape.getShape();
+						drawMouseDragString(g, COORDINATES_FORMAT.format(convertPixelToLengthX((int) r.getWidth())) + "\u00D7" + COORDINATES_FORMAT.format(convertPixelToLengthY((int) r.getHeight())));
+					} else if (movingShape instanceof MovingEllipse) {
+						Ellipse2D.Float e = (Ellipse2D.Float) movingShape.getShape();
+						drawMouseDragString(g, COORDINATES_FORMAT.format(convertPixelToLengthX((int) e.getWidth())) + "\u00D7" + COORDINATES_FORMAT.format(convertPixelToLengthY((int) e.getHeight())));
+					} else if (movingShape instanceof MovingAnnulus) {
+						MovingAnnulus a = (MovingAnnulus) movingShape;
+						Ellipse2D.Float inner = (Ellipse2D.Float) a.getInnerEllipse();
+						Ellipse2D.Float outer = (Ellipse2D.Float) a.getOuterEllipse();
+						String innerW = COORDINATES_FORMAT.format(convertPixelToLengthX((int) (inner.getWidth() * 0.5)));
+						String innerH = COORDINATES_FORMAT.format(convertPixelToLengthY((int) (inner.getHeight() * 0.5)));
+						String outerW = COORDINATES_FORMAT.format(convertPixelToLengthX((int) (outer.getWidth() * 0.5)));
+						String outerH = COORDINATES_FORMAT.format(convertPixelToLengthY((int) (outer.getHeight() * 0.5)));
+						drawMouseDragString(g, "Inner: " + innerW + "\u00D7" + innerH + ", Outer: " + outerW + "\u00D7" + outerH);
+					} else if (movingShape instanceof MovingPolygon) {
+						Polygon p = (Polygon) movingShape.getShape();
+						String x = COORDINATES_FORMAT.format(convertPixelToPointX(p.xpoints[selectedSpot]));
+						String y = COORDINATES_FORMAT.format(convertPixelToPointY(getHeight() - p.ypoints[selectedSpot]));
+						drawMouseDragString(g, "(" + x + ", " + y + ")");
+					} else if (movingShape instanceof MovingBlob) {
+						Blob2D b = (Blob2D) movingShape.getShape();
+						Point2D.Float p = b.getPoint(selectedSpot);
+						String x = COORDINATES_FORMAT.format(convertPixelToPointX((int) p.x));
+						String y = COORDINATES_FORMAT.format(convertPixelToPointY(getHeight() - (int) p.getY()));
+						drawMouseDragString(g, "(" + x + ", " + y + ")");
 					}
 				}
 			}
@@ -2106,20 +2137,28 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		}
 	}
 
-	private void drawMouseReadString(Graphics2D g, String s) {
+	private void drawMouseMoveString(Graphics2D g, String s) {
+		drawMouseString(g, mouseMovedPoint, s);
+	}
+
+	private void drawMouseDragString(Graphics2D g, String s) {
+		drawMouseString(g, mouseDraggedPoint, s);
+	}
+
+	private void drawMouseString(Graphics2D g, Point p, String s) {
 		g.setFont(sensorReadingFont);
 		FontMetrics fm = g.getFontMetrics();
 		int stringWidth = fm.stringWidth(s);
 		g.setStroke(thinStroke);
-		int x2 = mouseMovedPoint.x;
+		int x2 = p.x;
 		boolean nearRightBorder = x2 > getWidth() - 50;
 		x2 += nearRightBorder ? -30 : 20;
 		g.setColor(Color.black);
-		g.fillRoundRect(x2 - 5, mouseMovedPoint.y - 14, stringWidth + 10, 20, 8, 8);
-		g.drawLine(nearRightBorder ? x2 + stringWidth + 5 : x2 - 5, mouseMovedPoint.y - 5, mouseMovedPoint.x, mouseMovedPoint.y);
-		g.fillOval(mouseMovedPoint.x - 2, mouseMovedPoint.y - 2, 4, 4);
+		g.fillRoundRect(x2 - 5, p.y - 14, stringWidth + 10, 20, 8, 8);
+		g.drawLine(nearRightBorder ? x2 + stringWidth + 5 : x2 - 5, p.y - 5, p.x, p.y);
+		g.fillOval(p.x - 2, p.y - 2, 4, 4);
 		g.setColor(Color.white);
-		g.drawString(s, x2, mouseMovedPoint.y);
+		g.drawString(s, x2, p.y);
 	}
 
 	private void showSunOrMoon(Graphics g) {

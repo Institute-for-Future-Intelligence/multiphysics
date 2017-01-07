@@ -10,10 +10,10 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.math.Blob2D;
 import org.concord.energy2d.math.EllipticalAnnulus;
 import org.concord.energy2d.math.Polygon2D;
-import org.concord.energy2d.math.Annulus;
 import org.concord.energy2d.math.TransformableShape;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.FillPattern;
