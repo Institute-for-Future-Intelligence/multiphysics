@@ -1,5 +1,5 @@
 getdown.txt = 04e3d25a9397b4cc33e652085b4504d2
-energy2d.jar = 119b3ec63a629d1c6634e267e26b4faa
-lib/getdown.jar = 10c59456bdecda177e176821d5838c34
+energy2d.jar = a5a809befe2bed76e4dba9306ef58e71
+lib/getdown.jar = 195e5c60fcccd53f5352ecfd038a67ed
 lib/samskivert.jar = a3d63656031a4babc42561cf4b67b41d
-digest.txt = 720db59b3db20c7fdef4570c099819b4
+digest.txt = d7a513d47caff3691dc244a30f88eaa7

@@ -1157,7 +1157,7 @@ class MenuBar extends JMenuBar {
 		mi.setToolTipText("Visit Energy2D's home page");
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Helper.openBrowser("http://energy.concord.org/energy2d");
+				Helper.openBrowser("http://energy2d.concord.org");
 			}
 		});
 		menu.add(mi);

@@ -17,6 +17,7 @@ import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -83,7 +84,7 @@ import com.apple.eawt.ApplicationEvent;
  */
 public class System2D extends JApplet implements ManipulationListener {
 
-	final static String BRAND_NAME = "Energy2D V2.9";
+	final static String BRAND_NAME = "Energy2D V2.9.1";
 
 	Model2D model;
 	View2D view;
@@ -108,10 +109,11 @@ public class System2D extends JApplet implements ManipulationListener {
 	JToggleButton snapToggleButton;
 	private ToolBarListener toolBarListener;
 	private List<PropertyChangeListener> propertyChangeListeners;
-	private JFrame owner;
+	JFrame owner;
 	private static Preferences preferences;
 	static boolean launchedByJWS;
 	private static boolean appDirectoryWritable = true;
+	private static System2D box;
 
 	public System2D() {
 
@@ -980,11 +982,60 @@ public class System2D extends JApplet implements ManipulationListener {
 		} else {
 			if (appDirectoryWritable) {
 				owner.setVisible(false);
-				// UpdateStub.update();
 				Updater.install();
+				if (Updater.isRestartRequested()) {
+					restartApplication();
+				}
 			}
 			System.exit(0);
 		}
+	}
+
+	private static void restartApplication() {
+		try {
+			String osName = System.getProperty("os.name");
+			String userDir = System.getProperty("user.dir");
+			if (osName.startsWith("Windows")) {
+				String exeFile = userDir + File.separator + ".." + File.separator + "Energy2D.exe";
+				if (new File(exeFile).exists()) {
+					Runtime.getRuntime().exec(exeFile);
+					return;
+				}
+			} else if (osName.startsWith("Mac")) {
+				int indexOfApp = userDir.indexOf(".app");
+				if (indexOfApp != -1) {
+					String appFile = userDir.substring(0, indexOfApp + 4);
+					if (new File(appFile).exists()) {
+						File scriptFile = File.createTempFile("gc3_tmp_", ".sh");
+						FileWriter writer = new FileWriter(scriptFile);
+						writer.write("sleep 1\n");
+						writer.write("open " + appFile + "\n");
+						writer.flush();
+						writer.close();
+						Runtime.getRuntime().exec("sh " + scriptFile.getAbsolutePath());
+						return;
+					}
+				}
+			}
+
+			String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+			File currentJar = new File(System2D.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+
+			if (!currentJar.getName().endsWith(".jar"))
+				return;
+
+			/* Build command: java -jar application.jar */
+			final ArrayList<String> command = new ArrayList<String>();
+			command.add(javaBin);
+			command.add("-jar");
+			command.add(currentJar.getPath());
+			ProcessBuilder builder = new ProcessBuilder(command);
+			builder.start();
+
+		} catch (final Throwable t) {
+			t.printStackTrace();
+		}
+
 	}
 
 	public static void main(final String[] args) {
@@ -992,7 +1043,7 @@ public class System2D extends JApplet implements ManipulationListener {
 			@Override
 			public void run() {
 				start(args);
-				Updater.download();
+				Updater.download(box);
 			}
 		});
 	}
@@ -1029,7 +1080,7 @@ public class System2D extends JApplet implements ManipulationListener {
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		int w = (int) (screen.height * 0.7);
 
-		final System2D box = new System2D();
+		box = new System2D();
 		box.view.setPreferredSize(new Dimension(w, w));
 		box.view.setGridOn(true);
 		box.view.setBorderTickmarksOn(true);

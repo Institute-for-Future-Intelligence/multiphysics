@@ -1,0 +1,20 @@
+2017/01/07 20:51:44:436 INFO com.threerings.getdown: ------------------ VM Info ------------------
+2017/01/07 20:51:44:437 INFO com.threerings.getdown: -- OS Name: Windows 10
+2017/01/07 20:51:44:437 INFO com.threerings.getdown: -- OS Arch: x86
+2017/01/07 20:51:44:437 INFO com.threerings.getdown: -- OS Vers: 10.0
+2017/01/07 20:51:44:437 INFO com.threerings.getdown: -- Java Vers: 1.8.0_101
+2017/01/07 20:51:44:437 INFO com.threerings.getdown: -- Java Home: C:\Program Files (x86)\Java\jre1.8.0_101
+2017/01/07 20:51:44:437 INFO com.threerings.getdown: -- User Name: Charles Xie
+2017/01/07 20:51:44:437 INFO com.threerings.getdown: -- User Home: C:\Users\Charles Xie
+2017/01/07 20:51:44:437 INFO com.threerings.getdown: -- Cur dir: C:\Users\Charles Xie\git\energy2d\energy2d
+2017/01/07 20:51:44:438 INFO com.threerings.getdown: ---------------------------------------------
+2017/01/07 20:51:44:452 INFO com.threerings.getdown: Failed to find proxy settings in Windows registry [error=java.lang.NoClassDefFoundError: ca/beq/util/win32/registry/RegistryKey]
+2017/01/07 20:51:44:452 INFO com.threerings.getdown: Checking whether we need to use a proxy...
+2017/01/07 20:51:44:452 INFO com.threerings.getdown: Found no getdown.txt file [appdir=.]
+2017/01/07 20:51:44:452 INFO com.threerings.getdown: Attempting to obtain 'appbase' from system property [appbase=null]
+2017/01/07 20:51:44:453 WARNING com.threerings.getdown: run() failed.
+java.lang.RuntimeException: m.missing_appbase
+	at com.threerings.getdown.data.Application.init(Application.java:537)
+	at com.threerings.getdown.launcher.Getdown.detectProxy(Getdown.java:299)
+	at com.threerings.getdown.launcher.Getdown.run(Getdown.java:170)
+2017/01/07 20:51:44:455 INFO com.threerings.getdown: Dropping status 'm.missing_appbase'.
