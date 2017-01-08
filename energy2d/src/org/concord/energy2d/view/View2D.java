@@ -2059,8 +2059,8 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					}
 				}
 			}
-			if (actionMode == SELECT_MODE && selectedSpot != -1 && mouseBeingDragged) {
-				if (movingShape != null) {
+			if (actionMode == SELECT_MODE && mouseBeingDragged && movingShape != null) {
+				if (selectedSpot != -1) {
 					if (movingShape instanceof MovingRoundRectangle) {
 						RoundRectangle2D.Float r = (RoundRectangle2D.Float) movingShape.getShape();
 						drawMouseDragString(g, COORDINATES_FORMAT.format(convertPixelToLengthX((int) r.getWidth())) + "\u00D7" + COORDINATES_FORMAT.format(convertPixelToLengthY((int) r.getHeight())));
@@ -2086,6 +2086,22 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						Point2D.Float p = b.getPoint(selectedSpot);
 						String x = COORDINATES_FORMAT.format(convertPixelToPointX((int) p.x));
 						String y = COORDINATES_FORMAT.format(convertPixelToPointY(getHeight() - (int) p.getY()));
+						drawMouseDragString(g, "(" + x + ", " + y + ")");
+					}
+				} else {
+					if (movingShape instanceof MovingRoundRectangle) {
+						RoundRectangle2D.Float r = (RoundRectangle2D.Float) movingShape.getShape();
+						String x = COORDINATES_FORMAT.format(convertPixelToPointX((int) (r.getX() + 0.5 * r.getWidth())));
+						float sensorSpotY = 0;
+						if (selectedManipulable instanceof Thermometer) {
+							sensorSpotY = ((Thermometer) selectedManipulable).getSensingSpotY();
+						}
+						String y = COORDINATES_FORMAT.format(convertPixelToPointY(getHeight() - (int) (r.getY() + 0.5 * r.getHeight())) - sensorSpotY);
+						drawMouseDragString(g, "(" + x + ", " + y + ")");
+					} else if (movingShape instanceof MovingEllipse) {
+						Ellipse2D.Float e = (Ellipse2D.Float) movingShape.getShape();
+						String x = COORDINATES_FORMAT.format(convertPixelToPointX((int) (e.getX() + 0.5 * e.getWidth())));
+						String y = COORDINATES_FORMAT.format(convertPixelToPointY(getHeight() - (int) (e.getY() + 0.5 * e.getHeight())));
 						drawMouseDragString(g, "(" + x + ", " + y + ")");
 					}
 				}
