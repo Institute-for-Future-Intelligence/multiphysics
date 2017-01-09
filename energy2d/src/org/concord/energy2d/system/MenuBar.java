@@ -1044,11 +1044,11 @@ class MenuBar extends JMenuBar {
 		menu.add(subMenu);
 
 		examples.put("Spit Fire", "examples/viscosity-turbulence.e2d");
-		examples.put("Bénard Cell", "examples/benard-cell.e2d");
+		examples.put("B\u00E9nard Cell", "examples/benard-cell.e2d");
 		examples.put("Lid-Driven Cavity", "examples/lid-driven-cavity.e2d");
 		examples.put("Smoke in Wind", "examples/smoke-in-wind.e2d");
 		examples.put("Laminar/Turbulent Flow", "examples/reynolds.e2d");
-		examples.put("Von Kármán Vortex Street", "examples/vortex-street.e2d");
+		examples.put("Von K\u00E1rm\u00E1n Vortex Street", "examples/vortex-street.e2d");
 		examples.put("Double Vortex Streets", "examples/double-vortex-streets.e2d");
 		examples.put("Eddy", "examples/eddy1.e2d");
 		examples.put("Nozzle", "examples/nozzle.e2d");
