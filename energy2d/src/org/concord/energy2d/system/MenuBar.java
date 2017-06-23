@@ -1171,6 +1171,15 @@ class MenuBar extends JMenuBar {
 		});
 		menu.add(mi);
 
+		mi = new JMenuItem("Forum...");
+		mi.setToolTipText("Energy2D Forum");
+		mi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Helper.openBrowser("https://energy.concord.org/energy2d/forum/");
+			}
+		});
+		menu.add(mi);
+
 		mi = new JMenuItem("Online Manual...");
 		mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, true));
 		mi.setToolTipText("Open the Online Manual");
