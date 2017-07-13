@@ -117,6 +117,8 @@ public abstract class TaskManager {
 		try { // it probably won't hurt much not to synchronize this iterator
 			for (Task task : taskPool) {
 				if (task.isEnabled() && task.getInterval() > 0) {
+					if (getIndexOfStep() > task.getLifetime())
+						task.setCompleted(true);
 					if (task.isCompleted()) {
 						remove(task);
 					}
