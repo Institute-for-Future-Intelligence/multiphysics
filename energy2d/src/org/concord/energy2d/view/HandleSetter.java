@@ -1,21 +1,5 @@
 package org.concord.energy2d.view;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RectangularShape;
-
-import org.concord.energy2d.math.Blob2D;
-import org.concord.energy2d.math.EllipticalAnnulus;
-import org.concord.energy2d.math.Polygon2D;
-import org.concord.energy2d.math.Annulus;
-import org.concord.energy2d.model.Cloud;
-import org.concord.energy2d.model.Manipulable;
-import org.concord.energy2d.model.Sensor;
-import org.concord.energy2d.model.Tree;
-
 import static org.concord.energy2d.view.View2D.BOTTOM;
 import static org.concord.energy2d.view.View2D.LEFT;
 import static org.concord.energy2d.view.View2D.LOWER_LEFT;
@@ -25,18 +9,33 @@ import static org.concord.energy2d.view.View2D.TOP;
 import static org.concord.energy2d.view.View2D.UPPER_LEFT;
 import static org.concord.energy2d.view.View2D.UPPER_RIGHT;
 
+import java.awt.Shape;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RectangularShape;
+
+import org.concord.energy2d.math.Annulus;
+import org.concord.energy2d.math.Blob2D;
+import org.concord.energy2d.math.EllipticalAnnulus;
+import org.concord.energy2d.math.Polygon2D;
+import org.concord.energy2d.model.Cloud;
+import org.concord.energy2d.model.Manipulable;
+import org.concord.energy2d.model.Sensor;
+import org.concord.energy2d.model.Tree;
+
 /**
  * @author Charles Xie
  * 
  */
 class HandleSetter {
 
-	static void setRects(View2D view, Manipulable m, Rectangle[] handle) {
+	static void setRects(View2D view, Manipulable m, Rectangle2D.Float[] handle) {
 
 		if (m instanceof Sensor)
 			return;
 
-		int h = handle[0].width / 2;
+		float h = handle[0].width / 2;
 		Shape s = m.getShape();
 
 		if (s instanceof RectangularShape) {
@@ -49,8 +48,8 @@ class HandleSetter {
 				for (int i = 0; i < handle.length; i++) {
 					if (i < n) {
 						point = p.getVertex(i);
-						handle[i].x = view.convertPointToPixelX(point.x) - h;
-						handle[i].y = view.convertPointToPixelY(point.y) - h;
+						handle[i].x = view.convertPointToPixelXf(point.x) - h;
+						handle[i].y = view.convertPointToPixelYf(point.y) - h;
 					} else {
 						handle[i].x = handle[i].y = -100;
 					}
@@ -59,8 +58,8 @@ class HandleSetter {
 				float k = (float) n / (float) handle.length;
 				for (int i = 0; i < handle.length; i++) {
 					point = p.getVertex((int) (i * k));
-					handle[i].x = view.convertPointToPixelX(point.x) - h;
-					handle[i].y = view.convertPointToPixelY(point.y) - h;
+					handle[i].x = view.convertPointToPixelXf(point.x) - h;
+					handle[i].y = view.convertPointToPixelYf(point.y) - h;
 				}
 			}
 		} else if (s instanceof Blob2D) {
@@ -71,8 +70,8 @@ class HandleSetter {
 				for (int i = 0; i < handle.length; i++) {
 					if (i < n) {
 						point = b.getPoint(i);
-						handle[i].x = view.convertPointToPixelX(point.x) - h;
-						handle[i].y = view.convertPointToPixelY(point.y) - h;
+						handle[i].x = view.convertPointToPixelXf(point.x) - h;
+						handle[i].y = view.convertPointToPixelYf(point.y) - h;
 					} else {
 						handle[i].x = handle[i].y = -100;
 					}
@@ -81,8 +80,8 @@ class HandleSetter {
 				float k = (float) n / (float) handle.length;
 				for (int i = 0; i < handle.length; i++) {
 					point = b.getPoint((int) (i * k));
-					handle[i].x = view.convertPointToPixelX(point.x) - h;
-					handle[i].y = view.convertPointToPixelY(point.y) - h;
+					handle[i].x = view.convertPointToPixelXf(point.x) - h;
+					handle[i].y = view.convertPointToPixelYf(point.y) - h;
 				}
 			}
 		} else if (s instanceof Annulus) {
@@ -92,40 +91,40 @@ class HandleSetter {
 			EllipticalAnnulus e = (EllipticalAnnulus) s;
 
 			Rectangle2D.Float outerBound = new Rectangle2D.Float(e.getX() - e.getOuterA(), e.getY() - e.getOuterB(), 2 * e.getOuterA(), 2 * e.getOuterB());
-			handle[UPPER_LEFT].x = view.convertPointToPixelX((float) outerBound.getMinX()) - h;
-			handle[UPPER_LEFT].y = view.convertPointToPixelY((float) outerBound.getMinY()) - h;
-			handle[LOWER_LEFT].x = view.convertPointToPixelX((float) outerBound.getMinX()) - h;
-			handle[LOWER_LEFT].y = view.convertPointToPixelY((float) outerBound.getMaxY()) - h;
-			handle[UPPER_RIGHT].x = view.convertPointToPixelX((float) outerBound.getMaxX()) - h;
-			handle[UPPER_RIGHT].y = view.convertPointToPixelY((float) outerBound.getMinY()) - h;
-			handle[LOWER_RIGHT].x = view.convertPointToPixelX((float) outerBound.getMaxX()) - h;
-			handle[LOWER_RIGHT].y = view.convertPointToPixelY((float) outerBound.getMaxY()) - h;
-			handle[TOP].x = view.convertPointToPixelX((float) outerBound.getCenterX()) - h;
-			handle[TOP].y = view.convertPointToPixelY((float) outerBound.getMinY()) - h;
-			handle[BOTTOM].x = view.convertPointToPixelX((float) outerBound.getCenterX()) - h;
-			handle[BOTTOM].y = view.convertPointToPixelY((float) outerBound.getMaxY()) - h;
-			handle[LEFT].x = view.convertPointToPixelX((float) outerBound.getMinX()) - h;
-			handle[LEFT].y = view.convertPointToPixelY((float) outerBound.getCenterY()) - h;
-			handle[RIGHT].x = view.convertPointToPixelX((float) outerBound.getMaxX()) - h;
-			handle[RIGHT].y = view.convertPointToPixelY((float) outerBound.getCenterY()) - h;
+			handle[UPPER_LEFT].x = view.convertPointToPixelXf((float) outerBound.getMinX()) - h;
+			handle[UPPER_LEFT].y = view.convertPointToPixelYf((float) outerBound.getMinY()) - h;
+			handle[LOWER_LEFT].x = view.convertPointToPixelXf((float) outerBound.getMinX()) - h;
+			handle[LOWER_LEFT].y = view.convertPointToPixelYf((float) outerBound.getMaxY()) - h;
+			handle[UPPER_RIGHT].x = view.convertPointToPixelXf((float) outerBound.getMaxX()) - h;
+			handle[UPPER_RIGHT].y = view.convertPointToPixelYf((float) outerBound.getMinY()) - h;
+			handle[LOWER_RIGHT].x = view.convertPointToPixelXf((float) outerBound.getMaxX()) - h;
+			handle[LOWER_RIGHT].y = view.convertPointToPixelYf((float) outerBound.getMaxY()) - h;
+			handle[TOP].x = view.convertPointToPixelXf((float) outerBound.getCenterX()) - h;
+			handle[TOP].y = view.convertPointToPixelYf((float) outerBound.getMinY()) - h;
+			handle[BOTTOM].x = view.convertPointToPixelXf((float) outerBound.getCenterX()) - h;
+			handle[BOTTOM].y = view.convertPointToPixelYf((float) outerBound.getMaxY()) - h;
+			handle[LEFT].x = view.convertPointToPixelXf((float) outerBound.getMinX()) - h;
+			handle[LEFT].y = view.convertPointToPixelYf((float) outerBound.getCenterY()) - h;
+			handle[RIGHT].x = view.convertPointToPixelXf((float) outerBound.getMaxX()) - h;
+			handle[RIGHT].y = view.convertPointToPixelYf((float) outerBound.getCenterY()) - h;
 
 			Rectangle2D.Float innerBound = new Rectangle2D.Float(e.getX() - e.getInnerA(), e.getY() - e.getInnerB(), 2 * e.getInnerA(), 2 * e.getInnerB());
-			handle[UPPER_LEFT + 8].x = view.convertPointToPixelX((float) innerBound.getMinX()) - h;
-			handle[UPPER_LEFT + 8].y = view.convertPointToPixelY((float) innerBound.getMinY()) - h;
-			handle[LOWER_LEFT + 8].x = view.convertPointToPixelX((float) innerBound.getMinX()) - h;
-			handle[LOWER_LEFT + 8].y = view.convertPointToPixelY((float) innerBound.getMaxY()) - h;
-			handle[UPPER_RIGHT + 8].x = view.convertPointToPixelX((float) innerBound.getMaxX()) - h;
-			handle[UPPER_RIGHT + 8].y = view.convertPointToPixelY((float) innerBound.getMinY()) - h;
-			handle[LOWER_RIGHT + 8].x = view.convertPointToPixelX((float) innerBound.getMaxX()) - h;
-			handle[LOWER_RIGHT + 8].y = view.convertPointToPixelY((float) innerBound.getMaxY()) - h;
-			handle[TOP + 8].x = view.convertPointToPixelX((float) innerBound.getCenterX()) - h;
-			handle[TOP + 8].y = view.convertPointToPixelY((float) innerBound.getMinY()) - h;
-			handle[BOTTOM + 8].x = view.convertPointToPixelX((float) innerBound.getCenterX()) - h;
-			handle[BOTTOM + 8].y = view.convertPointToPixelY((float) innerBound.getMaxY()) - h;
-			handle[LEFT + 8].x = view.convertPointToPixelX((float) innerBound.getMinX()) - h;
-			handle[LEFT + 8].y = view.convertPointToPixelY((float) innerBound.getCenterY()) - h;
-			handle[RIGHT + 8].x = view.convertPointToPixelX((float) innerBound.getMaxX()) - h;
-			handle[RIGHT + 8].y = view.convertPointToPixelY((float) innerBound.getCenterY()) - h;
+			handle[UPPER_LEFT + 8].x = view.convertPointToPixelXf((float) innerBound.getMinX()) - h;
+			handle[UPPER_LEFT + 8].y = view.convertPointToPixelYf((float) innerBound.getMinY()) - h;
+			handle[LOWER_LEFT + 8].x = view.convertPointToPixelXf((float) innerBound.getMinX()) - h;
+			handle[LOWER_LEFT + 8].y = view.convertPointToPixelYf((float) innerBound.getMaxY()) - h;
+			handle[UPPER_RIGHT + 8].x = view.convertPointToPixelXf((float) innerBound.getMaxX()) - h;
+			handle[UPPER_RIGHT + 8].y = view.convertPointToPixelYf((float) innerBound.getMinY()) - h;
+			handle[LOWER_RIGHT + 8].x = view.convertPointToPixelXf((float) innerBound.getMaxX()) - h;
+			handle[LOWER_RIGHT + 8].y = view.convertPointToPixelYf((float) innerBound.getMaxY()) - h;
+			handle[TOP + 8].x = view.convertPointToPixelXf((float) innerBound.getCenterX()) - h;
+			handle[TOP + 8].y = view.convertPointToPixelYf((float) innerBound.getMinY()) - h;
+			handle[BOTTOM + 8].x = view.convertPointToPixelXf((float) innerBound.getCenterX()) - h;
+			handle[BOTTOM + 8].y = view.convertPointToPixelYf((float) innerBound.getMaxY()) - h;
+			handle[LEFT + 8].x = view.convertPointToPixelXf((float) innerBound.getMinX()) - h;
+			handle[LEFT + 8].y = view.convertPointToPixelYf((float) innerBound.getCenterY()) - h;
+			handle[RIGHT + 8].x = view.convertPointToPixelXf((float) innerBound.getMaxX()) - h;
+			handle[RIGHT + 8].y = view.convertPointToPixelYf((float) innerBound.getCenterY()) - h;
 
 			for (int i = RIGHT + 9; i < handle.length; i++) {
 				handle[i].x = handle[i].y = -100;
@@ -153,23 +152,23 @@ class HandleSetter {
 
 	}
 
-	private static void setRectHandles(View2D view, Rectangle2D bound, Rectangle[] handle, int h) {
-		handle[UPPER_LEFT].x = view.convertPointToPixelX((float) bound.getMinX()) - h;
-		handle[UPPER_LEFT].y = view.convertPointToPixelY((float) bound.getMinY()) - h;
-		handle[LOWER_LEFT].x = view.convertPointToPixelX((float) bound.getMinX()) - h;
-		handle[LOWER_LEFT].y = view.convertPointToPixelY((float) bound.getMaxY()) - h;
-		handle[UPPER_RIGHT].x = view.convertPointToPixelX((float) bound.getMaxX()) - h;
-		handle[UPPER_RIGHT].y = view.convertPointToPixelY((float) bound.getMinY()) - h;
-		handle[LOWER_RIGHT].x = view.convertPointToPixelX((float) bound.getMaxX()) - h;
-		handle[LOWER_RIGHT].y = view.convertPointToPixelY((float) bound.getMaxY()) - h;
-		handle[TOP].x = view.convertPointToPixelX((float) bound.getCenterX()) - h;
-		handle[TOP].y = view.convertPointToPixelY((float) bound.getMinY()) - h;
-		handle[BOTTOM].x = view.convertPointToPixelX((float) bound.getCenterX()) - h;
-		handle[BOTTOM].y = view.convertPointToPixelY((float) bound.getMaxY()) - h;
-		handle[LEFT].x = view.convertPointToPixelX((float) bound.getMinX()) - h;
-		handle[LEFT].y = view.convertPointToPixelY((float) bound.getCenterY()) - h;
-		handle[RIGHT].x = view.convertPointToPixelX((float) bound.getMaxX()) - h;
-		handle[RIGHT].y = view.convertPointToPixelY((float) bound.getCenterY()) - h;
+	private static void setRectHandles(View2D view, Rectangle2D bound, Rectangle2D.Float[] handle, float h) {
+		handle[UPPER_LEFT].x = view.convertPointToPixelXf((float) bound.getMinX()) - h;
+		handle[UPPER_LEFT].y = view.convertPointToPixelYf((float) bound.getMinY()) - h;
+		handle[LOWER_LEFT].x = view.convertPointToPixelXf((float) bound.getMinX()) - h;
+		handle[LOWER_LEFT].y = view.convertPointToPixelYf((float) bound.getMaxY()) - h;
+		handle[UPPER_RIGHT].x = view.convertPointToPixelXf((float) bound.getMaxX()) - h;
+		handle[UPPER_RIGHT].y = view.convertPointToPixelYf((float) bound.getMinY()) - h;
+		handle[LOWER_RIGHT].x = view.convertPointToPixelXf((float) bound.getMaxX()) - h;
+		handle[LOWER_RIGHT].y = view.convertPointToPixelYf((float) bound.getMaxY()) - h;
+		handle[TOP].x = view.convertPointToPixelXf((float) bound.getCenterX()) - h;
+		handle[TOP].y = view.convertPointToPixelYf((float) bound.getMinY()) - h;
+		handle[BOTTOM].x = view.convertPointToPixelXf((float) bound.getCenterX()) - h;
+		handle[BOTTOM].y = view.convertPointToPixelYf((float) bound.getMaxY()) - h;
+		handle[LEFT].x = view.convertPointToPixelXf((float) bound.getMinX()) - h;
+		handle[LEFT].y = view.convertPointToPixelYf((float) bound.getCenterY()) - h;
+		handle[RIGHT].x = view.convertPointToPixelXf((float) bound.getMaxX()) - h;
+		handle[RIGHT].y = view.convertPointToPixelYf((float) bound.getCenterY()) - h;
 		for (int i = RIGHT + 1; i < handle.length; i++) {
 			handle[i].x = handle[i].y = -100;
 		}

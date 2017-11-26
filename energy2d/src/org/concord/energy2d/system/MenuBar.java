@@ -221,6 +221,7 @@ class MenuBar extends JMenuBar {
 			public void actionPerformed(ActionEvent e) {
 				if (!box.askSaveBeforeLoading())
 					return;
+				box.clickStop.run();
 				box.model.clear();
 				box.model.refreshMaterialPropertyArrays();
 				box.model.refreshPowerArray();

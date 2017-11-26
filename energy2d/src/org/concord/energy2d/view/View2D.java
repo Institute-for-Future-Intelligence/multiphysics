@@ -28,6 +28,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
@@ -212,7 +214,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private float time;
 	private JPopupMenu modelPopupMenu, partPopupMenu;
 	private JMenuItem partViewOptionsMenuItem;
-	private Rectangle[] handle = new Rectangle[256];
+	private Rectangle2D.Float[] handle = new Rectangle2D.Float[256];
 	private boolean mouseBeingDragged;
 	private MovingShape movingShape;
 	private Point pressedPointRelative = new Point();
@@ -223,7 +225,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private ContourMap isotherms;
 	private FieldLines streamlines;
 	private FieldLines heatFluxLines;
-	private Polygon multigon;
+	private Path2D.Float multigon;
 	private float photonLength = 5;
 	private byte actionMode = SELECT_MODE;
 	private Rectangle rectangle = new Rectangle();
@@ -271,7 +273,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public View2D() {
 		super();
 		for (int i = 0; i < handle.length; i++)
-			handle[i] = new Rectangle(0, 0, 6, 6);
+			handle[i] = new Rectangle2D.Float(0, 0, 6, 6);
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -716,7 +718,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	}
 
 	public void hideHandles() {
-		for (Rectangle h : handle)
+		for (Rectangle2D.Float h : handle)
 			h.x = h.y = 0;
 	}
 
@@ -1826,7 +1828,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			} else if (selectedManipulable instanceof TextBox) { // textboxes are not resizable
 			} else {
 				g.setStroke(thinStroke);
-				for (Rectangle r : handle) {
+				for (Rectangle2D.Float r : handle) {
 					if (r.x != 0 || r.y != 0) {
 						g.setColor(Color.yellow);
 						g.fill(r);
@@ -2200,12 +2202,13 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			for (Particle p : model.getParticles()) {
 				e.width = convertLengthToPixelX(p.getRadius() * 2.0f);
 				e.height = convertLengthToPixelY(p.getRadius() * 2.0f);
-				if (e.height > e.width)
+				if (e.height > e.width) {
 					e.height = e.width;
-				else
+				} else {
 					e.width = e.height;
-				e.x = convertPointToPixelX(p.getRx()) - e.width * 0.5f;
-				e.y = convertPointToPixelY(p.getRy()) - e.height * 0.5f;
+				}
+				e.x = convertPointToPixelXf(p.getRx()) - e.width * 0.5f;
+				e.y = convertPointToPixelYf(p.getRy()) - e.height * 0.5f;
 				FillPattern fillPattern = p.getFillPattern();
 				if (fillPattern instanceof ColorFill) {
 					g.setColor(((ColorFill) fillPattern).getColor());
@@ -2242,14 +2245,14 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		g.setStroke(thinStroke);
 		synchronized (segments) {
 			for (Segment seg : segments) {
-				int x1 = convertPointToPixelX(seg.x1);
-				int y1 = convertPointToPixelY(seg.y1);
-				int x2 = convertPointToPixelX(seg.x2);
-				int y2 = convertPointToPixelY(seg.y2);
+				float x1 = convertPointToPixelXf(seg.x1);
+				float y1 = convertPointToPixelYf(seg.y1);
+				float x2 = convertPointToPixelXf(seg.x2);
+				float y2 = convertPointToPixelYf(seg.y2);
 				g.setColor(Color.WHITE);
-				g.drawLine(x1, y1, x2, y2);
+				g.draw(new Line2D.Float(x1, y1, x2, y2));
 				g.setColor(Color.BLACK);
-				g.fillOval(x1 - 2, y1 - 2, 4, 4);
+				g.fill(new Ellipse2D.Float(x1 - 2, y1 - 2, 4, 4));
 			}
 		}
 		g.setColor(Color.WHITE);
@@ -2270,23 +2273,23 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				}
 			}
 		}
-		int x1, y1, x2, y2;
+		float x1, y1, x2, y2;
 		Point2D.Float p1, p2;
 		for (int i = 0; i < n - 1; i++) {
 			s1 = segments.get(i);
 			p1 = s1.getCenter();
-			x1 = convertPointToPixelX(p1.x);
-			y1 = convertPointToPixelY(p1.y);
+			x1 = convertPointToPixelXf(p1.x);
+			y1 = convertPointToPixelYf(p1.y);
 			for (int j = i + 1; j < n; j++) {
 				s2 = segments.get(j);
 				if (model.isVisible(s1, s2)) {
 					p2 = s2.getCenter();
-					x2 = convertPointToPixelX(p2.x);
-					y2 = convertPointToPixelY(p2.y);
+					x2 = convertPointToPixelXf(p2.x);
+					y2 = convertPointToPixelYf(p2.y);
 					float vf = s2.getViewFactor(s1);
 					if (Math.abs(vf) > 0.0001f) {
 						g.setColor(new Color(255, 255, 255, (int) (55 + 200 * (vf - viewFactorMin) / (viewFactorMax - viewFactorMin))));
-						g.drawLine(x1, y1, x2, y2);
+						g.draw(new Line2D.Float(x1, y1, x2, y2));
 					}
 				}
 			}
@@ -2548,24 +2551,24 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					Shape s = p.getShape();
 					if (s instanceof Ellipse2D.Float) {
 						Ellipse2D.Float e = (Ellipse2D.Float) s;
-						int x = convertPointToPixelX(e.x);
-						int y = convertPointToPixelY(e.y);
-						int w = convertLengthToPixelX(e.width);
-						int h = convertLengthToPixelY(e.height);
+						float x = convertPointToPixelXf(e.x);
+						float y = convertPointToPixelYf(e.y);
+						float w = convertLengthToPixelXf(e.width);
+						float h = convertLengthToPixelYf(e.height);
 						FillPattern fillPattern = p.getFillPattern();
 						if (fillPattern instanceof ColorFill) {
 							if (p.isFilled()) {
 								g.setColor(getPartColor(p, ((ColorFill) fillPattern).getColor()));
-								g.fillOval(x, y, w, h);
+								g.fill(new Ellipse2D.Float(x, y, w, h));
 							} else {
-								drawStatus(g, p, x + w / 2, y + h / 2);
+								drawStatus(g, p, (int) (x + w / 2), (int) (y + h / 2));
 							}
 						} else if (fillPattern instanceof Texture) {
 							setPaint(g, (Texture) fillPattern, p.isFilled());
-							g.fillOval(x, y, w, h);
+							g.fill(new Ellipse2D.Float(x, y, w, h));
 						}
 						g.setColor(Color.black);
-						g.drawOval(x - 1, y - 1, w + 2, h + 2);
+						g.draw(new Ellipse2D.Float(x - 1, y - 1, w + 2, h + 2));
 						String label = p.getLabel();
 						if (label != null) {
 							String partLabel = p.getLabel(label, model, fahrenheitUsed);
@@ -2575,22 +2578,22 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						}
 					} else if (s instanceof Rectangle2D.Float) {
 						Rectangle2D.Float r = (Rectangle2D.Float) s;
-						int x = convertPointToPixelX(r.x);
-						int y = convertPointToPixelY(r.y);
-						int w = convertLengthToPixelX(r.width);
-						int h = convertLengthToPixelY(r.height);
+						float x = convertPointToPixelXf(r.x);
+						float y = convertPointToPixelYf(r.y);
+						float w = convertLengthToPixelXf(r.width);
+						float h = convertLengthToPixelYf(r.height);
 						FillPattern fp = p.getFillPattern();
 						if (fp instanceof ColorFill) {
 							if (p.isFilled()) {
 								g.setColor(getPartColor(p, ((ColorFill) fp).getColor()));
-								g.fillRect(x, y, w, h);
+								g.fill(new Rectangle2D.Float(x, y, w, h));
 							} else {
-								drawStatus(g, p, x + w / 2, y + h / 2);
+								drawStatus(g, p, (int) (x + w / 2), (int) (y + h / 2));
 							}
 						} else if (fp instanceof Texture) {
 							Texture tex = (Texture) fp;
 							if (tex.getStyle() == TextureFactory.INSULATION) { // special case: draw standard insulation representation
-								Rectangle r2 = new Rectangle(x, y, w, h);
+								Rectangle2D.Float r2 = new Rectangle2D.Float(x, y, w, h);
 								if (p.isFilled()) {
 									g.setColor(getPartColor(p, new Color(tex.getBackground())));
 									g.fill(r2);
@@ -2598,11 +2601,11 @@ public class View2D extends JPanel implements PropertyChangeListener {
 								TextureFactory.renderSpecialCases(r2, tex, g);
 							} else {
 								setPaint(g, (Texture) fp, p.isFilled());
-								g.fillRect(x, y, w, h);
+								g.fill(new Rectangle2D.Float(x, y, w, h));
 							}
 						}
 						g.setColor(Color.BLACK);
-						g.drawRect(x - 1, y - 1, w + 2, h + 2);
+						g.draw(new Rectangle2D.Float(x - 1, y - 1, w + 2, h + 2));
 						String label = p.getLabel();
 						if (label != null) {
 							String partLabel = p.getLabel(label, model, fahrenheitUsed);
@@ -2636,28 +2639,34 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					} else if (s instanceof Polygon2D) {
 						Polygon2D q = (Polygon2D) s;
 						int n = q.getVertexCount();
-						if (multigon == null)
-							multigon = new Polygon();
-						else
+						if (multigon == null) {
+							multigon = new Path2D.Float();
+						} else {
 							multigon.reset();
-						int x, y;
+						}
+						float x, y;
 						Point2D.Float v;
-						int cx = 0, cy = 0;
+						float cx = 0, cy = 0;
 						for (int i = 0; i < n; i++) {
 							v = q.getVertex(i);
-							x = convertPointToPixelX(v.x);
-							y = convertPointToPixelY(v.y);
-							multigon.addPoint(x, y);
+							x = convertPointToPixelXf(v.x);
+							y = convertPointToPixelYf(v.y);
+							if (i == 0) {
+								multigon.moveTo(x, y);
+							} else {
+								multigon.lineTo(x, y);
+							}
 							cx += x;
 							cy += y;
 						}
+						multigon.closePath();
 						FillPattern fp = p.getFillPattern();
 						if (fp instanceof ColorFill) {
 							if (p.isFilled()) {
 								g.setColor(getPartColor(p, ((ColorFill) fp).getColor()));
 								g.fill(multigon);
 							} else {
-								drawStatus(g, p, cx / n, cy / n);
+								drawStatus(g, p, (int) (cx / n), (int) (cy / n));
 							}
 						} else if (fp instanceof Texture) {
 							setPaint(g, (Texture) fp, p.isFilled());
@@ -2675,29 +2684,25 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					} else if (s instanceof Blob2D) {
 						Blob2D b = (Blob2D) s;
 						int n = b.getPointCount();
-						if (multigon == null)
-							multigon = new Polygon();
-						else
-							multigon.reset();
-						int x, y;
+						float[] x = new float[n];
+						float[] y = new float[n];
 						Point2D.Float v;
-						int cx = 0, cy = 0;
+						float cx = 0, cy = 0;
 						for (int i = 0; i < n; i++) {
 							v = b.getPoint(i);
-							x = convertPointToPixelX(v.x);
-							y = convertPointToPixelY(v.y);
-							multigon.addPoint(x, y);
-							cx += x;
-							cy += y;
+							x[i] = convertPointToPixelXf(v.x);
+							y[i] = convertPointToPixelYf(v.y);
+							cx += x[i];
+							cy += y[i];
 						}
-						GeneralPath path = new Blob2D(multigon).getPath();
+						GeneralPath path = new Blob2D(x, y).getPath();
 						FillPattern fp = p.getFillPattern();
 						if (fp instanceof ColorFill) {
 							if (p.isFilled()) {
 								g.setColor(getPartColor(p, ((ColorFill) fp).getColor()));
 								g.fill(path);
 							} else {
-								drawStatus(g, p, cx / n, cy / n);
+								drawStatus(g, p, (int) (cx / n), (int) (cy / n));
 							}
 						} else if (fp instanceof Texture) {
 							setPaint(g, (Texture) fp, p.isFilled());
@@ -2728,10 +2733,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 					float rotation = fanRotationSpeedScaleFactor * p.getWindSpeed() * model.getTime();
 					// float rotation = (float) (Math.PI / 12.0);
 					Rectangle2D r = p.getShape().getBounds2D();
-					int x = convertPointToPixelX((float) r.getX());
-					int y = convertPointToPixelY((float) r.getY());
-					int w = convertLengthToPixelX((float) r.getWidth());
-					int h = convertLengthToPixelY((float) r.getHeight());
+					float x = convertPointToPixelXf((float) r.getX());
+					float y = convertPointToPixelYf((float) r.getY());
+					float w = convertLengthToPixelXf((float) r.getWidth());
+					float h = convertLengthToPixelYf((float) r.getHeight());
 					Area a = Fan.getShape(new Rectangle2D.Float(x, y, w, h), p.getWindSpeed(), p.getWindAngle(), (float) Math.abs(Math.sin(rotation)));
 					g.setColor(bgColor);
 					g.fill(a);
@@ -2754,31 +2759,31 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			for (Fan f : fans) {
 				if (f.isVisible()) {
 					Rectangle2D r = f.getShape().getBounds2D();
-					int x = convertPointToPixelX((float) r.getX());
-					int y = convertPointToPixelY((float) r.getY());
-					int w = convertLengthToPixelX((float) r.getWidth());
-					int h = convertLengthToPixelY((float) r.getHeight());
-					fanIcon.setIconWidth(w);
-					fanIcon.setIconHeight(h);
+					float x = convertPointToPixelXf((float) r.getX());
+					float y = convertPointToPixelYf((float) r.getY());
+					float w = convertLengthToPixelXf((float) r.getWidth());
+					float h = convertLengthToPixelYf((float) r.getHeight());
+					fanIcon.setIconWidth(Math.round(w));
+					fanIcon.setIconHeight(Math.round(h));
 					fanIcon.setAngle(f.getAngle());
 					fanIcon.setSpeed(f.getSpeed());
 					fanIcon.setRotation(fanRotationSpeedScaleFactor * f.getSpeed() * model.getTime());
 					fanIcon.setStroke(moderateStroke);
 					fanIcon.setBorderColor(f == selectedManipulable ? Color.YELLOW : Color.BLACK);
-					fanIcon.paintIcon(this, g, x, y);
+					fanIcon.paintIcon(this, g, Math.round(x), Math.round(y));
 					Shape s = f.getShape();
 					if (s instanceof Rectangle2D.Float) {
 						Rectangle2D.Float r2 = (Rectangle2D.Float) s;
-						x = convertPointToPixelX(r2.x);
-						y = convertPointToPixelY(r2.y);
-						w = convertLengthToPixelX(r2.width);
-						h = convertLengthToPixelY(r2.height);
+						x = convertPointToPixelXf(r2.x);
+						y = convertPointToPixelYf(r2.y);
+						w = convertLengthToPixelXf(r2.width);
+						h = convertLengthToPixelYf(r2.height);
 						String label = f.getLabel();
 						if (label != null)
 							drawLabelWithLineBreaks(g, label, x + 0.5f * w, y + 0.5f * h, w < h * 0.25f);
 						if (selectedManipulable == f) {
 							g.setStroke(longDashed);
-							g.drawRect(x, y, w, h);
+							g.draw(new Rectangle2D.Float(x, y, w, h));
 						}
 					}
 				}
@@ -2799,29 +2804,29 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			for (Heliostat hs : heliostats) {
 				if (hs.isVisible()) {
 					Rectangle2D r = hs.getShape().getBounds2D();
-					int x = convertPointToPixelX((float) r.getX());
-					int y = convertPointToPixelY((float) r.getY());
-					int w = convertLengthToPixelX((float) r.getWidth());
-					int h = convertLengthToPixelY((float) r.getHeight());
-					heliostatIcon.setIconWidth(w);
-					heliostatIcon.setIconHeight(h);
+					float x = convertPointToPixelXf((float) r.getX());
+					float y = convertPointToPixelYf((float) r.getY());
+					float w = convertLengthToPixelXf((float) r.getWidth());
+					float h = convertLengthToPixelYf((float) r.getHeight());
+					heliostatIcon.setIconWidth(Math.round(w));
+					heliostatIcon.setIconHeight(Math.round(h));
 					heliostatIcon.setAngle(hs.getAngle());
 					heliostatIcon.setStroke(moderateStroke);
 					heliostatIcon.setBorderColor(hs == selectedManipulable ? Color.YELLOW : Color.BLACK);
-					heliostatIcon.paintIcon(this, g, x, y);
+					heliostatIcon.paintIcon(this, g, Math.round(x), Math.round(y));
 					Shape s = hs.getShape();
 					if (s instanceof Rectangle2D.Float) {
 						Rectangle2D.Float r2 = (Rectangle2D.Float) s;
-						x = convertPointToPixelX(r2.x);
-						y = convertPointToPixelY(r2.y);
-						w = convertLengthToPixelX(r2.width);
-						h = convertLengthToPixelY(r2.height);
+						x = convertPointToPixelXf(r2.x);
+						y = convertPointToPixelYf(r2.y);
+						w = convertLengthToPixelXf(r2.width);
+						h = convertLengthToPixelYf(r2.height);
 						String label = hs.getLabel();
 						if (label != null)
 							drawLabelWithLineBreaks(g, label, x + 0.5f * w, y + 0.5f * h, w < h * 0.25f);
 						if (selectedManipulable == hs) {
 							g.setStroke(longDashed);
-							g.drawRect(x, y, w, h);
+							g.draw(new Rectangle2D.Float(x, y, w, h));
 						}
 					}
 				}
@@ -4938,21 +4943,23 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			Shape shape = p.getShape();
 			if (shape instanceof Rectangle2D.Float) {
 				Rectangle2D.Float r = (Rectangle2D.Float) shape;
-				int a = convertPointToPixelX(r.x);
-				int b = convertPointToPixelY(r.y);
-				int c = convertLengthToPixelX(r.width);
-				int d = convertLengthToPixelY(r.height);
-				if (anchor)
+				float a = convertPointToPixelXf(r.x);
+				float b = convertPointToPixelYf(r.y);
+				float c = convertLengthToPixelXf(r.width);
+				float d = convertLengthToPixelYf(r.height);
+				if (anchor) {
 					setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
+				}
 				movingShape = new MovingRoundRectangle(new RoundRectangle2D.Float(a, b, c, d, 0, 0));
 			} else if (shape instanceof Ellipse2D.Float) {
 				Ellipse2D.Float e = (Ellipse2D.Float) shape;
-				int a = convertPointToPixelX(e.x);
-				int b = convertPointToPixelY(e.y);
-				int c = convertLengthToPixelX(e.width);
-				int d = convertLengthToPixelY(e.height);
-				if (anchor)
+				float a = convertPointToPixelXf(e.x);
+				float b = convertPointToPixelYf(e.y);
+				float c = convertLengthToPixelXf(e.width);
+				float d = convertLengthToPixelYf(e.height);
+				if (anchor) {
 					setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
+				}
 				movingShape = new MovingEllipse(new Ellipse2D.Float(a, b, c, d));
 			} else if (shape instanceof Polygon2D) {
 				Polygon2D q = (Polygon2D) shape;
@@ -4980,74 +4987,79 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				movingShape = new MovingBlob(new Blob2D(x, y));
 			} else if (shape instanceof Annulus) {
 				Annulus r = (Annulus) shape;
-				int xc = convertPointToPixelX(r.getX());
-				int yc = convertPointToPixelY(r.getY());
-				int ai = convertPointToPixelX(r.getInnerDiameter());
-				int bi = convertPointToPixelY(r.getInnerDiameter());
-				int ao = convertPointToPixelX(r.getOuterDiameter());
-				int bo = convertPointToPixelY(r.getOuterDiameter());
+				float xc = convertPointToPixelXf(r.getX());
+				float yc = convertPointToPixelYf(r.getY());
+				float ai = convertPointToPixelXf(r.getInnerDiameter());
+				float bi = convertPointToPixelYf(r.getInnerDiameter());
+				float ao = convertPointToPixelXf(r.getOuterDiameter());
+				float bo = convertPointToPixelYf(r.getOuterDiameter());
 				movingShape = new MovingAnnulus(new Ellipse2D.Float(xc - ao / 2, yc - bo / 2, ao, bo), new Ellipse2D.Float(xc - ai / 2, yc - bi / 2, ai, bi));
 			} else if (shape instanceof EllipticalAnnulus) {
 				EllipticalAnnulus r = (EllipticalAnnulus) shape;
-				int xc = convertPointToPixelX(r.getX());
-				int yc = convertPointToPixelY(r.getY());
-				int ai = convertPointToPixelX(r.getInnerA());
-				int bi = convertPointToPixelY(r.getInnerB());
-				int ao = convertPointToPixelX(r.getOuterA());
-				int bo = convertPointToPixelY(r.getOuterB());
+				float xc = convertPointToPixelXf(r.getX());
+				float yc = convertPointToPixelYf(r.getY());
+				float ai = convertPointToPixelXf(r.getInnerA());
+				float bi = convertPointToPixelYf(r.getInnerB());
+				float ao = convertPointToPixelXf(r.getOuterA());
+				float bo = convertPointToPixelYf(r.getOuterB());
 				movingShape = new MovingAnnulus(new Ellipse2D.Float(xc - ao, yc - bo, 2 * ao, 2 * bo), new Ellipse2D.Float(xc - ai, yc - bi, 2 * ai, 2 * bi));
-				if (anchor)
+				if (anchor) {
 					setAnchorPointForAnnulus(selectedSpot, xc, yc, ai, bi, ao, bo);
+				}
 			}
 		} else if (selectedManipulable instanceof Particle) {
 			Ellipse2D.Float e = (Ellipse2D.Float) selectedManipulable.getShape();
-			int a = convertPointToPixelX(e.x);
-			int b = convertPointToPixelY(e.y);
-			int c = convertLengthToPixelX(e.width);
-			int d = convertLengthToPixelY(e.height);
-			if (anchor)
+			float a = convertPointToPixelXf(e.x);
+			float b = convertPointToPixelYf(e.y);
+			float c = convertLengthToPixelXf(e.width);
+			float d = convertLengthToPixelYf(e.height);
+			if (anchor) {
 				setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
+			}
 			movingShape = new MovingEllipse(new Ellipse2D.Float(a, b, c, d));
 		} else if (selectedManipulable instanceof Sensor || selectedManipulable instanceof TextBox || selectedManipulable instanceof Picture) {
 			Rectangle2D.Float r = (Rectangle2D.Float) selectedManipulable.getShape();
-			int a = convertPointToPixelX(r.x);
-			int b = convertPointToPixelY(r.y);
-			int c = convertLengthToPixelX(r.width);
-			int d = convertLengthToPixelY(r.height);
-			if (anchor)
+			float a = convertPointToPixelXf(r.x);
+			float b = convertPointToPixelYf(r.y);
+			float c = convertLengthToPixelXf(r.width);
+			float d = convertLengthToPixelYf(r.height);
+			if (anchor) {
 				setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
+			}
 			movingShape = new MovingRoundRectangle(new RoundRectangle2D.Float(a, b, c, d, 0, 0));
 		} else if (selectedManipulable instanceof Cloud) {
 			Cloud cloud = (Cloud) selectedManipulable;
 			Rectangle2D.Float r = new Rectangle2D.Float();
-			int x = convertPointToPixelX(cloud.getX());
-			int y = convertPointToPixelY(cloud.getY());
-			r.width = convertLengthToPixelX(cloud.getWidth());
-			r.height = convertLengthToPixelY(cloud.getHeight());
-			if (anchor)
+			float x = convertPointToPixelXf(cloud.getX());
+			float y = convertPointToPixelYf(cloud.getY());
+			r.width = convertLengthToPixelXf(cloud.getWidth());
+			r.height = convertLengthToPixelYf(cloud.getHeight());
+			if (anchor) {
 				setAnchorPointForRectangularShape(selectedSpot, x, y, r.width, r.height);
+			}
 			movingShape = new MovingCloud(r);
-			((MovingCloud) movingShape).setLocation(x, y);
+			((MovingCloud) movingShape).setLocation(Math.round(x), Math.round(y));
 		} else if (selectedManipulable instanceof Tree) {
 			Tree tree = (Tree) selectedManipulable;
 			Rectangle2D.Float r = new Rectangle2D.Float();
-			int x = convertPointToPixelX(tree.getX());
-			int y = convertPointToPixelY(tree.getY());
-			r.width = convertLengthToPixelX(tree.getWidth());
-			r.height = convertLengthToPixelY(tree.getHeight());
-			if (anchor)
+			float x = convertPointToPixelXf(tree.getX());
+			float y = convertPointToPixelYf(tree.getY());
+			r.width = convertLengthToPixelXf(tree.getWidth());
+			r.height = convertLengthToPixelYf(tree.getHeight());
+			if (anchor) {
 				setAnchorPointForRectangularShape(selectedSpot, x, y, r.width, r.height);
+			}
 			movingShape = new MovingTree(r, ((Tree) selectedManipulable).getType());
-			((MovingTree) movingShape).setLocation(x, y);
+			((MovingTree) movingShape).setLocation(Math.round(x), Math.round(y));
 		} else if (selectedManipulable instanceof Fan) {
 			Fan f = (Fan) selectedManipulable;
 			Shape shape = f.getShape();
 			if (shape instanceof Rectangle2D.Float) {
 				Rectangle2D.Float r = (Rectangle2D.Float) shape;
-				int a = convertPointToPixelX(r.x);
-				int b = convertPointToPixelY(r.y);
-				int c = convertLengthToPixelX(r.width);
-				int d = convertLengthToPixelY(r.height);
+				float a = convertPointToPixelXf(r.x);
+				float b = convertPointToPixelYf(r.y);
+				float c = convertLengthToPixelXf(r.width);
+				float d = convertLengthToPixelYf(r.height);
 				if (anchor)
 					setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
 				float rotation = f.getSpeed() * model.getTime();
@@ -5058,10 +5070,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			Shape shape = h.getShape();
 			if (shape instanceof Rectangle2D.Float) {
 				Rectangle2D.Float r = (Rectangle2D.Float) shape;
-				int a = convertPointToPixelX(r.x);
-				int b = convertPointToPixelY(r.y);
-				int c = convertLengthToPixelX(r.width);
-				int d = convertLengthToPixelY(r.height);
+				float a = convertPointToPixelXf(r.x);
+				float b = convertPointToPixelYf(r.y);
+				float c = convertLengthToPixelXf(r.width);
+				float d = convertLengthToPixelYf(r.height);
 				if (anchor)
 					setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
 				movingShape = new MovingHeliostat(new Rectangle2D.Float(a, b, c, d), h.getAngle());
@@ -5071,10 +5083,10 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			Shape shape = f.getShape();
 			if (shape instanceof Rectangle2D.Float) {
 				Rectangle2D.Float r = (Rectangle2D.Float) shape;
-				int a = convertPointToPixelX(r.x);
-				int b = convertPointToPixelY(r.y);
-				int c = convertLengthToPixelX(r.width);
-				int d = convertLengthToPixelY(r.height);
+				float a = convertPointToPixelXf(r.x);
+				float b = convertPointToPixelYf(r.y);
+				float c = convertLengthToPixelXf(r.width);
+				float d = convertLengthToPixelYf(r.height);
 				if (anchor)
 					setAnchorPointForRectangularShape(selectedSpot, a, b, c, d);
 				movingShape = new MovingParticleFeeder(new RoundRectangle2D.Float(a, b, c, d, 8, 8));
@@ -5135,31 +5147,47 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	}
 
 	public int convertPointToPixelX(float x) {
-		int w = getWidth();
-		if (w == 0)
-			w = getPreferredSize().width;
-		return Math.round((x - xmin) / (xmax - xmin) * w);
+		return Math.round(convertPointToPixelXf(x));
 	}
 
 	public int convertPointToPixelY(float y) {
-		int h = getHeight();
-		if (h == 0)
-			h = getPreferredSize().height;
-		return Math.round((y - ymin) / (ymax - ymin) * h);
+		return Math.round(convertPointToPixelYf(y));
 	}
 
 	public int convertLengthToPixelX(float l) {
-		int w = getWidth();
-		if (w == 0)
-			w = getPreferredSize().width;
-		return Math.round(l / (xmax - xmin) * w);
+		return Math.round(convertLengthToPixelXf(l));
 	}
 
 	public int convertLengthToPixelY(float l) {
+		return Math.round(convertLengthToPixelYf(l));
+	}
+
+	public float convertPointToPixelXf(float x) {
+		int w = getWidth();
+		if (w == 0)
+			w = getPreferredSize().width;
+		return (x - xmin) / (xmax - xmin) * w;
+	}
+
+	public float convertPointToPixelYf(float y) {
 		int h = getHeight();
 		if (h == 0)
 			h = getPreferredSize().height;
-		return Math.round(l / (ymax - ymin) * h);
+		return (y - ymin) / (ymax - ymin) * h;
+	}
+
+	public float convertLengthToPixelXf(float l) {
+		int w = getWidth();
+		if (w == 0)
+			w = getPreferredSize().width;
+		return l / (xmax - xmin) * w;
+	}
+
+	public float convertLengthToPixelYf(float l) {
+		int h = getHeight();
+		if (h == 0)
+			h = getPreferredSize().height;
+		return l / (ymax - ymin) * h;
 	}
 
 	private void showTipPopupMenu(String msg, int x, int y, int time) {

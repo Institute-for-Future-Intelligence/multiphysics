@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 
 import org.concord.energy2d.model.Thermostat;
 
@@ -32,22 +34,22 @@ class ThermostatRenderer {
 			g.setStroke(stroke1);
 			g.setColor(Color.black);
 
-			int x1 = v.convertPointToPixelX(t.getThermometer().getX());
-			int y1 = v.convertPointToPixelY(t.getThermometer().getY());
-			int x2 = v.convertPointToPixelX(t.getPowerSource().getCenter().x);
-			int y2 = v.convertPointToPixelY(t.getPowerSource().getCenter().y);
-			g.drawLine(x1, y1, x1, y2);
-			g.drawLine(x1, y2, x2, y2);
+			float x1 = v.convertPointToPixelXf(t.getThermometer().getX());
+			float y1 = v.convertPointToPixelYf(t.getThermometer().getY());
+			float x2 = v.convertPointToPixelXf(t.getPowerSource().getCenter().x);
+			float y2 = v.convertPointToPixelYf(t.getPowerSource().getCenter().y);
+			g.draw(new Line2D.Float(x1, y1, x1, y2));
+			g.draw(new Line2D.Float(x1, y2, x2, y2));
 
 			g.setStroke(stroke2);
-			g.drawOval(x1 - 3, y1 - 3, 6, 6);
-			g.drawOval(x2 - 3, y2 - 3, 6, 6);
+			g.draw(new Ellipse2D.Float(x1 - 3, y1 - 3, 6, 6));
+			g.draw(new Ellipse2D.Float(x2 - 3, y2 - 3, 6, 6));
 
 			g.setColor(Color.white);
-			g.drawLine(x1, y1, x1, y2);
-			g.drawLine(x1, y2, x2, y2);
-			g.fillOval(x1 - 2, y1 - 2, 4, 4);
-			g.fillOval(x2 - 2, y2 - 2, 4, 4);
+			g.draw(new Line2D.Float(x1, y1, x1, y2));
+			g.draw(new Line2D.Float(x1, y2, x2, y2));
+			g.fill(new Ellipse2D.Float(x1 - 2, y1 - 2, 4, 4));
+			g.fill(new Ellipse2D.Float(x2 - 2, y2 - 2, 4, 4));
 
 			g.setStroke(oldStroke);
 			g.setColor(oldColor);

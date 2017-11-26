@@ -30,12 +30,12 @@ import org.concord.energy2d.model.DirichletThermalBoundary;
 import org.concord.energy2d.model.Fan;
 import org.concord.energy2d.model.HeatFluxSensor;
 import org.concord.energy2d.model.MassBoundary;
+import org.concord.energy2d.model.NeumannThermalBoundary;
+import org.concord.energy2d.model.Part;
 import org.concord.energy2d.model.Particle;
 import org.concord.energy2d.model.ParticleFeeder;
 import org.concord.energy2d.model.SimpleMassBoundary;
 import org.concord.energy2d.model.ThermalBoundary;
-import org.concord.energy2d.model.NeumannThermalBoundary;
-import org.concord.energy2d.model.Part;
 import org.concord.energy2d.model.Thermometer;
 import org.concord.energy2d.util.ColorFill;
 import org.concord.energy2d.util.MiscUtil;
@@ -349,7 +349,7 @@ class Scripter2D extends Scripter {
 							}
 							if (url != null) {
 								try {
-									s2d.view.addPicture(ImageIO.read(url), format, filename, s2d.view.convertPointToPixelX(z[0]), s2d.view.convertPointToPixelY(z[1]));
+									s2d.view.addPicture(ImageIO.read(url), format, filename, s2d.view.convertPointToPixelXf(z[0]), s2d.view.convertPointToPixelYf(z[1]));
 								} catch (IOException e) {
 									showException(ci, e);
 									return;
@@ -781,10 +781,10 @@ class Scripter2D extends Scripter {
 						final float h1 = h;
 						final Runnable r = new Runnable() {
 							public void run() {
-								float x2 = s2d.view.convertPointToPixelX(x1) / s2d.view.getWidth();
-								float y2 = s2d.view.convertPointToPixelY(y1) / s2d.view.getHeight();
-								float w2 = s2d.view.convertLengthToPixelX(w1) / s2d.view.getWidth();
-								float h2 = s2d.view.convertLengthToPixelY(h1) / s2d.view.getHeight();
+								float x2 = s2d.view.convertPointToPixelXf(x1) / s2d.view.getWidth();
+								float y2 = s2d.view.convertPointToPixelYf(y1) / s2d.view.getHeight();
+								float w2 = s2d.view.convertLengthToPixelXf(w1) / s2d.view.getWidth();
+								float h2 = s2d.view.convertLengthToPixelYf(h1) / s2d.view.getHeight();
 								s2d.view.setColorPaletteRectangle(x2, y2, w2, h2);
 								s2d.view.repaint();
 							}
