@@ -1045,6 +1045,7 @@ class MenuBar extends JMenuBar {
 		menu.add(subMenu);
 
 		examples.put("Spit Fire", "examples/viscosity-turbulence.e2d");
+		examples.put("Chimney", "examples/chimney.e2d");
 		examples.put("B\u00E9nard Cell", "examples/benard-cell.e2d");
 		examples.put("Lid-Driven Cavity", "examples/lid-driven-cavity.e2d");
 		examples.put("Smoke in Wind", "examples/smoke-in-wind.e2d");
@@ -1096,6 +1097,7 @@ class MenuBar extends JMenuBar {
 		examples.put("Solar Updraft Tower", "examples/solar-updraft-tower.e2d");
 		examples.put("Solar Thermal Power Plant", "examples/solar-thermal-power-plant.e2d");
 		examples.put("Jet Impingement Cooling", "examples/jet-impingement.e2d");
+		examples.put("Heat Sink", "examples/thermal-path.e2d");
 		examples.put("Heat Fins", "examples/fin1.e2d");
 		examples.put("Coaxial Cable", "examples/cable.e2d");
 		examples.put("NTC/PTC Thermistors", "examples/thermistors.e2d");
