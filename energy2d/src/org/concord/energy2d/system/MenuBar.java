@@ -13,6 +13,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -33,6 +36,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
+import javax.swing.SwingWorker;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileFilter;
@@ -1155,6 +1159,61 @@ class MenuBar extends JMenuBar {
 			}
 		});
 		menu.add(mi);
+		menu.addSeparator();
+
+		mi = new JMenuItem("Check Update..."); // the automatic updater can fail sometimes. This provides an independent check.
+		menu.add(mi);
+		mi.setEnabled(!System2D.launchedByJWS);
+		mi.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				File jarFile = null;
+				try {
+					jarFile = new File(System2D.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+				} catch (URISyntaxException e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(frame, e1.getMessage(), "URL Error (local energy2d.jar)", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (!jarFile.toString().endsWith("energy2d.jar")) {
+					return;
+				}
+				final long localLastModified = jarFile.lastModified();
+				new SwingWorker<Void, Void>() {
+
+					URLConnection connection = null;
+					String msg = null;
+					long remoteLastModified;
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						try {
+							connection = new URL("http://energy.concord.org/energy2d/update/energy2d.jar").openConnection();
+							remoteLastModified = connection.getLastModified();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+							msg = e1.getMessage();
+						}
+						return null;
+					}
+
+					@Override
+					protected void done() {
+						if (connection == null) {
+							JOptionPane.showMessageDialog(frame, msg, "URL Error (remote energy2d.jar)", JOptionPane.ERROR_MESSAGE);
+						} else {
+							if (remoteLastModified <= localLastModified) {
+								JOptionPane.showMessageDialog(frame, "Your software is up to date.", "Update Status", JOptionPane.INFORMATION_MESSAGE);
+							} else {
+								JOptionPane.showMessageDialog(frame, "<html>Your software is out of date. But for some reason, it cannot update itself.<br>Please go to http://energy2d.concord.org to download and reinstall the latest version.</html>", "Update Status", JOptionPane.INFORMATION_MESSAGE);
+								Helper.openBrowser("http://energy2d.concord.org");
+							}
+						}
+					}
+
+				}.execute();
+			}
+		});
 
 		mi = new JMenuItem("Home Page...");
 		mi.setToolTipText("Visit Energy2D's home page");
