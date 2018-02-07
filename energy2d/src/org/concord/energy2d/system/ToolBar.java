@@ -3,11 +3,15 @@ package org.concord.energy2d.system;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -58,6 +62,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		});
 		add(selectButton);
 		bg.add(selectButton);
+		addMouseOverEffect(selectButton);
 
 		JToggleButton x = new JToggleButton(new ImageIcon(ToolBar.class.getResource("resources/rectangle.png")));
 		x.setToolTipText("Draw a rectangle");
@@ -73,6 +78,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		});
 		add(x);
 		bg.add(x);
+		addMouseOverEffect(x);
 
 		x = new JToggleButton(new ImageIcon(ToolBar.class.getResource("resources/ellipse.png")));
 		x.setToolTipText("Draw an ellipse");
@@ -88,6 +94,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		});
 		add(x);
 		bg.add(x);
+		addMouseOverEffect(x);
 
 		x = new JToggleButton(new ImageIcon(ToolBar.class.getResource("resources/polygon.png")));
 		x.setToolTipText("Draw a polygon");
@@ -103,6 +110,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		});
 		add(x);
 		bg.add(x);
+		addMouseOverEffect(x);
 
 		x = new JToggleButton(new ImageIcon(ToolBar.class.getResource("resources/blob.png")));
 		x.setToolTipText("Draw a blob");
@@ -118,6 +126,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		});
 		add(x);
 		bg.add(x);
+		addMouseOverEffect(x);
 
 		x = new JToggleButton(new ImageIcon(ToolBar.class.getResource("resources/annulus.png")));
 		x.setToolTipText("Draw an annulus");
@@ -133,6 +142,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		});
 		add(x);
 		bg.add(x);
+		addMouseOverEffect(x);
 
 		// create particle button and its associated popup menu
 		ImageIcon particleIcon = new ImageIcon(ToolBar.class.getResource("resources/particle.png"));
@@ -255,6 +265,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		});
 		add(miscButton);
 		bg.add(miscButton);
+		addMouseOverEffect(miscButton);
 
 		JButton arrowButton = new JButton();
 		Dimension d = new Dimension(12, x.getMaximumSize().height);
@@ -351,6 +362,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		});
 		add(sensorButton);
 		bg.add(sensorButton);
+		addMouseOverEffect(sensorButton);
 
 		arrowButton = new JButton();
 		arrowButton.setMaximumSize(d);
@@ -378,6 +390,7 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 			}
 		});
 		add(graphButton);
+		addMouseOverEffect(graphButton);
 
 		heatingButton = new JToggleButton(new ImageIcon(ToolBar.class.getResource("resources/heat.png")));
 		heatingButton.setToolTipText("Click to heat, shift-click to cool");
@@ -393,19 +406,40 @@ class ToolBar extends JToolBar implements GraphListener, ToolBarListener, Manipu
 		});
 		add(heatingButton);
 		bg.add(heatingButton);
+		addMouseOverEffect(heatingButton);
 
 		JButton button = new JButton(new ImageIcon(ToolBar.class.getResource("resources/zoomin.png")));
 		button.setBorderPainted(false);
 		button.setToolTipText("Halve the size of the simulation box");
 		button.addActionListener(box.view.getActionMap().get("Zoom In"));
 		add(button);
+		addMouseOverEffect(button);
 
 		button = new JButton(new ImageIcon(ToolBar.class.getResource("resources/zoomout.png")));
 		button.setBorderPainted(false);
 		button.setToolTipText("Double the size of the simulation box");
 		button.addActionListener(box.view.getActionMap().get("Zoom Out"));
 		add(button);
+		addMouseOverEffect(button);
 
+	}
+
+	private static void addMouseOverEffect(final AbstractButton button) {
+		if (System.getProperty("os.name").startsWith("Mac")) { // Mac OS X does not have the same behavior as Windows 10, so we mimic it for Mac
+			final Color defaultColor = button.getBackground();
+			button.setOpaque(true);
+			button.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseExited(final MouseEvent e) {
+					button.setBackground(defaultColor);
+				}
+
+				@Override
+				public void mouseEntered(final MouseEvent e) {
+					button.setBackground(SystemColor.controlLtHighlight);
+				}
+			});
+		}
 	}
 
 	public void graphClosed(GraphEvent e) {
