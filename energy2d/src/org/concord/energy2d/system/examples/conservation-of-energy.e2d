@@ -13,7 +13,7 @@
 <solar_ray_speed>0.1</solar_ray_speed>
 <photon_emission_interval>20</photon_emission_interval>
 <gravitational_acceleration>9.8</gravitational_acceleration>
-<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><z_heat_diffusivity_only_for_fluid>false</z_heat_diffusivity_only_for_fluid><convective>false</convective>
 <background_conductivity>1.0E-9</background_conductivity>
 <background_specific_heat>100.0</background_specific_heat>
 <thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
@@ -24,13 +24,14 @@
 </boundary>
 <structure>
 <part>
-<rectangle x="0.39999998" y="0.13306901" width="0.5" height="0.2"/><elasticity>1.0</elasticity>
+<rectangle x="0.4005" y="0.13949999" width="0.5" height="0.2"/><elasticity>1.0</elasticity>
 <thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>5.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>40.0</temperature>
@@ -40,13 +41,14 @@
 <label>A</label>
 </part>
 <part>
-<rectangle x="0.20000002" y="0.13999997" width="0.2" height="0.4"/><elasticity>1.0</elasticity>
+<rectangle x="0.20050001" y="0.1395" width="0.2" height="0.4"/><elasticity>1.0</elasticity>
 <thermal_conductivity>5.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>10.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>-10.0</temperature>
@@ -55,13 +57,14 @@
 <filled>false</filled>
 </part>
 <part>
-<rectangle x="0.39999998" y="0.73968196" width="0.5" height="0.2"/><elasticity>1.0</elasticity>
+<rectangle x="0.4005" y="0.7395" width="0.5" height="0.2"/><elasticity>1.0</elasticity>
 <thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>10.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>-20.0</temperature>
@@ -71,13 +74,14 @@
 <label>B</label>
 </part>
 <part>
-<rectangle x="0.563545" y="0.33306903" width="0.02" height="0.4"/><elasticity>1.0</elasticity>
+<rectangle x="0.5605" y="0.33850002" width="0.02" height="0.4"/><elasticity>1.0</elasticity>
 <thermal_conductivity>0.1</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>1.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>-5.0</temperature>
@@ -85,13 +89,14 @@
 <filled>false</filled>
 </part>
 <part>
-<rectangle x="0.74" y="0.33306882" width="0.02" height="0.4"/><elasticity>1.0</elasticity>
+<rectangle x="0.74050003" y="0.33850002" width="0.02" height="0.4"/><elasticity>1.0</elasticity>
 <thermal_conductivity>0.1</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>1.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>-10.0</temperature>
@@ -99,13 +104,14 @@
 <filled>false</filled>
 </part>
 <part>
-<rectangle x="0.20000002" y="0.54" width="0.2" height="0.4"/><elasticity>1.0</elasticity>
+<rectangle x="0.20050001" y="0.5395" width="0.2" height="0.4"/><elasticity>1.0</elasticity>
 <thermal_conductivity>5.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>10.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>10.0</temperature>
@@ -113,13 +119,14 @@
 <filled>false</filled>
 </part>
 <part>
-<rectangle x="0.400132" y="0.52968264" width="0.5" height="0.02"/><elasticity>1.0</elasticity>
+<rectangle x="0.4005" y="0.5295" width="0.5" height="0.02"/><elasticity>1.0</elasticity>
 <thermal_conductivity>5.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>10.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>5.0</temperature>
@@ -127,13 +134,14 @@
 <filled>false</filled>
 </part>
 <part>
-<rectangle x="0.402116" y="0.65269804" width="0.5" height="0.02"/><elasticity>1.0</elasticity>
+<rectangle x="0.4005" y="0.65250003" width="0.5" height="0.02"/><elasticity>1.0</elasticity>
 <thermal_conductivity>5.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>10.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>15.0</temperature>
@@ -141,13 +149,14 @@
 <filled>false</filled>
 </part>
 <part>
-<rectangle x="0.402116" y="0.41724902" width="0.5" height="0.02"/><elasticity>1.0</elasticity>
+<rectangle x="0.4005" y="0.41750002" width="0.5" height="0.02"/><elasticity>1.0</elasticity>
 <thermal_conductivity>5.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>25.0</density>
 <transmission>0.0</transmission>
 <reflection>0.0</reflection>
 <scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
 <absorption>1.0</absorption>
 <emissivity>0.0</emissivity>
 <temperature>15.0</temperature>

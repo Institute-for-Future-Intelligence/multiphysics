@@ -14,7 +14,7 @@
 <solar_ray_speed>0.1</solar_ray_speed>
 <photon_emission_interval>20</photon_emission_interval>
 <gravitational_acceleration>9.8</gravitational_acceleration>
-<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><z_heat_diffusivity_only_for_fluid>false</z_heat_diffusivity_only_for_fluid><convective>false</convective>
 <background_conductivity>1.0E-9</background_conductivity>
 <background_specific_heat>1.0</background_specific_heat>
 <thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
@@ -25,7 +25,7 @@
 </boundary>
 <structure>
 <part>
-<rectangle x="0.18995" y="0.29995" width="0.3001" height="0.4001"/><elasticity>1.0</elasticity>
+<rectangle x="0.19045" y="0.29944998" width="0.3001" height="0.4001"/><elasticity>1.0</elasticity>
 <thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>1000.0</specific_heat>
 <density>1.0</density>
@@ -41,7 +41,7 @@
 <label>%specific_heat</label>
 </part>
 <part>
-<rectangle x="0.49999997" y="0.3" width="0.3" height="0.4"/><elasticity>1.0</elasticity>
+<rectangle x="0.50049996" y="0.2995" width="0.3" height="0.4"/><elasticity>1.0</elasticity>
 <thermal_conductivity>1.0</thermal_conductivity>
 <specific_heat>2000.0</specific_heat>
 <density>1.0</density>
