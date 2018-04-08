@@ -2502,7 +2502,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 						str = TEMPERATURE_FORMAT.format(fahrenheitUsed ? temp * 1.8 + 32 : temp) + (fahrenheitUsed ? '\u2109' : '\u2103');
 						centerString(str, g, (int) (x + iconW2), y - 5, true);
 						if (t.getLabel() != null)
-							centerString(t.getLabel(), g, (int) (x + iconW2), y + s.getIconHeight() + 12, false);
+							centerString(t.getLabel(), g, (int) (x + iconW2), y + s.getIconHeight() + 16, false);
 						s.setValue(Math.round((temp - getMinimumTemperature()) / (getMaximumTemperature() - getMinimumTemperature()) * s.getBarHeight()));
 					}
 					s.paintIcon(this, g, x, y);

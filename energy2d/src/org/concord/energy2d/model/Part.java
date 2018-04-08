@@ -74,6 +74,7 @@ public class Part extends Manipulable {
 	private float windAngle;
 
 	private final static DecimalFormat LABEL_FORMAT = new DecimalFormat("####.######");
+	private final static DecimalFormat TWO_DECIMALS_FORMAT = new DecimalFormat("####.##");
 	private final static DecimalFormat SHORT_LABEL_FORMAT = new DecimalFormat("###.##");
 
 	private FillPattern fillPattern;
@@ -987,7 +988,7 @@ public class Part extends Manipulable {
 		if (label.equalsIgnoreCase("%temperature")) {
 			Rectangle2D bounds = getShape().getBounds2D();
 			float temp = model.getTemperatureAt((float) bounds.getCenterX(), (float) bounds.getCenterY());
-			s = useFahrenheit ? Math.round(temp * 1.8f + 32) + " \u00b0F" : Math.round(temp) + " \u00b0C";
+			s = useFahrenheit ? TWO_DECIMALS_FORMAT.format(temp * 1.8f + 32) + " \u00b0F" : TWO_DECIMALS_FORMAT.format(temp) + " \u00b0C";
 		} else if (label.equalsIgnoreCase("%thermal_energy"))
 			s = Math.round(model.getThermalEnergy(this)) + " J";
 		else if (label.equalsIgnoreCase("%density"))
@@ -1013,7 +1014,7 @@ public class Part extends Manipulable {
 		else if (label.equalsIgnoreCase("%height"))
 			s = getHeightString();
 		else {
-			s = label.replace("%temperature", useFahrenheit ? (int) (temperature * 1.8f + 32) + " \u00b0F" : (int) temperature + " \u00b0C");
+			s = label.replace("%temperature", useFahrenheit ? TWO_DECIMALS_FORMAT.format(temperature * 1.8f + 32) + " \u00b0F" : TWO_DECIMALS_FORMAT.format(temperature) + " \u00b0C");
 			s = s.replace("%thermal_energy", Math.round(model.getThermalEnergy(this)) + " J");
 			s = s.replace("%density", (int) density + " kg/m\u00b3");
 			s = s.replace("%specific_heat", (int) specificHeat + " J/(kg\u00d7\u00b0C)");
