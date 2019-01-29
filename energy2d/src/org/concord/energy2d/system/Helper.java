@@ -71,7 +71,7 @@ public class Helper {
 		s += "<h4><i>Interactive Multiphysics Simulations for Everyone</i></h4>";
 		s += "http://energy2d.concord.org<br>The Engineering Computation Laboratory, Concord Consortium, &copy; 2011-" + Calendar.getInstance().get(Calendar.YEAR);
 		s += "<hr>";
-		s += "<h4>Credit:</h4>This program is created by Dr. Charles Xie and was funded by the National Science Foundation<br>under grants 0918449, 1124281, and 1304485 for which Dr. Xie also served as the Principal<br>Investigator.";
+		s += "<h4>Credit:</h4>This program was created by Dr. Charles Xie. Funding was provided by the National Science Foundation<br>under grants 0918449, 1124281, and 1304485 that were awarded to Dr. Xie.";
 		s += "<h4>License:</h4>This software is provided to you as it is under the MIT License.";
 		s += "</html>";
 		JOptionPane.showMessageDialog(frame, new JLabel(s), "About Energy2D", JOptionPane.INFORMATION_MESSAGE, System2D.isApplet() ? null : new ImageIcon(System2D.class.getResource("resources/frame.png")));

@@ -1224,11 +1224,11 @@ class MenuBar extends JMenuBar {
 		});
 		menu.add(mi);
 
-		mi = new JMenuItem("Blog...");
-		mi.setToolTipText("Read blog posts about Energy2D");
+		mi = new JMenuItem("Under the Hood...");
+		mi.setToolTipText("Algorithms under the hood of Energy2D");
 		mi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Helper.openBrowser("http://molecularworkbench.blogspot.com/search/label/Energy2D");
+				Helper.openBrowser("https://medium.com/@charlesxie/numerical-algorithms-for-simulating-three-modes-of-heat-transfer-e65fca9baf50");
 			}
 		});
 		menu.add(mi);
