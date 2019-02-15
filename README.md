@@ -4,6 +4,8 @@
 
 [Coupled Fluid-Particle Dynamics](https://medium.com/@charlesxie/coupled-fluid-particle-dynamics-a56647e68d75)
 
+[Comparison with Infrared Imaging](https://medium.com/@charlesxie/visualizing-thermal-equilibration-infrared-imaging-vs-energy2d-simulation-cfa01e60b530)
+
 
 ## How to cite it?
 
