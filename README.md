@@ -1,6 +1,6 @@
 Under the hood
 
-[link](https://medium.com/@charlesxie/numerical-algorithms-for-simulating-three-modes-of-heat-transfer-e65fca9baf50 "Numerical Algorithms for Simulating Three Modes of Heat Transfer")
+[Numerical Algorithms for Simulating Three Modes of Heat Transfer](https://medium.com/@charlesxie/numerical-algorithms-for-simulating-three-modes-of-heat-transfer-e65fca9baf50)
 
 
 How to cite it?
