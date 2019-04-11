@@ -2,19 +2,17 @@ package org.concord.energy2d.system;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -153,7 +151,7 @@ class MenuBar extends JMenuBar {
         e2dFileChooser = new FileChooser();
         htmFileChooser = new FileChooser();
         imgFileChooser = new FileChooser();
-        recentFileMenuItems = new ArrayList<JComponent>();
+        recentFileMenuItems = new ArrayList<>();
 
         // file menu
 
@@ -173,13 +171,11 @@ class MenuBar extends JMenuBar {
                             JMenuItem x = new JMenuItem((i + 1) + "  " + MiscUtil.getFileName(recentFiles[i]));
                             x.setToolTipText(recentFiles[i]);
                             final File rf = new File(recentFiles[i]);
-                            x.addActionListener(new ActionListener() {
-                                public void actionPerformed(ActionEvent e) {
-                                    if (!box.askSaveBeforeLoading())
-                                        return;
-                                    box.loadFile(rf);
-                                    e2dFileChooser.rememberFile(rf.getPath());
-                                }
+                            x.addActionListener(e12 -> {
+                                if (!box.askSaveBeforeLoading())
+                                    return;
+                                box.loadFile(rf);
+                                e2dFileChooser.rememberFile(rf.getPath());
                             });
                             fileMenu.insert(x, fileMenuItemCount + i);
                             recentFileMenuItems.add(x);
@@ -262,11 +258,7 @@ class MenuBar extends JMenuBar {
         mi = new JMenuItem("Open...");
         mi.setAccelerator(ks);
         mi.setToolTipText((String) openAction.getValue(Action.SHORT_DESCRIPTION));
-        mi.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                openAction.actionPerformed(e);
-            }
-        });
+        mi.addActionListener(e -> openAction.actionPerformed(e));
         fileMenu.add(mi);
         fileMenuItemCount++;
 
@@ -330,7 +322,7 @@ class MenuBar extends JMenuBar {
         mi = new JMenuItem("Copy Image");
         mi.setAccelerator((KeyStroke) copyImageAction.getValue(Action.ACCELERATOR_KEY));
         mi.setToolTipText((String) copyImageAction.getValue(Action.SHORT_DESCRIPTION));
-        mi.addActionListener(e -> copyImageAction.actionPerformed(e));
+        mi.addActionListener(copyImageAction);
         fileMenu.add(mi);
         fileMenuItemCount++;
 
@@ -338,7 +330,7 @@ class MenuBar extends JMenuBar {
         mi = new JMenuItem("Properties...");
         mi.setAccelerator((KeyStroke) propertyAction.getValue(Action.ACCELERATOR_KEY));
         mi.setToolTipText((String) propertyAction.getValue(Action.SHORT_DESCRIPTION));
-        mi.addActionListener(e -> propertyAction.actionPerformed(e));
+        mi.addActionListener(propertyAction);
         fileMenu.add(mi);
         fileMenuItemCount++;
 
@@ -346,7 +338,7 @@ class MenuBar extends JMenuBar {
         mi = new JMenuItem("Script Console...");
         mi.setAccelerator((KeyStroke) scriptAction.getValue(Action.ACCELERATOR_KEY));
         mi.setToolTipText((String) scriptAction.getValue(Action.SHORT_DESCRIPTION));
-        mi.addActionListener(e -> scriptAction.actionPerformed(e));
+        mi.addActionListener(scriptAction);
         fileMenu.add(mi);
         fileMenuItemCount++;
 
@@ -354,7 +346,7 @@ class MenuBar extends JMenuBar {
         mi = new JMenuItem("Task Manager...");
         mi.setAccelerator((KeyStroke) taskAction.getValue(Action.ACCELERATOR_KEY));
         mi.setToolTipText((String) taskAction.getValue(Action.SHORT_DESCRIPTION));
-        mi.addActionListener(e -> taskAction.actionPerformed(e));
+        mi.addActionListener(taskAction);
         fileMenu.add(mi);
         fileMenuItemCount++;
 
@@ -367,7 +359,7 @@ class MenuBar extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 switch (box.askSaveOption()) {
                     case JOptionPane.YES_OPTION:
-                        Action a = null;
+                        Action a;
                         if (box.getCurrentFile() != null) {
                             a = box.view.getActionMap().get("Save");
                         } else {
@@ -375,11 +367,7 @@ class MenuBar extends JMenuBar {
                         }
                         if (a != null)
                             a.actionPerformed(null);
-                        EventQueue.invokeLater(new Runnable() {
-                            public void run() {
-                                box.shutdown();
-                            }
-                        });
+                        EventQueue.invokeLater(box::shutdown);
                         break;
                     case JOptionPane.NO_OPTION:
                         box.shutdown();
@@ -888,7 +876,7 @@ class MenuBar extends JMenuBar {
         JMenu subMenu = new JMenu("Heat and Temperature");
         menu.add(subMenu);
 
-        LinkedHashMap<String, String> examples = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> examples = new LinkedHashMap<>();
         examples.put("Thermal Equilibrium between Identical Objects", "examples/identical-heat-capacity.e2d");
         examples.put("Thermal Equilibrium between Objects with Different Specific Heats", "examples/different-specific-heat1.e2d");
         examples.put("Thermal Equilibrium between Objects with Different Densities", "examples/different-density1.e2d");
@@ -1047,7 +1035,7 @@ class MenuBar extends JMenuBar {
         menu.add(mi);
         mi.setEnabled(!System2D.launchedByJWS);
         mi.addActionListener(e -> {
-            File jarFile = null;
+            File jarFile;
             try {
                 jarFile = new File(System2D.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
             } catch (URISyntaxException e1) {
@@ -1073,6 +1061,7 @@ class MenuBar extends JMenuBar {
                     } catch (Exception e1) {
                         e1.printStackTrace();
                         msg = e1.getMessage();
+                        throw e1;
                     }
                     return null;
                 }
@@ -1182,7 +1171,7 @@ class MenuBar extends JMenuBar {
 
     private void save(System2D box) {
         try {
-            box.saveState(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(box.getCurrentFile()), "UTF-8")));
+            box.saveState(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(box.getCurrentFile()), StandardCharsets.UTF_8)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1208,7 +1197,7 @@ class MenuBar extends JMenuBar {
             if (b) {
                 box.setCurrentFile(file);
                 try {
-                    box.saveState(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(box.getCurrentFile()), "UTF-8")));
+                    box.saveState(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(box.getCurrentFile()), StandardCharsets.UTF_8)));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

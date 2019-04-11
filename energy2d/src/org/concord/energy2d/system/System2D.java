@@ -7,8 +7,6 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -25,6 +23,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -124,7 +123,7 @@ public class System2D extends JApplet implements ManipulationListener {
             e.printStackTrace();
         }
 
-        propertyChangeListeners = new ArrayList<PropertyChangeListener>();
+        propertyChangeListeners = new ArrayList<>();
 
         model = new Model2D();
         model.addManipulationListener(this);
@@ -142,9 +141,7 @@ public class System2D extends JApplet implements ManipulationListener {
         saxHandler = new XmlDecoder(this);
         try {
             saxParser = SAXParserFactory.newInstance().newSAXParser();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
+        } catch (SAXException | ParserConfigurationException e) {
             e.printStackTrace();
         }
 
@@ -167,11 +164,7 @@ public class System2D extends JApplet implements ManipulationListener {
                 return model.getIndexOfStep();
             }
         };
-        model.setTasks(new Runnable() {
-            public void run() {
-                taskManager.execute();
-            }
-        });
+        model.setTasks(this::run2);
         createTasks();
 
     }
@@ -319,7 +312,7 @@ public class System2D extends JApplet implements ManipulationListener {
 
     @Override
     public void init() {
-        String s = null;
+        String s;
         try {
             s = getParameter("script");
         } catch (Exception e) {
@@ -340,18 +333,12 @@ public class System2D extends JApplet implements ManipulationListener {
 
     public void run() {
         view.setRunToggle(true);
-        executeInThreadService(new Runnable() {
-            public void run() {
-                model.run();
-            }
-        });
+        executeInThreadService(() -> model.run());
     }
 
     public void runSteps(final int n) {
-        executeInThreadService(new Runnable() {
-            public void run() {
-                // TODO
-            }
+        executeInThreadService(() -> {
+            // TODO
         });
     }
 
@@ -383,17 +370,13 @@ public class System2D extends JApplet implements ManipulationListener {
             if (threadService != null && !threadService.isShutdown()) {
                 threadService.shutdownNow();
             }
-        } catch (Throwable t) {
+        } catch (Throwable ignored) {
         }
     }
 
     void setSaved(boolean b) {
         saved = b;
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                setFrameTitle();
-            }
-        });
+        EventQueue.invokeLater(() -> setFrameTitle());
     }
 
     void saveApplet(File file) {
@@ -413,11 +396,9 @@ public class System2D extends JApplet implements ManipulationListener {
         } finally {
             reader.close();
         }
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                if (buttonStop != null)
-                    callAction(buttonStop);
-            }
+        EventQueue.invokeLater(() -> {
+            if (buttonStop != null)
+                callAction(buttonStop);
         });
         setSaved(true);
     }
@@ -440,11 +421,9 @@ public class System2D extends JApplet implements ManipulationListener {
         } finally {
             is.close();
         }
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                if (buttonStop != null)
-                    callAction(buttonStop);
-            }
+        EventQueue.invokeLater(() -> {
+            if (buttonStop != null)
+                callAction(buttonStop);
         });
         setSaved(true);
     }
@@ -485,19 +464,15 @@ public class System2D extends JApplet implements ManipulationListener {
 
     private void updateStatus(final String status) {
         if (statusLabel != null)
-            EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    statusLabel.setText(status);
-                    Timer timer = new Timer(1000, new ActionListener() {
-                        public void actionPerformed(ActionEvent evt) {
-                            statusLabel.setText(null);
-                            if (buttonReload != null)
-                                buttonReload.setEnabled(true);
-                        }
-                    });
-                    timer.setRepeats(false);
-                    timer.start();
-                }
+            EventQueue.invokeLater(() -> {
+                statusLabel.setText(status);
+                Timer timer = new Timer(1000, evt -> {
+                    statusLabel.setText(null);
+                    if (buttonReload != null)
+                        buttonReload.setEnabled(true);
+                });
+                timer.setRepeats(false);
+                timer.start();
             });
     }
 
@@ -507,7 +482,7 @@ public class System2D extends JApplet implements ManipulationListener {
             return;
         try {
             // loadStateApp(new FileInputStream(file)); this call doesn't work on some Mac
-            loadStateApp(new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8")));
+            loadStateApp(new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)));
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(view), e.getLocalizedMessage(), "File error", JOptionPane.ERROR_MESSAGE);
@@ -571,7 +546,6 @@ public class System2D extends JApplet implements ManipulationListener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return;
         }
     }
 
@@ -616,11 +590,7 @@ public class System2D extends JApplet implements ManipulationListener {
             } catch (Exception e) {
             }
             if (codeBase != null) {
-                try {
-                    loadURL(new URL(codeBase, fileName));
-                } catch (IOException e) {
-                    throw e;
-                }
+                loadURL(new URL(codeBase, fileName));
             }
         }
     }
@@ -628,11 +598,7 @@ public class System2D extends JApplet implements ManipulationListener {
     private void setReloadButtonEnabled(final boolean b) {
         if (buttonReload == null)
             return;
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                buttonReload.setEnabled(b);
-            }
-        });
+        EventQueue.invokeLater(() -> buttonReload.setEnabled(b));
     }
 
     int askSaveOption() {
@@ -646,7 +612,7 @@ public class System2D extends JApplet implements ManipulationListener {
             return true;
         switch (askSaveOption()) {
             case JOptionPane.YES_OPTION:
-                Action a = null;
+                Action a;
                 if (currentFile != null) {
                     a = view.getActionMap().get("Save");
                 } else {
@@ -780,13 +746,11 @@ public class System2D extends JApplet implements ManipulationListener {
                 break;
             case ManipulationEvent.FATAL_ERROR_OCCURRED:
                 view.repaint();
-                EventQueue.invokeLater(new Runnable() {
-                    public void run() {
-                        JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(view), "<html>The current time steplength is " + model.getTimeStep() + " s.<br>Reduce it in the Properties Window and then reset the simulation.<br>(Usually it should be less than 1 s for convection simulations.)", "Fatal error", JOptionPane.INFORMATION_MESSAGE);
-                        Action propertyAction = view.getActionMap().get("Property");
-                        if (propertyAction != null)
-                            propertyAction.actionPerformed(null);
-                    }
+                EventQueue.invokeLater(() -> {
+                    JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(view), "<html>The current time steplength is " + model.getTimeStep() + " s.<br>Reduce it in the Properties Window and then reset the simulation.<br>(Usually it should be less than 1 s for convection simulations.)", "Fatal error", JOptionPane.INFORMATION_MESSAGE);
+                    Action propertyAction = view.getActionMap().get("Property");
+                    if (propertyAction != null)
+                        propertyAction.actionPerformed(null);
                 });
                 break;
             case ManipulationEvent.SUN_SHINE:
@@ -828,45 +792,36 @@ public class System2D extends JApplet implements ManipulationListener {
         snapToggleButton = new JToggleButton(new ImageIcon(System2D.class.getResource("resources/grid.png")));
         snapToggleButton.setSelected(view.isSnapToGrid());
         snapToggleButton.setToolTipText("Snap to computational grid (" + model.getNx() + " x " + model.getNy() + ") when editing");
-        snapToggleButton.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                boolean b = snapToggleButton.isSelected();
-                snapToggleButton.setIcon(new ImageIcon(System2D.class.getResource(b ? "resources/grid.png" : "resources/nogrid.png")));
-                view.setSnapToGrid(b);
-            }
+        snapToggleButton.addItemListener(e -> {
+            boolean b = snapToggleButton.isSelected();
+            snapToggleButton.setIcon(new ImageIcon(System2D.class.getResource(b ? "resources/grid.png" : "resources/nogrid.png")));
+            view.setSnapToGrid(b);
         });
         JPanel p = new JPanel();
         buttonRun = new JButton("Run");
         buttonRun.setToolTipText("Run the simulation");
-        buttonRun.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                run();
-                buttonRun.setEnabled(false);
-                buttonStop.setEnabled(true);
-            }
+        buttonRun.addActionListener(e -> {
+            run();
+            buttonRun.setEnabled(false);
+            buttonStop.setEnabled(true);
         });
         p.add(buttonRun);
         buttonStop = new JButton("Stop");
         buttonStop.setEnabled(false);
         buttonStop.setToolTipText("Stop the simulation");
-        buttonStop.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                stop();
-                buttonRun.setEnabled(true);
-                buttonStop.setEnabled(false);
-            }
+        buttonStop.addActionListener(e -> {
+            stop();
+            buttonRun.setEnabled(true);
+            buttonStop.setEnabled(false);
         });
         p.add(buttonStop);
         buttonReset = new JButton("Reset");
         buttonReset.setToolTipText("Reset the simulation to time zero");
-        buttonReset.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                reset();
-                buttonRun.setEnabled(true);
-                buttonStop.setEnabled(false);
-                notifyToolBarListener(new ToolBarEvent(ToolBarEvent.RESET, buttonReset));
-            }
+        buttonReset.addActionListener(e -> {
+            reset();
+            buttonRun.setEnabled(true);
+            buttonStop.setEnabled(false);
+            notifyToolBarListener(new ToolBarEvent(ToolBarEvent.RESET, buttonReset));
         });
         p.add(buttonReset);
         JPanel spacer = new JPanel();
@@ -875,36 +830,18 @@ public class System2D extends JApplet implements ManipulationListener {
         buttonReload = new JButton("Reload");
         buttonReload.setEnabled(false);
         buttonReload.setToolTipText("Reload the initial configurations");
-        buttonReload.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (!askSaveBeforeLoading())
-                    return;
-                reload();
-                buttonRun.setEnabled(true);
-                buttonStop.setEnabled(false);
-            }
+        buttonReload.addActionListener(e -> {
+            if (!askSaveBeforeLoading())
+                return;
+            reload();
+            buttonRun.setEnabled(true);
+            buttonStop.setEnabled(false);
         });
         p.add(buttonReload);
-        clickRun = new Runnable() {
-            public void run() {
-                callAction(buttonRun);
-            }
-        };
-        clickStop = new Runnable() {
-            public void run() {
-                callAction(buttonStop);
-            }
-        };
-        clickReset = new Runnable() {
-            public void run() {
-                callAction(buttonReset);
-            }
-        };
-        clickReload = new Runnable() {
-            public void run() {
-                callAction(buttonReload);
-            }
-        };
+        clickRun = () -> callAction(buttonRun);
+        clickStop = () -> callAction(buttonStop);
+        clickReset = () -> callAction(buttonReset);
+        clickReload = () -> callAction(buttonReload);
         return p;
     }
 
@@ -917,7 +854,7 @@ public class System2D extends JApplet implements ManipulationListener {
             x.actionPerformed(null);
     }
 
-    void setToolBarListener(ToolBarListener l) {
+    private void setToolBarListener(ToolBarListener l) {
         toolBarListener = l;
     }
 
@@ -1027,7 +964,7 @@ public class System2D extends JApplet implements ManipulationListener {
                 return;
 
             /* Build command: java -jar application.jar */
-            final ArrayList<String> command = new ArrayList<String>();
+            final ArrayList<String> command = new ArrayList<>();
             command.add(javaBin);
             command.add("-jar");
             command.add(currentJar.getPath());
@@ -1041,16 +978,13 @@ public class System2D extends JApplet implements ManipulationListener {
     }
 
     public static void main(final String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                start(args);
-                Updater.download(box);
-            }
+        EventQueue.invokeLater(() -> {
+            start(args);
+            Updater.download(box);
         });
     }
 
-    static void start(final String[] args) {
+    private static void start(final String[] args) {
 
         isApplet = false;
 
@@ -1127,22 +1061,20 @@ public class System2D extends JApplet implements ManipulationListener {
             }
 
             public void windowOpened(WindowEvent e) {
-                EventQueue.invokeLater(new Runnable() {
-                    public void run() {
-                        if (args == null)
-                            return;
-                        String filePath = null;
-                        if (launchedByJWS) {
-                            if (args.length > 1)
-                                filePath = args[1];
-                        } else {
-                            if (args.length > 0)
-                                filePath = args[0];
-                        }
-                        if (filePath != null && filePath.toLowerCase().trim().endsWith(".e2d")) {
-                            box.loadFile(new File(filePath));
-                            menuBar.e2dFileChooser.rememberFile(filePath);
-                        }
+                EventQueue.invokeLater(() -> {
+                    if (args == null)
+                        return;
+                    String filePath = null;
+                    if (launchedByJWS) {
+                        if (args.length > 1)
+                            filePath = args[1];
+                    } else {
+                        if (args.length > 0)
+                            filePath = args[0];
+                    }
+                    if (filePath != null && filePath.toLowerCase().trim().endsWith(".e2d")) {
+                        box.loadFile(new File(filePath));
+                        menuBar.e2dFileChooser.rememberFile(filePath);
                     }
                 });
             }
@@ -1170,13 +1102,11 @@ public class System2D extends JApplet implements ManipulationListener {
 
                 @Override
                 public void handleOpenFile(final ApplicationEvent e) {
-                    EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                            String filePath = e.getFilename();
-                            if (filePath.toLowerCase().trim().endsWith(".e2d")) {
-                                box.loadFile(new File(filePath));
-                                menuBar.e2dFileChooser.rememberFile(filePath);
-                            }
+                    EventQueue.invokeLater(() -> {
+                        String filePath = e.getFilename();
+                        if (filePath.toLowerCase().trim().endsWith(".e2d")) {
+                            box.loadFile(new File(filePath));
+                            menuBar.e2dFileChooser.rememberFile(filePath);
                         }
                     });
                     e.setHandled(true);
@@ -1196,4 +1126,7 @@ public class System2D extends JApplet implements ManipulationListener {
 
     }
 
+    private void run2() {
+        taskManager.execute();
+    }
 }
