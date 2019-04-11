@@ -64,14 +64,14 @@ class GraphRenderer {
 	private Point mouseMovedPoint;
 
 	GraphRenderer(int x, int y, int w, int h) {
-		closeButton = new Rectangle();
-		dataButton = new Rectangle();
-		xExpandButton = new Rectangle();
-		xShrinkButton = new Rectangle();
-		yExpandButton = new Rectangle();
-		yShrinkButton = new Rectangle();
-		ySelectButton = new Rectangle();
-		yFitButton = new Rectangle();
+		closeButton = new Rectangle(0, 0, 20, 20);
+		dataButton = new Rectangle(0, 0, 20, 20);
+		xExpandButton = new Rectangle(0, 0, 20, 20);
+		xShrinkButton = new Rectangle(0, 0, 20, 20);
+		yExpandButton = new Rectangle(0, 0, 20, 20);
+		yShrinkButton = new Rectangle(0, 0, 20, 20);
+		ySelectButton = new Rectangle(0, 0, 20, 20);
+		yFitButton = new Rectangle(0, 0, 20, 20);
 		arrowButtons = new Polygon[] { new Polygon(), new Polygon() };
 		setFrame(x, y, w, h);
 	}
@@ -154,19 +154,19 @@ class GraphRenderer {
 		this.h = h;
 		int size = 24;
 		int position = x + w - 20;
-		closeButton.setBounds(position, y, 20, 20);
+		closeButton.setLocation(position, y);
 		position -= size;
-		dataButton.setBounds(position, y, 20, 20);
+		dataButton.setLocation(position, y);
 		position -= size;
-		xExpandButton.setBounds(position, y, 20, 20);
+		xExpandButton.setLocation(position, y);
 		position -= size;
-		xShrinkButton.setBounds(position, y, 20, 20);
+		xShrinkButton.setLocation(position, y);
 		position -= size;
-		yExpandButton.setBounds(position, y, 20, 20);
+		yExpandButton.setLocation(position, y);
 		position -= size;
-		yShrinkButton.setBounds(position, y, 20, 20);
+		yShrinkButton.setLocation(position, y);
 		position -= size;
-		yFitButton.setBounds(position, y, 20, 20);
+		yFitButton.setLocation(position, y);
 	}
 
 	boolean windowContains(int rx, int ry) {

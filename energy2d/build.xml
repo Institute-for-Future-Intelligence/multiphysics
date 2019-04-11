@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Energy2D" default="default" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
 	<property name="app.name" value="Energy2D"/>
-	<property name="app.version" value="2.9.x"/>
+	<property name="app.version" value="3.x"/>
 	<property name="build.src.dir" value="src" />
 	<property name="build.classes.dir" value="classes" />
 	<property name="build.dist.dir" value="C:\dist" />
 	
-	<condition property="JAVA_HOME" value="C:\Program Files (x86)\Java\jdk1.8.0_162\">
+	<condition property="JAVA_HOME" value="C:\Program Files (x86)\Java\jdk1.8.0_172\">
 		<os family="windows" />
 	</condition>
 	<condition property="JAVA_HOME" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home">
