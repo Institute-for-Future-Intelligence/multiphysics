@@ -43,7 +43,7 @@ import org.concord.energy2d.util.MiscUtil;
  */
 class ModelDialog extends JDialog {
 
-	private final static DecimalFormat FORMAT = new DecimalFormat("####.########");
+	private final static DecimalFormat FORMAT = new DecimalFormat("####.#########");
 
 	private JTextField steplengthField;
 	private JTextField bgTemperatureField;

@@ -53,7 +53,7 @@ import org.concord.energy2d.util.MiscUtil;
  */
 class PartModelDialog extends JDialog {
 
-	private final static DecimalFormat FORMAT = new DecimalFormat("####.######");
+	private final static DecimalFormat FORMAT = new DecimalFormat("####.########");
 
 	private JTextField thermalConductivityField;
 	private JTextField specificHeatField;
