@@ -1262,6 +1262,13 @@ class MenuBar extends JMenuBar {
         label.setLabelFor(totalMemoryField);
         inputPanel.add(totalMemoryField);
 
+        label = new JLabel("Processors: ");
+        inputPanel.add(label);
+        final JTextField processorsField = new JTextField(Runtime.getRuntime().availableProcessors() + "");
+        processorsField.setEditable(false);
+        label.setLabelFor(processorsField);
+        inputPanel.add(processorsField);
+
         label = new JLabel("Java vendor: ");
         inputPanel.add(label);
         final JTextField javaVendorField = new JTextField(System.getProperty("java.vendor"), 12);
@@ -1276,9 +1283,9 @@ class MenuBar extends JMenuBar {
         label.setLabelFor(javaVersionField);
         inputPanel.add(javaVersionField);
 
-        MiscUtil.makeCompactGrid(inputPanel, 4, 2, 6, 6, 6, 6);
+        MiscUtil.makeCompactGrid(inputPanel, 5, 2, 6, 6, 6, 6);
         final Object[] options = new Object[]{"OK", "Cancel"};
-        final JOptionPane optionPane = new JOptionPane(new Object[]{"<html><font size=2>JVM information<hr></html>", gui}, JOptionPane.INFORMATION_MESSAGE, JOptionPane.OK_CANCEL_OPTION, null, options, options[1]);
+        final JOptionPane optionPane = new JOptionPane(new Object[]{"<html><font size=2>JVM<hr></html>", gui}, JOptionPane.INFORMATION_MESSAGE, JOptionPane.OK_CANCEL_OPTION, null, options, options[1]);
         final JDialog dialog = optionPane.createDialog(frame, "System Information");
         dialog.setVisible(true);
 

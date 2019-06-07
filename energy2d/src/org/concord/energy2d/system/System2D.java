@@ -516,7 +516,7 @@ public class System2D extends JApplet implements ManipulationListener {
         view.getUndoManager().die();
     }
 
-    public void loadURL(URL url) throws IOException {
+    private void loadURL(URL url) throws IOException {
         setReloadButtonEnabled(true);
         if (url == null)
             return;
@@ -531,7 +531,7 @@ public class System2D extends JApplet implements ManipulationListener {
         view.getUndoManager().die();
     }
 
-    public void reload() {
+    void reload() {
         if (currentFile != null) {
             loadFile(currentFile);
             return;
@@ -649,7 +649,7 @@ public class System2D extends JApplet implements ManipulationListener {
         return currentURL;
     }
 
-    public String runNativeScript(String script) {
+    String runNativeScript(String script) {
         if (script == null)
             return null;
         if (scripter == null)
@@ -660,7 +660,7 @@ public class System2D extends JApplet implements ManipulationListener {
         return null;
     }
 
-    public Scripter2D getScripter() {
+    Scripter2D getScripter() {
         if (scripter == null)
             scripter = new Scripter2D(this);
         return scripter;

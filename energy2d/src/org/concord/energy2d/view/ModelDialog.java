@@ -112,195 +112,193 @@ class ModelDialog extends JDialog {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		owner = getOwner();
 
-		okListener = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		okListener = e -> {
 
-				float bgTemperature = parse(bgTemperatureField.getText());
-				if (Float.isNaN(bgTemperature))
-					return;
-				float conductivity = parse(conductivityField.getText());
-				if (Float.isNaN(conductivity))
-					return;
-				float specificHeat = parse(specificHeatField.getText());
-				if (Float.isNaN(specificHeat))
-					return;
-				float density = parse(densityField.getText());
-				if (Float.isNaN(density))
-					return;
-				float viscosity = parse(viscosityField.getText());
-				if (Float.isNaN(viscosity))
-					return;
-				float thermalExpansionCoefficient = parse(thermalExpansionCoefficientField.getText());
-				if (Float.isNaN(thermalExpansionCoefficient))
-					return;
-				float steplength = parse(steplengthField.getText());
-				if (Float.isNaN(steplength))
-					return;
-				float width = parse(wField.getText());
-				if (Float.isNaN(width))
-					return;
-				float height = parse(hField.getText());
-				if (Float.isNaN(height))
-					return;
-				float valueAtLeft = parse(leftThermalBoundaryField.getText());
-				if (Float.isNaN(valueAtLeft))
-					return;
-				float valueAtRight = parse(rightThermalBoundaryField.getText());
-				if (Float.isNaN(valueAtRight))
-					return;
-				float valueAtUpper = parse(upperThermalBoundaryField.getText());
-				if (Float.isNaN(valueAtUpper))
-					return;
-				float valueAtLower = parse(lowerThermalBoundaryField.getText());
-				if (Float.isNaN(valueAtLower))
-					return;
-				float solarPower = parse(solarPowerField.getText());
-				if (Float.isNaN(solarPower))
-					return;
-				float raySpeed = parse(raySpeedField.getText());
-				if (Float.isNaN(raySpeed))
-					return;
-				float rayNumber = parse(rayNumberField.getText());
-				if (Float.isNaN(rayNumber))
-					return;
-				float emissionInterval = parse(emissionIntervalField.getText());
-				if (Float.isNaN(emissionInterval))
-					return;
-				float zHeatDiffusivity = parse(zDiffusivityField.getText());
-				if (Float.isNaN(zHeatDiffusivity))
-					return;
-				float gravitationalAcceleration = parse(gravitationalAccelerationField.getText());
-				if (Float.isNaN(gravitationalAcceleration))
-					return;
-				float thermophoreticCoefficient = parse(thermophoreticField.getText());
-				if (Float.isNaN(thermophoreticCoefficient))
-					return;
-				float particleDrag = parse(particleDragField.getText());
-				if (Float.isNaN(particleDrag))
-					return;
-				float particleHardness = parse(particleHardnessField.getText());
-				if (Float.isNaN(particleHardness))
-					return;
+			float bgTemperature = parse(bgTemperatureField.getText());
+			if (Float.isNaN(bgTemperature))
+				return;
+			float conductivity = parse(conductivityField.getText());
+			if (Float.isNaN(conductivity))
+				return;
+			float specificHeat = parse(specificHeatField.getText());
+			if (Float.isNaN(specificHeat))
+				return;
+			float density = parse(densityField.getText());
+			if (Float.isNaN(density))
+				return;
+			float viscosity = parse(viscosityField.getText());
+			if (Float.isNaN(viscosity))
+				return;
+			float thermalExpansionCoefficient = parse(thermalExpansionCoefficientField.getText());
+			if (Float.isNaN(thermalExpansionCoefficient))
+				return;
+			float steplength = parse(steplengthField.getText());
+			if (Float.isNaN(steplength))
+				return;
+			float width = parse(wField.getText());
+			if (Float.isNaN(width))
+				return;
+			float height = parse(hField.getText());
+			if (Float.isNaN(height))
+				return;
+			float valueAtLeft = parse(leftThermalBoundaryField.getText());
+			if (Float.isNaN(valueAtLeft))
+				return;
+			float valueAtRight = parse(rightThermalBoundaryField.getText());
+			if (Float.isNaN(valueAtRight))
+				return;
+			float valueAtUpper = parse(upperThermalBoundaryField.getText());
+			if (Float.isNaN(valueAtUpper))
+				return;
+			float valueAtLower = parse(lowerThermalBoundaryField.getText());
+			if (Float.isNaN(valueAtLower))
+				return;
+			float solarPower = parse(solarPowerField.getText());
+			if (Float.isNaN(solarPower))
+				return;
+			float raySpeed = parse(raySpeedField.getText());
+			if (Float.isNaN(raySpeed))
+				return;
+			float rayNumber = parse(rayNumberField.getText());
+			if (Float.isNaN(rayNumber))
+				return;
+			float emissionInterval = parse(emissionIntervalField.getText());
+			if (Float.isNaN(emissionInterval))
+				return;
+			float zHeatDiffusivity = parse(zDiffusivityField.getText());
+			if (Float.isNaN(zHeatDiffusivity))
+				return;
+			float gravitationalAcceleration = parse(gravitationalAccelerationField.getText());
+			if (Float.isNaN(gravitationalAcceleration))
+				return;
+			float thermophoreticCoefficient = parse(thermophoreticField.getText());
+			if (Float.isNaN(thermophoreticCoefficient))
+				return;
+			float particleDrag = parse(particleDragField.getText());
+			if (Float.isNaN(particleDrag))
+				return;
+			float particleHardness = parse(particleHardnessField.getText());
+			if (Float.isNaN(particleHardness))
+				return;
 
-				if (steplength <= 0) {
-					JOptionPane.showMessageDialog(ModelDialog.this, "Time step must be greater than zero!", "Time step input error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (density <= 0) {
-					JOptionPane.showMessageDialog(ModelDialog.this, "Medium density must be greater than zero!", "Density input error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (specificHeat <= 0) {
-					JOptionPane.showMessageDialog(ModelDialog.this, "Medium specific heat must be greater than zero!", "Specific heat input error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (thermophoreticCoefficient < 0) {
-					JOptionPane.showMessageDialog(ModelDialog.this, "Thermophoretic coefficient cannot be negative!", "Thermophoretic cofficient input error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (particleDrag < 0) {
-					JOptionPane.showMessageDialog(ModelDialog.this, "Particle drag cannot be negative!", "Drag input error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (particleHardness < 0) {
-					JOptionPane.showMessageDialog(ModelDialog.this, "Particle hardness cannot be negative!", "Particle hardness input error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-
-				model.setTimeStep(steplength);
-				model.setBackgroundTemperature(bgTemperature);
-				model.setBackgroundConductivity(Math.max(conductivity, 0.000000001f));
-				model.setBackgroundSpecificHeat(specificHeat);
-				model.setBackgroundDensity(density);
-				model.setBackgroundViscosity(viscosity);
-				model.setThermalExpansionCoefficient(thermalExpansionCoefficient);
-				float dx = width - model.getLx();
-				float dy = height - model.getLy();
-				if (dx != 0)
-					model.setLx(width);
-				if (dy != 0) {
-					model.setLy(height);
-					model.translateAllBy(0, dy); // fix the y-flip problem
-				}
-				view.setArea(0, width, 0, height);
-				model.setSolarPowerDensity(solarPower);
-				model.setSolarRaySpeed(raySpeed);
-				model.setSolarRayCount((int) rayNumber);
-				model.setPhotonEmissionInterval((int) emissionInterval);
-				model.setSunAngle((float) Math.toRadians(sunAngleSlider.getValue()));
-				model.setZHeatDiffusivity(zHeatDiffusivity);
-				model.setZHeatDiffusivityOnlyForFluid(zDiffusivityOnlyForFluidCheckBox.isSelected());
-				model.setGravitationalAcceleration(gravitationalAcceleration);
-				model.setThermophoreticCoefficient(thermophoreticCoefficient);
-				model.setParticleDrag(particleDrag);
-				model.setParticleHardness(particleHardness * 0.000001f);
-
-				switch (thermalBoundaryComboBox.getSelectedIndex()) {
-				case 0:
-					DirichletThermalBoundary dhb = new DirichletThermalBoundary();
-					dhb.setTemperatureAtBorder(Boundary.LEFT, valueAtLeft);
-					dhb.setTemperatureAtBorder(Boundary.RIGHT, valueAtRight);
-					dhb.setTemperatureAtBorder(Boundary.UPPER, valueAtUpper);
-					dhb.setTemperatureAtBorder(Boundary.LOWER, valueAtLower);
-					model.setThermalBoundary(dhb);
-					break;
-				case 1:
-					NeumannThermalBoundary nhb = new NeumannThermalBoundary();
-					nhb.setFluxAtBorder(Boundary.LEFT, valueAtLeft);
-					nhb.setFluxAtBorder(Boundary.RIGHT, valueAtRight);
-					nhb.setFluxAtBorder(Boundary.UPPER, valueAtUpper);
-					nhb.setFluxAtBorder(Boundary.LOWER, valueAtLower);
-					model.setThermalBoundary(nhb);
-					break;
-				}
-
-				SimpleMassBoundary massBoundary = (SimpleMassBoundary) model.getMassBoundary();
-				if (leftMassBoundaryReflect.isSelected()) {
-					massBoundary.setFlowTypeAtBorder(Boundary.LEFT, MassBoundary.REFLECTIVE);
-				} else if (leftMassBoundaryStop.isSelected()) {
-					massBoundary.setFlowTypeAtBorder(Boundary.LEFT, MassBoundary.STOP);
-				} else if (leftMassBoundaryThrough.isSelected()) {
-					massBoundary.setFlowTypeAtBorder(Boundary.LEFT, MassBoundary.THROUGH);
-				}
-				if (rightMassBoundaryReflect.isSelected()) {
-					massBoundary.setFlowTypeAtBorder(Boundary.RIGHT, MassBoundary.REFLECTIVE);
-				} else if (rightMassBoundaryStop.isSelected()) {
-					massBoundary.setFlowTypeAtBorder(Boundary.RIGHT, MassBoundary.STOP);
-				} else if (rightMassBoundaryThrough.isSelected()) {
-					massBoundary.setFlowTypeAtBorder(Boundary.RIGHT, MassBoundary.THROUGH);
-				}
-				if (upperMassBoundaryReflect.isSelected()) {
-					massBoundary.setFlowTypeAtBorder(Boundary.UPPER, MassBoundary.REFLECTIVE);
-				} else if (upperMassBoundaryStop.isSelected()) {
-					massBoundary.setFlowTypeAtBorder(Boundary.UPPER, MassBoundary.STOP);
-				} else if (upperMassBoundaryThrough.isSelected()) {
-					massBoundary.setFlowTypeAtBorder(Boundary.UPPER, MassBoundary.THROUGH);
-				}
-				if (lowerMassBoundaryReflect.isSelected()) {
-					massBoundary.setFlowTypeAtBorder(Boundary.LOWER, MassBoundary.REFLECTIVE);
-				} else if (lowerMassBoundaryStop.isSelected()) {
-					massBoundary.setFlowTypeAtBorder(Boundary.LOWER, MassBoundary.STOP);
-				} else if (lowerMassBoundaryThrough.isSelected()) {
-					massBoundary.setFlowTypeAtBorder(Boundary.LOWER, MassBoundary.THROUGH);
-				}
-
-				model.setSunny(sunnyCheckBox.isSelected());
-				model.setConvective(convectiveCheckBox.isSelected());
-				model.setBuoyancyApproximation((byte) buoyancyApproximationComboBox.getSelectedIndex());
-				model.setGravityType((byte) gravityTypeComboBox.getSelectedIndex());
-
-				model.refreshPowerArray();
-				model.refreshTemperatureBoundaryArray();
-				model.refreshMaterialPropertyArrays();
-
-				view.repaint();
-
-				if (!(e.getSource() instanceof JComboBox))
-					dispose();
-
-				view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
-
+			if (steplength <= 0) {
+				JOptionPane.showMessageDialog(ModelDialog.this, "Time step must be greater than zero!", "Time step input error", JOptionPane.ERROR_MESSAGE);
+				return;
 			}
+			if (density <= 0) {
+				JOptionPane.showMessageDialog(ModelDialog.this, "Medium density must be greater than zero!", "Density input error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			if (specificHeat <= 0) {
+				JOptionPane.showMessageDialog(ModelDialog.this, "Medium specific heat must be greater than zero!", "Specific heat input error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			if (thermophoreticCoefficient < 0) {
+				JOptionPane.showMessageDialog(ModelDialog.this, "Thermophoretic coefficient cannot be negative!", "Thermophoretic cofficient input error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			if (particleDrag < 0) {
+				JOptionPane.showMessageDialog(ModelDialog.this, "Particle drag cannot be negative!", "Drag input error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			if (particleHardness < 0) {
+				JOptionPane.showMessageDialog(ModelDialog.this, "Particle hardness cannot be negative!", "Particle hardness input error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+
+			model.setTimeStep(steplength);
+			model.setBackgroundTemperature(bgTemperature);
+			model.setBackgroundConductivity(Math.max(conductivity, 0.000000001f));
+			model.setBackgroundSpecificHeat(specificHeat);
+			model.setBackgroundDensity(density);
+			model.setBackgroundViscosity(viscosity);
+			model.setThermalExpansionCoefficient(thermalExpansionCoefficient);
+			float dx = width - model.getLx();
+			float dy = height - model.getLy();
+			if (dx != 0)
+				model.setLx(width);
+			if (dy != 0) {
+				model.setLy(height);
+				model.translateAllBy(0, dy); // fix the y-flip problem
+			}
+			view.setArea(0, width, 0, height);
+			model.setSolarPowerDensity(solarPower);
+			model.setSolarRaySpeed(raySpeed);
+			model.setSolarRayCount((int) rayNumber);
+			model.setPhotonEmissionInterval((int) emissionInterval);
+			model.setSunAngle((float) Math.toRadians(sunAngleSlider.getValue()));
+			model.setZHeatDiffusivity(zHeatDiffusivity);
+			model.setZHeatDiffusivityOnlyForFluid(zDiffusivityOnlyForFluidCheckBox.isSelected());
+			model.setGravitationalAcceleration(gravitationalAcceleration);
+			model.setThermophoreticCoefficient(thermophoreticCoefficient);
+			model.setParticleDrag(particleDrag);
+			model.setParticleHardness(particleHardness * 0.000001f);
+
+			switch (thermalBoundaryComboBox.getSelectedIndex()) {
+			case 0:
+				DirichletThermalBoundary dhb = new DirichletThermalBoundary();
+				dhb.setTemperatureAtBorder(Boundary.LEFT, valueAtLeft);
+				dhb.setTemperatureAtBorder(Boundary.RIGHT, valueAtRight);
+				dhb.setTemperatureAtBorder(Boundary.UPPER, valueAtUpper);
+				dhb.setTemperatureAtBorder(Boundary.LOWER, valueAtLower);
+				model.setThermalBoundary(dhb);
+				break;
+			case 1:
+				NeumannThermalBoundary nhb = new NeumannThermalBoundary();
+				nhb.setFluxAtBorder(Boundary.LEFT, valueAtLeft);
+				nhb.setFluxAtBorder(Boundary.RIGHT, valueAtRight);
+				nhb.setFluxAtBorder(Boundary.UPPER, valueAtUpper);
+				nhb.setFluxAtBorder(Boundary.LOWER, valueAtLower);
+				model.setThermalBoundary(nhb);
+				break;
+			}
+
+			SimpleMassBoundary massBoundary = (SimpleMassBoundary) model.getMassBoundary();
+			if (leftMassBoundaryReflect.isSelected()) {
+				massBoundary.setFlowTypeAtBorder(Boundary.LEFT, MassBoundary.REFLECTIVE);
+			} else if (leftMassBoundaryStop.isSelected()) {
+				massBoundary.setFlowTypeAtBorder(Boundary.LEFT, MassBoundary.STOP);
+			} else if (leftMassBoundaryThrough.isSelected()) {
+				massBoundary.setFlowTypeAtBorder(Boundary.LEFT, MassBoundary.THROUGH);
+			}
+			if (rightMassBoundaryReflect.isSelected()) {
+				massBoundary.setFlowTypeAtBorder(Boundary.RIGHT, MassBoundary.REFLECTIVE);
+			} else if (rightMassBoundaryStop.isSelected()) {
+				massBoundary.setFlowTypeAtBorder(Boundary.RIGHT, MassBoundary.STOP);
+			} else if (rightMassBoundaryThrough.isSelected()) {
+				massBoundary.setFlowTypeAtBorder(Boundary.RIGHT, MassBoundary.THROUGH);
+			}
+			if (upperMassBoundaryReflect.isSelected()) {
+				massBoundary.setFlowTypeAtBorder(Boundary.UPPER, MassBoundary.REFLECTIVE);
+			} else if (upperMassBoundaryStop.isSelected()) {
+				massBoundary.setFlowTypeAtBorder(Boundary.UPPER, MassBoundary.STOP);
+			} else if (upperMassBoundaryThrough.isSelected()) {
+				massBoundary.setFlowTypeAtBorder(Boundary.UPPER, MassBoundary.THROUGH);
+			}
+			if (lowerMassBoundaryReflect.isSelected()) {
+				massBoundary.setFlowTypeAtBorder(Boundary.LOWER, MassBoundary.REFLECTIVE);
+			} else if (lowerMassBoundaryStop.isSelected()) {
+				massBoundary.setFlowTypeAtBorder(Boundary.LOWER, MassBoundary.STOP);
+			} else if (lowerMassBoundaryThrough.isSelected()) {
+				massBoundary.setFlowTypeAtBorder(Boundary.LOWER, MassBoundary.THROUGH);
+			}
+
+			model.setSunny(sunnyCheckBox.isSelected());
+			model.setConvective(convectiveCheckBox.isSelected());
+			model.setBuoyancyApproximation((byte) buoyancyApproximationComboBox.getSelectedIndex());
+			model.setGravityType((byte) gravityTypeComboBox.getSelectedIndex());
+
+			model.refreshPowerArray();
+			model.refreshTemperatureBoundaryArray();
+			model.refreshMaterialPropertyArrays();
+
+			view.repaint();
+
+			if (!(e.getSource() instanceof JComboBox))
+				dispose();
+
+			view.notifyManipulationListeners(null, ManipulationEvent.PROPERTY_CHANGE);
+
 		};
 
 		addWindowListener(new WindowAdapter() {
@@ -322,11 +320,7 @@ class ModelDialog extends JDialog {
 		buttonPanel.add(button);
 
 		button = new JButton("Cancel");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
+		button.addActionListener(e -> dispose());
 		buttonPanel.add(button);
 
 		JTabbedPane tabbedPane = new JTabbedPane();
@@ -343,36 +337,32 @@ class ModelDialog extends JDialog {
 
 		convectiveCheckBox = new JCheckBox("Convective");
 		convectiveCheckBox.setSelected(model.isConvective());
-		convectiveCheckBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				boolean b = convectiveCheckBox.isSelected();
-				viscosityLabel.setEnabled(b);
-				viscosityField.setEnabled(b);
-				thermalExpansionCoefficientLabel.setEnabled(b);
-				thermalExpansionCoefficientField.setEnabled(b);
-				buoyancyApproximationLabel.setEnabled(b);
-				buoyancyApproximationComboBox.setEnabled(b);
-				gravityTypeLabel.setEnabled(b);
-				gravityTypeComboBox.setEnabled(b);
-			}
+		convectiveCheckBox.addItemListener(e -> {
+			boolean b = convectiveCheckBox.isSelected();
+			viscosityLabel.setEnabled(b);
+			viscosityField.setEnabled(b);
+			thermalExpansionCoefficientLabel.setEnabled(b);
+			thermalExpansionCoefficientField.setEnabled(b);
+			buoyancyApproximationLabel.setEnabled(b);
+			buoyancyApproximationComboBox.setEnabled(b);
+			gravityTypeLabel.setEnabled(b);
+			gravityTypeComboBox.setEnabled(b);
 		});
 		p.add(convectiveCheckBox);
 
 		sunnyCheckBox = new JCheckBox("Sunny");
 		sunnyCheckBox.setSelected(model.isSunny());
-		sunnyCheckBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				boolean b = sunnyCheckBox.isSelected();
-				sunAngleSlider.setEnabled(b);
-				emissionIntervalLabel.setEnabled(b);
-				emissionIntervalField.setEnabled(b);
-				rayNumberLabel.setEnabled(b);
-				rayNumberField.setEnabled(b);
-				raySpeedLabel.setEnabled(b);
-				raySpeedField.setEnabled(b);
-				solarPowerLabel.setEnabled(b);
-				solarPowerField.setEnabled(b);
-			}
+		sunnyCheckBox.addItemListener(e -> {
+			boolean b = sunnyCheckBox.isSelected();
+			sunAngleSlider.setEnabled(b);
+			emissionIntervalLabel.setEnabled(b);
+			emissionIntervalField.setEnabled(b);
+			rayNumberLabel.setEnabled(b);
+			rayNumberField.setEnabled(b);
+			raySpeedLabel.setEnabled(b);
+			raySpeedField.setEnabled(b);
+			solarPowerLabel.setEnabled(b);
+			solarPowerField.setEnabled(b);
 		});
 		p.add(sunnyCheckBox);
 
@@ -663,7 +653,7 @@ class ModelDialog extends JDialog {
 
 		label = new JLabel("Thermal boundary condition");
 		p.add(label);
-		thermalBoundaryComboBox = new JComboBox<String>(new String[] { "Dirichlet (constant temperature)", "Neumann (constant heat flux)", "Other" });
+		thermalBoundaryComboBox = new JComboBox<>(new String[]{"Dirichlet (constant temperature)", "Neumann (constant heat flux)", "Other"});
 		if (model.getThermalBoundary() instanceof DirichletThermalBoundary) {
 			thermalBoundaryComboBox.setSelectedIndex(0);
 		} else if (model.getThermalBoundary() instanceof NeumannThermalBoundary) {
@@ -671,20 +661,18 @@ class ModelDialog extends JDialog {
 		} else {
 			thermalBoundaryComboBox.setSelectedIndex(2);
 		}
-		thermalBoundaryComboBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					switch (thermalBoundaryComboBox.getSelectedIndex()) {
-					case 0:
-						setThermalBoundaryFields(new DirichletThermalBoundary());
-						break;
-					case 1:
-						setThermalBoundaryFields(new NeumannThermalBoundary());
-						break;
-					case 2:
-						enableBoundaryFieldsAndLabels(false);
-						break;
-					}
+		thermalBoundaryComboBox.addItemListener(e -> {
+			if (e.getStateChange() == ItemEvent.SELECTED) {
+				switch (thermalBoundaryComboBox.getSelectedIndex()) {
+				case 0:
+					setThermalBoundaryFields(new DirichletThermalBoundary());
+					break;
+				case 1:
+					setThermalBoundaryFields(new NeumannThermalBoundary());
+					break;
+				case 2:
+					enableBoundaryFieldsAndLabels(false);
+					break;
 				}
 			}
 		});
