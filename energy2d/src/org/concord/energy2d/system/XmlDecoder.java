@@ -6,10 +6,10 @@ import java.awt.geom.Rectangle2D;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
 
 import org.concord.energy2d.model.Anemometer;
 import org.concord.energy2d.model.Boundary;
@@ -827,7 +827,8 @@ class XmlDecoder extends DefaultHandler {
 					}
 				}
 				if (!Float.isNaN(x) && !Float.isNaN(y) && data != null) {
-					InputStream in = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(data));
+//					InputStream in = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(data));
+					InputStream in = new ByteArrayInputStream(Base64.getDecoder().decode(data));
 					Picture p = null;
 					try {
 						p = box.view.addPicture(ImageIO.read(in), format, filename, x, y);

@@ -4,9 +4,9 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 
 import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
 
 import org.concord.energy2d.model.Manipulable;
 import org.concord.energy2d.util.XmlCharacterEncoder;
@@ -147,7 +147,8 @@ public class Picture extends Manipulable {
 			}
 		}
 		if (success)
-			xml += " data=\"" + DatatypeConverter.printBase64Binary(b.toByteArray()) + "\"";
+//			xml += " data=\"" + DatatypeConverter.printBase64Binary(b.toByteArray()) + "\"";
+		xml += " data=\"" + Base64.getEncoder().encode(b.toByteArray()) + "\"";
 		if (getUid() != null && !getUid().equals(""))
 			xml += " uid=\"" + getUid() + "\"";
 		if (border)
