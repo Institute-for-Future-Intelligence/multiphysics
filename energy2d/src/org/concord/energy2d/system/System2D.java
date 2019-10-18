@@ -2,6 +2,7 @@ package org.concord.energy2d.system;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Desktop;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -986,145 +987,139 @@ public class System2D extends JApplet implements ManipulationListener {
 
     private static void start(final String[] args) {
 
-        isApplet = false;
+    	isApplet = false;
 
-        File testFile = new File(System.getProperty("user.dir"), "test.txt");
-        // can't use File.canWrite() to check if we can write a file to this folder. So we have to walk extra miles as follows.
-        try {
-            testFile.createNewFile();
-            testFile.delete();
-        } catch (Throwable e) {
-            appDirectoryWritable = false;
-        }
+    	File testFile = new File(System.getProperty("user.dir"), "test.txt");
+    	// can't use File.canWrite() to check if we can write a file to this folder. So we have to walk extra miles as follows.
+    	try {
+    		testFile.createNewFile();
+    		testFile.delete();
+    	} catch (Throwable e) {
+    		appDirectoryWritable = false;
+    	}
 
-        Locale.setDefault(Locale.US);
+    	Locale.setDefault(Locale.US);
 
-        // detect if the app is launched via webstart just checking its class loader: SystemClassLoader or JnlpClassLoader.
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        if (!cl.equals(ClassLoader.getSystemClassLoader()))
-            launchedByJWS = true;
+    	// detect if the app is launched via webstart just checking its class loader: SystemClassLoader or JnlpClassLoader.
+    	ClassLoader cl = Thread.currentThread().getContextClassLoader();
+    	if (!cl.equals(ClassLoader.getSystemClassLoader()))
+    		launchedByJWS = true;
 
-        if (System.getProperty("os.name").startsWith("Mac")) {
-            System.setProperty("apple.laf.useScreenMenuBar", "true");
-            System.setProperty("com.apple.mrj.application.apple.menu.about.name", BRAND_NAME);
-        }
+    	if (System.getProperty("os.name").startsWith("Mac")) {
+    		System.setProperty("apple.laf.useScreenMenuBar", "true");
+    		System.setProperty("com.apple.mrj.application.apple.menu.about.name", BRAND_NAME);
+    	}
 
-        if (preferences == null)
-            preferences = Preferences.userNodeForPackage(System2D.class);
-        Sensor.setMaximumDataPoints(preferences.getInt("Sensor Maximum Data Points", 1000));
+    	if (preferences == null)
+    		preferences = Preferences.userNodeForPackage(System2D.class);
+    	Sensor.setMaximumDataPoints(preferences.getInt("Sensor Maximum Data Points", 1000));
 
-        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        int w = (int) (screen.height * 0.7);
+    	Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+    	int w = (int) (screen.height * 0.7);
 
-        box = new System2D();
-        box.view.setPreferredSize(new Dimension(w, w));
-        box.view.setGridOn(true);
-        box.view.setBorderTickmarksOn(true);
-        // new org.concord.energy2d.model.PartFactory(box.model).addBlob();
-        final JFrame frame = new JFrame();
-        frame.setIconImage(new ImageIcon(System2D.class.getResource("resources/frame.png")).getImage());
-        final MenuBar menuBar = new MenuBar(box, frame);
-        menuBar.setLatestPath(preferences.get("Latest E2D Path", null), "e2d");
-        menuBar.setLatestPath(preferences.get("Latest HTM Path", null), "htm");
-        menuBar.setLatestPath(preferences.get("Latest PNG Path", null), "png");
-        menuBar.setLatestPath(preferences.get("Latest IMG Path", null), "img");
-        menuBar.addRecentFile(preferences.get("Recent File 0", null));
-        menuBar.addRecentFile(preferences.get("Recent File 1", null));
-        menuBar.addRecentFile(preferences.get("Recent File 2", null));
-        menuBar.addRecentFile(preferences.get("Recent File 3", null));
-        frame.setJMenuBar(menuBar);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.getContentPane().add(box.getContentPane(), BorderLayout.CENTER);
-        ToolBar toolBar = new ToolBar(box);
-        box.setToolBarListener(toolBar);
-        box.view.addManipulationListener(toolBar);
-        frame.getContentPane().add(toolBar, BorderLayout.NORTH);
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-        bottomPanel.add(box.createButtonPanel(), BorderLayout.CENTER);
-        box.statusLabel.setPreferredSize(new Dimension(100, 24));
-        box.snapToggleButton.setFocusable(false);
-        bottomPanel.add(box.statusLabel, BorderLayout.WEST);
-        bottomPanel.add(box.snapToggleButton, BorderLayout.EAST);
-        frame.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
-        int x = preferences.getInt("Upper-left x", (screen.height - w) / 8);
-        int y = preferences.getInt("Upper-left y", (screen.height - w) / 8);
-        frame.setLocation(x, y);
-        frame.setTitle(BRAND_NAME);
-        frame.pack();
-        frame.setVisible(true);
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                Action a = box.view.getActionMap().get("Quit");
-                if (a != null)
-                    a.actionPerformed(null);
-            }
+    	box = new System2D();
+    	box.view.setPreferredSize(new Dimension(w, w));
+    	box.view.setGridOn(true);
+    	box.view.setBorderTickmarksOn(true);
+    	// new org.concord.energy2d.model.PartFactory(box.model).addBlob();
+    	final JFrame frame = new JFrame();
+    	frame.setIconImage(new ImageIcon(System2D.class.getResource("resources/frame.png")).getImage());
+    	final MenuBar menuBar = new MenuBar(box, frame);
+    	menuBar.setLatestPath(preferences.get("Latest E2D Path", null), "e2d");
+    	menuBar.setLatestPath(preferences.get("Latest HTM Path", null), "htm");
+    	menuBar.setLatestPath(preferences.get("Latest PNG Path", null), "png");
+    	menuBar.setLatestPath(preferences.get("Latest IMG Path", null), "img");
+    	menuBar.addRecentFile(preferences.get("Recent File 0", null));
+    	menuBar.addRecentFile(preferences.get("Recent File 1", null));
+    	menuBar.addRecentFile(preferences.get("Recent File 2", null));
+    	menuBar.addRecentFile(preferences.get("Recent File 3", null));
+    	frame.setJMenuBar(menuBar);
+    	frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    	frame.getContentPane().add(box.getContentPane(), BorderLayout.CENTER);
+    	ToolBar toolBar = new ToolBar(box);
+    	box.setToolBarListener(toolBar);
+    	box.view.addManipulationListener(toolBar);
+    	frame.getContentPane().add(toolBar, BorderLayout.NORTH);
+    	JPanel bottomPanel = new JPanel(new BorderLayout());
+    	bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+    	bottomPanel.add(box.createButtonPanel(), BorderLayout.CENTER);
+    	box.statusLabel.setPreferredSize(new Dimension(100, 24));
+    	box.snapToggleButton.setFocusable(false);
+    	bottomPanel.add(box.statusLabel, BorderLayout.WEST);
+    	bottomPanel.add(box.snapToggleButton, BorderLayout.EAST);
+    	frame.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
+    	int x = preferences.getInt("Upper-left x", (screen.height - w) / 8);
+    	int y = preferences.getInt("Upper-left y", (screen.height - w) / 8);
+    	frame.setLocation(x, y);
+    	frame.setTitle(BRAND_NAME);
+    	frame.pack();
+    	frame.setVisible(true);
+    	frame.addWindowListener(new WindowAdapter() {
+    		public void windowClosing(WindowEvent e) {
+    			Action a = box.view.getActionMap().get("Quit");
+    			if (a != null)
+    				a.actionPerformed(null);
+    		}
 
-            public void windowOpened(WindowEvent e) {
-                EventQueue.invokeLater(() -> {
-                    if (args == null)
-                        return;
-                    String filePath = null;
-                    if (launchedByJWS) {
-                        if (args.length > 1)
-                            filePath = args[1];
-                    } else {
-                        if (args.length > 0)
-                            filePath = args[0];
-                    }
-                    if (filePath != null && filePath.toLowerCase().trim().endsWith(".e2d")) {
-                        box.loadFile(new File(filePath));
-                        menuBar.e2dFileChooser.rememberFile(filePath);
-                    }
-                });
-            }
-        });
-        box.owner = frame;
+    		public void windowOpened(WindowEvent e) {
+    			EventQueue.invokeLater(() -> {
+    				if (args == null)
+    					return;
+    				String filePath = null;
+    				if (launchedByJWS) {
+    					if (args.length > 1)
+    						filePath = args[1];
+    				} else {
+    					if (args.length > 0)
+    						filePath = args[0];
+    				}
+    				if (filePath != null && filePath.toLowerCase().trim().endsWith(".e2d")) {
+    					box.loadFile(new File(filePath));
+    					menuBar.e2dFileChooser.rememberFile(filePath);
+    				}
+    			});
+    		}
+    	});
+    	box.owner = frame;
 
-        if (System.getProperty("os.name").startsWith("Mac")) {
-            Application app = new Application();
-            app.setEnabledPreferencesMenu(true);
-            app.addApplicationListener(new ApplicationAdapter() {
+    	// see: https://github.com/frostwire/frostwire/blob/master/desktop/src/com/limegroup/gnutella/gui/MacEventHandler.java
+    	// for implementation that checks version of java and uses conditional reflection 
+    	if (System.getProperty("os.name").startsWith("Mac")) {
+    		Desktop desktop = Desktop.getDesktop();
 
-                @Override
-                public void handleQuit(ApplicationEvent e) {
-                    Action a = box.view.getActionMap().get("Quit");
-                    if (a != null)
-                        a.actionPerformed(null);
-                    e.setHandled(true);
-                }
+    		desktop.setAboutHandler(e -> {
+    			Helper.showAbout(frame);
+    		});
 
-                @Override
-                public void handlePreferences(ApplicationEvent e) {
-                    new PreferencesDialog(box, true).setVisible(true);
-                    e.setHandled(true);
-                }
+    		desktop.setPreferencesHandler(e -> {
+    			new PreferencesDialog(box, true).setVisible(true);
+    		});
 
-                @Override
-                public void handleOpenFile(final ApplicationEvent e) {
-                    EventQueue.invokeLater(() -> {
-                        String filePath = e.getFilename();
-                        if (filePath.toLowerCase().trim().endsWith(".e2d")) {
-                            box.loadFile(new File(filePath));
-                            menuBar.e2dFileChooser.rememberFile(filePath);
-                        }
-                    });
-                    e.setHandled(true);
-                }
+    		desktop.setQuitHandler((e, r) -> {
+    			Action a = box.view.getActionMap().get("Quit");
+    			if (a != null)
+    				a.actionPerformed(null);
+    		});
 
-                @Override
-                public void handleAbout(ApplicationEvent e) {
-                    Helper.showAbout(frame);
-                    e.setHandled(true);
-                }
-
-            });
-        }
-
-        // if (!launchedByJWS)
-        // UpdateAnnouncer.showMessage(box);
-
+    		desktop.setOpenFileHandler((e -> {
+    			EventQueue.invokeLater(() -> {
+    				List<File> files = e.getFiles();
+    				if (files != null && files.size() > 0) {
+    					File file = files.get(0);
+    					String filePath = file.getName();
+    					if (filePath.toLowerCase().trim().endsWith(".e2d")) {
+    						box.loadFile(new File(filePath));
+    						menuBar.e2dFileChooser.rememberFile(filePath);
+    					}
+    				}
+    			});
+    		}));
+    	};
     }
+
+    // if (!launchedByJWS)
+    // UpdateAnnouncer.showMessage(box);
+
 
     private void run2() {
         taskManager.execute();
