@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="energy2d:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/energy2d_jar</output-path>
+    <root id="archive" name="energy2d.jar">
+      <element id="module-output" name="energy2d" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/energy2d/exe/lib/samskivert.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/energy2d/exe/lib/getdown.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+<next_sim>fixed-flux-boundary.e2d</next_sim>
+</links>
+<model>
+<timestep>100.0</timestep>
+<viewupdate_interval>10</viewupdate_interval>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<background_conductivity>0.25</background_conductivity>
+<thermal_buoyancy>2.5E-4</thermal_buoyancy>
+<buoyancy_approximation>1</buoyancy_approximation>
+<boundary>
+<temperature_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part><ellipse x="5.0" y="5.0" a="1.0" b="1.0"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>30.0</temperature>
+<constant_temperature>true</constant_temperature>
+</part>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer x="5.0" y="1.8"/>
+<thermometer x="2.0" y="4.8"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<isotherm>true</isotherm>
+<color_palette_type>0</color_palette_type>
+<control_panel>true</control_panel>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>50.0</maximum_temperature>
+<heat_flux_line>true</heat_flux_line>
+<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Fixed temperature boundary" face="Arial" size="14" style="0" color="ffffff" x="0.4828" y="9.6495"/>
+</view>
+</state>

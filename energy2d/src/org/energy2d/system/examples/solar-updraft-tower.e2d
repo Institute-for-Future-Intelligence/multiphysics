@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+<next_sim>solar-updraft-tower2.e2d</next_sim>
+</links>
+<model>
+<timestep>0.5</timestep>
+<viewupdate_interval>8</viewupdate_interval>
+<sunny>true</sunny><sun_angle>1.5533433</sun_angle>
+<solar_power_density>20000.0</solar_power_density>
+<solar_ray_count>48</solar_ray_count>
+<solar_ray_speed>0.08</solar_ray_speed>
+<photon_emission_interval>4</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><z_heat_diffusivity_only_for_fluid>false</z_heat_diffusivity_only_for_fluid><background_conductivity>1.0</background_conductivity>
+<background_viscosity>0.01</background_viscosity>
+<thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<temperature_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="1" lower="1" left="1" right="1"/>
+</boundary>
+<structure>
+<part>
+<rectangle x="0.0" y="8.0" width="10.0" height="2.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>true</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<uid>GROUND</uid>
+<texture><texture_fg>-1</texture_fg>
+<texture_bg>-cccccd</texture_bg>
+<texture_style>9</texture_style>
+<texture_width>12</texture_width>
+<texture_height>12</texture_height>
+</texture>
+<draggable>false</draggable>
+</part>
+<part>
+<rectangle x="5.4" y="1.6000001" width="0.2" height="5.6"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>true</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<uid>CHIMNEY_RIGHT</uid>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>12</texture_style>
+<texture_width>10</texture_width>
+<texture_height>10</texture_height>
+</texture>
+</part>
+<part>
+<rectangle x="1.4" y="7.8" width="7.2000003" height="0.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>10.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-7f7f80</texture_fg>
+<texture_bg>-1000000</texture_bg>
+<texture_style>14</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<draggable>false</draggable>
+</part>
+<part>
+<rectangle x="4.4" y="1.6000001" width="0.2" height="5.6"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>true</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<uid>CHIMNEY_LEFT</uid>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>12</texture_style>
+<texture_width>10</texture_width>
+<texture_height>10</texture_height>
+</texture>
+</part>
+<part>
+<rectangle x="5.4" y="7.2000003" width="3.2" height="0.1"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0E-9</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>1.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>ccccff</color>
+</part>
+<part>
+<rectangle x="1.4" y="7.2000003" width="3.2" height="0.1"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0E-9</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>1.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>ccccff</color>
+</part>
+<part>
+<polygon count="3" vertices="5.0, 7.5, 5.4, 7.8, 4.6, 7.8"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>10.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-7f7f80</texture_fg>
+<texture_bg>-1000000</texture_bg>
+<texture_style>14</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<draggable>false</draggable>
+</part>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer label="T1" x="9.6" y="7.6"/>
+<thermometer label="T2" x="5.0" y="6.500001"/>
+<anemometer label="A1" x="5.0" y="4.9999976"/>
+<anemometer label="A3" x="4.0" y="7.6"/>
+<anemometer label="A2" x="6.0" y="7.6"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<perimeter_step_size>0.05</perimeter_step_size>
+<border_tickmarks>true</border_tickmarks>
+<color_palette_type>0</color_palette_type>
+<control_panel>true</control_panel>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>100.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Solar Updraft Tower-linebreak-(Tall)" face="Arial" size="18" style="0" color="ffffff" x="0.5" y="9.7"/>
+<text string="Glazing" face="Arial" size="12" style="0" color="ffffff" x="1.5000001" y="3.15"/>
+<text string="Glazing" face="Arial" size="12" style="0" color="ffffff" x="7.9" y="3.15"/>
+<text string="Absorber" face="Arial" size="12" style="1" color="ffffff" x="4.65" y="1.95"/>
+<image data="iVBORw0KGgoAAAANSUhEUgAAAL8AAAJXCAYAAADCYoXAAAAOIklEQVR42u3dybHkRBQF0L8GD3ABB/AC14joFcawaRdYYQNGNEPEJ4qKGpRSDi/fO0TcDUNTlTo3Kyulkj5+/e2XD1mTv//6ZhwWjr9BWIP+My3/rrLAvz36H77/7t88w3yL/fPfvf1vjsR4wx9mhn8G+Qj41sAPf5gZ/hXSXuDBhz8M/l6YW+Fb9sBfDv677waODfxl8D8rg2MEfyn4SgA//L4Yw18dvgLAXxq+ZRD85fFX/hSAF3z4pS58+KUs/KoFABl8+GUN/KOXKD+KAsC/Ffx7wH98/XI6I8oAv3TF3wv7rDJUKQDUA/HPAH+kDPDDPxX/SvSPSqAA8JeDf/ZTAH5pxh8R/tlPgewFALsj/ujw4Yd/CP4d4CsA/N3x7wQffvjhP4A+ewHAhr/s3R/Aht9Wp5zDvxt8+OEvjf9IAeCXdEsesz/88MMPP/zwSyH48MMPP/yAV8Rvxwf+t/DfPVYIfvjT4n/1CQA//GWXP/DDD3/SAsAvJfG7vEHgh1+y4n9WAPgFfvjlHkgW+PBL8wmvjPhvT+bBL//BzwL91d3cHt3wFn74U8N/98/hh79s3L0Bfvjhhx9++OGHH3744YcffvjhVwDw4YcffvjhBx9++MGHP08BMhYDfimJ30OoJTX+R6+5wpWc8BcvwCfw20uZK6GHv8MPW3bH/+jmXPBLcwl2xl/2+BmEvj9xhB9+3wfghx9+8OEvkuhbm/DDX272hx/+JdugkU5owQ8//AJ/9gKAD/+Sdf/qAjw6C+34wJ8a/7NPHvjhn7rjM7sAr/5/8MOfFn/l+27CH3Svf/QX4KN/Pvzwp7nm/0ypFAD+ZWd5e1wBeuW/hx/+EJc4tD7ppcfyCX74Q17f8+jRR71/KwA//KUvcHN84IcffoNQDb8CwF8S/u9/foMf/rr4FQB++OGHtQL+W/jww1/ml1zP8Ff/8gtsZ/SfsCLDv8dftQTgdoJ/D2tH/NUKAG9n+NHwt8CvVgKAE+N/9NqO4vdkFmmGHwX/s9fWgj97CSBOhv/2i3cP+JkLAHFn+Cvxv3pNV/FnLAHISfAfgd8Df6YSgHxxT78i/CwFgPkE+kiz/lH4I/DvXgKoG9FHwt8CfyT+XUsAdyP6d+Bm4D/yOmbD37EEkDegj4C/Ff0K/LuUAPYG9Edn3FEFOAt/Ff7oJYC+Af3K2f8K/NX4o5YA+gvZBX8E+BFLAH2HjC5Ahlk/Ygmg74B+5JWdV+FHxr+6BNB3mvFHFKAC/JVFgL7jcqf3L7oq4p9ZAugHrPV7FKAH/J3xzygB9IN2e3rM/lm/6EYpAfSd4d8XAP64JYB+EP4eBYB/bAmgH4j/FuCsC9gqwO9VAOgH479SgNtPjrOlU4DN8Ucc9DMzcc/bjsB/vQTQT8Tf8qC6FtzV4Z8tAPiT8B+d/a8sbarjby0A/InwS1sJwJ8E/wh+8OcWAP4g+CP/Jhd+8MPgBxv+NPjN+vB/7DKoPfFf2TaVawWAfyF+8OGHH374s+O/LQD48JfE70pN+Evt9FzFD3L/AsC/AL9ZH/5yS56z+AGGP8V636wPP/zgww8//KsKAH9g/NDCn+bsrlkffrM++PDDD//KAsAfED+o8Jdd74MKf0n8kMIPv8APv6TFv9PggQ8//PDDD38//HDCD7/An+W25ODDDz/88O8KfxR+KOGHX+DPgh98+OGHH374wYe/AH6zPvyp4PfEDyL88Av8lfBDCH9a/GZ9+OEHH3744Ye/OH744hUA/I74zfrwww8//PCDDz/8An9e/ODDDz/88GeDDz/88Dfghw3+9PjN+vCnx/8KOfjwww8//PCDBn9y/ODDXwI+/PDD/wI/YPDDL/Bnxm/JAz/84MMPP1zwJ4UPP/zwww8//B/gww8/WPsVAH744Ycffvjhhx9+8OGHH3744Ycffvjhhx9++OGHvwR8+OGHH/4UBYAffvjhhx9+8OGHH/5X+F3LDz/88MMPf9uf88fXL6cDL/yh8L8rwBXsSrAZ/qyDdgb/CPhKAH/oG1YdRasE8KfCfxSoT4CFgb8v/qOzvO8BSfFnX+8/2+15BfLI34Mf/m7pjeMM/pnwFaAw/tFQXl3aEAU+/MXwz8JyBf+sbU8FKIJ/NpZH+I+s9Weihz85/lVoWvDPPMkFfxD8u834LXBa8a9AD39i/CvxPDqhtRK4AsA/DRD88JfCfw/pyEkt+OFPA/8eFPzwl5n14Ye//KwPP/zwww8//PD7McuEAsAPP/yB8EcuAODwD4cFP/zDCxARVtTlD9wLb1GeHX/ktT/cx+BvdfeGqEuLaAUA/Bh8+Dvhj1IAwI/D3+p2hfCDD39A+EdvWAV9HPjbPY0x4m7P2VsVgr8W/jT8vQoQZUnRcoty6GPCn4q/VwkiLHFa788PfTz4S/BfLUCkNX7LwymgjwV/Gf4rJYiys9PyYIqzrx/kcfCX4z9blGizfutjiSBfi35r/LNvYfJuve+BdHuh3x7/qBK8ulcP/HugLoN/9D074d8LdDn8PUvwDj788IfeGToC/OysD38O+GnxPyvDlSexwA//lvh7PIYIfvjhhx9++OGHH3744Ydf4IdfwsOHH3744Ycffvjhhx/+Z/Dhh7/srA8//PDDDz/88MMPv8APvzjDC7/AD7/ADz/88MMPP/xp8CsA/PAL/PAL/PCLm1bluKITfvhL41cA+OGHH3744Ycffsjhh1/gh1/CFgD+zvgVAH74BX74BX74Bf49ru0R+OEX+OEX+OGXJAWAX+CHX+CHX+CHX+CHX+CHX+CHX+CHX/YtAPwd8+NPP/8vkMO/Jfx7yGcCOfxb4e+BXgHg3w5/b/jwww+/wA+/wA8//PDDrwDwww8//NnwKwD88Av88Av88MMPP/zww78U/yj48MMPv4QrAPwT8CsA/PAL/PAL/PDDDz/88MMPP/zwz8Q/Gj788JfGrwDxCmDJAz/88MMPP/zww+9qTvjhhx9++OFXAPjBhx9++BVg3wLAvwC/AsCf8pbkCgA//PDDD78CwB/0EUSr8SsA/KXxK0Bx/JXhww9/afwKML8A8MMPv2ftKgD88CsA/PDDD39K+JHxVy0A/PDDD39d+FULUAq/WR/+lQUw6ysA/PArgGUP+PAnfxZXSfw7wt+5AJ+vO+wdQvxoRRFGji38RW5HmKkEPV8j/ItKkBX+I2RRXxf8C4pQBX70UsI/uQTggb81foDgh1/gh1/gh1/gh1/gh1/gh1/gh1/g3/tRpBDBD7+AD7/AD7/AD7/AD7/AD7/AD7/AD7/AD7/f3sIPP/zww7/81iPgw18Sf8b3CT/88MOvAPDDD/8LIJneJ/zwww8//PDDD/8bIFneK/zwN+OAH3744YcffvjhL3T6P8P7hR/+UzDghx9++OGveOo/w2NT4Ycffvjhhx/+0gU4igJ++Evvf+/8nuGHH3744Ycf/tL4z4DY9X3DDz/88MMPP/zwww8//LnfO/zwww8//PDDXxb/VQy7vX/44Ycffvjhh79sAeCHH3744Ycffvjhhx9+p/ozvX/44Ycffvjhhx9++OGHH3744Ycffvjhhx9++OF3Xfu+YwA//PDDDz/88MMPP/zwww8//PDDDz/88Nvj33wcdoEP/2YI4Ie/9Ed/9LGAH3744Ycffvjhhx9++OGHH3744XffGvjhN+vDDz/8+44J/PDDDz/88MMPP/zwww8//PDDD789fvjhhx9++OGHvzx+6/39xgZ++OGHH3744Ycffvjhhx9+Oz3www8//PDDDz/88O87PvD7sgs//PDDDz/88MMPP/zwww8//PDDD79tTvjhhx9++OHfbpzghx9++H3ZteyBH3744Ycffvjhhx9++OGHH3744Ycffvjhhx9++OGHH3744XfQ4YfftfzwZ8G/I3z44TfrGyf44Ycffvjhhx9++OGHH3744Ycffvjhhx9++OGHf+Mxgh9++OGHH3744Ycffvjhhx9++OGHH3744Ycffvjhhx98+OGHH374LXmCjw/88MMPP/zwww8//PDDDz/88MMPP/zwww8//PDDDz/88MMPv4O9y9jAXwS/WX9f+PDDDz/88MMPP/zwww8//PDDD78DbJsTfgfZrA8//MYFfviNC/zwww8//PDDDz/88MMPP/zwGxP4zXDwww8//PDDb0zgd6CNCfwOtDGBH35jAr9tTmMCv1kffvjhhx9++OGHH3744Ycffvjhhx9+25zww2/Wh/8j5osKetDhhx9++OGHH374ixx4+OGHH/7t4cNvmxN++OGHXwHghx9++OGHH374FQB++OGHH3744Yffur8wfPjhhx9+J7oseeCHH374XdYMP/zwww8//PDD70fsdnrgh9+sD79798Dvvj0/ww8//PDDDz/88GfG724F8MNf9KDb5oQffvBr4XfgjQH88MMPP/zwF8C/2xe9UQcffvjhhx9++OFPjX9H+NXxZ4C/HP+u8OGHH37XNsFfDT788JeFXxl/FvhL8GeADz/8ZeFX/tILP/wl8WeCPxV/Nvjww18W/i7r/n/+rEeBfwL+rPCj43+G/koR4Ic/NP4W9C0lyAZ/OP7M8Gf8kP3MzNwj8IMfZhnwrgS90L8qAPzgLwVxD3ME+mclgL/ho/rKrgL87eM8Otngd8M/YmdBAeAPi3/klyv44Q+Hf+YaE/448LMWINTg7lgG+DfHHw189DKsQrF67OEvVopIKODvPp77w+9RjOgwIowj/AI//AI//DIBB/zwww8//PDDDz/84MMPP/jw2+0Bv+3anowIswKBusiFbVcPntlRmi9pzrScAF9OXc+fZY0JsYT7MYuDIOl/xmiwJVr+AucRC3FJ5jGRAAAAAElFTkSuQmCC" filename="juro.png" format="png" width="0.6" height="1.8000001" x="0.5" y="6.2"/>
+</view>
+</state>

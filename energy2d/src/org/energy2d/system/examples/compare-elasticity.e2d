@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+</links>
+<model>
+<model_width>1.0</model_width>
+<model_height>1.0</model_height>
+<timestep>1.0E-4</timestep>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>100000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.001</solar_ray_speed>
+<photon_emission_interval>25</photon_emission_interval>
+<gravitational_acceleration>0.0</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.0</particle_drag><particle_hardness>0.001</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<background_conductivity>1.0E-9</background_conductivity>
+<thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
+<buoyancy_approximation>1</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part>
+<rectangle x="0.7" y="0.09999999" width="0.1" height="0.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>200.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<uid>BOTTOM</uid>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>5</texture_style>
+<texture_width>12</texture_width>
+<texture_height>12</texture_height>
+</texture>
+<filled>false</filled>
+<label>%thermal_energy</label>
+</part>
+<part>
+<rectangle x="0.7" y="0.39999998" width="0.1" height="0.2"/><elasticity>0.5</elasticity>
+<thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>200.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>5</texture_style>
+<texture_width>12</texture_width>
+<texture_height>12</texture_height>
+</texture>
+<filled>false</filled>
+<label>%thermal_energy</label>
+</part>
+<part>
+<rectangle x="0.7" y="0.6999999" width="0.1" height="0.2"/><elasticity>0.0</elasticity>
+<thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>200.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>5</texture_style>
+<texture_width>12</texture_width>
+<texture_height>12</texture_height>
+</texture>
+<filled>false</filled>
+<label>%thermal_energy</label>
+</part>
+<particle>
+<rx>0.3</rx>
+<ry>0.2</ry>
+<vx>1.0</vx>
+<radius>0.030000001</radius>
+<mass>10.0</mass>
+<label>B1</label>
+<color>ff00c0</color>
+<velocity_color>c000</velocity_color>
+</particle>
+<particle>
+<rx>0.3</rx>
+<ry>0.5</ry>
+<vx>1.0</vx>
+<radius>0.030000001</radius>
+<mass>10.0</mass>
+<label>B2</label>
+<color>ff00c0</color>
+<velocity_color>c000</velocity_color>
+</particle>
+<particle>
+<rx>0.29999998</rx>
+<ry>0.79999995</ry>
+<vx>1.0</vx>
+<radius>0.030000001</radius>
+<mass>10.0</mass>
+<label>B3</label>
+<color>ff00c0</color>
+<velocity_color>c000</velocity_color>
+</particle>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer label="T1" x="0.7" y="0.18148147"/>
+<thermometer label="T2" x="0.7" y="0.4814815"/>
+<thermometer label="T3" x="0.7" y="0.7814815"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<radiation_mesh_size>0.05</radiation_mesh_size>
+<ruler>true</ruler>
+<color_palette_type>0</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>20.0</maximum_temperature>
+<velocity>true</velocity>
+<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
+<text string="Elasticity = 1" face="Arial" size="12" style="0" color="ffffff" x="0.705" y="0.68500006"/>
+<text string="Elasticity = 0.5" face="Arial" size="12" style="0" color="ffffff" x="0.7" y="0.38500005"/>
+<text string="Elasticity = 0" face="Arial" size="12" style="0" color="ffffff" x="0.705" y="0.08500001"/>
+</view>
+</state>

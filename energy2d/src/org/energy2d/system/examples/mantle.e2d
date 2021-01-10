@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<model>
+<timestep>1.0</timestep>
+<measurement_interval>20</measurement_interval>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>0.01</background_conductivity>
+<background_density>1.0</background_density>
+<background_specific_heat>1000.0</background_specific_heat>
+<background_temperature>20.0</background_temperature>
+<background_viscosity>2.0E-4</background_viscosity>
+<gravity_type>1</gravity_type>
+<thermal_buoyancy>1.0E-6</thermal_buoyancy>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<temperature_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part><ring x="5.0" y="5.0" inner="9.0" outer="20.0"/><thermal_conductivity>0.01</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>200.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>0</color>
+<draggable>false</draggable>
+</part>
+<part><ellipse x="5.0" y="5.0" a="5.0" b="5.0"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>100.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>ffff80</color>
+<filled>false</filled>
+<draggable>false</draggable>
+</part>
+</structure>
+</model>
+<sensor>
+</sensor>
+<controller>
+</controller>
+<view>
+<grid>true</grid>
+<grid_size>10</grid_size>
+<color_palette_type>1</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>100.0</maximum_temperature>
+<graph_xlabel>Time</graph_xlabel><clock>false</clock>
+<text string="Earth core" face="Arial" size="20" style="3" color="0" x="4.3253975" y="5.224868"/>
+<text string="Surface" face="Arial" size="20" style="3" color="ffffff" x="0.84656084" y="9.047619"/>
+</view>
+</state>

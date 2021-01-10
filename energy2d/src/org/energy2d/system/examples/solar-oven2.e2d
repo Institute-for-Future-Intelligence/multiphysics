@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+<prev_sim>solar-oven.e2d</prev_sim>
+</links>
+<model>
+<timestep>0.5</timestep>
+<viewupdate_interval>5</viewupdate_interval>
+<sunny>true</sunny><sun_angle>1.0471976</sun_angle>
+<solar_power_density>50000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>4</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>0.001</background_conductivity>
+<background_viscosity>1.0E-4</background_viscosity>
+<thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<temperature_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="1" lower="1" left="1" right="1"/>
+</boundary>
+<structure>
+<part>
+<rectangle x="4.5" y="5.55" width="1.0" height="0.5"/><elasticity>1.0</elasticity>
+<thermal_conductivity>10.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>100.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+<part>
+<polygon count="4" vertices="3.650794, 8.214286, 3.650794, 9.920635, 4.1931224, 9.933863, 4.20635, 8.478836"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-1</texture_bg>
+<texture_style>13</texture_style>
+<texture_width>4</texture_width>
+<texture_height>4</texture_height>
+</texture>
+<draggable>false</draggable>
+</part>
+<part>
+<polygon count="200" vertices="0.7366364, 3.4687085, 0.7737384, 3.604446, 0.8118409, 3.7384505, 0.8509433, 3.8707232, 0.8910457, 4.001264, 0.93214846, 4.130072, 0.97425103, 4.257149, 1.0173533, 4.3824935, 1.0614552, 4.5061064, 1.1065577, 4.627987, 1.15266, 4.748135, 1.1997619, 4.8665524, 1.2478646, 4.9832363, 1.2969668, 5.098189, 1.3470693, 5.2114086, 1.3981723, 5.3228955, 1.4502752, 5.4326506, 1.5033776, 5.5406747, 1.5574803, 5.646966, 1.6125826, 5.7515264, 1.6686851, 5.8543534, 1.7257878, 5.955449, 1.7838906, 6.054812, 1.8429928, 6.1524434, 1.9030952, 6.2483435, 1.9641979, 6.34251, 2.0263007, 6.4349456, 2.0894032, 6.5256486, 2.1535056, 6.6146197, 2.2186081, 6.701859, 2.2847104, 6.7873664, 2.3518133, 6.871141, 2.419916, 6.9531837, 2.489018, 7.0334954, 2.5591207, 7.112074, 2.6302235, 7.18892, 2.702326, 7.264035, 2.7754283, 7.337418, 2.849531, 7.4090686, 2.924634, 7.478987, 3.0007362, 7.5471735, 3.0778391, 7.613628, 3.155942, 7.678351, 3.2350438, 7.741341, 3.315147, 7.8025994, 3.3962486, 7.862126, 3.478352, 7.9199195, 3.5614548, 7.9759817, 3.6455564, 8.0303135, 3.73066, 8.082909, 3.8167615, 8.133776, 3.9038649, 8.182907, 3.9919672, 8.230312, 4.08107, 8.27598, 4.171172, 8.319918, 4.262274, 8.362125, 4.3543773, 8.402597, 4.4474797, 8.441341, 4.541582, 8.47835, 4.636685, 8.513628, 4.732787, 8.547173, 4.82989, 8.578985, 4.927993, 8.609068, 5.027095, 8.637417, 5.1271973, 8.664034, 5.2283, 8.688919, 5.3304024, 8.712074, 5.433506, 8.733494, 5.5376077, 8.753183, 5.6427107, 8.771141, 5.748812, 8.787365, 5.855915, 8.801859, 5.964018, 8.814619, 6.07312, 8.825647, 6.183223, 8.834946, 6.294325, 8.84251, 6.4064283, 8.848343, 6.5195312, 8.852444, 6.6336336, 8.854811, 6.7487354, 8.855448, 6.8648376, 8.854353, 6.981941, 8.851524, 7.1000423, 8.846964, 7.219145, 8.840673, 7.3392477, 8.832649, 7.46035, 8.822895, 7.5824537, 8.811407, 7.705554, 8.798187, 7.8296576, 8.783236, 7.9547596, 8.766552, 8.080864, 8.748135, 8.207966, 8.727985, 8.336067, 8.706104, 8.46517, 8.682493, 8.595274, 8.657146, 8.7263775, 8.630072, 8.85848, 8.601263, 8.991581, 8.570723, 9.125685, 8.53845, 9.260788, 8.504444, 9.160788, 8.67765, 9.025684, 8.711655, 8.891581, 8.743927, 8.75848, 8.774467, 8.626377, 8.803278, 8.495274, 8.830353, 8.36517, 8.855698, 8.236067, 8.879311, 8.107965, 8.901192, 7.9808636, 8.921339, 7.85476, 8.939756, 7.729658, 8.956438, 7.6055546, 8.971392, 7.4824533, 8.9846115, 7.3603506, 8.996099, 7.2392483, 9.005854, 7.1191444, 9.013878, 7.000042, 9.02017, 6.881941, 9.024729, 6.764838, 9.027557, 6.648736, 9.028654, 6.533633, 9.028017, 6.419531, 9.025648, 6.306428, 9.021547, 6.1943254, 9.015715, 6.0832233, 9.00815, 5.9731207, 8.998852, 5.8640184, 8.9878235, 5.7559156, 8.975063, 5.6488123, 8.960571, 5.5427103, 8.944345, 5.437608, 8.926388, 5.3335056, 8.906698, 5.2304025, 8.885279, 5.1283007, 8.8621235, 5.027198, 8.83724, 4.9270945, 8.810623, 4.8279924, 8.782272, 4.7298903, 8.75219, 4.6327877, 8.720377, 4.536685, 8.686832, 4.441582, 8.651554, 4.3474803, 8.614544, 4.2543774, 8.575804, 4.1622744, 8.53533, 4.0711718, 8.493124, 3.9810696, 8.449186, 3.8919678, 8.403517, 3.8038645, 8.356113, 3.716762, 8.30698, 3.6306596, 8.256115, 3.545557, 8.203516, 3.4614544, 8.149187, 3.3783517, 8.093124, 3.2962492, 8.03533, 3.215147, 7.9758043, 3.1350443, 7.9145455, 3.055942, 7.851556, 2.9778392, 7.786833, 2.9007368, 7.7203774, 2.8246346, 7.652191, 2.749531, 7.5822735, 2.6754284, 7.510623, 2.6023262, 7.43724, 2.530224, 7.3621244, 2.4591208, 7.285279, 2.389018, 7.2067003, 2.319916, 7.1263885, 2.2518134, 7.044346, 2.1847105, 6.9605713, 2.1186082, 6.875064, 2.0535057, 6.7878246, 1.9894032, 6.6988535, 1.9263008, 6.6081505, 1.864198, 6.515715, 1.8030955, 6.4215484, 1.742993, 6.3256483, 1.6838907, 6.228017, 1.6257879, 6.128654, 1.5686852, 6.0275583, 1.5125827, 5.9247313, 1.4574804, 5.820171, 1.4033777, 5.7138796, 1.3502753, 5.6058555, 1.2981728, 5.4960995, 1.2470698, 5.3846126, 1.1969674, 5.271393, 1.1478652, 5.1564403, 1.0997624, 5.0397563, 1.0526601, 4.92134, 1.0065573, 4.8011928, 0.96145487, 4.679312, 0.9173528, 4.5556993, 0.8742502, 4.4303555, 0.83214796, 4.3032784, 0.7910453, 4.1744704, 0.7509434, 4.0439286, 0.711841, 3.911656, 0.6737385, 3.7776513, 0.636636, 3.6419148"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-1</texture_bg>
+<texture_style>13</texture_style>
+<texture_width>4</texture_width>
+<texture_height>4</texture_height>
+</texture>
+</part>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer x="5.0" y="5.50952"/>
+<anemometer x="5.026455" y="4.0608463"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<snap_to_grid>false</snap_to_grid>
+<grid_size>10</grid_size>
+<perimeter_step_size>0.049999997</perimeter_step_size>
+<color_palette_type>0</color_palette_type>
+<control_panel>true</control_panel>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>100.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
+<text string="Solar oven-linebreak-Press &apos;Q&apos; or &apos;W&apos; to change the sun angle" face="Arial" size="12" style="0" color="ffffff" x="0.23809521" y="9.854498"/>
+</view>
+</state>

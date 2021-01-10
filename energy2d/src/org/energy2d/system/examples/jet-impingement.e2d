@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+</links>
+<model>
+<model_width>1.0</model_width>
+<model_height>1.0</model_height>
+<timestep>0.002</timestep>
+<viewupdate_interval>10</viewupdate_interval>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.1</particle_drag><particle_hardness>1.0E-5</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>0.5</background_conductivity>
+<background_viscosity>0.01</background_viscosity>
+<thermal_expansion_coefficient>1.0E-4</thermal_expansion_coefficient>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<temperature_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="1" lower="1" left="1" right="1"/>
+</boundary>
+<structure>
+<part>
+<rectangle x="0.030000001" y="0.82" width="0.94" height="0.15"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>100.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+<part>
+<polygon count="7" vertices="0.30571443, -0.24957687, 0.2657144, -0.24957687, 0.2657144, 0.35042328, 0.42571443, 0.7104233, 0.46571445, 0.7104233, 0.46571445, 0.27042335, 0.30571443, 0.27042335"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>9</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+</part>
+<part>
+<polygon count="7" vertices="0.7260316, -0.25412658, 0.7660316, -0.25412658, 0.7660316, 0.34587356, 0.6060316, 0.7058735, 0.56603163, 0.7058735, 0.56603163, 0.2658734, 0.7260316, 0.2658734"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>10</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+</part>
+</structure>
+<environment>
+<fan x="0.31" y="0.0" width="0.4" height="0.06" speed="2.0" angle="1.5707964"/><particle_feeder color="ffff80" velocity_color="0" radius="0.002" mass="0.001" x="0.48" y="0.8" maximum="100" period="1.0"/><particle_feeder color="80ffc0" velocity_color="0" radius="0.004" mass="0.002" x="0.51" y="0.8" maximum="100" period="1.0"/><particle_feeder color="ffffc0" velocity_color="0" radius="0.002" mass="0.001" x="0.54" y="0.8" maximum="100" period="1.0"/></environment>
+<sensor>
+<thermometer x="0.51" y="0.81000006"/>
+<thermometer x="0.17999999" y="0.81"/>
+<anemometer uid="A1" label="A1" x="0.51" y="0.099999994"/>
+<anemometer uid="A2" label="A2" x="0.52" y="0.42"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<graph_data_type>2</graph_data_type>
+<perimeter_step_size>0.05</perimeter_step_size>
+<border_tickmarks>true</border_tickmarks>
+<color_palette_type>1</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>100.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><streamline>true</streamline>
+<graph_xlabel>Time</graph_xlabel><graph_ylabel>Wind speed (m/s)</graph_ylabel><graph_ymin>0.6095707</graph_ymin><graph_ymax>1.1188357</graph_ymax><text string="Jet Impingement-linebreak-Cooling" face="Arial" size="14" style="1" color="ffffff" x="0.049999997" y="0.95"/>
+</view>
+</state>

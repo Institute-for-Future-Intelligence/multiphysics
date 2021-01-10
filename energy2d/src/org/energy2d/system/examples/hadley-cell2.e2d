@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+<prev_sim>hadley-cell.e2d</prev_sim>
+</links>
+<model>
+<timestep>0.1</timestep>
+<viewupdate_interval>10</viewupdate_interval>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>0.5</background_conductivity>
+<background_density>1.0</background_density>
+<background_specific_heat>1000.0</background_specific_heat>
+<background_temperature>20.0</background_temperature>
+<background_viscosity>0.01</background_viscosity>
+<thermal_expansion_coefficient>0.001</thermal_expansion_coefficient>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="1" lower="1" left="1" right="1"/>
+</boundary>
+<structure>
+<part>
+<rectangle x="0.0" y="0.0" width="10.0" height="3.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0E-9</thermal_conductivity>
+<specific_heat>100.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>-20.0</temperature>
+<constant_temperature>true</constant_temperature>
+<uid>COVER1</uid>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-ff3f80</texture_bg>
+<texture_style>16</texture_style>
+<texture_width>12</texture_width>
+<texture_height>12</texture_height>
+</texture>
+<filled>false</filled>
+<label>%temperature</label>
+</part>
+<part>
+<rectangle x="0.0" y="9.0" width="3.0" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>10.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>15.0</temperature>
+<constant_temperature>true</constant_temperature>
+<uid>BLOCK1</uid>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>4</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<filled>false</filled>
+<label>%temperature</label>
+</part>
+<part>
+<rectangle x="4.6" y="9.0" width="0.8" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>10.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>30.0</temperature>
+<constant_temperature>true</constant_temperature>
+<uid>HEATER</uid>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>4</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<filled>false</filled>
+<label>%temperature</label>
+</part>
+<part>
+<rectangle x="7.0" y="9.0" width="3.0" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>10.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>15.0</temperature>
+<constant_temperature>true</constant_temperature>
+<uid>BLOCK2</uid>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>4</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<filled>false</filled>
+<label>%temperature</label>
+</part>
+<part>
+<rectangle x="3.7999988" y="9.0" width="0.8" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>10.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>25.0</temperature>
+<constant_temperature>true</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>4</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<filled>false</filled>
+<label>%temperature</label>
+</part>
+<part>
+<rectangle x="5.4" y="9.0" width="0.8" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>10.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>25.0</temperature>
+<constant_temperature>true</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>4</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<filled>false</filled>
+<label>%temperature</label>
+</part>
+<part>
+<rectangle x="6.2" y="9.000001" width="0.8" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>10.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>true</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>4</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<filled>false</filled>
+<label>%temperature</label>
+</part>
+<part>
+<rectangle x="2.9999998" y="9.000001" width="0.8" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>10.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>true</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>4</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<filled>false</filled>
+<label>%temperature</label>
+</part>
+</structure>
+<environment>
+<particle_feeder color="c000" velocity_color="0" radius="0.04" mass="0.05" x="5.0" y="8.800001" maximum="100" period="50.0"/></environment>
+<sensor>
+<anemometer label="A2" x="5.0" y="7.0"/>
+<anemometer label="A1" x="1.8000001" y="8.0"/>
+<anemometer label="A3" x="8.2" y="8.0"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<graph_data_type>2</graph_data_type>
+<perimeter_step_size>0.049999997</perimeter_step_size>
+<color_palette_type>1</color_palette_type>
+<control_panel>true</control_panel>
+<control_panel_position>1</control_panel_position>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>40.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time (hr)</graph_xlabel><graph_ylabel>Wind speed (m/s)</graph_ylabel><graph_ymin>0.0030656476</graph_ymin><graph_ymax>50.0</graph_ymax><clock>false</clock>
+<text string="Trade winds →" face="Arial" size="14" style="0" color="ffffff" x="1.9500002" y="1.4999994"/>
+<text string="← Trade winds" face="Arial" size="14" style="0" color="ffffff" x="6.800001" y="1.5"/>
+<text string="Hadley Cell-linebreak-Oscillatory Pattern" face="Arial" size="18" style="1" color="ffffff" x="0.3" y="9.8"/>
+<text string="Equator" face="Arial" size="10" style="1" color="0" x="4.75" y="1.6499996"/>
+<text string="Tropics -linebreak-of Cancer" face="Arial" size="10" style="1" color="0" x="0.1" y="1.5500002"/>
+<text string="Tropics -linebreak-of Capricon" face="Arial" size="10" style="1" color="0" x="9.000001" y="1.5500002"/>
+</view>
+</state>

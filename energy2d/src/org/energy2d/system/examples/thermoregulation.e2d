@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+</links>
+<model>
+<model_width>0.5</model_width>
+<model_height>0.5</model_height>
+<timestep>1.0</timestep>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<background_conductivity>1.0E-4</background_conductivity>
+<background_density>10.0</background_density>
+<background_specific_heat>2000.0</background_specific_heat>
+<background_temperature>20.0</background_temperature>
+<background_viscosity>1.568E-4</background_viscosity>
+<thermal_buoyancy>2.5E-4</thermal_buoyancy>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part><polygon count="75" vertices="0.11023222, 0.36788362, 0.18151225, 0.36788362, 0.17632823, 0.31669164, 0.18345626, 0.2920676, 0.18864022, 0.2583717, 0.19123222, 0.24994773, 0.23400028, 0.19551593, 0.23724024, 0.18968397, 0.23983227, 0.18449992, 0.24112825, 0.18061191, 0.23918419, 0.17672396, 0.23918419, 0.17737192, 0.2359442, 0.17737192, 0.23205622, 0.17801994, 0.18475221, 0.22143584, 0.17632823, 0.22337985, 0.17179222, 0.21560395, 0.18864022, 0.13654792, 0.18928824, 0.13201189, 0.18864022, 0.13006794, 0.18734421, 0.12812394, 0.18540023, 0.12617993, 0.18216021, 0.12488389, 0.17956822, 0.12488389, 0.17568024, 0.12682796, 0.17244022, 0.12941992, 0.15429623, 0.20005196, 0.14846422, 0.20523596, 0.14522423, 0.204588, 0.14522423, 0.116459906, 0.14457624, 0.11386788, 0.14263223, 0.11192393, 0.1400402, 0.10997993, 0.13550423, 0.10803592, 0.13291223, 0.10997993, 0.12967221, 0.112571955, 0.12772824, 0.11710793, 0.123192236, 0.20329201, 0.11930423, 0.20653194, 0.11606423, 0.20653194, 0.11347222, 0.20393997, 0.085608244, 0.13330793, 0.08431223, 0.1307159, 0.08236823, 0.1287719, 0.07977624, 0.12682796, 0.07718424, 0.12617993, 0.07524024, 0.12553191, 0.07200023, 0.12747592, 0.06940824, 0.1307159, 0.06811223, 0.135252, 0.06811223, 0.13913995, 0.09208823, 0.23633975, 0.09273622, 0.24411577, 0.09208823, 0.25448364, 0.08949623, 0.2583717, 0.07135224, 0.25707567, 0.067464225, 0.25383574, 0.05061623, 0.23698777, 0.037656233, 0.22791582, 0.031176234, 0.22661984, 0.02534423, 0.22726786, 0.020160234, 0.22791582, 0.017568232, 0.23050785, 0.018216232, 0.23374778, 0.022104235, 0.23698777, 0.027288236, 0.2421717, 0.034416236, 0.25189167, 0.038304236, 0.2583717, 0.046080235, 0.2642036, 0.054504234, 0.27781165, 0.062280234, 0.29336363, 0.07005623, 0.30502766, 0.08107223, 0.3153956, 0.09273622, 0.3283556, 0.10180823, 0.34520364"/>
+<thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>36.0</temperature>
+<constant_temperature>false</constant_temperature>
+<power>100.0</power>
+<uid>LEFT_HAND</uid>
+<filled>false</filled>
+</part>
+<part><polygon count="75" vertices="0.39109075, 0.3678836, 0.31981072, 0.3678836, 0.32499474, 0.3166916, 0.3178667, 0.29206756, 0.31268275, 0.25837168, 0.31009075, 0.2499477, 0.2673227, 0.1955159, 0.26408273, 0.18968394, 0.2614907, 0.18449995, 0.26019472, 0.18061194, 0.26213878, 0.17672393, 0.26213878, 0.17737189, 0.26537877, 0.17737189, 0.26926675, 0.17801991, 0.3165708, 0.22143582, 0.32499474, 0.22337982, 0.32953072, 0.21560392, 0.31268275, 0.1365479, 0.31203473, 0.13201192, 0.31268275, 0.13006791, 0.31397873, 0.12812391, 0.31592277, 0.1261799, 0.31916276, 0.12488392, 0.32175472, 0.12488392, 0.32564276, 0.12682793, 0.32888275, 0.12941995, 0.34702674, 0.20005193, 0.35285875, 0.20523593, 0.35609877, 0.20458797, 0.35609877, 0.11645988, 0.35674673, 0.11386791, 0.35869074, 0.1119239, 0.36128274, 0.10997996, 0.36581877, 0.10803589, 0.36841074, 0.10997996, 0.37165076, 0.112571925, 0.37359476, 0.1171079, 0.37813073, 0.20329192, 0.38201874, 0.20653191, 0.38525873, 0.20653191, 0.38785076, 0.20393994, 0.4157147, 0.1333079, 0.41701072, 0.13071588, 0.41895473, 0.12877193, 0.42154673, 0.12682793, 0.42413872, 0.1261799, 0.42608273, 0.12553188, 0.42932275, 0.12747589, 0.43191472, 0.13071588, 0.43321073, 0.13525191, 0.43321073, 0.13913992, 0.40923473, 0.23633972, 0.40858674, 0.24411574, 0.40923473, 0.25448367, 0.41182676, 0.25837168, 0.42997074, 0.25707564, 0.43385872, 0.2538357, 0.45070672, 0.23698774, 0.46366674, 0.2279158, 0.47014675, 0.22661981, 0.47597876, 0.22726783, 0.48116273, 0.2279158, 0.48375472, 0.23050776, 0.4831068, 0.23374775, 0.47921878, 0.23698774, 0.47403473, 0.24217167, 0.46690673, 0.25189164, 0.46301875, 0.25837168, 0.45524272, 0.26420358, 0.44681874, 0.27781162, 0.43904275, 0.2933636, 0.43126675, 0.30502757, 0.42025074, 0.31539556, 0.40858674, 0.32835558, 0.39951473, 0.3452036"/>
+<thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>36.0</temperature>
+<constant_temperature>false</constant_temperature>
+<power>100.0</power>
+<uid>RIGHT_HAND</uid>
+<filled>false</filled>
+</part>
+<part><ellipse x="0.25" y="0.1567460000514984" a="0.179894" b="0.175926"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>100.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer uid="CONTROL2" x="0.37301588" y="0.3042328"/>
+<thermometer uid="CONTROL1" x="0.14219576" y="0.31084657"/>
+<thermometer x="0.24933863" y="0.14285713"/>
+</sensor>
+<controller>
+<thermostat set_point="36.0" deadband="0.1" thermometer="CONTROL1" power_source="LEFT_HAND"/>
+<thermostat set_point="36.0" deadband="0.1" thermometer="CONTROL2" power_source="RIGHT_HAND"/>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<grid_size>10</grid_size>
+<color_palette_type>1</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>50.0</maximum_temperature>
+<graph_xlabel>Time</graph_xlabel><clock>false</clock>
+<text string="Thermoregulation is the ability of an organism to keep -linebreak-its body temperature within certain ranges." face="Arial" size="14" style="0" color="ffffff" x="0.02281746" y="0.07208996"/>
+</view>
+</state>

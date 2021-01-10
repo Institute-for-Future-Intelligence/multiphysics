@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+</links>
+<model>
+<timestep>0.5</timestep>
+<measurement_interval>50</measurement_interval>
+<viewupdate_interval>10</viewupdate_interval>
+<tasks>
+<task uid="AUTO_PAUSE" script="stop; message &lt;html&gt;This simulation was designed to automatically stop here.&lt;/html&gt;" description="Automatically pause the simulation at the given frequency." interval="3600"/>
+</tasks>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>1.0</background_conductivity>
+<background_viscosity>1.0E-4</background_viscosity>
+<thermal_expansion_coefficient>0.0</thermal_expansion_coefficient>
+<buoyancy_approximation>1</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="1" lower="1" left="1" right="1"/>
+</boundary>
+<structure>
+<part>
+<rectangle x="0.0" y="5.0" width="0.2" height="5.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.08</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>9</texture_style>
+<texture_width>12</texture_width>
+<texture_height>12</texture_height>
+</texture>
+<visible>false</visible>
+<draggable>false</draggable>
+</part>
+<part>
+<rectangle x="0.0" y="4.85" width="10.0" height="0.3"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0E-9</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-7f7f80</texture_fg>
+<texture_bg>-10000</texture_bg>
+<texture_style>12</texture_style>
+<texture_width>12</texture_width>
+<texture_height>12</texture_height>
+</texture>
+<draggable>false</draggable>
+</part>
+<part>
+<ellipse x="2.5" y="7.5" a="1.0" b="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>2000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>50.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+<part>
+<ellipse x="2.5" y="2.5" a="1.0" b="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>2000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>50.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+</structure>
+<environment>
+<fan x="0.0" y="0.0" width="0.4" height="4.8" speed="0.05" angle="0.0"/></environment>
+<sensor>
+<thermometer label="T2" x="2.525" y="7.285449"/>
+<thermometer label="T1" x="2.525" y="2.3177252"/>
+<anemometer label="A1" x="3.3994708" y="0.75396824"/>
+<anemometer label="A3" x="0.93915343" y="7.5793653"/>
+<anemometer label="A2" x="3.3730159" y="2.4867725"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<perimeter_step_size>0.05</perimeter_step_size>
+<color_palette_type>0</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>60.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Fan" face="Arial" size="12" style="0" color="ffffff" border="true" x="0.45000002" y="7.75"/>
+<text string="This model automatically stops at 30 minutes." face="Arial" size="14" style="0" color="ffffff" x="0.30000004" y="0.6999998"/>
+</view>
+</state>

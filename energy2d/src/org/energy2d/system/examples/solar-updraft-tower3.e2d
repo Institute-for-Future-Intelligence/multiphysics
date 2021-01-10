@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+<prev_sim>solar-updraft-tower2.e2d</prev_sim>
+</links>
+<model>
+<timestep>0.5</timestep>
+<viewupdate_interval>8</viewupdate_interval>
+<sunny>true</sunny><sun_angle>1.5533433</sun_angle>
+<solar_power_density>20000.0</solar_power_density>
+<solar_ray_count>48</solar_ray_count>
+<solar_ray_speed>0.08</solar_ray_speed>
+<photon_emission_interval>4</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>1.0</background_conductivity>
+<background_viscosity>0.01</background_viscosity>
+<thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<temperature_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="1" lower="1" left="1" right="1"/>
+</boundary>
+<structure>
+<part>
+<rectangle x="0.0" y="8.3" width="10.0" height="2.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>true</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<uid>GROUND</uid>
+<texture><texture_fg>-1</texture_fg>
+<texture_bg>-cccccd</texture_bg>
+<texture_style>9</texture_style>
+<texture_width>12</texture_width>
+<texture_height>12</texture_height>
+</texture>
+<draggable>false</draggable>
+</part>
+<part>
+<rectangle x="5.4" y="1.5000001" width="0.2" height="6.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>true</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<uid>CHIMNEY_RIGHT</uid>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>12</texture_style>
+<texture_width>10</texture_width>
+<texture_height>10</texture_height>
+</texture>
+</part>
+<part>
+<rectangle x="1.4" y="8.1" width="7.2000003" height="0.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>10.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-7f7f80</texture_fg>
+<texture_bg>-1000000</texture_bg>
+<texture_style>14</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<draggable>false</draggable>
+</part>
+<part>
+<rectangle x="4.4" y="1.5000001" width="0.2" height="6.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>true</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<uid>CHIMNEY_LEFT</uid>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>12</texture_style>
+<texture_width>10</texture_width>
+<texture_height>10</texture_height>
+</texture>
+</part>
+<part>
+<rectangle x="5.4" y="7.5" width="3.2" height="0.1"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0E-9</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>1.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>ccccff</color>
+</part>
+<part>
+<rectangle x="1.4" y="7.5" width="3.2" height="0.1"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0E-9</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>1.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>ccccff</color>
+</part>
+<part>
+<polygon count="3" vertices="5.0, 7.7999997, 5.4, 8.1, 4.6, 8.1"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>10.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-7f7f80</texture_fg>
+<texture_bg>-1000000</texture_bg>
+<texture_style>14</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<draggable>false</draggable>
+</part>
+<part>
+<rectangle x="1.3" y="7.5" width="0.2" height="0.8"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>true</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+</part>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer label="T1" x="9.6" y="7.8999996"/>
+<thermometer label="T2" x="5.0" y="6.8000007"/>
+<anemometer label="A1" x="5.0" y="5.2999973"/>
+<anemometer label="A3" x="4.0" y="7.8999996"/>
+<anemometer label="A2" x="6.0" y="7.8999996"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<perimeter_step_size>0.05</perimeter_step_size>
+<border_tickmarks>true</border_tickmarks>
+<color_palette_type>0</color_palette_type>
+<control_panel>true</control_panel>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>100.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Solar Updraft Tower-linebreak-(Blocking air intake)" face="Arial" size="18" style="0" color="ffffff" x="0.5" y="9.7"/>
+<text string="Glazing" face="Arial" size="12" style="0" color="ffffff" x="1.5000001" y="2.9500003"/>
+<text string="Glazing" face="Arial" size="12" style="0" color="ffffff" x="7.9" y="2.9500003"/>
+<text string="Absorber" face="Arial" size="12" style="1" color="ffffff" x="4.65" y="1.55"/>
+</view>
+</state>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+<prev_sim>different-specific-heat1.e2d</prev_sim>
+</links>
+<model>
+<model_width>1.0</model_width>
+<model_height>1.0</model_height>
+<timestep>0.01</timestep>
+<viewupdate_interval>10</viewupdate_interval>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><z_heat_diffusivity_only_for_fluid>false</z_heat_diffusivity_only_for_fluid><convective>false</convective>
+<background_conductivity>1.0E-9</background_conductivity>
+<background_specific_heat>1.0</background_specific_heat>
+<thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
+<buoyancy_approximation>1</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part>
+<rectangle x="0.19045" y="0.29944998" width="0.3001" height="0.4001"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>40.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+<label>%specific_heat</label>
+</part>
+<part>
+<rectangle x="0.50049996" y="0.2995" width="0.3" height="0.4"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>500.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>10.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+<label>%specific_heat</label>
+</part>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer label="T1" x="0.35" y="0.42000002"/>
+<thermometer label="T2" x="0.65" y="0.42000002"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<graph_time_unit>1</graph_time_unit>
+<perimeter_step_size>0.049999997</perimeter_step_size>
+<color_palette_type>1</color_palette_type>
+<control_panel>true</control_panel>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>60.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time (min)</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="These two materials differ only in specific heat (they have-linebreak-identical density)." face="Arial" size="14" style="0" color="ffffff" x="0.25" y="0.8"/>
+<text string="Total thermal energy = %thermal_energy J" face="SansSerif" size="16" style="1" color="ffffff" x="0.35" y="0.85"/>
+</view>
+</state>

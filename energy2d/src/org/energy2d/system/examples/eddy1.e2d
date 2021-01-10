@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+<next_sim>eddy2.e2d</next_sim>
+</links>
+<model>
+<timestep>0.1</timestep>
+<viewupdate_interval>10</viewupdate_interval>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.1</particle_drag><particle_hardness>1.0E-5</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>0.5</background_conductivity>
+<background_viscosity>2.0E-4</background_viscosity>
+<thermal_expansion_coefficient>0.0</thermal_expansion_coefficient>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="1" lower="1" left="1" right="1"/>
+</boundary>
+<structure>
+<part>
+<blob count="10" points="0.0, 6.0, -3.0, 9.400001, 2.1000001, 11.2, 9.7, 10.6, 11.400001, 8.8, 11.6, 5.4, 8.900001, 5.4, 7.6, 8.3, 5.5, 8.3, 4.2000003, 5.7000003"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+</part>
+</structure>
+<environment>
+<fan x="0.0" y="0.0" width="0.5" height="5.8" speed="0.1" angle="0.0"/><particle_feeder color="ff00" velocity_color="ffffff" radius="0.06" mass="3.0" x="2.0" y="3.0" maximum="100" period="10.0"/><particle_feeder color="ffff00" velocity_color="ffffff" radius="0.04" mass="0.1" x="2.0" y="2.0" maximum="100" period="20.0"/><particle_feeder color="80ffff" velocity_color="ffffff" radius="0.04" mass="0.1" x="2.0" y="4.0" maximum="100" period="20.0"/><particle_feeder color="ff80ff" velocity_color="ffffff" radius="0.04" mass="0.1" x="2.0" y="5.0" maximum="100" period="20.0"/><particle_feeder color="ffc000" velocity_color="ffffff" radius="0.04" mass="0.1" x="2.0" y="1.0" maximum="100" period="20.0"/></environment>
+<sensor>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<perimeter_step_size>0.05</perimeter_step_size>
+<color_palette_type>0</color_palette_type>
+<control_panel>true</control_panel>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>50.0</maximum_temperature>
+<streamline>true</streamline>
+<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel></view>
+</state>

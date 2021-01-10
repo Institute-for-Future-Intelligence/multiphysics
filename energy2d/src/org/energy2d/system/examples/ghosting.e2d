@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+<next_sim>no-ghosting.e2d</next_sim>
+</links>
+<model>
+<model_width>1.0</model_width>
+<model_height>1.0</model_height>
+<timestep>0.2</timestep>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.01</z_heat_diffusivity><z_heat_diffusivity_only_for_fluid>true</z_heat_diffusivity_only_for_fluid><convective>false</convective>
+<background_conductivity>0.001</background_conductivity>
+<background_temperature>20.0</background_temperature>
+<background_viscosity>1.568E-4</background_viscosity>
+<thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part>
+<rectangle x="0.275" y="0.0" width="0.030000001" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-1</texture_bg>
+<texture_style>16</texture_style>
+<texture_width>12</texture_width>
+<texture_height>12</texture_height>
+</texture>
+</part>
+<part>
+<rectangle x="0.31000003" y="0.21999979" width="0.14" height="0.26000002"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-669a00</texture_fg>
+<texture_bg>-6667</texture_bg>
+<texture_style>13</texture_style>
+<texture_width>36</texture_width>
+<texture_height>36</texture_height>
+</texture>
+</part>
+<part>
+<rectangle x="0.24000001" y="0.0" width="0.030000001" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-ff6601</texture_bg>
+<texture_style>22</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+</part>
+<part>
+<rectangle x="0.45499998" y="-0.0050001144" width="0.030000001" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.01</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>ffc0</color>
+<filled>false</filled>
+<label>Interior board</label>
+</part>
+<part>
+<rectangle x="0.22500001" y="0.0" width="0.010000001" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>808000</color>
+</part>
+<part>
+<rectangle x="0.26999998" y="0.48000002" width="0.17999999" height="0.030000001"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-666700</texture_bg>
+<texture_style>9</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<label>Steel stud</label>
+</part>
+<part>
+<rectangle x="0.26999998" y="0.78499985" width="0.17999999" height="0.030000001"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-666700</texture_bg>
+<texture_style>9</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<label>Steel stud</label>
+</part>
+<part>
+<rectangle x="0.26999998" y="0.18499994" width="0.17999999" height="0.030000001"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-666700</texture_bg>
+<texture_style>9</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<label>Steel stud</label>
+</part>
+<part>
+<rectangle x="0.31000003" y="0.5100002" width="0.14" height="0.27"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-669a00</texture_fg>
+<texture_bg>-6667</texture_bg>
+<texture_style>13</texture_style>
+<texture_width>36</texture_width>
+<texture_height>36</texture_height>
+</texture>
+</part>
+<part>
+<rectangle x="0.31000003" y="0.0" width="0.14" height="0.18"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-669a00</texture_fg>
+<texture_bg>-6667</texture_bg>
+<texture_style>13</texture_style>
+<texture_width>36</texture_width>
+<texture_height>36</texture_height>
+</texture>
+</part>
+<part>
+<rectangle x="0.31000003" y="0.8200002" width="0.14" height="0.18"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-669a00</texture_fg>
+<texture_bg>-6667</texture_bg>
+<texture_style>13</texture_style>
+<texture_width>36</texture_width>
+<texture_height>36</texture_height>
+</texture>
+</part>
+<part>
+<rectangle x="0.0" y="0.0" width="0.23" height="1.0"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.01</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>-10.0</temperature>
+<constant_temperature>true</constant_temperature>
+<color>ffc0</color>
+<label>%temperature</label>
+</part>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer label="T2" x="0.46000007" y="0.33000016"/>
+<thermometer label="T3" x="0.46" y="0.47354499"/>
+<thermometer label="T1" x="0.46" y="0.17354488"/>
+<thermometer label="T5" x="0.46" y="0.77354467"/>
+<thermometer label="T4" x="0.46000007" y="0.63"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<perimeter_step_size>0.05</perimeter_step_size>
+<border_tickmarks>true</border_tickmarks>
+<color_palette_type>1</color_palette_type>
+<control_panel>true</control_panel>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>40.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
+<text string="Cavity-linebreak-insulation" face="Arial" size="12" style="0" color="ffffff" x="0.32500002" y="0.98"/>
+<text string="Ghosting on-linebreak-steel framing" face="Arial" size="14" style="1" color="ffffff" x="0.044999998" y="0.975"/>
+</view>
+</state>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Energy2D" default="default" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
+	<property name="app.name" value="Energy2D"/>
+	<property name="app.version" value="1.0"/>
+	<property name="build.src.dir" value="src" />
+	<property name="build.classes.dir" value="classes" />
+	<property name="build.dist.dir" value="C:\dist" />
+	
+	<condition property="JAVA_HOME" value="C:\Program Files (x86)\Java\jdk1.8.0_202\">
+		<os family="windows" />
+	</condition>
+	<condition property="JAVA_HOME" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home">
+		<os family="mac" />
+	</condition>
+	<condition property="JAVA_HOME" value="">
+		<os family="unix" />
+	</condition>
+	
+	<condition property="bundle_type" value="exe">
+		<os family="windows" />
+	</condition>
+	<condition property="bundle_type" value="dmg">
+		<os family="mac" />
+	</condition>
+	<condition property="bundle_type" value="all">
+		<os family="unix" />
+	</condition>	
+	
+	<condition property="icon" value="package/windows/${app.name}.ico">
+		<os family="windows"/>
+	</condition>
+	<condition property="icon" value="package/macosx/${app.name}.icns">
+		<os family="mac"/>
+	</condition>
+	<condition property="icon" value="package/macosx/${app.name}.icns">
+		<os family="unix"/>
+	</condition>	
+
+	<condition property="os" value="windows-32">
+		<os family="windows" />
+	</condition>
+	<condition property="os" value="mac-universal">
+		<os family="mac" />
+	</condition>
+	<condition property="os" value="linux-64">
+		<os family="unix" />
+	</condition>
+
+	<echo message="OS Name is:         ${os}" />
+	<echo message="OS Architecture is: ${os.arch}" />
+	<echo message="OS Version is:      ${os.version}" />
+
+	<path id="CLASSPATH">
+		<fileset dir="exe">
+			<patternset id="jars.no.source">
+				<include name="lib/*.jar" />
+			</patternset>
+		</fileset>
+		<pathelement path="${build.classes.dir}" />
+	</path>
+
+	
+	<target name="default" depends="clean,compile,jar,deploy">
+	</target>
+
+	<target name="deploy">
+		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath=".:${JAVA_HOME}/lib/ant-javafx.jar" />
+		<fx:deploy outdir="${build.dist.dir}" outfile="energy2d" nativeBundles="${bundle_type}" verbose="true">
+			<fx:application name="${app.name}" mainClass="org.energy2d.system.System2D" version="${app.version}">
+				<fx:argument>.</fx:argument>
+			</fx:application>
+			<fx:preferences shortcut="true" menu="true" />
+			<fx:bundleArgument arg="win.menuGroup" value="${app.name}" />
+			<fx:bundleargument arg="mac.category" value="public.app-category.graphics-design"/>
+			<fx:bundleargument arg="mac.CFBundleIdentifier" value="org.energy2d"/>
+			<fx:bundleargument arg="mac.CFBundleVersion" value="2.4"/>
+			<fx:bundleargument arg="mac.signing-key-developer-id-app" value="Developer ID Application: Energy2D"/>
+			<fx:info title="${app.name}" vendor="Energy2D" copyright="2020-2021. Energy2D">
+				<fx:association extension="e2d" description="${app.name} File" mimetype="application/energy2d" icon="${icon}">
+				</fx:association>
+			</fx:info>
+			<fx:platform basedir="${JAVA_HOME}">
+				<fx:jvmarg value="-Xdock:name=${app.name}"/>
+			</fx:platform>
+			<fx:resources>
+				<fx:fileset dir="exe" includes="energy2d.jar" />
+				<fx:fileset dir="exe">
+					<patternset refid="jars.no.source" />
+					<include name="getdown.txt" />
+					<include name="digest.txt" />
+				</fx:fileset>
+			</fx:resources>
+		</fx:deploy>
+	</target>
+
+	<target name="jar">
+		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath=".:${JAVA_HOME}/lib/ant-javafx.jar" />
+		<fx:jar destfile="exe/energy2d.jar">
+			<fx:application name="${app.name}" mainClass="org.energy2d.system.System2D" version="${app.version}" />
+			<fx:resources>
+				<fx:fileset dir="exe">
+					<patternset refid="jars.no.source" />
+				</fx:fileset>
+			</fx:resources>
+			<fileset dir="${build.classes.dir}" />
+			<manifest>
+				<attribute name="Application-Name" value="${app.name}" />
+				<attribute name="Permissions" value="all-permissions" />
+			</manifest>
+		</fx:jar>
+
+		<taskdef name="digest" classname="com.threerings.getdown.tools.DigesterTask" classpath="exe/lib/getdown.jar;exe/lib/samskivert.jar" />
+		<digest appdir="exe" />
+
+	</target>
+
+	<target name="compile" depends="clean">
+		<javac includeantruntime="false" srcdir="${build.src.dir}" destdir="${build.classes.dir}" fork="yes" executable="${JAVA_HOME}/bin/javac" source="1.8" target="1.8" debug="on" classpathref="CLASSPATH">
+		</javac>
+		<!-- Copy resources to build.classes.dir -->
+		<copy todir="${build.classes.dir}/org/energy2d/system/examples">
+			<fileset dir="src/org/energy2d/system/examples" />
+		</copy>
+		<copy todir="${build.classes.dir}/org/energy2d/system/resources">
+			<fileset dir="src/org/energy2d/system/resources" />
+		</copy>
+	</target>
+
+	<target name="clean">
+		<mkdir dir="${build.classes.dir}" />
+		<mkdir dir="${build.dist.dir}" />
+		<delete>
+			<fileset dir="${build.classes.dir}" includes="**/*" />
+			<fileset dir="${build.dist.dir}" includes="**/*" />
+		</delete>
+	</target>
+</project>

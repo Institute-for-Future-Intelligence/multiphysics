@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+<next_sim>viewfactor3.e2d</next_sim>
+<prev_sim>viewfactor.e2d</prev_sim>
+</links>
+<model>
+<model_width>1.0</model_width>
+<model_height>1.0</model_height>
+<timestep>1.0</timestep>
+<viewupdate_interval>10</viewupdate_interval>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<gravitational_acceleration>0.0</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.0</particle_drag><particle_hardness>0.0</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<background_conductivity>1.0E-9</background_conductivity>
+<background_specific_heat>1.0</background_specific_heat>
+<thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
+<buoyancy_approximation>1</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part>
+<rectangle x="0.46" y="0.35" width="0.08" height="0.3"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.1</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>10.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>0.0</absorption>
+<emissivity>1.0</emissivity>
+<temperature>100.0</temperature>
+<constant_temperature>true</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>16</texture_style>
+<texture_width>12</texture_width>
+<texture_height>12</texture_height>
+</texture>
+<filled>false</filled>
+<label>%temperature</label>
+</part>
+<part>
+<rectangle x="0.65" y="0.35" width="0.08" height="0.3"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>1.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+<label>%thermal_energy</label>
+</part>
+<particle>
+<rx>0.3</rx>
+<ry>0.5</ry>
+<vy>1.0E-4</vy>
+<theta>1.5707964</theta>
+<radius>0.01</radius>
+<mass>0.1</mass>
+<uid>P2</uid>
+<velocity_color>0</velocity_color>
+</particle>
+<particle>
+<rx>0.1</rx>
+<ry>0.5</ry>
+<omega>8.726646E-4</omega>
+<radius>0.01</radius>
+<mass>0.1</mass>
+<uid>P3</uid>
+<velocity_color>0</velocity_color>
+</particle>
+<particle>
+<rx>0.2</rx>
+<ry>0.5</ry>
+<vx>1.0E-4</vx>
+<theta>1.5707964</theta>
+<radius>0.01</radius>
+<mass>0.1</mass>
+<uid>P1</uid>
+<velocity_color>0</velocity_color>
+</particle>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer x="0.69" y="0.45000002"/>
+<heat_flux_sensor uid="F4" label="F4" angle="1.5707964" x="0.82" y="0.5"/>
+<heat_flux_sensor uid="F2" attach="P2" label="F2" angle="1.5707964" x="0.3" y="0.5"/>
+<heat_flux_sensor uid="F3" attach="P3" label="F3" angle="0.0" x="0.1" y="0.5"/>
+<heat_flux_sensor uid="F1" attach="P1" label="F1" angle="1.5707964" x="0.20000002" y="0.5"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<graph_data_type>1</graph_data_type>
+<view_factor_lines>true</view_factor_lines>
+<perimeter_step_size>0.05</perimeter_step_size>
+<ruler>true</ruler>
+<color_palette_type>1</color_palette_type>
+<control_panel>true</control_panel>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>50.0</maximum_temperature>
+<graph>true</graph>
+<graph_xlabel>Time</graph_xlabel><graph_ylabel>Heat flux (W/m²)</graph_ylabel><text string="Use moving heat flux sensors-linebreak-to show view factor effects" face="Arial" size="12" style="1" color="ffffff" border="true" x="0.31999993" y="0.96999997"/>
+</view>
+</state>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+<next_sim>eddy3.e2d</next_sim>
+<prev_sim>eddy1.e2d</prev_sim>
+</links>
+<model>
+<timestep>0.1</timestep>
+<viewupdate_interval>10</viewupdate_interval>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>0.5</background_conductivity>
+<background_viscosity>2.0E-4</background_viscosity>
+<thermal_expansion_coefficient>0.0</thermal_expansion_coefficient>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="1" lower="1" left="1" right="1"/>
+</boundary>
+<structure>
+<part>
+<blob count="10" points="-1.6, 6.9, -5.4, 9.7, -0.3, 11.5, 7.3, 10.900001, 10.900001, 9.2, 11.0, 5.4, 4.9, 5.8, 4.8, 2.2, 1.5, 5.9, -0.4, 6.3"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+</part>
+</structure>
+<environment>
+<fan x="0.0" y="0.0" width="0.5" height="6.3" speed="0.1" angle="0.0"/><particle_feeder color="ffff80" velocity_color="ffff80" radius="0.04" mass="0.1" x="7.6" y="4.0" maximum="100" period="50.0"/><particle_feeder color="80ffff" velocity_color="80ffff" radius="0.04" mass="0.1" x="1.6" y="1.8999996" maximum="100" period="20.0"/></environment>
+<sensor>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<perimeter_step_size>0.05</perimeter_step_size>
+<color_palette_type>0</color_palette_type>
+<control_panel>true</control_panel>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>50.0</maximum_temperature>
+<streamline>true</streamline>
+<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel></view>
+</state>

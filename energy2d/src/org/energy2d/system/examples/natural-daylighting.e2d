@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+</links>
+<model>
+<timestep>10.0</timestep>
+<tasks>
+<task uid="MOVE_SUN" enabled="false" script="movesun 4 20;" description="" interval="100"/>
+</tasks>
+<sunny>true</sunny><sun_angle>2.4260077</sun_angle>
+<solar_power_density>0.001</solar_power_density>
+<solar_ray_count>100</solar_ray_count>
+<solar_ray_speed>0.002</solar_ray_speed>
+<photon_emission_interval>5</photon_emission_interval>
+<z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<background_conductivity>0.1</background_conductivity>
+<background_temperature>20.0</background_temperature>
+<thermal_buoyancy>2.5E-4</thermal_buoyancy>
+<buoyancy_approximation>1</buoyancy_approximation>
+<boundary>
+<temperature_at_border upper="20.0" lower="20.0" left="20.0" right="20.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part><polygon count="6" vertices="1.7026451, 3.502778, 5.502645, 1.002778, 9.302646, 3.502778, 8.352646, 3.502778, 5.502645, 1.6527777, 2.652645, 3.502778"/>
+<thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>7</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+</part>
+<part><rectangle x="0.0" y="8.0" width="10.0" height="2.0"/><thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-7f7f80</texture_fg>
+<texture_bg>-1000000</texture_bg>
+<texture_style>10</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<label>Ground</label>
+</part>
+<part><rectangle x="2.0" y="7.0" width="0.8" height="1.0"/><thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>23</texture_style>
+<texture_width>36</texture_width>
+<texture_height>36</texture_height>
+</texture>
+</part>
+<part><rectangle x="1.9999999" y="3.5" width="0.7" height="1.0"/><thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>23</texture_style>
+<texture_width>36</texture_width>
+<texture_height>36</texture_height>
+</texture>
+</part>
+<part><rectangle x="8.3" y="7.0" width="0.8" height="1.0"/><thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>23</texture_style>
+<texture_width>36</texture_width>
+<texture_height>36</texture_height>
+</texture>
+</part>
+<part><rectangle x="8.300001" y="3.5" width="0.8" height="1.0"/><thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>23</texture_style>
+<texture_width>36</texture_width>
+<texture_height>36</texture_height>
+</texture>
+</part>
+<part><polygon count="118" vertices="5.495701, 8.009417, 5.4632998, 7.987817, 5.4309, 7.9770164, 5.4417014, 7.8042164, 5.4417014, 7.7178183, 5.3769007, 7.5558176, 5.3661017, 7.4370174, 5.3444996, 7.361418, 5.3444996, 7.2750177, 5.3229012, 7.1022177, 5.2689, 7.080618, 5.2689, 6.940217, 5.2257, 6.8106174, 5.2149005, 6.713419, 5.2149005, 6.6054173, 5.2473016, 6.519017, 5.2797008, 6.454218, 5.3012996, 6.4110174, 5.3012996, 6.3570175, 5.3121004, 6.2706184, 5.2797008, 6.205818, 5.2689, 6.259818, 5.258101, 6.2706184, 5.258101, 6.367818, 5.2473016, 6.4434175, 5.1825013, 6.735018, 5.204101, 6.7566195, 5.204101, 6.832219, 5.1933002, 6.853818, 5.1825013, 6.8430176, 5.1717, 6.8106174, 5.160901, 6.8430176, 5.1933002, 6.8754177, 5.2149005, 6.8970165, 5.139301, 6.8754177, 5.1177006, 6.799818, 5.139301, 6.713419, 5.1501, 6.4434175, 5.160901, 6.3894186, 5.1717, 6.3246174, 5.1717, 6.2706184, 5.1501, 6.249017, 5.1501, 6.1086187, 5.160901, 6.022217, 5.1933002, 5.935816, 5.2797008, 5.914218, 5.2797008, 5.7846165, 5.3229012, 5.622617, 5.3553004, 5.5794163, 5.3769007, 5.547017, 5.420101, 5.5362177, 5.4525003, 5.5362177, 5.4741006, 5.547017, 5.517301, 5.568618, 5.5389013, 5.5902176, 5.5713005, 5.622617, 5.6253, 5.7846165, 5.636101, 5.8386183, 5.636101, 5.914218, 5.6901007, 5.9250174, 5.7549014, 6.087018, 5.7333007, 6.259818, 5.7225018, 6.3030186, 5.7441006, 6.3786182, 5.7549014, 6.432619, 5.7441006, 6.713419, 5.776501, 6.7782183, 5.7549014, 6.8430176, 5.6901007, 6.8754177, 5.7008996, 6.853818, 5.7441006, 6.832219, 5.7549014, 6.799818, 5.7225018, 6.7890186, 5.7225018, 6.821419, 5.7008996, 6.832219, 5.7008996, 6.7566195, 5.7117004, 6.6702194, 5.657701, 6.40022, 5.657701, 6.281418, 5.6253, 6.346218, 5.6253, 6.367818, 5.6469, 6.4650183, 5.657701, 6.540618, 5.6793013, 6.594617, 5.6793013, 6.6918173, 5.6793013, 6.745819, 5.6793013, 6.8106174, 5.6685004, 6.886216, 5.6469, 6.994217, 5.6037016, 7.0914164, 5.614501, 7.145418, 5.614501, 7.1886177, 5.636101, 7.285816, 5.614501, 7.588217, 5.614501, 7.653017, 5.6253, 7.7286167, 5.6793013, 7.847417, 5.6901007, 7.901417, 5.6037016, 7.933817, 5.5713005, 7.8366184, 5.560501, 7.793418, 5.5281, 7.707017, 5.5389013, 7.6314173, 5.5389013, 7.588217, 5.517301, 7.4910164, 5.5065002, 7.4154167, 5.5065002, 7.361418, 5.5065002, 7.285816, 5.4849014, 7.2642174, 5.4632998, 7.2750177, 5.4632998, 7.3290167, 5.4849014, 7.393818, 5.4849014, 7.4694185, 5.495701, 7.707017, 5.517301, 7.761016, 5.5281, 7.8690166, 5.560501, 7.912217, 5.5497003, 7.966216"/>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>1.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>ff0000</color>
+</part>
+<part><rectangle x="2.2" y="4.825" width="0.4" height="0.05"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>cccccc</color>
+</part>
+<part><rectangle x="2.2" y="5.275" width="0.4" height="0.05"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>cccccc</color>
+</part>
+<part><rectangle x="2.2" y="5.6749997" width="0.4" height="0.05"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>cccccc</color>
+</part>
+<part><rectangle x="2.2" y="6.075" width="0.4" height="0.05"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>cccccc</color>
+</part>
+<part><rectangle x="2.2" y="6.475" width="0.4" height="0.05"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>cccccc</color>
+</part>
+<part><rectangle x="2.2" y="6.875" width="0.4" height="0.05"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>cccccc</color>
+</part>
+<part><rectangle x="2.0500002" y="4.4500003" width="0.1" height="2.5"/><thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>1.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>ffffff</color>
+</part>
+<part><rectangle x="8.900001" y="4.55" width="0.1" height="2.5"/><thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>1.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>ffffff</color>
+</part>
+<part><blob count="11" points="3.7962964, 4.2989416, 2.6851852, 3.7566137, 4.100529, 3.7037036, 5.10582, 3.7037036, 6.005291, 3.7037036, 7.1957674, 3.7037036, 8.293651, 3.7037036, 7.5, 4.2063494, 6.494709, 3.994709, 5.5026455, 4.2989416, 4.6957674, 3.994709"/>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>cccccc</color>
+</part>
+<part><rectangle x="2.7" y="3.5" width="5.6" height="0.2"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>22</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+</part>
+</structure>
+<environment>
+<tree color="999900" x="0.6" y="7.0" width="0.8" height="1.0" type="1"/>
+<tree color="999900" x="0.1" y="6.2000003" width="0.90000004" height="1.8000001" type="1"/>
+</environment>
+<sensor>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<color_palette_type>0</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>10.0</minimum_temperature>
+<maximum_temperature>50.0</maximum_temperature>
+<graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
+<text string="Natural daylighting" face="Arial" size="14" style="1" color="ffffff" border="true" x="0.35000002" y="9.799999"/>
+<text string="Press &apos;Q&apos; or &apos;W&apos; to change the sun angle" face="Arial" size="12" style="0" color="ffffff" x="0.24999997" y="9.349999"/>
+<text string="Light-linebreak-Shelves" face="Arial" size="12" style="0" color="0" x="2.7500002" y="4.45"/>
+<text string="Regular-linebreak-Window" face="Arial" size="12" style="0" color="0" x="7.65" y="4.45"/>
+</view>
+</state>

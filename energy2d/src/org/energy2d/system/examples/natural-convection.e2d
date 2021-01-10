@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+</links>
+<model>
+<timestep>0.25</timestep>
+<viewupdate_interval>10</viewupdate_interval>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>0.5</background_conductivity>
+<background_viscosity>5.0E-5</background_viscosity>
+<thermal_buoyancy>2.5E-4</thermal_buoyancy>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part><rectangle x="0.0" y="0.0" width="10.0" height="1.0"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>5.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>10</texture_style>
+<texture_width>10</texture_width>
+<texture_height>10</texture_height>
+</texture>
+<filled>false</filled>
+</part>
+<part><rectangle x="0.0" y="4.9" width="10.0" height="0.2"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>40.0</temperature>
+<constant_temperature>true</constant_temperature>
+</part>
+<part><rectangle x="0.0" y="9.0" width="10.0" height="1.0"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>5.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>10</texture_style>
+<texture_width>10</texture_width>
+<texture_height>10</texture_height>
+</texture>
+<filled>false</filled>
+</part>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer label="T2" x="5.0" y="8.919313"/>
+<thermometer label="T1" x="5.0" y="0.68386245"/>
+<anemometer label="A1" x="5.0" y="3.0"/>
+<anemometer label="A2" x="5.0" y="7.0"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid_size>10</grid_size>
+<color_palette_type>0</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>50.0</maximum_temperature>
+<graph_xlabel>Time</graph_xlabel><text string="Which thermometer measures higher temperature?-linebreak-Which anemometer measures higher speed?-linebreak-" face="Arial" size="12" style="0" color="ffffff" x="0.1918" y="0.76716244"/>
+</view>
+</state>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+<next_sim>solar-oven2.e2d</next_sim>
+</links>
+<model>
+<timestep>0.5</timestep>
+<viewupdate_interval>5</viewupdate_interval>
+<sunny>true</sunny><sun_angle>1.5707964</sun_angle>
+<solar_power_density>50000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>4</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><background_conductivity>0.001</background_conductivity>
+<background_viscosity>1.0E-4</background_viscosity>
+<thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<temperature_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="1" lower="1" left="1" right="1"/>
+</boundary>
+<structure>
+<part>
+<rectangle x="4.5" y="6.287035" width="1.0" height="0.5"/><elasticity>1.0</elasticity>
+<thermal_conductivity>10.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>100.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+<part>
+<polygon count="200" vertices="0.049999252, 6.6197443, 0.14999916, 6.7187443, 0.2499993, 6.8157444, 0.3499992, 6.9107447, 0.44999933, 7.003745, 0.54999924, 7.0947447, 0.64999914, 7.1837444, 0.7499993, 7.2707453, 0.8499992, 7.3557463, 0.94999933, 7.4387465, 1.0499992, 7.519747, 1.1499991, 7.598748, 1.2499993, 7.675748, 1.3499993, 7.7507486, 1.4499992, 7.8237486, 1.5499992, 7.8947477, 1.6499993, 7.9637475, 1.7499993, 8.030747, 1.8499993, 8.095747, 1.9499993, 8.158748, 2.0499992, 8.219748, 2.1499994, 8.278748, 2.2499993, 8.335747, 2.3499992, 8.390747, 2.4499993, 8.4437475, 2.5499992, 8.494747, 2.6499994, 8.543747, 2.7499993, 8.590747, 2.8499992, 8.635747, 2.9499993, 8.678747, 3.0499992, 8.719748, 3.1499994, 8.758747, 3.2499993, 8.795747, 3.3499992, 8.830748, 3.4499993, 8.863748, 3.5499992, 8.894747, 3.6499994, 8.923747, 3.7499993, 8.9507475, 3.8499992, 8.975747, 3.9499996, 8.998747, 4.049999, 9.019747, 4.1499996, 9.038747, 4.25, 9.055747, 4.3499994, 9.070747, 4.45, 9.083747, 4.549999, 9.094748, 4.6499996, 9.103747, 4.75, 9.110747, 4.8499994, 9.115747, 4.95, 9.118747, 5.049999, 9.119747, 5.1499996, 9.118747, 5.25, 9.115747, 5.3499994, 9.110747, 5.45, 9.103747, 5.549999, 9.094748, 5.6499996, 9.083747, 5.75, 9.070747, 5.8499994, 9.055747, 5.95, 9.038747, 6.049999, 9.019747, 6.1499996, 8.998747, 6.25, 8.975747, 6.3499994, 8.9507475, 6.45, 8.923747, 6.549999, 8.894747, 6.6499996, 8.863748, 6.75, 8.830747, 6.8499994, 8.795747, 6.95, 8.758747, 7.049999, 8.719748, 7.1499996, 8.678747, 7.25, 8.635747, 7.3499994, 8.590747, 7.45, 8.543747, 7.549999, 8.494747, 7.6499996, 8.4437475, 7.75, 8.390747, 7.8499994, 8.335747, 7.95, 8.278748, 8.049999, 8.219748, 8.15, 8.158747, 8.249998, 8.095747, 8.349998, 8.030747, 8.449999, 7.9637475, 8.549999, 7.8947477, 8.65, 7.8237467, 8.749998, 7.7507486, 8.849998, 7.675748, 8.949999, 7.598748, 9.049999, 7.519747, 9.15, 7.4387465, 9.249998, 7.3557463, 9.349998, 7.2707453, 9.449999, 7.1837435, 9.549999, 7.0947447, 9.65, 7.003744, 9.749998, 6.9107447, 9.849998, 6.8157444, 9.949999, 6.7187433, 9.949999, 6.918744, 9.849998, 7.015744, 9.749998, 7.1107445, 9.65, 7.203744, 9.549999, 7.2947454, 9.449999, 7.3837442, 9.349998, 7.470746, 9.249998, 7.555747, 9.15, 7.638747, 9.049999, 7.7197466, 8.949999, 7.798747, 8.849998, 7.8757467, 8.749998, 7.950748, 8.65, 8.0237465, 8.549999, 8.094747, 8.449999, 8.163747, 8.349998, 8.230747, 8.249998, 8.295747, 8.15, 8.358747, 8.049999, 8.419747, 7.95, 8.478747, 7.8499994, 8.535747, 7.75, 8.590747, 7.6499996, 8.643747, 7.549999, 8.694747, 7.45, 8.743747, 7.3499994, 8.790747, 7.25, 8.835747, 7.1499996, 8.878747, 7.049999, 8.919747, 6.95, 8.958747, 6.8499994, 8.995747, 6.75, 9.030746, 6.6499996, 9.063747, 6.549999, 9.094747, 6.45, 9.123747, 6.3499994, 9.150747, 6.25, 9.175747, 6.1499996, 9.198747, 6.049999, 9.219747, 5.95, 9.238747, 5.8499994, 9.255747, 5.75, 9.270747, 5.6499996, 9.283747, 5.549999, 9.294747, 5.45, 9.303747, 5.3499994, 9.310747, 5.25, 9.315747, 5.1499996, 9.318747, 5.049999, 9.319747, 4.95, 9.318747, 4.8499994, 9.315747, 4.75, 9.310747, 4.6499996, 9.303747, 4.549999, 9.294747, 4.45, 9.283747, 4.3499994, 9.270747, 4.25, 9.255747, 4.1499996, 9.238747, 4.049999, 9.219747, 3.9499996, 9.198747, 3.8499992, 9.175747, 3.7499993, 9.150747, 3.6499994, 9.123747, 3.5499992, 9.094747, 3.4499993, 9.063747, 3.3499992, 9.030747, 3.2499993, 8.995747, 3.1499994, 8.958747, 3.0499992, 8.919747, 2.9499993, 8.878747, 2.8499992, 8.835747, 2.7499993, 8.790747, 2.6499994, 8.743747, 2.5499992, 8.694747, 2.4499993, 8.643747, 2.3499992, 8.590747, 2.2499993, 8.535747, 2.1499994, 8.478747, 2.0499992, 8.419747, 1.9499993, 8.3587475, 1.8499993, 8.295747, 1.7499993, 8.230747, 1.6499993, 8.163747, 1.5499992, 8.094747, 1.4499992, 8.023747, 1.3499993, 7.950748, 1.2499993, 7.8757467, 1.1499991, 7.798747, 1.0499992, 7.7197466, 0.94999933, 7.638747, 0.8499992, 7.555747, 0.7499993, 7.470746, 0.64999914, 7.383746, 0.54999924, 7.2947454, 0.44999933, 7.203746, 0.3499992, 7.1107445, 0.2499993, 7.015744, 0.14999916, 6.918744, 0.049999252, 6.819744"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<scattering>false</scattering>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-1</texture_bg>
+<texture_style>13</texture_style>
+<texture_width>4</texture_width>
+<texture_height>4</texture_height>
+</texture>
+</part>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer x="5.0" y="6.3370357"/>
+<anemometer x="5.026455" y="4.0608463"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<snap_to_grid>false</snap_to_grid>
+<grid_size>10</grid_size>
+<perimeter_step_size>0.049999997</perimeter_step_size>
+<color_palette_type>0</color_palette_type>
+<control_panel>true</control_panel>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>100.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
+<text string="Solar oven-linebreak-Press &apos;Q&apos; or &apos;W&apos; to change the sun angle" face="Arial" size="12" style="0" color="ffffff" x="0.22486775" y="9.8412695"/>
+</view>
+</state>

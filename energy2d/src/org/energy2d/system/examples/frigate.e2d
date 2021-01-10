@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+<next_sim>eddy2.e2d</next_sim>
+</links>
+<model>
+<model_width>40.0</model_width>
+<model_height>40.0</model_height>
+<timestep>0.05</timestep>
+<viewupdate_interval>10</viewupdate_interval>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.1</particle_drag><particle_hardness>1.0E-5</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><z_heat_diffusivity_only_for_fluid>false</z_heat_diffusivity_only_for_fluid><background_conductivity>5.0</background_conductivity>
+<background_density>1.0</background_density>
+<background_specific_heat>100.0</background_specific_heat>
+<background_viscosity>0.01</background_viscosity>
+<thermal_expansion_coefficient>0.01</thermal_expansion_coefficient>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="1" lower="1" left="1" right="1"/>
+</boundary>
+<structure>
+<part>
+<polygon count="12" vertices="6.0, 32.800003, 34.0, 32.800003, 34.0, 30.0, 22.800001, 30.0, 22.800001, 26.0, 16.0, 26.0, 16.0, 21.199997, 13.6, 21.199997, 12.400001, 26.0, 10.400001, 26.0, 9.6, 30.0, 3.2, 30.0"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>1.0E-9</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>aaaaaa</color>
+</part>
+<part>
+<rectangle x="0.0" y="32.800003" width="40.0" height="7.2000003"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>99ff</color>
+</part>
+<part>
+<rectangle x="14.0" y="20.399994" width="2.0" height="0.8"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>100.0</temperature>
+<constant_temperature>true</constant_temperature>
+<visible>false</visible>
+</part>
+<part>
+<polygon count="8" vertices="6.2113757, 28.447617, 7.8113756, 28.447617, 7.8113756, 30.047623, 5.8113756, 30.047623, 5.8113756, 29.24762, 4.611376, 28.847626, 4.611376, 28.447617, 5.8113756, 28.847626"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>aaaaaa</color>
+</part>
+<part>
+<polygon count="24" vertices="27.62262, 28.07724, 25.02262, 28.07724, 25.02262, 28.277252, 27.222618, 28.277252, 27.422619, 28.677246, 26.222618, 29.07724, 26.02262, 29.877243, 27.02262, 30.07724, 28.222618, 30.07724, 29.222618, 29.877243, 29.422619, 29.07724, 32.022617, 28.677246, 32.22262, 29.07724, 32.42262, 28.877243, 32.22262, 28.47725, 32.42262, 27.877243, 32.22262, 27.677246, 32.022617, 28.277252, 29.422619, 28.677246, 28.62262, 28.47725, 27.62262, 28.47725, 27.822618, 28.277252, 29.822618, 28.07724, 29.822618, 27.877243"/>
+<elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<scattering_visible>false</scattering_visible>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<color>aaaaaa</color>
+</part>
+</structure>
+<environment>
+<cloud x="20.596647" y="0.8" width="8.0" height="1.6" speed="0.01"/>
+<cloud x="17.195057" y="1.5999999" width="6.4" height="2.4" speed="0.015"/>
+<cloud x="8.696927" y="2.4" width="12.0" height="4.0" speed="0.02"/>
+<fan x="0.0" y="0.0" width="2.0" height="32.8" speed="0.3" angle="0.0"/></environment>
+<sensor>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<perimeter_step_size>0.05</perimeter_step_size>
+<color_palette_type>2</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>50.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><graph_xlabel>Time</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><clock>false</clock>
+<image data="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" filename="jeff.png" format="png" width="0.4" height="1.2" x="23.6" y="28.800001"/>
+</view>
+</state>

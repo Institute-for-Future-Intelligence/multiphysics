@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+</links>
+<model>
+<model_width>1.0</model_width>
+<model_height>1.0</model_height>
+<timestep>0.05</timestep>
+<viewupdate_interval>10</viewupdate_interval>
+<sun_angle>1.5707964</sun_angle>
+<solar_power_density>2000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.1</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<gravitational_acceleration>9.8</gravitational_acceleration>
+<thermophoretic_coefficient>0.0</thermophoretic_coefficient><particle_drag>0.01</particle_drag><particle_hardness>1.0E-6</particle_hardness><z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<background_conductivity>1.0E-9</background_conductivity>
+<background_specific_heat>1.0</background_specific_heat>
+<thermal_expansion_coefficient>2.5E-4</thermal_expansion_coefficient>
+<buoyancy_approximation>1</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part>
+<rectangle x="0.19999999" y="0.3" width="0.3" height="0.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.5</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.204</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>40.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+<part>
+<rectangle x="0.49999997" y="0.3" width="0.3" height="0.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>0.5</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.204</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>10.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+<part>
+<rectangle x="0.19999999" y="0.59999996" width="0.3" height="0.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.204</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>40.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+<part>
+<rectangle x="0.49999997" y="0.59999996" width="0.3" height="0.2"/><elasticity>1.0</elasticity>
+<thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.204</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<scattering>false</scattering>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>10.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+</part>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer label="T2" x="0.65" y="0.3801587"/>
+<thermometer label="T1" x="0.35" y="0.3801587"/>
+<thermometer label="T4" x="0.65" y="0.6801588"/>
+<thermometer label="T3" x="0.35" y="0.6801588"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<snap_to_grid>true</snap_to_grid>
+<grid_size>10</grid_size>
+<graph_time_unit>1</graph_time_unit>
+<perimeter_step_size>0.049999997</perimeter_step_size>
+<color_palette_type>1</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>60.0</maximum_temperature>
+<fan_rotation_speed_scale_factor>1.0</fan_rotation_speed_scale_factor><heat_flux_arrow>true</heat_flux_arrow>
+<graph_xlabel>Time (min)</graph_xlabel><graph_ylabel>Temperature (℃)</graph_ylabel><text string="Less conductive" face="Arial" size="12" style="2" color="ffffff" x="0.45" y="0.4831"/>
+<text string="More conductive" face="Arial" size="12" style="2" color="ffffff" x="0.45" y="0.1831"/>
+<text string="After press the Run button, turn on the graph -linebreak-to keep track of the temperature data from -linebreak-the four sensors." face="Arial" size="14" style="0" color="ffffff" x="0.2929894" y="0.85780424"/>
+</view>
+</state>

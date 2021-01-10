@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<model>
+<timestep>10.0</timestep>
+<tasks>
+<task uid="MOVE_SUN" script="set sunny true;-linebreak-movesun 4 20;" description="Move the sun." interval="100"/>
+</tasks>
+<sunny>true</sunny><sun_angle>0.0</sun_angle>
+<solar_power_density>50000.0</solar_power_density>
+<solar_ray_count>24</solar_ray_count>
+<solar_ray_speed>0.005</solar_ray_speed>
+<photon_emission_interval>5</photon_emission_interval>
+<z_heat_diffusivity>1.0E-5</z_heat_diffusivity><convective>false</convective>
+<background_conductivity>1.0</background_conductivity>
+<background_density>1.0</background_density>
+<background_specific_heat>1000.0</background_specific_heat>
+<thermal_buoyancy>2.5E-4</thermal_buoyancy>
+<buoyancy_approximation>1</buoyancy_approximation>
+<boundary>
+<flux_at_border upper="0.0" lower="0.0" left="0.0" right="0.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part><rectangle x="-0.099999905" y="8.0" width="10.2" height="2.0"/><thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>50.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-7f7f80</texture_bg>
+<texture_style>9</texture_style>
+<texture_width>12</texture_width>
+<texture_height>12</texture_height>
+</texture>
+<label>Ground</label>
+</part>
+<part><rectangle x="6.2808642" y="6.3271604" width="3.2253087" height="0.07716049"/><thermal_conductivity>0.001</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+</part>
+<part><rectangle x="7.78549" y="6.435185" width="0.046296" height="1.54321"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1000.0</specific_heat>
+<density>1.0</density>
+<transmission>1.0</transmission>
+<reflection>0.0</reflection>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>0.0</temperature>
+<constant_temperature>false</constant_temperature>
+</part>
+</structure>
+<environment>
+<tree color="b200" x="3.9385471" y="5.5446925" width="2.206704" height="2.5418994" type="0"/>
+<tree color="ff8000" x="3.4217877" y="6.8365927" width="1.0055866" height="1.2430167" type="0"/>
+<tree color="b200" x="0.31005585" y="6.0810056" width="1.0" height="2.0" type="1"/>
+</environment>
+<sensor>
+<thermometer uid="T2" label="T2" x="7.5" y="7.2"/>
+<thermometer uid="T1" label="T1" x="2.5" y="7.2"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid_size>10</grid_size>
+<ruler>true</ruler>
+<isotherm>true</isotherm>
+<color_palette_type>0</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>0.0</minimum_temperature>
+<maximum_temperature>20.0</maximum_temperature>
+<graph>true</graph>
+<graph_xlabel>Time</graph_xlabel><text string="Pavilion" face="Arial" size="14" style="0" color="ffffff" x="7.4650836" y="4.071229"/>
+</view>
+</state>
