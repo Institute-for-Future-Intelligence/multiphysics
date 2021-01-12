@@ -22,6 +22,7 @@ The development of this open-source program was initially supported by the Natio
 
 This program has been used as a simulation tool in the following publications:
 
+1. D. Thomas, H. Andoni, Steven, R.A.Achsani, I.M.Sutjahja, Mardiyati, & S.Wonorahardjo, Thermophysical studies of common wall panels for controlling building thermal environment, MaterialsToday Proceedings, 2021
 1. Norbert Schneider, Alexander Kolew, Marc Schneider, Matthias Worgull, Thurid Gspann, & Juerg Leuthold, High‐Resolution On‐Demand Nanostructures, Physica Status Solidi A, 217, 1900688, 2020
 1. Roshni Senthilkumar & Mohamed Al Musleh, Smart temperature-controlled infant car seat using thermoelectric devices, 2020 IEEE International IOT, Electronics and Mechatronics Conference (IEMTRONICS), 2020
 1. Jacob B. Setera, Brent D. Turrin, Gregory F. Herzog, Jill A. VanTongeren, Jeremy S. Delaney, & Carl C. Swisher III, 40Ar/39Ar thermochronology for sub‐milligram samples using a Ta‐platform micro‐furnace, with illustrations from the Bushveld Complex, Geochemistry, Geophysics, Geosystems, 2020
