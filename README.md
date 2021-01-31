@@ -2,7 +2,7 @@
 
 - [Numerical Algorithms for Simulating Three Modes of Heat Transfer](https://intofuture.org/energy2d-equations.html)
 
-- [Coupled Fluid-Particle Dynamics](https://medium.com/@charlesxie/coupled-fluid-particle-dynamics-a56647e68d75)
+- [Coupled Fluid-Particle Dynamics](https://intofuture.org/energy2d-particle-dynamics.html)
 
 - [Comparison with Infrared Imaging](https://medium.com/@charlesxie/visualizing-thermal-equilibration-infrared-imaging-vs-energy2d-simulation-cfa01e60b530)
 
