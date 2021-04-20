@@ -4,7 +4,7 @@
 
 - [Coupled Fluid-Particle Dynamics](https://intofuture.org/energy2d-particle-dynamics.html)
 
-- [Comparison with Infrared Imaging](https://medium.com/@charlesxie/visualizing-thermal-equilibration-infrared-imaging-vs-energy2d-simulation-cfa01e60b530)
+- [Comparison with Infrared Imaging](https://intofuture.org/ie-thermal-equilibrium.html)
 
 - [Running on Raspberry Pi](https://medium.com/@charlesxie/computational-fluid-dynamics-on-the-incredible-raspberry-pi-85cbbb46237c)
 
@@ -22,6 +22,7 @@ The development of this open-source program was initially supported by the Natio
 
 This program has been used as a simulation tool in the following publications:
 
+1. S. Turkat,et al., Measurement of the 2H(p, γ) 3He S-factor at 265 - 1094 keV, https://arxiv.org/abs/2104.06914
 1. Songsheng Li & Christopher Chiu, Improved Smart Pillow for Remote Health Care System, Journal of Sensor and Actuator Networks, 10, 9, 2021 
 1. D. Thomas, H. Andoni, Steven, R.A.Achsani, I.M.Sutjahja, Mardiyati, & S.Wonorahardjo, Thermophysical studies of common wall panels for controlling building thermal environment, MaterialsToday Proceedings, 2021
 1. Norbert Schneider, Alexander Kolew, Marc Schneider, Matthias Worgull, Thurid Gspann, & Juerg Leuthold, High‐Resolution On‐Demand Nanostructures, Physica Status Solidi A, 217, 1900688, 2020
