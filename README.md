@@ -22,10 +22,10 @@ The development of this open-source program was initially supported by the Natio
 
 This program has been used as a simulation tool in the following publications:
 
-1. S. Turkat,et al., Measurement of the 2H(p, γ) 3He S-factor at 265 - 1094 keV, Physical Review C 103, 045805
+1. S. Turkat,et al., Measurement of the 2H(p, γ) 3He S-factor at 265 - 1094 keV, Physical Review C 103, 045805, 2021
 2. Songsheng Li & Christopher Chiu, Improved Smart Pillow for Remote Health Care System, Journal of Sensor and Actuator Networks, 10, 9, 2021 
 3. D. Thomas, H. Andoni, Steven, R.A.Achsani, I.M.Sutjahja, Mardiyati, & S.Wonorahardjo, Thermophysical studies of common wall panels for controlling building thermal environment, MaterialsToday Proceedings, 2021
-4. B. Budiana, Rifaldi Dwi Priana, Xena Mutiara Sinurat, & Politeknik Negeri Batam, Canderif Amsal Oloan SilabanPenggunaan Perangkat Lunak Energy2D dalam Mempelajari Konduktivitas Panas Pada Plastik, Jurnal Integrasi, Vol. 13, No. 1, April 2021, 40-45
+4. B. Budiana, Rifaldi Dwi Priana, Xena Mutiara Sinurat, & Politeknik Negeri Batam, Canderif Amsal Oloan SilabanPenggunaan Perangkat Lunak Energy2D dalam Mempelajari Konduktivitas Panas Pada Plastik, Jurnal Integrasi, Vol. 13, No. 1, pp. 40-45, 2021
 5. Norbert Schneider, Alexander Kolew, Marc Schneider, Matthias Worgull, Thurid Gspann, & Juerg Leuthold, High‐Resolution On‐Demand Nanostructures, Physica Status Solidi A, 217, 1900688, 2020
 6. Roshni Senthilkumar & Mohamed Al Musleh, Smart temperature-controlled infant car seat using thermoelectric devices, 2020 IEEE International IOT, Electronics and Mechatronics Conference (IEMTRONICS), 2020
 7. Jacob B. Setera, Brent D. Turrin, Gregory F. Herzog, Jill A. VanTongeren, Jeremy S. Delaney, & Carl C. Swisher III, 40Ar/39Ar thermochronology for sub‐milligram samples using a Ta‐platform micro‐furnace, with illustrations from the Bushveld Complex, Geochemistry, Geophysics, Geosystems, 2020
