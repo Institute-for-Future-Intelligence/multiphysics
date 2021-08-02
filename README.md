@@ -22,27 +22,28 @@ The development of this open-source program was initially supported by the Natio
 
 This program has been used as a simulation tool in the following publications:
 
-1. S. Turkat,et al., Measurement of the 2H(p, γ) 3He S-factor at 265 - 1094 keV, Physical Review C 103, 045805, 2021
-2. Songsheng Li & Christopher Chiu, Improved Smart Pillow for Remote Health Care System, Journal of Sensor and Actuator Networks, 10, 9, 2021 
-3. D. Thomas, H. Andoni, Steven, R.A.Achsani, I.M.Sutjahja, Mardiyati, & S.Wonorahardjo, Thermophysical studies of common wall panels for controlling building thermal environment, MaterialsToday Proceedings, 2021
-4. B. Budiana, Rifaldi Dwi Priana, Xena Mutiara Sinurat, & Politeknik Negeri Batam, Canderif Amsal Oloan SilabanPenggunaan Perangkat Lunak Energy2D dalam Mempelajari Konduktivitas Panas Pada Plastik, Jurnal Integrasi, Vol. 13, No. 1, pp. 40-45, 2021
-5. Jay Kalpesh Panchal, Jaysinh Rajendrasinh Dabhi, Harshil Dineshkumar Khurana, & Rutvik Jigneshkumar Jani, Effect of Different Chimney and Collector Contour on Output in a Solar Updraft Tower, International Research Journal of Engineering and Technology, Vol. 8, No. 4, pp. 2882-2885, 2021
-6. Norbert Schneider, Alexander Kolew, Marc Schneider, Matthias Worgull, Thurid Gspann, & Juerg Leuthold, High‐Resolution On‐Demand Nanostructures, Physica Status Solidi A, 217, 1900688, 2020
-7. Roshni Senthilkumar & Mohamed Al Musleh, Smart temperature-controlled infant car seat using thermoelectric devices, 2020 IEEE International IOT, Electronics and Mechatronics Conference (IEMTRONICS), 2020
-8. Jacob B. Setera, Brent D. Turrin, Gregory F. Herzog, Jill A. VanTongeren, Jeremy S. Delaney, & Carl C. Swisher III, 40Ar/39Ar thermochronology for sub‐milligram samples using a Ta‐platform micro‐furnace, with illustrations from the Bushveld Complex, Geochemistry, Geophysics, Geosystems, 2020
-9. Dario Valter Conca, Development of novel optical techniques for the study of cell-surface proteins in living cells at the single-molecule level, University College London, PhD dissertation, 2020
-10. Rui Li, Exploring the Use of Smartphone, Wireless Sensors, and 3D-Printing for Low-Cost Medical Technology: Diagnosis, Treatment, and Rehabilitation, University of Georgia, ProQuest Dissertations Publishing, 2020. 27833521
-11. LI Da-peng, YANG Dao-yu, & HUANG Dan, Energy2D在传热学虚拟仿真教学中的应用研究, 教育现代化, Vol. 49, 2020
-12. Inge Magdalena Sutjahja, Sufiyah Assegaf, & Surjamanto Wonorahardjo, Digital Simulation as Learning Aid for Heat Flow in Solid Theoretical Understanding, Journal of Physical Science and Engineering, 5(1), 11-21, 2020
-13. Fabio Longo, Alessio Cascardi, Paola Lassandro, & Maria Antonietta Aiello, A New Fabric Reinforced Geopolymer Mortar (FRGM) with Mechanical and Energy Benefits, Fibers, 8(8), 49, 2020
-14. Abhar Bhattarai, Bivek Baral, & Malesh Shah, Redesigning Direct Air Capture Using Renewable Energy, Bhutan Journal of Research and Development, pp.86-106, Spring, 2020
-15. Erik Mukk, Reinforcement learning based smart home heating solution in Energy2D simulation software, University of Tartu, 2020
-16. Vaithinathan Karthikeyan, James UtamaSurjadi, Joseph C.K.Wong, Venkataraman Kannan, Kwok-Ho Lam, Xianfeng Chen, Yang Lu, & Vellaisamy A.L.Roy, Wearable and flexible thin film thermoelectric module for multi-scale energy harvesting, Journal of Power Sources, 455, 2020
-17. Stefano Oss, Infrared imaging of a non-stationary thermal conductive process and observation of its Green’s kernel, European Journal of Physics, 41(1), 015102, 2020
-18. Massimiliano Malgieri & Pasquale Onorato, Teaching the heat transfer law using a stochastic toy model, European Journal of Physics, 41(1), 015103, 2020
-19. Surjamanto Wonorahardjo, Inge Magdalena Sutjahja, Y. Mardiyati, Heri Andoni, Dixon Thomas, Rizky Amalia Achsani, & S. Steven, Characterising thermal behaviour of buildings and its effect on urban heat island in tropical areas, International Journal of Energy and Environmental Engineering, 11, pp. 129–142, 2020
-20. Kishan Narotam, Design of a Thermally Controlled System for Medications, University of the Witwatersrand, 2019
-21. Margarita Castillo Tellez, Beatriz Castillo Tellez, Jose Andres Alanís Navarro, Juan Carlos Ovando Sierra, & Gerardo A. Mejia Perez, Kinetics of Drying Medicinal Plants by Hybridization of Solar Technologies, IntechOpen, DOI: 10.5772/intechopen.89686, 2019
+1. Luis Bernardo López-Sosa, Mario Morales-Máximo, Rogelio Anastacio-Paulino, Abraham Custodio-Hernández, Juan Carlos Corral-Huacuz, & Arturo Aguilera-Mandujano, Electron Microscopy Characterization of Sargassum Spp. from the Mexican Caribbean for Application as a Bioconstruction Material, Microscopy and Microanalysis, Vol. 27 S1, 2021
+2. S. Turkat,et al., Measurement of the 2H(p, γ) 3He S-factor at 265 - 1094 keV, Physical Review C 103, 045805, 2021
+3. Songsheng Li & Christopher Chiu, Improved Smart Pillow for Remote Health Care System, Journal of Sensor and Actuator Networks, 10, 9, 2021 
+4. D. Thomas, H. Andoni, Steven, R.A.Achsani, I.M.Sutjahja, Mardiyati, & S.Wonorahardjo, Thermophysical studies of common wall panels for controlling building thermal environment, MaterialsToday Proceedings, 2021
+5. B. Budiana, Rifaldi Dwi Priana, Xena Mutiara Sinurat, & Politeknik Negeri Batam, Canderif Amsal Oloan SilabanPenggunaan Perangkat Lunak Energy2D dalam Mempelajari Konduktivitas Panas Pada Plastik, Jurnal Integrasi, Vol. 13, No. 1, pp. 40-45, 2021
+6. Jay Kalpesh Panchal, Jaysinh Rajendrasinh Dabhi, Harshil Dineshkumar Khurana, & Rutvik Jigneshkumar Jani, Effect of Different Chimney and Collector Contour on Output in a Solar Updraft Tower, International Research Journal of Engineering and Technology, Vol. 8, No. 4, pp. 2882-2885, 2021
+7. Norbert Schneider, Alexander Kolew, Marc Schneider, Matthias Worgull, Thurid Gspann, & Juerg Leuthold, High‐Resolution On‐Demand Nanostructures, Physica Status Solidi A, 217, 1900688, 2020
+8. Roshni Senthilkumar & Mohamed Al Musleh, Smart temperature-controlled infant car seat using thermoelectric devices, 2020 IEEE International IOT, Electronics and Mechatronics Conference (IEMTRONICS), 2020
+9. Jacob B. Setera, Brent D. Turrin, Gregory F. Herzog, Jill A. VanTongeren, Jeremy S. Delaney, & Carl C. Swisher III, 40Ar/39Ar thermochronology for sub‐milligram samples using a Ta‐platform micro‐furnace, with illustrations from the Bushveld Complex, Geochemistry, Geophysics, Geosystems, 2020
+10. Dario Valter Conca, Development of novel optical techniques for the study of cell-surface proteins in living cells at the single-molecule level, University College London, PhD dissertation, 2020
+11. Rui Li, Exploring the Use of Smartphone, Wireless Sensors, and 3D-Printing for Low-Cost Medical Technology: Diagnosis, Treatment, and Rehabilitation, University of Georgia, ProQuest Dissertations Publishing, 2020. 27833521
+12. LI Da-peng, YANG Dao-yu, & HUANG Dan, Energy2D在传热学虚拟仿真教学中的应用研究, 教育现代化, Vol. 49, 2020
+13. Inge Magdalena Sutjahja, Sufiyah Assegaf, & Surjamanto Wonorahardjo, Digital Simulation as Learning Aid for Heat Flow in Solid Theoretical Understanding, Journal of Physical Science and Engineering, 5(1), 11-21, 2020
+14. Fabio Longo, Alessio Cascardi, Paola Lassandro, & Maria Antonietta Aiello, A New Fabric Reinforced Geopolymer Mortar (FRGM) with Mechanical and Energy Benefits, Fibers, 8(8), 49, 2020
+15. Abhar Bhattarai, Bivek Baral, & Malesh Shah, Redesigning Direct Air Capture Using Renewable Energy, Bhutan Journal of Research and Development, pp.86-106, Spring, 2020
+16. Erik Mukk, Reinforcement learning based smart home heating solution in Energy2D simulation software, University of Tartu, 2020
+17. Vaithinathan Karthikeyan, James UtamaSurjadi, Joseph C.K.Wong, Venkataraman Kannan, Kwok-Ho Lam, Xianfeng Chen, Yang Lu, & Vellaisamy A.L.Roy, Wearable and flexible thin film thermoelectric module for multi-scale energy harvesting, Journal of Power Sources, 455, 2020
+18. Stefano Oss, Infrared imaging of a non-stationary thermal conductive process and observation of its Green’s kernel, European Journal of Physics, 41(1), 015102, 2020
+19. Massimiliano Malgieri & Pasquale Onorato, Teaching the heat transfer law using a stochastic toy model, European Journal of Physics, 41(1), 015103, 2020
+20. Surjamanto Wonorahardjo, Inge Magdalena Sutjahja, Y. Mardiyati, Heri Andoni, Dixon Thomas, Rizky Amalia Achsani, & S. Steven, Characterising thermal behaviour of buildings and its effect on urban heat island in tropical areas, International Journal of Energy and Environmental Engineering, 11, pp. 129–142, 2020
+21. Kishan Narotam, Design of a Thermally Controlled System for Medications, University of the Witwatersrand, 2019
+22. Margarita Castillo Tellez, Beatriz Castillo Tellez, Jose Andres Alanís Navarro, Juan Carlos Ovando Sierra, & Gerardo A. Mejia Perez, Kinetics of Drying Medicinal Plants by Hybridization of Solar Technologies, IntechOpen, DOI: 10.5772/intechopen.89686, 2019
 23. S. Sufiandi, T. Darmawan, & W. Dwianto, Mechanism of heat transfer using water in wood pores during wood densification, IOP Conference Series: Earth and Environmental Science, 374, 012013, 2019
 24. Bo Zhang, Tomas Mikysek, Veronika Cicmancova, Stanislav Slang, Roman Svoboda, Petr Kutalek, & Tomas Wagner, 2D GeSe2 amorphous monolayer, Pure and Applied Chemistry, 91(11), 2019
 25. Adem Yilmaz, Sinan Unvar, Ali Serkan Avci, & Bunyamin Aygun, Difference of Solar Chimney System Chimney Designs and Numerical Modeling in Collector Surface Areas, International Journal of Scientific & Engineering Research, Volume 10, Issue 9, pp 82-89, 2019
