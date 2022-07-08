@@ -22,7 +22,8 @@ The development of this open-source program was initially supported by the Natio
 
 This program has been used as a simulation tool in the following publications:
 
-1. Pau Chung Leng, Siew Bee Aw, Nor Eeda Haji Ali, Gabriel Hoh Teck Ling, Yoke Lai Lee, & Mohd Hamdan Ahmad, Solar Chimneys as an Effective Ventilation Strategy in Multi-Storey Public Housing in the Post-COVID-19 Era, Buildings, 12(6), 820, 2022 
+1. Martin Ferjan, Izdelava interaktivnega pripomočka za razumevanje bioklimatskih ukrepov za pasivno solarno ogrevanje [na spletu]. 2022. [Dostopano 8 julij 2022]. Pridobljeno https://repozitorij.uni-lj.si/IzpisGradiva.php?lang=slv&id=137735 
+2. Pau Chung Leng, Siew Bee Aw, Nor Eeda Haji Ali, Gabriel Hoh Teck Ling, Yoke Lai Lee, & Mohd Hamdan Ahmad, Solar Chimneys as an Effective Ventilation Strategy in Multi-Storey Public Housing in the Post-COVID-19 Era, Buildings, 12(6), 820, 2022 
 2. Miguel Chen Austin, Análisis de la influencia de la masa térmica en climas tropicales mediante simulación con Energy2D, PRISMA Tecnológico | Vol. 13, n.° 1, edición, 2022
 3. Ren Tier, Mpemba Effect Demystified, https://engrxiv.org/preprint/view/2104/
 4. Miguel Chen Austin, Kevin Araque, Paola Palacios, Katherine Rodríguez Maure, & Dafni Mora, Numerical Assessment of Zebra-Stripes-Based Strategies in Buildings Energy Performance: A Case Study under Tropical Climate, Biomimetics 2022, 7, 14
