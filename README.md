@@ -22,7 +22,8 @@ The development of this open-source program was initially supported by the Natio
 
 This program has been used as a simulation tool in the following publications:
 
-1. Laura Bragante Corssac, A digital twin based smart home : a Proof-of-concept study, Universidade Federal do Rio Grande do Sul, https://www.lume.ufrgs.br/handle/10183/245270
+1. Angela Terracina, Angelo Armano, Manuela Meloni, Annamaria Panniello, Gianluca Minervini, Antonino Madonia, Marco Cannas, Marinella Striccoli, Luca Malfatti, & Fabrizio Messina, Photobleaching and Recovery Kinetics of a Palette of Carbon Nanodots Probed by In Situ Optical Spectroscopy, ACS Applied Materials & Interfaces, 14, 31, 36038–36051, 2022
+Laura Bragante Corssac, A digital twin based smart home : a Proof-of-concept study, Universidade Federal do Rio Grande do Sul, https://www.lume.ufrgs.br/handle/10183/245270
 2. Martin Ferjan, Izdelava interaktivnega pripomočka za razumevanje bioklimatskih ukrepov za pasivno solarno ogrevanje [na spletu]. 2022. [Dostopano 8 julij 2022]. Pridobljeno https://repozitorij.uni-lj.si/IzpisGradiva.php?lang=slv&id=137735 
 2. Pau Chung Leng, Siew Bee Aw, Nor Eeda Haji Ali, Gabriel Hoh Teck Ling, Yoke Lai Lee, & Mohd Hamdan Ahmad, Solar Chimneys as an Effective Ventilation Strategy in Multi-Storey Public Housing in the Post-COVID-19 Era, Buildings, 12(6), 820, 2022 
 2. Miguel Chen Austin, Análisis de la influencia de la masa térmica en climas tropicales mediante simulación con Energy2D, PRISMA Tecnológico | Vol. 13, n.° 1, edición, 2022
