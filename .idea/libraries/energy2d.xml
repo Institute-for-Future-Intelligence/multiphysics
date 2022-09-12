@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="energy2d">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/energy2d/exe/energy2d.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
