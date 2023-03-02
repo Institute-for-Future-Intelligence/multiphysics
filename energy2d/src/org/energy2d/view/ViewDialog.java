@@ -320,6 +320,9 @@ class ViewDialog extends JDialog {
 		coloringComboBox.addItem("None");
 		coloringComboBox.addItem("Temperature");
 		coloringComboBox.addItem("Thermal energy");
+		coloringComboBox.addItem("Velocity x-component");
+		coloringComboBox.addItem("Velocity y-component");
+		coloringComboBox.addItem("Velocity magnitude");
 		coloringComboBox.setSelectedIndex(view.getHeatMapType() - View2D.HEATMAP_NONE);
 		coloringComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -353,6 +356,14 @@ class ViewDialog extends JDialog {
 						nameLabel2.setText("Highest energy");
 						unitLabel1.setText("J");
 						unitLabel2.setText("J");
+						break;
+					case 3: case 4: case 5:
+						lowerTempField.setEnabled(true);
+						upperTempField.setEnabled(true);
+						nameLabel1.setText("Lowest velocity");
+						nameLabel2.setText("Highest velocity");
+						unitLabel1.setText("m/s");
+						unitLabel2.setText("m/s");
 						break;
 					}
 					view.getUndoManager().addEdit(new UndoColoringProperty(view));
