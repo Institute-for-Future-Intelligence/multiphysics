@@ -3041,11 +3041,11 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	}
 
 	private void drawXVelocityField(Graphics2D g) {
-		velocityRenderer.render(this, g, model.getXVelocity());
+		velocityRenderer.render(this, g, model.getXVelocity(), 100);
 	}
 
 	private void drawYVelocityField(Graphics2D g) {
-		velocityRenderer.render(this, g, model.getYVelocity());
+		velocityRenderer.render(this, g, model.getYVelocity(), 100);
 	}
 
 	private void drawMagnitudeVelocityField(Graphics2D g) {
@@ -3060,7 +3060,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				magnitude[i][j] = (float) Math.sqrt(Math.pow(x_vel[i][j],2) + Math.pow(y_vel[i][j],2));
 			}
 		}
-		velocityRenderer.render(this, g, magnitude);
+		velocityRenderer.render(this, g, magnitude, 100);
 	}
 
 	private void setAnchorPointForRectangularShape(int i, float x, float y, float w, float h) {
