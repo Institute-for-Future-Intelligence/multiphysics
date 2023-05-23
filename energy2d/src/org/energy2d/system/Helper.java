@@ -68,10 +68,10 @@ public class Helper {
     public static void showAbout(Frame frame) {
         String s = "<html><h3>" + System2D.BRAND_NAME + "</h3>";
         s += "<h4><i>Interactive Multiphysics Simulations for Everyone</i></h4>";
-        s += "https://energy2d.org<br>Energy2D, &copy; 2021-" + Calendar.getInstance().get(Calendar.YEAR);
+        s += "https://intofuture.org/energy2d.html<br>Charles Xie, &copy; 2021-" + Calendar.getInstance().get(Calendar.YEAR);
         s += "<hr>";
         s += "<h4>Credit:</h4>This program was created by Dr. Charles Xie. Funding was provided by the National Science Foundation<br>under grants 0918449, 1124281, 1304485, and 1512868 that were awarded to Dr. Xie.";
-        s += "<h4>License:</h4>This software is provided to you as it is under the MIT License.";
+        s += "<h4>License:</h4>This software is provided to you as it is under the GNU Lesser General Public License v3.0.";
         s += "</html>";
         JOptionPane.showMessageDialog(frame, new JLabel(s), "About " + System2D.BRAND_NAME, JOptionPane.INFORMATION_MESSAGE, System2D.isApplet() ? null : new ImageIcon(System2D.class.getResource("resources/frame.png")));
     }

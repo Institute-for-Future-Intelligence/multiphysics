@@ -1092,7 +1092,7 @@ class MenuBar extends JMenuBar {
 
         mi = new JMenuItem("Under the Hood...");
         mi.setToolTipText("Algorithms under the hood of Energy2D");
-        mi.addActionListener(e -> Helper.openBrowser("https://medium.com/@charlesxie/numerical-algorithms-for-simulating-three-modes-of-heat-transfer-e65fca9baf50"));
+        mi.addActionListener(e -> Helper.openBrowser("https://intofuture.org/energy2d-equations.html"));
         menu.add(mi);
 
         if (!System.getProperty("os.name").startsWith("Mac")) {
