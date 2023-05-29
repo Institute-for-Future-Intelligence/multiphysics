@@ -22,6 +22,7 @@ The development of this open-source program was initially supported by the Natio
 
 This program has been used as a simulation tool in the following publications:
 
+1. Milad Ramezankhani, Data-efficient and uncertainty-aware hybrid machine learning in advanced composites manufacturing, PhD thesis, University of British Columbia, 2023
 1. Fu-Ye Du, Wang Zhang, Hui-Qiong Wang, & Jin-Cheng Zheng, Enhancement of thermal rectification by asymmetry engineering of thermal conductivity and geometric structure for the multi-segment thermal rectifier, Chinese Physics B, 2023
 1. Angela Terracina, Angelo Armano, Manuela Meloni, Annamaria Panniello, Gianluca Minervini, Antonino Madonia, Marco Cannas, Marinella Striccoli, Luca Malfatti, & Fabrizio Messina, Photobleaching and Recovery Kinetics of a Palette of Carbon Nanodots Probed by In Situ Optical Spectroscopy, ACS Applied Materials & Interfaces, 14, 31, 36038–36051, 2022
 2. Laura Bragante Corssac, A digital twin based smart home : a Proof-of-concept study, Universidade Federal do Rio Grande do Sul, https://www.lume.ufrgs.br/handle/10183/245270
