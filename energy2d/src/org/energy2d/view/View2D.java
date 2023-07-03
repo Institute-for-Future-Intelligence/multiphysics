@@ -140,9 +140,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	public final static byte HEATMAP_NONE = 0;
 	public final static byte HEATMAP_TEMPERATURE = 1;
 	public final static byte HEATMAP_THERMAL_ENERGY = 2;
-	public final static byte HEATMAP_X_VELOCITY = 3;
-	public final static byte HEATMAP_Y_VELOCITY = 4;
-	public final static byte HEATMAP_MAGNITUDE_VELOCITY = 5;
 	public final static byte MOUSE_READ_DEFAULT = 0;
 	public final static byte MOUSE_READ_TEMPERATURE = 1;
 	public final static byte MOUSE_READ_THERMAL_ENERGY = 2;
@@ -180,7 +177,7 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private GridRenderer gridRenderer;
 	private ColorPalette colorPalette;
 	private GraphRenderer graphRenderer;
-	private ScalarDistributionRenderer temperatureRenderer, thermalEnergyRenderer, velocityRenderer;
+	private ScalarDistributionRenderer temperatureRenderer, thermalEnergyRenderer;
 	private VectorRenderer vectorFieldRenderer;
 	private float heatFluxMinimumValueSquare = VectorRenderer.getDefaultMinimumValueSquare();
 	private float heatFluxScale = VectorRenderer.getDefaultScale();
@@ -205,7 +202,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 	private byte mouseReadType = MOUSE_READ_DEFAULT;
 	private byte colorPaletteType = RAINBOW;
 	private float[][] distribution;
-	private float[][] magnitude;
 
 	private static Stroke thinStroke = new BasicStroke(1);
 	private static Stroke moderateStroke = new BasicStroke(2);
@@ -620,15 +616,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		case HEATMAP_THERMAL_ENERGY:
 			lightColor = new Color(255, 255, 255, 128);
 			break;
-		case HEATMAP_X_VELOCITY:
-			lightColor = new Color(255, 255, 255, 128);
-			break;
-		case HEATMAP_Y_VELOCITY:
-			lightColor = new Color(255, 255, 255, 128);
-			break;
-		case HEATMAP_MAGNITUDE_VELOCITY:
-			lightColor = new Color(255, 255, 255, 128);
-			break;
 		}
 	}
 
@@ -640,7 +627,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 		this.colorPaletteType = colorPaletteType;
 		temperatureRenderer = new ScalarDistributionRenderer(ColorPalette.getRgbArray(colorPaletteType), temperatureRenderer == null ? 0 : temperatureRenderer.getMinimum(), temperatureRenderer == null ? 40 : temperatureRenderer.getMaximum());
 		thermalEnergyRenderer = new ScalarDistributionRenderer(ColorPalette.getRgbArray(colorPaletteType), thermalEnergyRenderer == null ? 0 : thermalEnergyRenderer.getMinimum(), thermalEnergyRenderer == null ? 40 : thermalEnergyRenderer.getMaximum());
-		velocityRenderer = new ScalarDistributionRenderer(ColorPalette.getRgbArray(colorPaletteType), velocityRenderer == null ? 0 : velocityRenderer.getMinimum(), velocityRenderer == null ? 40 : velocityRenderer.getMaximum());
 		colorPalette = new ColorPalette(ColorPalette.getRgbArray(colorPaletteType));
 	}
 
@@ -1755,15 +1741,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			case HEATMAP_THERMAL_ENERGY:
 				drawThermalEnergyField(g);
 				break;
-			case HEATMAP_X_VELOCITY:
-				drawXVelocityField(g);
-				break;
-			case HEATMAP_Y_VELOCITY:
-				drawYVelocityField(g);
-				break;
-			case HEATMAP_MAGNITUDE_VELOCITY:
-				drawMagnitudeVelocityField(g);
-				break;
 			}
 		} else {
 			setErrorMessage("FATAL ERROR!");
@@ -1794,15 +1771,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 				break;
 			case HEATMAP_THERMAL_ENERGY:
 				colorPalette.render(this, g, thermalEnergyRenderer.getMaximum(), thermalEnergyRenderer.getMinimum());
-				break;
-			case HEATMAP_X_VELOCITY:
-				colorPalette.render(this, g, velocityRenderer.getMaximum(), velocityRenderer.getMinimum());
-				break;
-			case HEATMAP_Y_VELOCITY:
-				colorPalette.render(this, g, velocityRenderer.getMaximum(), velocityRenderer.getMinimum());
-				break;
-			case HEATMAP_MAGNITUDE_VELOCITY:
-				colorPalette.render(this, g, velocityRenderer.getMaximum(), velocityRenderer.getMinimum());
 				break;
 			}
 		}
@@ -2400,8 +2368,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			return new Color(~temperatureRenderer.getRGB(x, y));
 		case HEATMAP_THERMAL_ENERGY:
 			return new Color(~thermalEnergyRenderer.getRGB(x, y));
-		case HEATMAP_X_VELOCITY: case HEATMAP_Y_VELOCITY: case HEATMAP_MAGNITUDE_VELOCITY:
-			return new Color(~velocityRenderer.getRGB(x, y));
 		default:
 			return Color.BLACK;
 		}
@@ -3038,29 +3004,6 @@ public class View2D extends JPanel implements PropertyChangeListener {
 			}
 		}
 		thermalEnergyRenderer.render(this, g, distribution);
-	}
-
-	private void drawXVelocityField(Graphics2D g) {
-		velocityRenderer.render(this, g, model.getXVelocity(), 100);
-	}
-
-	private void drawYVelocityField(Graphics2D g) {
-		velocityRenderer.render(this, g, model.getYVelocity(), 100);
-	}
-
-	private void drawMagnitudeVelocityField(Graphics2D g) {
-		float[][] x_vel = model.getXVelocity();
-		float[][] y_vel = model.getYVelocity();
-		int nx = x_vel.length;
-		int ny = x_vel[0].length;
-		if (magnitude == null)
-			magnitude = new float[nx][ny];
-		for (int i = 0; i < nx; i++) {
-			for (int j = 0; j < ny; j++) {
-				magnitude[i][j] = (float) Math.sqrt(Math.pow(x_vel[i][j],2) + Math.pow(y_vel[i][j],2));
-			}
-		}
-		velocityRenderer.render(this, g, magnitude, 100);
 	}
 
 	private void setAnchorPointForRectangularShape(int i, float x, float y, float w, float h) {

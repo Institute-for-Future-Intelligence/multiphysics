@@ -82,10 +82,6 @@ class ScalarDistributionRenderer {
 	}
 
 	void render(View2D view, Graphics2D g, float[][] distribution) {
-		render(view, g, distribution, 1);
-	}
-
-	void render(View2D view, Graphics2D g, float[][] distribution,int scale) {
 		if (!view.isVisible())
 			return;
 
@@ -122,7 +118,7 @@ class ScalarDistributionRenderer {
 						j1 = n - 1;
 					t1 = y - j0;
 					t0 = 1 - t1;
-					v = scale *( (s0 * (t0 * distribution[i0][j0] + t1 * distribution[i0][j1]) + s1 * (t0 * distribution[i1][j0] + t1 * distribution[i1][j1]) - min) );
+					v = (s0 * (t0 * distribution[i0][j0] + t1 * distribution[i0][j1]) + s1 * (t0 * distribution[i1][j0] + t1 * distribution[i1][j1]) - min) * scale;
 					if (v > rgbScale.length - 2)
 						v = rgbScale.length - 2;
 					else if (v < 0)
