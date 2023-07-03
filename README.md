@@ -4,6 +4,8 @@
 
 - [Coupled Fluid-Particle Dynamics](https://intofuture.org/energy2d-particle-dynamics.html)
 
+- [Modeling Thermal Bridges](https://intofuture.org/energy2d-thermal-bridges.html)
+
 - [Comparison with Infrared Imaging](https://intofuture.org/ie-thermal-equilibrium.html)
 
 - [Running on Raspberry Pi](https://medium.com/@charlesxie/computational-fluid-dynamics-on-the-incredible-raspberry-pi-85cbbb46237c)
@@ -14,9 +16,9 @@
 Charles Xie, Interactive Heat Transfer Simulations for Everyone, The Physics Teacher, Volume 50, Issue 4, pp. 237-240, 2012.
 
 
-## Acknowledgement
+## Acknowledgements
 
-The development of this open-source program was initially supported by the National Science Foundation (NSF) of the United States under grant numbers 0918449, 1124281, and 1512868. The project is currently under the auspices of the Institute for Future Intelligence (https://intofuture.org).
+The development of this open-source program was initially supported by the National Science Foundation (NSF) of the United States under grant numbers 0918449, 1124281, and 1512868. The project is currently under the auspices of the Institute for Future Intelligence (https://intofuture.org). Special thanks to the Concord Consortium for kindly allowing the transfer of the intellectual properties of this product to the Institute for Future Intelligence.
 
 ## Applications
 
