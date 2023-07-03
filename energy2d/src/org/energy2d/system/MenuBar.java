@@ -877,6 +877,7 @@ class MenuBar extends JMenuBar {
         menu.add(subMenu);
 
         LinkedHashMap<String, String> examples = new LinkedHashMap<>();
+        examples.put("Power vs. Energy", "examples/power-energy.e2d");
         examples.put("Thermal Equilibrium between Identical Objects", "examples/identical-heat-capacity.e2d");
         examples.put("Thermal Equilibrium between Objects with Different Specific Heats", "examples/different-specific-heat1.e2d");
         examples.put("Thermal Equilibrium between Objects with Different Densities", "examples/different-density1.e2d");
@@ -886,6 +887,7 @@ class MenuBar extends JMenuBar {
         examples.put("The Accuracy of Conduction Simulation", "examples/conservation-of-energy.e2d");
         examples.put("Constant Power Sources", "examples/constant-power-sources.e2d");
         examples.put("Constant Temperature Sources", "examples/constant-temperature-sources.e2d");
+        examples.put("Thermal Quadrupole", "examples/quadrupole.e2d");
         createMenu(box, subMenu, examples);
 
         subMenu = new JMenu("Conduction");
@@ -913,6 +915,7 @@ class MenuBar extends JMenuBar {
         examples.put("Comparing Forced Convection and Conduction", "examples/forced-convection.e2d");
         examples.put("Comparing Forced Convection at Different Temperatures", "examples/forced-convection1.e2d");
         examples.put("Stack Effect", "examples/stack-effect.e2d");
+        examples.put("Countercurrent Heat Exchange", "examples/countercurrent-exchange.e2d");
         createMenu(box, subMenu, examples);
 
         subMenu = new JMenu("Radiation");
@@ -933,11 +936,13 @@ class MenuBar extends JMenuBar {
         examples.put("Chimney", "examples/chimney.e2d");
         examples.put("B\u00E9nard Cell", "examples/benard-cell.e2d");
         examples.put("Lid-Driven Cavity", "examples/lid-driven-cavity.e2d");
+        examples.put("Double-Cavity Flow", "examples/double-cavities.e2d");
         examples.put("Smoke in Wind", "examples/smoke-in-wind.e2d");
         examples.put("Laminar/Turbulent Flow", "examples/reynolds.e2d");
         examples.put("Von K\u00E1rm\u00E1n Vortex Street", "examples/vortex-street.e2d");
         examples.put("Double Vortex Streets", "examples/double-vortex-streets.e2d");
         examples.put("Eddy", "examples/eddy1.e2d");
+        examples.put("Flow in L-Tube", "examples/l-flow.e2d");
         examples.put("Nozzle", "examples/nozzle.e2d");
         examples.put("Winding Flow", "examples/meander.e2d");
         createMenu(box, subMenu, examples);
@@ -976,6 +981,8 @@ class MenuBar extends JMenuBar {
         subMenu = new JMenu("Industrial Applications");
         menu.add(subMenu);
 
+        examples.put("Rocket Stove: Double Bells", "examples/double-bell.e2d");
+        examples.put("Venturi Burner", "examples/venturi-burner.e2d");
         examples.put("Solar Oven", "examples/solar-oven.e2d");
         examples.put("Solar Chimney", "examples/solar-chimney.e2d");
         examples.put("Trombe Wall", "examples/trombe-wall-closeup.e2d");
@@ -985,6 +992,7 @@ class MenuBar extends JMenuBar {
         examples.put("Heat Sink", "examples/thermal-path.e2d");
         examples.put("Heat Fins", "examples/fin1.e2d");
         examples.put("Coaxial Cable", "examples/cable.e2d");
+        examples.put("Bolometer", "examples/bolometer.e2d");
         examples.put("NTC/PTC Thermistors", "examples/thermistors.e2d");
         createMenu(box, subMenu, examples);
 
@@ -1016,12 +1024,6 @@ class MenuBar extends JMenuBar {
         examples.put("Natural Daylighting", "examples/natural-daylighting.e2d");
         examples.put("Thermoregulation", "examples/thermoregulation.e2d");
         createMenu(box, subMenu, examples);
-
-        menu.addSeparator();
-        mi = new JMenuItem("More...");
-        mi.setToolTipText("Open the Online Model Repository");
-        mi.addActionListener(e -> Helper.openBrowser("http://energy.concord.org/energy2d/models.html"));
-        menu.add(mi);
 
         // help menu
 

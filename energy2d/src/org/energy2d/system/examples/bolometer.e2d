@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state>
+<links>
+</links>
+<model>
+<model_width>0.5</model_width>
+<model_height>0.5</model_height>
+<timestep>1.0</timestep>
+<sunny>true</sunny><sun_angle>1.5707964</sun_angle>
+<solar_power_density>100000.0</solar_power_density>
+<solar_ray_count>36</solar_ray_count>
+<solar_ray_speed>5.0E-4</solar_ray_speed>
+<photon_emission_interval>20</photon_emission_interval>
+<z_heat_diffusivity>0.0</z_heat_diffusivity><convective>false</convective>
+<background_conductivity>1.0E-9</background_conductivity>
+<background_temperature>20.0</background_temperature>
+<background_viscosity>1.568E-4</background_viscosity>
+<thermal_buoyancy>2.5E-4</thermal_buoyancy>
+<buoyancy_approximation>0</buoyancy_approximation>
+<boundary>
+<temperature_at_border upper="20.0" lower="20.0" left="20.0" right="20.0"/>
+<mass_flow_at_border upper="0" lower="0" left="0" right="0"/>
+</boundary>
+<structure>
+<part><rectangle x="0.049999997" y="0.16999999" width="0.4" height="0.06"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>0.0</reflection>
+<absorption>1.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<filled>false</filled>
+<label>Absorber</label>
+</part>
+<part><rectangle x="0.049999997" y="0.39000002" width="0.4" height="0.08"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>true</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-1</texture_bg>
+<texture_style>10</texture_style>
+<texture_width>8</texture_width>
+<texture_height>8</texture_height>
+</texture>
+<filled>false</filled>
+<label>Thermal Reservoir (%temperature)</label>
+</part>
+<part><rectangle x="0.23" y="0.23" width="0.04" height="0.16"/><thermal_conductivity>1.0</thermal_conductivity>
+<specific_heat>1300.0</specific_heat>
+<density>25.0</density>
+<transmission>0.0</transmission>
+<reflection>1.0</reflection>
+<absorption>0.0</absorption>
+<emissivity>0.0</emissivity>
+<temperature>20.0</temperature>
+<constant_temperature>false</constant_temperature>
+<texture><texture_fg>-1000000</texture_fg>
+<texture_bg>-1</texture_bg>
+<texture_style>16</texture_style>
+<texture_width>12</texture_width>
+<texture_height>12</texture_height>
+</texture>
+<filled>false</filled>
+<label>Thermal Conductance</label>
+</part>
+</structure>
+<environment>
+</environment>
+<sensor>
+<thermometer x="0.20105816" y="0.1898148"/>
+</sensor>
+<controller>
+</controller>
+</model>
+<view>
+<grid>true</grid>
+<grid_size>10</grid_size>
+<color_palette_type>1</color_palette_type>
+<color_palette_x>0.0</color_palette_x><color_palette_y>0.0</color_palette_y><color_palette_w>0.0</color_palette_w><color_palette_h>0.0</color_palette_h><minimum_temperature>20.0</minimum_temperature>
+<maximum_temperature>70.0</maximum_temperature>
+<graph_xlabel>Time</graph_xlabel><clock>false</clock>
+<text string="A bolometer measures the power of incident radiation -linebreak-via the heating of a material." face="Arial" size="14" style="0" color="ffffff" x="0.0185" y="0.4845"/>
+</view>
+</state>
