@@ -981,7 +981,7 @@ class MenuBar extends JMenuBar {
         subMenu = new JMenu("Industrial Applications");
         menu.add(subMenu);
 
-        examples.put("Rocket Stove: Double Bells", "examples/double-bell.e2d");
+        examples.put("Rocket Stove", "examples/double-bell.e2d");
         examples.put("Venturi Burner", "examples/venturi-burner.e2d");
         examples.put("Solar Oven", "examples/solar-oven.e2d");
         examples.put("Solar Chimney", "examples/solar-chimney.e2d");
