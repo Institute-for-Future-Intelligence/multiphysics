@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use Energy2D, please cite my paper as below."
+authors:
+- family-names: "Xie"
+  given-names: "Charles"
+  orcid: "https://orcid.org/0000-0002-1178-8361"
+title: "Interactive Heat Transfer Simulations for Everyone"
+version: 1.0.0
+doi: 10.1119/1.3694080
+date-released: 2012-04-01
+url: "https://doi.org/10.1119/1.3694080"
