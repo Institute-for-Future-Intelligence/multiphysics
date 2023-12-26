@@ -13,7 +13,7 @@
 
 ## How to cite it?
 
-Charles Xie, Interactive Heat Transfer Simulations for Everyone, The Physics Teacher, Volume 50, Issue 4, pp. 237-240, 2012.
+Charles Xie, Interactive Heat Transfer Simulations for Everyone, The Physics Teacher, Volume 50, Issue 4, pp. 237-240, 2012. https://doi.org/10.1119/1.3694080
 
 
 ## Acknowledgements
