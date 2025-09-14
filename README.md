@@ -24,7 +24,9 @@ The development of this open-source program was initially supported by the Natio
 
 This program has been used as a simulation tool in the following publications:
 
-1. Kalidasan Balasubramanian, Adarsh Kumar Pandey, Yasir Ali Bhutto, Anas Islam, Tareq Kareri, Saidur Rahman, Dharam Buddhi, Vineet Veer Tyagi, Evolving Thermal Energy Storage Using Hybrid Nanoparticle: An Experimental Investigation on Salt Hydrate Phase Change Materials for Greener Future, Energy Technology, 13: 2400248, 2025. https://doi.org/10.1002/ente.202400248
+1. Albert Jorddy Valenzuela Inga, Víctor Peña Dueñas, Janet Yéssica Andía Arias, Ronald Michael Villanueva Añazco, Boris Senin Carhuallanqui Parian, Richard Hugo Reymundo Gamarra, Design and Performance Analysis of an Inclined Glazing Photovoltaic-Trombe Wall System with Automated Fan Control, Civil Engineering and Architecture Vol. 13(2), pp. 865 - 880, 2025.
+   https://doi.org/10.13189/cea.2025.130209
+2. Kalidasan Balasubramanian, Adarsh Kumar Pandey, Yasir Ali Bhutto, Anas Islam, Tareq Kareri, Saidur Rahman, Dharam Buddhi, Vineet Veer Tyagi, Evolving Thermal Energy Storage Using Hybrid Nanoparticle: An Experimental Investigation on Salt Hydrate Phase Change Materials for Greener Future, Energy Technology, 13: 2400248, 2025. https://doi.org/10.1002/ente.202400248
 2. Weichao Wang, Jin-Cheng Zheng and Hui-Qiong Wang, Generalized thermal rectifier model with optimal thermal rectification ratio and its application to Ga2O3-based semiconductors, Journal of Physics: Condensed Matter, 2025. https://iopscience.iop.org/article/10.1088/1361-648X/ae05e0/meta
 2. Vonlanthen, P., Nabiei, F., Cayron, C. et al. Pinpointing the thermal history of lunar basaltic meteorites in a nutshell. Nature Communications 16, 4092 (2025). https://doi.org/10.1038/s41467-025-57652-6
 2. Xiaoyu Zou, Matthew Fisher, Hugh Gotts, Development of an ultra-clean sample heating stage for thermal desorption spectroscopy, Microelectronic Engineering, Volume 294, 2024, 112257, https://doi.org/10.1016/j.mee.2024.112257
